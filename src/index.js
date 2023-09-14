@@ -15,7 +15,7 @@ const router = createBrowserRouter(
     },
   ],
   {
-    basename: "/test-deploy",
+    basename: "/on-the-desk",
   }
 );
 
