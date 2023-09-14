@@ -1,0 +1,16 @@
+.footer {
+  display: inline-flex;
+  padding: 18px 0px;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(180deg, #18191a 0%, #000 100%);
+}
+
+.footer > span {
+  color: #04cdf8;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}

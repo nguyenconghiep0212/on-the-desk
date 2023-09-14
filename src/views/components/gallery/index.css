@@ -1,0 +1,10 @@
+.filter-tag {
+  color: #47b5ff !important;
+  border-radius: 5px !important;
+  border: 1px solid var(--neuH, rgba(19, 99, 223, 0.6)) !important;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.04) 100%
+  );
+}
