@@ -1,23 +1,24 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import Footer from "./views/footer";
+import Landing from './routes/landing'
 import Portfolio from "./routes/portfolio";
 import ErrorPage from "./routes/error-page";
 
-const router = createBrowserRouter(
-  [
-    {
-      path: "/portfolio",
-      element: <Portfolio />,
-      errorElement: <ErrorPage />,
-    },
-  ],
+const router = createHashRouter([
   {
-    basename: "/on-the-desk",
-  }
-);
+    path: "/",
+    element: <Landing />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/portfolio",
+    element: <Portfolio />,
+    errorElement: <ErrorPage />,
+  },
+]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
