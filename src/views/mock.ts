@@ -141,6 +141,24 @@ export const data = {
         },
       ],
     },
+    {
+      key: "feedback",
+      alias: "Feedback",
+      data: [
+        {
+          customer:'VTV',
+          comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco ',
+        },
+        {
+          customer:'Huy Tuấn',
+          comment: 'Dịch vụ tốt, tận tình và tư vấn pose chụp rất ổn. Góp ý duy nhất là giá bạn lấy mềm quá. Mình chắc chắn sẽ trở lại vào dịp tới.',
+        },
+        {
+          customer:'Linh Đào',
+          comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco',
+        },
+      ]
+    }
   ],
 };
 
