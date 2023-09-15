@@ -9,9 +9,9 @@ function Gallery({ alias, data }) {
     <div className="p-3 rounded-md bg-[#1E2530]">
       <div className="text-[#B6B6B6] font-bold text-lg mb-4">{alias}</div>
       <div className="space-y-4">
-        <div className="space-x-2 ">
+        <div className="">
           {filter.map((e, index) => (
-            <Chip key={index} label={e.alias} className="mb-2 cursor-pointer filter-tag" />
+            <Chip key={index} label={e.alias} className="mb-2 mr-2 cursor-pointer filter-tag" />
           ))}
         </div>
         <div className="grid gap-4 xl:grid-cols-5 sm:grid-cols-3 max-sm:grid-cols-2">
