@@ -23,12 +23,12 @@ function Header({ alias, data }) {
             </svg>
             <div
               id="customer"
-              className="inline-flex items-center justify-center ml-1.5 mt-1 mb-3 space-x-1  rounded-full"
+              className="inline-flex items-center justify-center ml-1.5 mt-1 mb-3 space-x-3  rounded-full"
             >
               <img
-                src={DefaultAvatar}
+                src={e.customer_url}
                 alt="customer_avatar"
-                className="bg-white rounded-full w-14 h-14"
+                className="bg-white border-0 rounded-full w-14 h-14"
               />
               <div className="w-20 h-full mt-[10%]">
                 <span className="text-[#72FFFF] font-semibold">

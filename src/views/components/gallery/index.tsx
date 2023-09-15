@@ -19,7 +19,7 @@ function Gallery({ alias, data }) {
             <div key={index} className="space-y-2">
               <div className="relative">
                 <img
-                  className="w-full h-32 rounded-2xl"
+                  className="w-full h-32 cursor-pointer rounded-2xl"
                   src={e.thumbnail}
                   alt="thumbnail"
                 />
@@ -31,7 +31,7 @@ function Gallery({ alias, data }) {
               </div>
 
               <div className="font-bold text-white">{e.alias}</div>
-              <div className="text-[#0DD260] flex space-x-2 items-center">
+              <div className="text-[#72FFFF] flex space-x-2 items-center">
                 <Icon icon="carbon:partnership" />
                 <span className="text-sm"> {e.customer} </span>
               </div>

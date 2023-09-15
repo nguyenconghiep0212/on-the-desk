@@ -6,7 +6,12 @@ export const data = {
     name: "Thiên Hùng",
     description: "Nhiếp ảnh gia đám cưới - sự kiện",
     avatar_url: Avatar,
-    background_url: Wallpaper,
+    background_url: [
+      "https://cdn.thecollector.com/wp-content/uploads/2023/05/tips-to-become-a-great-photographer.jpg?width=1400&quality=70",
+      "https://ceoworld.biz/wp-content/uploads/2021/03/wealthy-photographer.jpg",
+      "https://digitalasset.intuit.com/IMAGE/A8K6wIHO2/photographer-taking-pictures-on-the-edge-of-a-cliff_INF31371.jpg",
+      "https://www.shotkit.com/wp-content/uploads/2022/08/janice_sullivan_11.jpg",
+    ],
   },
   components: [
     {
@@ -146,19 +151,28 @@ export const data = {
       alias: "Feedback",
       data: [
         {
-          customer:'VTV',
-          comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco ',
+          customer_url:
+            "https://yt3.googleusercontent.com/ZFxa8u4HBgH208wuKNpbWBuzwtpOQx-KtLCodb3xYNk8H2mfwNpXTulfaQPzOXrXL5j-7MFQ=s900-c-k-c0x00ffffff-no-rj",
+          customer: "VTV",
+          comment:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco ",
         },
         {
-          customer:'Huy Tuấn',
-          comment: 'Dịch vụ tốt, tận tình và tư vấn pose chụp rất ổn. Góp ý duy nhất là giá bạn lấy mềm quá. Mình chắc chắn sẽ trở lại vào dịp tới.',
+          customer_url:
+            "https://variety.com/wp-content/uploads/2022/12/Chadwick-1.jpg",
+          customer: "Huy Tuấn",
+          comment:
+            "Dịch vụ tốt, tận tình và tư vấn pose chụp rất ổn. Góp ý duy nhất là giá bạn lấy mềm quá. Mình chắc chắn sẽ trở lại vào dịp tới.",
         },
         {
-          customer:'Linh Đào',
-          comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco',
+          customer_url:
+            "https://www.usnews.com/object/image/00000186-7a58-d975-aff7-fffbc8910000/iguazu-falls-stock.jpg?update-time=1677089883729&size=responsive640",
+          customer: "Linh Đào",
+          comment:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco",
         },
-      ]
-    }
+      ],
+    },
   ],
 };
 
