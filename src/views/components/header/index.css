@@ -1,7 +1,6 @@
 .username-desktop {
   color: #fff;
   text-shadow: 0px 1px 8px rgba(121, 9, 173, 0.3);
-  font-size: 30px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
@@ -9,7 +8,6 @@
 .description-desktop {
   color: #fff;
   text-shadow: 0px 1px 8px rgba(121, 9, 173, 0.3);
-  font-size: 20px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;

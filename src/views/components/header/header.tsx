@@ -8,11 +8,11 @@ function Header({ background, avatar, name, description }) {
         <div className="w-full bg-neutral-900 h-3/4">
           <img src={background} alt="Wallpaper" className="h-full mx-auto" />
         </div>
-        <div className="mt-[-60px] ml-[10%] flex items-center ">
-          <img src={avatar} alt="Avatar" className="w-40 h-40 rounded-full " />
+        <div className="mt-[-30px] sm:mt-[-60px] ml-[5%] sm:ml-[10%] flex items-center ">
+          <img src={avatar} alt="Avatar" className="rounded-full w-36 h-36 sm:w-40 sm:h-40 " />
           <div className="flex flex-col mt-16 ml-4 space-y-1">
-            <span className="username-desktop">{name}</span>
-            <span className="description-desktop">{description}</span>
+            <span className="text-3xl username-desktop">{name}</span>
+            <span className="sm:text-xl description-desktop">{description}</span>
           </div>
         </div>
       </div>
