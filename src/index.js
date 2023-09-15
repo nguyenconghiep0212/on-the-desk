@@ -15,12 +15,12 @@ const router = createHashRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/portfolio",
+    path: "/portfolio/:userId",
     element: <Portfolio />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "/portfolio/gallery/:customerId",
+    path: "/portfolio/:userId/gallery/:customerId",
     element: <Gallery />,
     errorElement: <ErrorPage />,
   },

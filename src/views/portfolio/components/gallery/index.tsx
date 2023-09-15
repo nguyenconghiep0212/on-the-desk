@@ -3,9 +3,10 @@ import { filter, customer } from "views/mock.ts";
 import { Chip } from "@mui/material";
 import { Icon } from "@iconify/react";
 import "./index.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function Gallery({ alias, data }) {
+  const params = useParams();
   const navigate = useNavigate();
   const [filteredGallery, setFilteredGallery] = useState<any>([]);
   const [filteredTag, setFilterTag] = useState<string[]>(["all"]);
@@ -45,7 +46,7 @@ function Gallery({ alias, data }) {
   }
 
   function redirectToGallery(customerId: string) {
-    return navigate(`/portfolio/gallery/${customerId}`);
+    return navigate(`/portfolio/${params.userId}/gallery/${customerId}`);
   }
   useEffect(() => {
     handleFilterGallery();

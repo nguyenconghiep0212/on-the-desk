@@ -81,6 +81,7 @@ export const platforms = [
 
 export const data = {
   personal_info: {
+    id: "thien-hung",
     name: "Thiên Hùng",
     description: "Nhiếp ảnh gia đám cưới - sự kiện",
     avatar_url: Avatar,
@@ -171,7 +172,7 @@ export const data = {
           thumbnail:
             "https://a-z-animals.com/media/2022/11/shutterstock_606517310-1024x650.jpg",
           alias: "Stock Photo",
-          totalImages: 23, 
+          totalImages: 23,
           customer_id: "stock-photo",
         },
         {
@@ -213,7 +214,7 @@ export const data = {
           alias: "Obama thăm chính thức Việt Nam",
           totalImages: 162,
           customer_id: "vtv",
-        },  
+        },
         {
           key: "event",
           thumbnail:
@@ -279,12 +280,12 @@ export const customer = [
   {
     id: "chuyen-dong-24h",
     name: "Chuyển động 24h",
-    avata_url: "",
+    avata_url: "https://vtv1.mediacdn.vn/zoom/640_400/2014/chuyen-dong-24h-1412665586489.jpg",
   },
   {
     id: "felix",
     name: "Felix",
-    avata_url: "",
+    avata_url: "https://media.distractify.com/brand-img/UAzYE-HSn/0x0/pewdiepie-wife-japan-1601677949212.png",
   },
   {
     id: "to-chuc-dam-cuoi",
@@ -302,7 +303,15 @@ export const galleries = [
   {
     customer_id: "felix",
     images: [
-      
+      "https://www.weddingsutra.com/images/wedding-images/celeb_wed/celeb_wed/PewDiePie-Marzia/PewDiePie-Marzia-pic13.jpg",
+      "https://e3.365dm.com/19/08/2048x1152/skynews-pewdiepie-marzi-bisognin_4751188.jpg",
+      "https://i.ytimg.com/vi/7PIMiDcwNvc/maxresdefault.jpg",
+      "https://i.insider.com/5d5eb86900ef2b2a7743cb92?width=1000&format=jpeg&auto=webp",
+      "https://editors.dexerto.com/wp-content/uploads/thumbnails/_thumbnailLarge/PewDiePie-Marzia-full-wedding-YouTube-video.jpg",
+      "https://i.insider.com/5d5ee10746552c3704365e35?width=1000&format=jpeg&auto=webp",
+      "https://i2-prod.mirror.co.uk/incoming/article19008158.ece/ALTERNATES/s615b/1_tiful-bride-all-the-deets-of-their-Kew-Gardens-wedding_2339JPG.jpg",
+      "https://i.dailymail.co.uk/1s/2019/08/21/16/17493974-7376249-Dapper_Pewdiepie_real_name_Felix_opted_to_offset_his_wife_during-a-64_1566401985132.jpg",
+      "https://editors.dexerto.com/wp-content/uploads/2020/08/pewdiepie-marzia-first-wedding-anniversary.jpg",
     ],
   },
 ];
