@@ -3,11 +3,7 @@ import React from "react";
 import Gallery from "views/gallery";
 
 function Component() {
-  return (
-    <div>
-      <Gallery />
-    </div>
-  );
+  return <Gallery />;
 }
 
 export default Component;

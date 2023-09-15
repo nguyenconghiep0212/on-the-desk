@@ -17,10 +17,15 @@ function Header({ background, avatar, name, description }) {
     <div className="relative flex justify-center h-3/5 ">
       <div className="flex flex-col w-full">
         <div className="relative flex items-center w-full bg-neutral-900 h-3/4">
-          <div className="w-full h-full blurBackground" style={{ backgroundImage: `url(${currentImg})`, WebkitFilter: `blur(24px)` }}>
-          </div>
+          <div
+            className="w-full h-full blurBackground"
+            style={{
+              backgroundImage: `url(${currentImg})`,
+              WebkitFilter: `blur(24px)`,
+            }}
+          ></div>
           <Swiper
-            className=" mySwiper z-1 !h-2/3 !absolute top-1/2 -translate-y-1/2 transition-all delay-1000"
+            className=" mySwiper z-1 !h-2/3 !absolute top-1/2 -translate-y-1/2  "
             slidesPerView={1}
             pagination={{
               dynamicBullets: true,
