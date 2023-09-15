@@ -1,9 +1,13 @@
 import React from "react";
 // COMPONENTS
-import Landing from "views/landing";
- 
+import Gallery from "views/gallery";
+
 function Component() {
-  return <div  > <Landing /></div>;
+  return (
+    <div>
+      <Gallery />
+    </div>
+  );
 }
 
 export default Component;

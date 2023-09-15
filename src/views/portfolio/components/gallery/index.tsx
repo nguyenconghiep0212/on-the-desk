@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { filter } from "views/mock.ts";
+import { filter, customer } from "views/mock.ts";
 import { Chip } from "@mui/material";
 import { Icon } from "@iconify/react";
 import "./index.css";
+import { useNavigate } from "react-router-dom";
 
 function Gallery({ alias, data }) {
+  const navigate = useNavigate();
   const [filteredGallery, setFilteredGallery] = useState<any>([]);
   const [filteredTag, setFilterTag] = useState<string[]>(["all"]);
 
@@ -41,11 +43,15 @@ function Gallery({ alias, data }) {
       setFilteredGallery(arr);
     }
   }
+
+  function redirectToGallery(customerId: string) {
+    return navigate(`/portfolio/gallery/${customerId}`);
+  }
   useEffect(() => {
     handleFilterGallery();
   });
   return (
-    <div className="p-3 rounded-md bg-[#1E2530]">
+    <div>
       <div className="text-[#B6B6B6] font-bold text-lg mb-4">{alias}</div>
       <div className="space-y-4">
         <div className="">
@@ -62,12 +68,12 @@ function Gallery({ alias, data }) {
             />
           ))}
         </div>
-        <div className="grid gap-4 xl:grid-cols-5 sm:grid-cols-3 max-sm:grid-cols-2">
+        <div className="grid grid-cols-2 gap-4 3xl:grid-cols-5 lg:grid-cols-3">
           {filteredGallery.map((e, index) => (
             <div key={index} className="space-y-2">
               <div className="relative">
                 <img
-                  className="w-full h-32 cursor-pointer rounded-2xl"
+                  className="w-full h-32 cursor-pointer xl:h-44 2xl:h-64 rounded-2xl"
                   src={e.thumbnail}
                   alt="thumbnail"
                 />
@@ -78,9 +84,16 @@ function Gallery({ alias, data }) {
               </div>
 
               <div className="font-bold text-white">{e.alias}</div>
-              <div className="text-[#72FFFF] flex space-x-2 items-center">
+              <div
+                className="text-[#72FFFF] flex space-x-2 items-center underline cursor-pointer"
+                onClick={() => {
+                  redirectToGallery(e.customer_id);
+                }}
+              >
                 <Icon icon="carbon:partnership" />
-                <span className="text-sm"> {e.customer} </span>
+                <span className="text-sm">
+                  {customer.find((f) => f.id === e.customer_id)?.name}
+                </span>
               </div>
             </div>
           ))}

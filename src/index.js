@@ -3,7 +3,8 @@ import * as ReactDOM from "react-dom/client";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import Footer from "./views/footer";
-import Landing from './routes/landing'
+import Gallery from "./routes/gallery";
+import Landing from "./routes/landing";
 import Portfolio from "./routes/portfolio";
 import ErrorPage from "./routes/error-page";
 
@@ -16,6 +17,11 @@ const router = createHashRouter([
   {
     path: "/portfolio",
     element: <Portfolio />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/portfolio/gallery/:customerId",
+    element: <Gallery />,
     errorElement: <ErrorPage />,
   },
 ]);

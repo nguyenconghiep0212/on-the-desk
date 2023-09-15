@@ -21,9 +21,9 @@ function Contact({ alias, data }) {
     { key: "tiktok", url: tiktok },
   ];
   return (
-    <div className="p-3 rounded-md bg-[#1E2530]">
+    <div>
       <div className="text-[#B6B6B6] font-bold text-lg mb-4">{alias}</div>
-      <div className="grid gap-4 xl:grid-cols-5 sm:grid-cols-3 max-sm:grid-cols-2">
+      <div className="grid grid-cols-2 gap-4 3xl:grid-cols-5 lg:grid-cols-3">
         {data.map((e, index) => (
           <div key={index} className="flex items-center w-full h-full ">
             <div
@@ -44,7 +44,7 @@ function Contact({ alias, data }) {
               />
             </div>
             <div
-              className="flex items-center justify-center w-3/4 h-10 rounded-tr-md rounded-br-md"
+              className="flex items-center justify-start w-3/4 h-10 px-4 rounded-tr-md rounded-br-md"
               style={{
                 background: `${
                   platforms.find((f) => f.key === e.platform)?.color
@@ -52,6 +52,7 @@ function Contact({ alias, data }) {
               }}
             >
               <a
+              className="truncate"
                 style={{
                   color: ["#ffffff", "#fff"].includes(
                     platforms.find((f) => f.key === e.platform)?.color
