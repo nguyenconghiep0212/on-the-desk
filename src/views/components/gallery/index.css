@@ -8,3 +8,8 @@
     rgba(255, 255, 255, 0.04) 100%
   );
 }
+.filter-tag-checked {
+  color: white !important;
+  border-radius: 5px !important;
+  background: linear-gradient(180deg, #47b5ff 0%, #1363df 100%);
+}

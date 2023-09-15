@@ -227,7 +227,7 @@ export const platforms = [
     image: "https://www.tiktok.com/",
     key: "twitter",
     alias: "X",
-    color: "#444",
+    color: "#444444",
   },
   {
     image: "https://www.instagram.com/",

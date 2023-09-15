@@ -43,7 +43,7 @@ function Header({ background, avatar, name, description }) {
           />
           <div className="flex flex-col mt-16 ml-4 space-y-1">
             <span className="text-3xl username-desktop">{name}</span>
-            <span className="sm:text-xl description-desktop">
+            <span className="text-sm font-thin sm:text-xl description-desktop">
               {description}
             </span>
           </div>
