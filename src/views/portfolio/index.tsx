@@ -14,15 +14,10 @@ function Portfolio() {
           name={userInfo.personal_info.name}
           description={userInfo.personal_info.description}
         />
-        <div className="flex flex-col justify-center m-6 space-y-4 sm:m-0">
+        <div className="flex flex-col justify-center m-2 space-y-4 sm:m-0">
           {userInfo.components.map((e, index) => (
-            <div className="p-3 rounded-2xl w-full bg-[#1E2530]">
-              <DynamicComponent
-                is={e.key}
-                key={index}
-                alias={e.alias}
-                data={e.data}
-              />
+            <div key={index} className="p-3 rounded-2xl w-full bg-[#1E2530]">
+              <DynamicComponent is={e.key} alias={e.alias} data={e.data} />
             </div>
           ))}
         </div>

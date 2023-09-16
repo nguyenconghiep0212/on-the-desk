@@ -68,7 +68,7 @@ function Gallery({ alias, data }) {
           {filter
             .filter((_, index) => index <= (isAllFilter ? filter.length : 12))
             .map((e, index) => (
-              <div className="!mb-2 inline-flex  !mr-2 cursor-pointer rounded-lg bg-[#2f353f]">
+              <div key={index} className="!mb-2 inline-flex  !mr-2 cursor-pointer rounded-lg bg-[#2f353f]">
                 <div
                   className={`h-full filter-tag${
                     filteredTag.includes(e.key) ? "-checked" : ""
@@ -88,8 +88,8 @@ function Gallery({ alias, data }) {
               </div>
             ))}
           {!isAllFilter ? (
-            filter.length > 2 ? (
-              <div className="!mb-2 !mr-2 cursor-pointer rounded-lg bg-[#2f353f]">
+            filter.length > 12 ? (
+              <div className="!mb-2 !mr-2 inline-flex cursor-pointer rounded-lg bg-[#2f353f]">
                 <div className="h-full filter-tag-bg">
                   <Chip
                     label={

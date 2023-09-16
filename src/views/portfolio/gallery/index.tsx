@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { data, galleries, customer } from "views/mock.ts";
+import Feedback from "../components/feedback/index";
 
 interface Info {
   thumbnail: string;
@@ -15,6 +16,7 @@ interface Info {
     avatar_url: string;
     name: string;
   };
+  feedback: any;
 }
 
 function Component() {
@@ -30,6 +32,10 @@ function Component() {
       avatar_url: "",
       name: "",
     },
+    feedback: {
+      alias: "",
+      data: [],
+    },
   });
   const params = useParams();
   const navigate = useNavigate();
@@ -39,7 +45,7 @@ function Component() {
       ?.data.find((e) => e.customer_id === params.customerId);
     const customerInfo = customer.find((e) => e.id === params.customerId);
     console.log(customerInfo);
-    setInfo({
+    const obj = {
       thumbnail: temp.thumbnail,
       customer: {
         avatar_url: customerInfo.avatar_url,
@@ -50,7 +56,15 @@ function Component() {
         avatar_url: data.personal_info.avatar_url,
         name: data.personal_info.name,
       },
-    });
+      feedback: {
+        alias: data.components.find((e) => e.key === "feedback").alias,
+        data: data.components
+          .find((e) => e.key === "feedback")
+          ?.data.filter((e) => e.customer_id === customerInfo?.id),
+      },
+    };
+    setInfo(obj);
+    console.log(obj);
   }
 
   function masonryGrid() {
@@ -80,8 +94,8 @@ function Component() {
     getInfo();
   }, []);
   return (
-    <div className="w-full h-full  sm:flex sm:flex-col sm:items-center">
-      <div className="sm:w-1/2 h-full">
+    <div className="w-full h-full sm:flex sm:flex-col sm:items-center">
+      <div className="h-full p-3 sm:w-1/2">
         {/* INFO */}
         <div className="relative w-full h-1/3 sm:h-2/5 lg:h-3/5">
           <div
@@ -99,17 +113,18 @@ function Component() {
               />
             </Button>
           </div>
-          <div className="absolute top-0 w-3/4 3xl:w-3/5 h-full -translate-x-1/2 left-1/2">
-            <img
-              src={info.thumbnail}
-              alt="thumbnail"
-              className="w-full h-full"
-            />
-          </div>
+          <div
+            className="absolute top-0 w-3/4 h-full -translate-x-1/2 3xl:w-3/5 left-1/2"
+            style={{
+              backgroundImage: `url(${info.thumbnail})`,
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+            }}
+          ></div>
         </div>
         <div
           id="customer"
-          className="relative space-x-2 flex items-center z-10 "
+          className="relative z-10 flex items-center space-x-2 "
         >
           <div className=" w-20 h-20 ml-[20%] mt-[-25px]">
             <img
@@ -131,17 +146,26 @@ function Component() {
           <div className="ml-[20%] h-6 w-10 border-r border-[#72FFFF] text-white" />
           <div className="flex space-x-2">
             <div className="ml-[20%] w-20 h-20 scale-75 -mt-3 border-[#72FFFF] border-2 rounded-full">
-              <img className="h-full" src={info.user.avatar_url} alt="user_avatar"/>
+              <img
+                className="h-full"
+                src={info.user.avatar_url}
+                alt="user_avatar"
+              />
             </div>
-            <span className="text-white mt-4 text-lg font-semibold">
+            <span className="mt-4 text-lg font-semibold text-white">
               {info.user.name}
             </span>
           </div>
         </div>
-        {/* GALLERY */}
-        <div className="p-3">
+
+        <div className="mt-3 space-y-6">
+          {/* GALLERY */}
           <div className="grid grid-cols-2 gap-4 overflow-auto">
             {masonryGrid()}
+          </div>
+          {/* FEEDBACK */}
+          <div className="p-3 rounded-2xl w-full bg-[#1E2530]">
+            <Feedback alias={info.feedback.alias} data={info.feedback.data} />
           </div>
         </div>
       </div>

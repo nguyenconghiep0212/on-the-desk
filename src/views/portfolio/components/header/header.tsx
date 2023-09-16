@@ -33,14 +33,14 @@ function Header({ background, avatar, name, description }) {
             modules={[Pagination]}
             onSlideChange={getCurrentImg}
           >
-            {background.map((e) => (
-              <SwiperSlide className="!h-[inherit]">
+            {background.map((e, index) => (
+              <SwiperSlide key={index} className="!h-[inherit]">
                 <img src={e} alt="user_background" className="h-full" />
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
-        <div className="mt-[-30px] sm:mt-[-60px] mx-[5%] sm:mx-[10%] flex items-center ">
+        <div className="mt-[-30px] px-2 sm:mt-[-60px] flex items-center ">
           <img
             src={avatar}
             alt="Avatar"
