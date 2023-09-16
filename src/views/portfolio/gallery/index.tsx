@@ -95,7 +95,7 @@ function Component() {
   }, []);
   return (
     <div className="w-full h-full sm:flex sm:flex-col sm:items-center">
-      <div className="h-full p-3 sm:w-1/2">
+      <div className="h-full px-3 pb-3 sm:w-1/2">
         {/* INFO */}
         <div className="relative w-full h-1/3 sm:h-2/5 lg:h-3/5">
           <div
