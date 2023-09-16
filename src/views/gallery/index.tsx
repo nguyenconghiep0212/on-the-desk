@@ -83,7 +83,7 @@ function Component() {
     <div className="w-full h-full  sm:flex sm:flex-col sm:items-center">
       <div className="sm:w-1/2 h-full">
         {/* INFO */}
-        <div className="relative w-full h-1/3">
+        <div className="relative w-full h-1/3 sm:h-2/5 lg:h-3/5">
           <div
             className="w-full h-full"
             style={{
@@ -99,7 +99,7 @@ function Component() {
               />
             </Button>
           </div>
-          <div className="absolute top-0 w-3/4 h-full -translate-x-1/2 left-1/2">
+          <div className="absolute top-0 w-3/4 3xl:w-3/5 h-full -translate-x-1/2 left-1/2">
             <img
               src={info.thumbnail}
               alt="thumbnail"
@@ -111,7 +111,7 @@ function Component() {
           id="customer"
           className="relative space-x-2 flex items-center z-10 "
         >
-          <div className="w-20 h-20 ml-[20%] mt-[-25px]">
+          <div className=" w-20 h-20 ml-[20%] mt-[-25px]">
             <img
               src={info.customer.avatar_url}
               alt="customer_avatar"
