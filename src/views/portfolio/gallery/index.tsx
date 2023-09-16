@@ -103,6 +103,7 @@ function Component() {
             style={{
               backgroundImage: `url(${info.thumbnail})`,
               WebkitFilter: `blur(24px)`,
+              boxShadow: "inset 0px -35px 10px #18191A",
             }}
           ></div>
           <div className="absolute top-0 left-0">
@@ -119,14 +120,16 @@ function Component() {
               backgroundImage: `url(${info.thumbnail})`,
               backgroundPosition: "center",
               backgroundSize: "cover",
+              boxShadow: "inset 0px -50px 40px #18191A",
+
             }}
           ></div>
         </div>
         <div
           id="customer"
-          className="relative z-10 flex items-center space-x-2 "
+          className="relative z-10 flex items-center space-x-2 bg-[#18191A]"
         >
-          <div className=" w-20 h-20 ml-[20%] mt-[-25px]">
+          <div className=" w-20 h-20 ml-3 mt-[-25px]">
             <img
               src={info.customer.avatar_url}
               alt="customer_avatar"
@@ -143,9 +146,9 @@ function Component() {
           </div>
         </div>
         <div id="user">
-          <div className="ml-[20%] h-6 w-10 border-r border-[#72FFFF] text-white" />
+          <div className="ml-3 h-6 w-10 border-r border-[#72FFFF] text-white" />
           <div className="flex space-x-2">
-            <div className="ml-[20%] w-20 h-20 scale-75 -mt-3 border-[#72FFFF] border-2 rounded-full">
+            <div className="ml-3 w-20 h-20 scale-75 -mt-3 border-[#72FFFF] border-2 rounded-full">
               <img
                 className="h-full"
                 src={info.user.avatar_url}
