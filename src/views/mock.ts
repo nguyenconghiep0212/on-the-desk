@@ -261,49 +261,49 @@ export const customer = [
   {
     id: "aeonmal",
     name: "AEON Mall",
-    avata_url: "",
+    avatar_url: "https://play-lh.googleusercontent.com/88n99t-xxyJUg6HjH11N8KZk66prQ3waF2iUG8dzGClvoNI8AjLzBvsd59f2HbQxG7Y",
   },
   {
     id: "vtv",
     name: "VTV",
-    avata_url:
+    avatar_url:
       "https://yt3.googleusercontent.com/ZFxa8u4HBgH208wuKNpbWBuzwtpOQx-KtLCodb3xYNk8H2mfwNpXTulfaQPzOXrXL5j-7MFQ=s900-c-k-c0x00ffffff-no-rj",
   },
   {
     id: "huy-tuan",
     name: "Huy Tuấn",
-    avata_url: "https://variety.com/wp-content/uploads/2022/12/Chadwick-1.jpg",
+    avatar_url: "https://variety.com/wp-content/uploads/2022/12/Chadwick-1.jpg",
   },
   {
     id: "linh-dao",
     name: "Linh Đào",
-    avata_url:
+    avatar_url:
       "https://www.usnews.com/object/image/00000186-7a58-d975-aff7-fffbc8910000/iguazu-falls-stock.jpg?update-time=1677089883729&size=responsive640",
   },
   {
     id: "san-van-dong-my-dinh",
     name: "Sân vận động Mỹ Đình",
-    avata_url: "",
+    avatar_url: "",
   },
   {
     id: "chuyen-dong-24h",
     name: "Chuyển động 24h",
-    avata_url: "https://vtv1.mediacdn.vn/zoom/640_400/2014/chuyen-dong-24h-1412665586489.jpg",
+    avatar_url: "https://vtv1.mediacdn.vn/zoom/640_400/2014/chuyen-dong-24h-1412665586489.jpg",
   },
   {
     id: "felix",
     name: "Felix",
-    avata_url: "https://media.distractify.com/brand-img/UAzYE-HSn/0x0/pewdiepie-wife-japan-1601677949212.png",
+    avatar_url: "https://media.distractify.com/brand-img/UAzYE-HSn/0x0/pewdiepie-wife-japan-1601677949212.png",
   },
   {
     id: "to-chuc-dam-cuoi",
     name: "Tổ chức đám cưới",
-    avata_url: "",
+    avatar_url: "",
   },
   {
     id: "minh-tam",
     name: "Minh Tâm",
-    avata_url: "",
+    avatar_url: "",
   },
 ];
 
@@ -320,6 +320,28 @@ export const galleries = [
       "https://i2-prod.mirror.co.uk/incoming/article19008158.ece/ALTERNATES/s615b/1_tiful-bride-all-the-deets-of-their-Kew-Gardens-wedding_2339JPG.jpg",
       "https://i.dailymail.co.uk/1s/2019/08/21/16/17493974-7376249-Dapper_Pewdiepie_real_name_Felix_opted_to_offset_his_wife_during-a-64_1566401985132.jpg",
       "https://editors.dexerto.com/wp-content/uploads/2020/08/pewdiepie-marzia-first-wedding-anniversary.jpg",
+    ],
+  },{
+    customer_id: "linh-dao",
+    images: [
+      "https://portraitphotoawards.net/imagecache/large/collection_photos/98/6909/custom_logo_MONIKA_GROSS-austria-3negC3-89collection-portraitphotoawards.webp",
+      "https://portraitphotoawards.net/imagecache/large/collection_photos/98/6149/custom_logo_GIOVANNI_CONTARELLI-italy-NUXuJT-89collection-portraitphotoawards.webp",
+      "https://portraitphotoawards.net/imagecache/large/collection_photos/98/5332/custom_logo_SHIRLEY_VAN_LIESHOUT-netherlands-ZcEBZH-89collection-portraitphotoawards.webp",
+      "https://portraitphotoawards.net/imagecache/large/collection_photos/98/6668/custom_logo_HENK_VERSTRAATEN-netherlands-Lcp0xf-89collection-portraitphotoawards.webp",
+      "https://portraitphotoawards.net/imagecache/large/collection_photos/98/5183/custom_logo_JOHAN_FAMEL-france-jS6Xrn-89collection-portraitphotoawards.jpg", 
+    ],
+  },{
+    customer_id: "aeonmal",
+    images: [
+      "https://vinhomecitys.com/wp-content/uploads/2023/03/he-thong-trung-tam-thuong-mai-aeon-tai-viet-nam.jpeg",
+      "https://aeon.vn/wp-content/uploads/2023/03/aeon-mall.png",
+      "https://vnn-imgs-f.vgcloud.vn/2021/12/20/14/aeon-mall-tang-toc-dau-tu-o-viet-nam-1.jpg",
+      "https://cafebiz.cafebizcdn.vn/162123310254002176/2023/6/18/untitled1-1687088977685-16870889778111468680875.png",
+      "https://danviet.mediacdn.vn/296231569849192448/2023/5/20/tanphu-1-scaled-16501798310931878055523-0-62-812-1361-crop-1650179841296751586903-1684594932667225716782.jpg",
+      "https://cafebiz.cafebizcdn.vn/162123310254002176/2022/10/27/aeon-the-nine-1666858524748-1666858524924605503672.jpg",
+      "https://cafebiz.cafebizcdn.vn/162123310254002176/2020/8/13/photo-17-1597279709194734111231.jpg",
+      "https://icdn.dantri.com.vn/zoom/1200_630/2022/05/23/edit-anhaeon-the-ninenews-booking-dantri-crop-1653313350746.jpeg",
+      "https://quangcaongoaitroi.com/wp-content/uploads/2022/06/Unique-OOH-man-hinh-LED-LCD-quang-cao-tai-trung-tam-thuong-mai-Aeon-Mall-Ha-Dong-5.jpg",
     ],
   },
 ];
