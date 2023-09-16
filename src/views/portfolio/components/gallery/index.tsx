@@ -11,7 +11,7 @@ function Gallery({ alias, data }) {
   const params = useParams();
   const navigate = useNavigate();
   const [filteredGallery, setFilteredGallery] = useState<any>([]);
-  const [filteredTag, setFilterTag] = useState<string[]>(["all"]);
+  const [filteredTag, setFilterTag] = useState<string[]>([]);
 
   function handleClickFilterTag(data: string) {
     if (data !== "all") {
@@ -58,6 +58,9 @@ function Gallery({ alias, data }) {
     setIsAllFilter(true);
   }
   useEffect(() => {
+    handleClickFilterTag('all')
+  }, []);
+  useEffect(() => {
     handleFilterGallery();
   }, [filteredTag]);
   return (
@@ -68,7 +71,10 @@ function Gallery({ alias, data }) {
           {filter
             .filter((_, index) => index <= (isAllFilter ? filter.length : 12))
             .map((e, index) => (
-              <div key={index} className="!mb-2 inline-flex  !mr-2 cursor-pointer rounded-lg bg-[#2f353f]">
+              <div
+                key={index}
+                className="!mb-2 inline-flex  !mr-2 cursor-pointer rounded-lg bg-[#2f353f]"
+              >
                 <div
                   className={`h-full filter-tag${
                     filteredTag.includes(e.key) ? "-checked" : ""
