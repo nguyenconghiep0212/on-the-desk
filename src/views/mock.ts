@@ -34,17 +34,20 @@ export const platforms = [
     key: "facebook",
     alias: "Facebook",
     color: "#1877F2",
+    background_color: "#18529D",
   },
   {
     image: "https://www.youtube.com/",
     key: "youtube",
     alias: "Youtube",
     color: "#FF6060",
+    background_color: "#BC2F2F",
   },
   {
     image: "https://www.facebook.com/",
     key: "tiktok",
     alias: "Tiktok",
+    background_color: "#C5C5C5",
     color: "#ffffff",
   },
   {
@@ -52,30 +55,35 @@ export const platforms = [
     key: "twitter",
     alias: "X",
     color: "#444444",
+    background_color: "#111111",
   },
   {
     image: "https://www.instagram.com/",
     key: "instagram",
     alias: "Instagram",
     color: "#D83C7B",
+    background_color: "#B62760",
   },
   {
     image: "https://www.patreon.com/",
     key: "patreon",
     alias: "Patreon",
     color: "#F53F49",
+    background_color: "#BD333B",
   },
   {
     image: "https://www.behance.net/",
     key: "behance",
     alias: "Behance",
     color: "#0149B6",
+    background_color: "#0D397B",
   },
   {
     image: "https://www.flickr.com/",
     key: "flickr",
     alias: "Flickr",
     color: "#ffffff",
+    background_color: "#C5C5C5",
   },
 ];
 

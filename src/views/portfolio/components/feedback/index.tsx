@@ -33,7 +33,7 @@ function Header({ alias, data }) {
                 alt="customer_avatar"
                 className="bg-white border-0 rounded-full w-14 h-14"
               />
-              <div className="w-20 h-full mt-[10%]">
+              <div className="w-20 h-full mt-[5%]">
                 <span className="text-[#72FFFF] font-semibold">
                   {customer.find((f) => f.id === e.customer_id)?.name}
                 </span>

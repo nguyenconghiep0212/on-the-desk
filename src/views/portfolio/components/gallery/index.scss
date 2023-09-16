@@ -1,0 +1,42 @@
+ .filter-tag {
+   position: relative;
+   box-sizing: border-box;
+   color: #47b5ff !important;
+   border-radius: 7.3px !important;
+   background: linear-gradient(180deg,
+       #2f353f 0%,
+       #2a313b 100%); 
+
+   &-bg {
+     content: '';
+     z-index: 1;
+     padding: 1px;
+     border-radius: 8px;
+     background: linear-gradient(100deg, #2f353f93 61%, rgba(255, 255, 255, 0.15) 120%),
+       linear-gradient(120deg, #7fa1d3ad 3%, rgba(255, 255, 255, 0) 20%);
+     ;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     min-height: 35px;
+   }
+
+ }
+
+ .filter-tag-checked {
+   color: white !important;
+   border-radius: 8px !important;
+   background: linear-gradient(180deg, #47b5ff 0%, #1363df 100%);
+
+   &-bg {
+     z-index: 1;
+     padding: 1px;
+     border-radius: 8px;
+     background: linear-gradient(180deg, #47b5ff 0%, #1363df 100%);
+
+     display: flex;
+     justify-content: center;
+     min-height: 35px;
+     align-items: center;
+   }
+ }

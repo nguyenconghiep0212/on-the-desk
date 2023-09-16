@@ -27,7 +27,7 @@ function Contact({ alias, data }) {
         {data.map((e, index) => (
           <div key={index} className="flex items-center w-full h-full ">
             <div
-              className="flex items-center justify-center w-1/4 h-full rounded-tl-md rounded-bl-md"
+              className="flex items-center justify-center w-10 h-10 rounded-tl-md rounded-bl-md"
               style={{
                 background: platforms.find((f) => f.key === e.platform)?.color,
               }}
@@ -47,8 +47,8 @@ function Contact({ alias, data }) {
               className="flex items-center justify-start w-3/4 h-10 px-4 rounded-tr-md rounded-br-md"
               style={{
                 background: `${
-                  platforms.find((f) => f.key === e.platform)?.color
-                }99`,
+                  platforms.find((f) => f.key === e.platform)?.background_color
+                }`,
               }}
             >
               <a
