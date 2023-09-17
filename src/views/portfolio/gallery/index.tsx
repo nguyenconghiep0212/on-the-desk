@@ -99,7 +99,7 @@ function Component() {
         {/* INFO */}
         <div className="relative w-full h-1/3 sm:h-2/5 lg:h-3/5">
           <div
-            className="w-[300%] -translate-x-1/2 h-full  "
+            className="sm:w-[300%] sm:-translate-x-1/2 h-full  "
             style={{
               backgroundImage: `url(${info.thumbnail})`,
               WebkitFilter: `blur(24px)`,
@@ -108,7 +108,7 @@ function Component() {
               boxShadow: "inset 0px -70px 10px #18191A",
             }}
           ></div>
-          <div className="absolute top-0 left-0">
+          <div className="absolute top-0 left-0 sm:-left-12 ">
             <Button variant="text" className="!px-0" onClick={handleBack}>
               <Icon
                 className="text-2xl  ml-[-16px] text-white"
@@ -117,7 +117,7 @@ function Component() {
             </Button>
           </div>
           <div
-            className="absolute top-0 w-3/4 h-full -translate-x-1/2 3xl:w-3/5 left-1/2"
+            className="absolute top-0 w-3/4 h-full -translate-x-1/2 sm:w-full 3xl:w-3/5 left-1/2"
             style={{
               backgroundImage: `url(${info.thumbnail})`,
               backgroundPosition: "center",
@@ -126,7 +126,7 @@ function Component() {
             }}
           ></div>
         </div>
-        <div className="relative bg-[#18191A] z-10  w-[300%] overflow-x-clip -translate-x-1/2">
+        <div className="relative bg-[#18191A] z-10  sm:w-[300%] sm:overflow-x-clip -translate-x-1/2">
           <div
             id="customer"
             className="flex items-center space-x-2 translate-x-1/2"
