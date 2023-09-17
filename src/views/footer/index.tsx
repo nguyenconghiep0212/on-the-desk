@@ -1,12 +1,12 @@
 import React from "react";
 import "./index.css";
-import Banner from "assests/banner_footer.png";
+import Banner from "assests/footer_banner.svg";
 
 function Footer() {
   return (
-    <div className="footer">
+    <div className="space-x-2 footer">
       <span>Power by </span>
-      <img src={Banner} alt="Banner"/>
+      <img src={Banner} className="h-4 " alt="Banner"/>
       <span> &copy; &trade; 2023</span>
     </div>
   );

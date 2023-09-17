@@ -1,14 +1,17 @@
+import React, { useEffect, useState } from "react";
 
-import React from 'react'
-
-export const useViewport = () => {
-    const [width, setWidth] = React.useState(window.innerWidth);
-  
-    React.useEffect(() => {
-      const handleWindowResize = () => setWidth(window.innerWidth);
-      window.addEventListener("resize", handleWindowResize);
-      return () => window.removeEventListener("resize", handleWindowResize);
-    }, []);
-  
-    return { width };
+export const useCheckMobileScreen = () => {
+  const [width, setWidth] = useState(window.innerWidth);
+  const handleWindowSizeChange = () => {
+    setWidth(window.innerWidth);
   };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleWindowSizeChange);
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
+  }, []);
+
+  return width <= 640;
+};

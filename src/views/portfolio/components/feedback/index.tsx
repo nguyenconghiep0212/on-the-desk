@@ -1,5 +1,6 @@
 import React from "react";
 import { customer } from "views/mock.ts";
+import "./index.scss";
 
 function Header({ alias, data }) {
   return (
@@ -10,23 +11,16 @@ function Header({ alias, data }) {
           <div key={index} className="min-w-[200px] sm:min-w-[350px]">
             <div
               id="comment"
-              className="w-full px-2 py-3 italic font-thin rounded-3xl bg-zinc-700"
+              className="w-full px-2 py-3 m-2 italic font-thin rounded-3xl bg-zinc-700"
             >
               {e.comment}
             </div>
-            <svg
-              className="ml-6 -mt-0.5"
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="16"
-              viewBox="0 0 20 16"
-              fill="none"
-            >
-              <path d="M10 16L20 0H0L10 16Z" fill="rgb(63, 63, 70)" />
-            </svg>
+            <div id="comment-caret"></div>
+            <div id="comment-caret-shadow"></div>
+
             <div
               id="customer"
-              className="inline-flex items-center justify-center ml-1.5 mt-1 mb-3 space-x-3  rounded-full"
+              className="inline-flex items-center justify-center ml-3.5 mt-2   mb-3 space-x-3  rounded-full"
             >
               <img
                 src={customer.find((f) => f.id === e.customer_id)?.avatar_url}
