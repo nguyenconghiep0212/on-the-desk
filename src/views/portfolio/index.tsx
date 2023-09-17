@@ -7,7 +7,7 @@ function Portfolio() {
   const userInfo = data;
   return (
     <div className="flex flex-col items-center w-full h-full">
-      <div id="focus_point" className="w-full h-full sm:p-0 sm:w-2/4">
+      <div id="focus_point" className="w-full h-full sm:p-0 sm:w-1/2">
         <Header
           avatar={userInfo.personal_info.avatar_url}
           background={userInfo.personal_info.background_url}

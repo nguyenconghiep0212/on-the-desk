@@ -6,8 +6,10 @@ module.exports = {
       screens: {
         '<sm': {'max': '360px'},
         // => @media (max-width: 360px) { ... }
-  
         },
+        boxShadow: {
+          'header-shadow': 'inset 0px -70px 10px #18191A',
+        }
     },
   },
   plugins: [],
