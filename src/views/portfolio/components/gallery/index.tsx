@@ -11,13 +11,14 @@ function Gallery({ alias, data }) {
   const params = useParams();
   const navigate = useNavigate();
   const [filteredGallery, setFilteredGallery] = useState<any>([]);
-  const [filteredTag, setFilterTag] = useState<string[]>([]);
+  const [filteredTag, setFilterTag] = useState<string[]>(["all"]);
 
   function handleClickFilterTag(data: string) {
     if (data !== "all") {
       if (filteredTag.includes("all")) {
         filteredTag.splice(filteredTag.indexOf("all"), 1);
       }
+
       if (!filteredTag.includes(data)) {
         setFilterTag([...filteredTag, data]);
       } else {
@@ -28,11 +29,7 @@ function Gallery({ alias, data }) {
         }
       }
     } else {
-      if (filteredTag.includes("all")) {
-        setFilterTag([]);
-      } else {
-        setFilterTag(filter.map((e) => e.key));
-      }
+      setFilterTag(["all"]);
     }
   }
 
@@ -57,9 +54,6 @@ function Gallery({ alias, data }) {
   function showAllFilter() {
     setIsAllFilter(true);
   }
-  useEffect(() => {
-    handleClickFilterTag('all')
-  }, []);
   useEffect(() => {
     handleFilterGallery();
   }, [filteredTag]);
