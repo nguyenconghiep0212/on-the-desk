@@ -1,7 +1,8 @@
 {
   "files": {
-    "main.css": "/on-the-desk/static/css/main.2eec291a.css",
-    "main.js": "/on-the-desk/static/js/main.cd6f7c89.js",
+    "main.css": "/on-the-desk/static/css/main.d85e3253.css",
+    "main.js": "/on-the-desk/static/js/main.86743bcd.js",
+    "static/media/footer_banner.svg": "/on-the-desk/static/media/footer_banner.9f7009399f69d74103c0457211b122f5.svg",
     "static/media/avatar.png": "/on-the-desk/static/media/avatar.875718a96701df6fda9e.png",
     "static/media/logo_instagram.svg": "/on-the-desk/static/media/logo_instagram.47c9e6ea6bdb739a8988e89218ffa348.svg",
     "static/media/logo_behance.svg": "/on-the-desk/static/media/logo_behance.232e3cc0c4f2c197fd53939dab0cf95d.svg",
@@ -12,11 +13,11 @@
     "static/media/logo_flickr.svg": "/on-the-desk/static/media/logo_flickr.4a452951d695b7ce73062f9c143f976b.svg",
     "static/media/logo_patreon.svg": "/on-the-desk/static/media/logo_patreon.c81d0d0f77f89e9eeac5b9cc98601c72.svg",
     "static/media/logo_facebook.svg": "/on-the-desk/static/media/logo_facebook.78f2aa73e082f6bdc2b4ed1f56c34dc7.svg",
-    "main.2eec291a.css.map": "/on-the-desk/static/css/main.2eec291a.css.map",
-    "main.cd6f7c89.js.map": "/on-the-desk/static/js/main.cd6f7c89.js.map"
+    "main.d85e3253.css.map": "/on-the-desk/static/css/main.d85e3253.css.map",
+    "main.86743bcd.js.map": "/on-the-desk/static/js/main.86743bcd.js.map"
   },
   "entrypoints": [
-    "static/css/main.2eec291a.css",
-    "static/js/main.cd6f7c89.js"
+    "static/css/main.d85e3253.css",
+    "static/js/main.86743bcd.js"
   ]
 }
