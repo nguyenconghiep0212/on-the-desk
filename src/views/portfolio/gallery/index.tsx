@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { data, galleries, customer } from "views/mock.ts";
 import Feedback from "../components/feedback/index";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 interface Info {
   thumbnail: string;
@@ -44,7 +45,6 @@ function Component() {
       .find((e) => e.key === "gallery")
       ?.data.find((e) => e.customer_id === params.customerId);
     const customerInfo = customer.find((e) => e.id === params.customerId);
-    console.log(customerInfo);
     const obj = {
       thumbnail: temp.thumbnail,
       customer: {
@@ -68,15 +68,17 @@ function Component() {
   }
 
   function masonryGrid() {
-    const grid: any = [];
-    for (let i = 0; i < Math.ceil(gallery.length); i++) {
-      grid.push(
-        <div key={i} className="rounded-2xl">
-          <img src={gallery[i]} alt="gallery_src" className="rounded-2xl" />
-        </div>
-      );
-    }
-    return grid;
+    return (
+      <ResponsiveMasonry columnsCountBreakPoints={{ 290: 1, 360: 2, 1536: 3 }}>
+        <Masonry gutter="0.5rem">
+          {gallery.map((_, i) => (
+            <div key={i} className={` rounded-2xl`}>
+              <img src={gallery[i]} alt="gallery_src" className="rounded-2xl" />
+            </div>
+          ))}
+        </Masonry>
+      </ResponsiveMasonry>
+    );
   }
 
   function getCustomerGallery() {
@@ -166,9 +168,7 @@ function Component() {
 
         <div className="px-3 mt-3 space-y-6">
           {/* GALLERY */}
-          <div className="grid grid-cols-2 gap-4 overflow-auto">
-            {masonryGrid()}
-          </div>
+          <div className="  overflow-auto">{masonryGrid()}</div>
           {/* FEEDBACK */}
           <div className="p-3 rounded-2xl w-full bg-[#1E2530]">
             <Feedback alias={info.feedback.alias} data={info.feedback.data} />

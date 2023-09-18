@@ -11,7 +11,7 @@ function Header({ alias, data }) {
           <div key={index} className="min-w-[200px] sm:min-w-[350px]">
             <div
               id="comment"
-              className="w-full px-2 py-3 m-2 italic font-thin rounded-3xl bg-zinc-700"
+              className="w-full px-2 py-3 m-2 italic font-thin rounded-3xl bg-[#1e2530]"
             >
               {e.comment}
             </div>

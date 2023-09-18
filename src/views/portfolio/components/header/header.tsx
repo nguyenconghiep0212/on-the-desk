@@ -8,7 +8,7 @@ import { Pagination } from "swiper/modules";
 
 function SwiperMobile({ currentImg, getCurrentImg, background }) {
   return (
-    <div className="relative flex items-center w-full bg-neutral-900 h-3/4">
+    <div className="relative flex items-center w-full bg-neutral-900 <sm:h-1/2 h-3/4">
       <div
         className="w-full h-full blurBackground"
         style={{
@@ -17,7 +17,7 @@ function SwiperMobile({ currentImg, getCurrentImg, background }) {
         }}
       ></div>
       <Swiper
-        className=" mySwiper z-1 !h-2/3 !absolute top-1/2 -translate-y-1/2  "
+        className=" mySwiper z-1 !h-3/4 !absolute top-1/2 -translate-y-1/2  "
         slidesPerView={1}
         pagination={{
           dynamicBullets: true,
@@ -83,20 +83,20 @@ function Header({ background, avatar, name, description }) {
     setCurentImg(background[event.activeIndex]);
   }
   return (
-    <div className="relative flex justify-center h-2/5 ">
+    <div className="relative flex justify-center h-3/5 sm:h-2/5 ">
       <div className="flex flex-col w-full">
         {useCheckMobileScreen()
           ? SwiperMobile({ currentImg, getCurrentImg, background })
           : SwiperDesk({ currentImg, getCurrentImg, background })}
 
-        <div className="flex items-center px-2 -mt-6 ">
+        <div className="flex items-center mx-2 <sm:-mt-16 -mt-20 sm:-mt-6 z-10">
           <img
             src={avatar}
             alt="Avatar"
-            className="z-10 rounded-full w-36 h-36 sm:w-24 sm:h-24"
+            className="z-10 rounded-full <sm:w-24 <sm:h-24  w-32 h-32 sm:w-24 sm:h-24"
           />
-          <div className="flex flex-col mt-6 ml-4 space-y-1 ">
-            <span className="text-2xl username-desktop">{name}</span>
+          <div className="flex flex-col <sm:mt-10 mt-6 ml-4 space-y-1 ">
+            <span className="<sm:text-xl text-2xl username-desktop">{name}</span>
             <span className="text-sm font-thin sm:text-xs description-desktop">
               {description}
             </span>

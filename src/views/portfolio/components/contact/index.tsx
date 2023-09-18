@@ -26,11 +26,11 @@ function Contact({ alias, data }) {
   return (
     <div>
       <div className="text-[#B6B6B6] font-bold text-lg mb-4">{alias}</div>
-      <div className="grid <sm:grid-cols-1 grid-cols-2 gap-4 3xl:grid-cols-5 lg:grid-cols-3 ">
+      <div className="grid <sm:grid-cols-1 grid-cols-2 gap-2 3xl:grid-cols-5 lg:grid-cols-3 ">
         {data.map((e, index) => (
           <div
             key={index}
-            className="flex items-center justify-center w-full h-10 cursor-pointer"
+            className="flex items-center justify-start w-full h-10 cursor-pointer"
             onClick={() => {
               onpenContact(e.url);
             }}
@@ -53,7 +53,7 @@ function Contact({ alias, data }) {
               />
             </div>
             <div
-              className="flex items-center justify-start w-3/4 h-[inherit] px-4 rounded-tr-md rounded-br-md"
+              className="flex items-center justify-start w-[calc(100%-40px)] h-[inherit] px-4 rounded-tr-md rounded-br-md"
               style={{
                 background: `${
                   platforms.find((f) => f.key === e.platform)?.background_color

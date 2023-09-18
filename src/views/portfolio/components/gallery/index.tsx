@@ -111,7 +111,13 @@ function Gallery({ alias, data }) {
         </div>
         <div className="grid grid-cols-2 gap-4 3xl:grid-cols-5 lg:grid-cols-3">
           {filteredGallery.map((e, index) => (
-            <div key={index} className="space-y-2">
+            <div
+              key={index}
+              className="space-y-2 cursor-pointer"
+              onClick={() => {
+                redirectToGallery(e.customer_id);
+              }}
+            >
               <div
                 className="relative flex items-center justify-center h-32 bg-white xl:h-44 2xl:h-64 rounded-2xl"
                 style={{
@@ -129,12 +135,7 @@ function Gallery({ alias, data }) {
               </div>
 
               <div className="font-bold text-white">{e.alias}</div>
-              <div
-                className="text-[#72FFFF] flex space-x-2 items-center  cursor-pointer"
-                onClick={() => {
-                  redirectToGallery(e.customer_id);
-                }}
-              >
+              <div className="text-[#72FFFF] flex space-x-2 items-center  cursor-pointer">
                 <Icon icon="carbon:partnership" />
                 <span className="text-sm">
                   {customer.find((f) => f.id === e.customer_id)?.name}
