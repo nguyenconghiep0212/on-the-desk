@@ -89,13 +89,13 @@ function Header({ background, avatar, name, description }) {
           ? SwiperMobile({ currentImg, getCurrentImg, background })
           : SwiperDesk({ currentImg, getCurrentImg, background })}
 
-        <div className="flex items-center mx-2 <sm:-mt-16 -mt-20 sm:-mt-6 z-10">
+        <div className="flex items-center mx-2 <sm:flex <sm:flex-col <sm:items-center -mt-20 sm:-mt-6 z-10">
           <img
             src={avatar}
             alt="Avatar"
             className="z-10 rounded-full <sm:w-24 <sm:h-24  w-32 h-32 sm:w-24 sm:h-24"
           />
-          <div className="flex flex-col <sm:mt-10 mt-6 ml-4 space-y-1 ">
+          <div className="flex flex-col <sm:items-center <sm:w-full <sm:mt-2 mt-6 ml-4 space-y-1 ">
             <span className="<sm:text-xl text-2xl username-desktop">{name}</span>
             <span className="text-sm font-thin sm:text-xs description-desktop">
               {description}

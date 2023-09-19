@@ -4,14 +4,17 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        '<sm': {'max': '360px'},
+        "<sm": { max: "360px" },
         // => @media (max-width: 360px) { ... }
-        },
-        boxShadow: {
-          'header-shadow': 'inset 0px -70px 10px #18191A',
-        }
+
+        "mobile": { max: "960px" },
+        "desktop":  "960px" ,
+      },
+
+      boxShadow: {
+        "header-shadow": "inset 0px -70px 10px #18191A",
+      },
     },
   },
   plugins: [],
-}
-
+};
