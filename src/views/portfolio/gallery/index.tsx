@@ -11,7 +11,7 @@ interface Info {
   customer: {
     avatar_url: string;
     name: string;
-    gallery_name: string;
+    info: string;
   };
   user: {
     avatar_url: string;
@@ -27,7 +27,7 @@ function Component() {
     customer: {
       avatar_url: "",
       name: "",
-      gallery_name: "",
+      info: "",
     },
     user: {
       avatar_url: "",
@@ -50,7 +50,7 @@ function Component() {
       customer: {
         avatar_url: customerInfo.avatar_url,
         name: customerInfo.name,
-        gallery_name: temp.alias,
+        info: customerInfo.info,
       },
       user: {
         avatar_url: data.personal_info.avatar_url,
@@ -69,22 +69,34 @@ function Component() {
 
   function masonryGrid() {
     return (
-      <ResponsiveMasonry columnsCountBreakPoints={{ 290: 1, 360: 2, 1536: 3 }}>
-        <Masonry gutter="0.5rem">
-          {gallery.map((_, i) => (
-            <div key={i} className={` rounded-2xl`}>
-              <img src={gallery[i]} alt="gallery_src" className="rounded-2xl" />
+      <div>
+        {gallery.map((e) => (
+          <div className="my-2">
+            <div className="text-[#B6B6B6] font-bold text-lg mb-4">
+              {e.name}
             </div>
-          ))}
-        </Masonry>
-      </ResponsiveMasonry>
+            <ResponsiveMasonry
+              columnsCountBreakPoints={{ 290: 1, 360: 2, 1536: 3 }}
+            >
+              <Masonry gutter="0.5rem">
+                {e.images.map((f, i) => (
+                  <div key={i} className={` rounded-2xl`}>
+                    <img src={f} alt="gallery_src" className="rounded-2xl" />
+                  </div>
+                ))}
+              </Masonry>
+            </ResponsiveMasonry>
+            <div id="divider" className="py-6 flex items-center justify-center">
+              <div className="border-t border-dashed border-[#00D4FC] w-2/3"></div>
+            </div>
+          </div>
+        ))}
+      </div>
     );
   }
 
   function getCustomerGallery() {
-    const arr = galleries.find(
-      (e) => e.customer_id === params.customerId
-    )?.images;
+    const arr = galleries.find((e) => e.customer_id === params.customerId).galleries;
     setGallery(arr);
   }
 
@@ -142,10 +154,10 @@ function Component() {
             </div>
             <div className="flex flex-col">
               <span className="text-[#72FFFF] text-xl font-semibold">
-                {info.customer.name}
+                {info.customer.name || "Anonymous"}
               </span>
               <span className="text-[#72FFFF] text-sm font-thin">
-                {info.customer.gallery_name}
+                {info.customer.info || "N/A"}
               </span>
             </div>
           </div>

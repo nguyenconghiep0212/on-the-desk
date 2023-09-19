@@ -29,7 +29,7 @@ function Header({ alias, data }) {
               />
               <div className="w-20 h-full mt-[5%]">
                 <span className="text-[#72FFFF] font-semibold">
-                  {customer.find((f) => f.id === e.customer_id)?.name}
+                  {customer.find((f) => f.id === e.customer_id)?.name || 'Anonymous'}
                 </span>
               </div>
             </div>

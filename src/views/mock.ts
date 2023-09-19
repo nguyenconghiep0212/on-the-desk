@@ -261,7 +261,8 @@ export const customer = [
   {
     id: "aeonmal",
     name: "AEON Mall",
-    avatar_url: "https://play-lh.googleusercontent.com/88n99t-xxyJUg6HjH11N8KZk66prQ3waF2iUG8dzGClvoNI8AjLzBvsd59f2HbQxG7Y",
+    avatar_url:
+      "https://play-lh.googleusercontent.com/88n99t-xxyJUg6HjH11N8KZk66prQ3waF2iUG8dzGClvoNI8AjLzBvsd59f2HbQxG7Y",
   },
   {
     id: "vtv",
@@ -288,12 +289,14 @@ export const customer = [
   {
     id: "chuyen-dong-24h",
     name: "Chuyển động 24h",
-    avatar_url: "https://vtv1.mediacdn.vn/zoom/640_400/2014/chuyen-dong-24h-1412665586489.jpg",
+    avatar_url:
+      "https://vtv1.mediacdn.vn/zoom/640_400/2014/chuyen-dong-24h-1412665586489.jpg",
   },
   {
     id: "felix",
     name: "Felix",
-    avatar_url: "https://media.distractify.com/brand-img/UAzYE-HSn/0x0/pewdiepie-wife-japan-1601677949212.png",
+    avatar_url:
+      "https://media.distractify.com/brand-img/UAzYE-HSn/0x0/pewdiepie-wife-japan-1601677949212.png",
   },
   {
     id: "to-chuc-dam-cuoi",
@@ -310,38 +313,75 @@ export const customer = [
 export const galleries = [
   {
     customer_id: "felix",
-    images: [
-      "https://www.weddingsutra.com/images/wedding-images/celeb_wed/celeb_wed/PewDiePie-Marzia/PewDiePie-Marzia-pic13.jpg",
-      "https://e3.365dm.com/19/08/2048x1152/skynews-pewdiepie-marzi-bisognin_4751188.jpg",
-      "https://i.ytimg.com/vi/7PIMiDcwNvc/maxresdefault.jpg",
-      "https://i.insider.com/5d5eb86900ef2b2a7743cb92?width=1000&format=jpeg&auto=webp",
-      "https://editors.dexerto.com/wp-content/uploads/thumbnails/_thumbnailLarge/PewDiePie-Marzia-full-wedding-YouTube-video.jpg",
-      "https://i.insider.com/5d5ee10746552c3704365e35?width=1000&format=jpeg&auto=webp",
-      "https://i2-prod.mirror.co.uk/incoming/article19008158.ece/ALTERNATES/s615b/1_tiful-bride-all-the-deets-of-their-Kew-Gardens-wedding_2339JPG.jpg",
-      "https://i.dailymail.co.uk/1s/2019/08/21/16/17493974-7376249-Dapper_Pewdiepie_real_name_Felix_opted_to_offset_his_wife_during-a-64_1566401985132.jpg",
-      "https://editors.dexerto.com/wp-content/uploads/2020/08/pewdiepie-marzia-first-wedding-anniversary.jpg",
+    galleries: [
+      {
+        id: "wedding-1",
+        name: "Tập ảnh đám cưới 1",
+        images: [
+          "https://www.weddingsutra.com/images/wedding-images/celeb_wed/celeb_wed/PewDiePie-Marzia/PewDiePie-Marzia-pic13.jpg",
+          "https://e3.365dm.com/19/08/2048x1152/skynews-pewdiepie-marzi-bisognin_4751188.jpg",
+          "https://i.ytimg.com/vi/7PIMiDcwNvc/maxresdefault.jpg",
+          "https://i.insider.com/5d5eb86900ef2b2a7743cb92?width=1000&format=jpeg&auto=webp",
+          "https://editors.dexerto.com/wp-content/uploads/thumbnails/_thumbnailLarge/PewDiePie-Marzia-full-wedding-YouTube-video.jpg",
+          "https://i.insider.com/5d5ee10746552c3704365e35?width=1000&format=jpeg&auto=webp",
+        ],
+      },
+      {
+        id: "wedding-2",
+        name: "Tập ảnh đám cưới 2",
+        images: [
+          "https://i.insider.com/5d5eb86900ef2b2a7743cb92?width=1000&format=jpeg&auto=webp",
+          "https://editors.dexerto.com/wp-content/uploads/thumbnails/_thumbnailLarge/PewDiePie-Marzia-full-wedding-YouTube-video.jpg",
+          "https://i.insider.com/5d5ee10746552c3704365e35?width=1000&format=jpeg&auto=webp",
+          "https://i2-prod.mirror.co.uk/incoming/article19008158.ece/ALTERNATES/s615b/1_tiful-bride-all-the-deets-of-their-Kew-Gardens-wedding_2339JPG.jpg",
+          "https://i.dailymail.co.uk/1s/2019/08/21/16/17493974-7376249-Dapper_Pewdiepie_real_name_Felix_opted_to_offset_his_wife_during-a-64_1566401985132.jpg",
+          "https://editors.dexerto.com/wp-content/uploads/2020/08/pewdiepie-marzia-first-wedding-anniversary.jpg",
+        ],
+      },
     ],
-  },{
+  },
+  {
     customer_id: "linh-dao",
-    images: [
-      "https://portraitphotoawards.net/imagecache/large/collection_photos/98/6909/custom_logo_MONIKA_GROSS-austria-3negC3-89collection-portraitphotoawards.webp",
-      "https://portraitphotoawards.net/imagecache/large/collection_photos/98/6149/custom_logo_GIOVANNI_CONTARELLI-italy-NUXuJT-89collection-portraitphotoawards.webp",
-      "https://portraitphotoawards.net/imagecache/large/collection_photos/98/5332/custom_logo_SHIRLEY_VAN_LIESHOUT-netherlands-ZcEBZH-89collection-portraitphotoawards.webp",
-      "https://portraitphotoawards.net/imagecache/large/collection_photos/98/6668/custom_logo_HENK_VERSTRAATEN-netherlands-Lcp0xf-89collection-portraitphotoawards.webp",
-      "https://portraitphotoawards.net/imagecache/large/collection_photos/98/5183/custom_logo_JOHAN_FAMEL-france-jS6Xrn-89collection-portraitphotoawards.jpg", 
+    galleries: [
+      {
+        id: "portrait-1",
+        name: "Ảnh chân dung",
+        images: [
+          "https://portraitphotoawards.net/imagecache/large/collection_photos/98/6909/custom_logo_MONIKA_GROSS-austria-3negC3-89collection-portraitphotoawards.webp",
+          "https://portraitphotoawards.net/imagecache/large/collection_photos/98/6149/custom_logo_GIOVANNI_CONTARELLI-italy-NUXuJT-89collection-portraitphotoawards.webp",
+          "https://portraitphotoawards.net/imagecache/large/collection_photos/98/5332/custom_logo_SHIRLEY_VAN_LIESHOUT-netherlands-ZcEBZH-89collection-portraitphotoawards.webp",
+          "https://portraitphotoawards.net/imagecache/large/collection_photos/98/6668/custom_logo_HENK_VERSTRAATEN-netherlands-Lcp0xf-89collection-portraitphotoawards.webp",
+          "https://portraitphotoawards.net/imagecache/large/collection_photos/98/5183/custom_logo_JOHAN_FAMEL-france-jS6Xrn-89collection-portraitphotoawards.jpg",
+        ],
+      },
     ],
-  },{
+  },
+  {
     customer_id: "aeonmal",
-    images: [
-      "https://vinhomecitys.com/wp-content/uploads/2023/03/he-thong-trung-tam-thuong-mai-aeon-tai-viet-nam.jpeg",
-      "https://aeon.vn/wp-content/uploads/2023/03/aeon-mall.png",
-      "https://vnn-imgs-f.vgcloud.vn/2021/12/20/14/aeon-mall-tang-toc-dau-tu-o-viet-nam-1.jpg",
-      "https://cafebiz.cafebizcdn.vn/162123310254002176/2023/6/18/untitled1-1687088977685-16870889778111468680875.png",
-      "https://danviet.mediacdn.vn/296231569849192448/2023/5/20/tanphu-1-scaled-16501798310931878055523-0-62-812-1361-crop-1650179841296751586903-1684594932667225716782.jpg",
-      "https://cafebiz.cafebizcdn.vn/162123310254002176/2022/10/27/aeon-the-nine-1666858524748-1666858524924605503672.jpg",
-      "https://cafebiz.cafebizcdn.vn/162123310254002176/2020/8/13/photo-17-1597279709194734111231.jpg",
-      "https://icdn.dantri.com.vn/zoom/1200_630/2022/05/23/edit-anhaeon-the-ninenews-booking-dantri-crop-1653313350746.jpeg",
-      "https://quangcaongoaitroi.com/wp-content/uploads/2022/06/Unique-OOH-man-hinh-LED-LCD-quang-cao-tai-trung-tam-thuong-mai-Aeon-Mall-Ha-Dong-5.jpg",
+    galleries: [
+      {
+        id: "aeon-1",
+        name: "Ảnh quảng cáo Mall",
+        images: [
+          "https://danviet.mediacdn.vn/296231569849192448/2023/5/20/tanphu-1-scaled-16501798310931878055523-0-62-812-1361-crop-1650179841296751586903-1684594932667225716782.jpg",
+          "https://cafebiz.cafebizcdn.vn/162123310254002176/2022/10/27/aeon-the-nine-1666858524748-1666858524924605503672.jpg",
+          "https://cafebiz.cafebizcdn.vn/162123310254002176/2020/8/13/photo-17-1597279709194734111231.jpg",
+          "https://icdn.dantri.com.vn/zoom/1200_630/2022/05/23/edit-anhaeon-the-ninenews-booking-dantri-crop-1653313350746.jpeg",
+          "https://quangcaongoaitroi.com/wp-content/uploads/2022/06/Unique-OOH-man-hinh-LED-LCD-quang-cao-tai-trung-tam-thuong-mai-Aeon-Mall-Ha-Dong-5.jpg",
+        ],
+      },
+      {
+        id: "aeon-2",
+        name: "Tập ảnh giới thiệu siêu thị",
+        images: [
+          "https://vinhomecitys.com/wp-content/uploads/2023/03/he-thong-trung-tam-thuong-mai-aeon-tai-viet-nam.jpeg",
+          "https://aeon.vn/wp-content/uploads/2023/03/aeon-mall.png",
+          "https://vnn-imgs-f.vgcloud.vn/2021/12/20/14/aeon-mall-tang-toc-dau-tu-o-viet-nam-1.jpg",
+          "https://cafebiz.cafebizcdn.vn/162123310254002176/2023/6/18/untitled1-1687088977685-16870889778111468680875.png",
+          "https://danviet.mediacdn.vn/296231569849192448/2023/5/20/tanphu-1-scaled-16501798310931878055523-0-62-812-1361-crop-1650179841296751586903-1684594932667225716782.jpg",
+          "https://cafebiz.cafebizcdn.vn/162123310254002176/2022/10/27/aeon-the-nine-1666858524748-1666858524924605503672.jpg",
+        ],
+      },
     ],
   },
 ];

@@ -113,7 +113,7 @@ function Gallery({ alias, data }) {
           {filteredGallery.map((e, index) => (
             <div
               key={index}
-              className="space-y-2 cursor-pointer"
+              className="space-y-1 cursor-pointer"
               onClick={() => {
                 redirectToGallery(e.customer_id);
               }}
@@ -138,7 +138,7 @@ function Gallery({ alias, data }) {
               <div className="text-[#72FFFF] flex space-x-2 items-center  cursor-pointer">
                 <Icon icon="carbon:partnership" />
                 <span className="text-sm">
-                  {customer.find((f) => f.id === e.customer_id)?.name}
+                  {customer.find((f) => f.id === e.customer_id)?.name || 'Anonymous'}
                 </span>
               </div>
             </div>
