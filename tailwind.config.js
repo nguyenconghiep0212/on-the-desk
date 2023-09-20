@@ -6,7 +6,7 @@ module.exports = {
       screens: {
         "<sm": { max: "360px" },
         // => @media (max-width: 360px) { ... }
-
+"<xs": {max: "240px"},
         "mobile": { max: "960px" },
         "desktop":  "960px" ,
       },
