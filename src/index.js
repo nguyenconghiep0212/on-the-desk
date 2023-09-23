@@ -7,6 +7,7 @@ import Gallery from "./routes/gallery";
 import Landing from "./routes/landing";
 import Portfolio from "./routes/portfolio";
 import ErrorPage from "./routes/error-page";
+import { Helmet } from "react-helmet";
 
 const router = createHashRouter([
   {
@@ -28,6 +29,11 @@ const router = createHashRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    <Helmet>
+      <meta charSet="utf-8" />
+      <title>On The Desk</title>
+      <link rel="canonical" href="http://mysite.com/example" />
+    </Helmet>
     <div className="flex flex-col h-[100vh]">
       <div className="flex-1 overflow-auto bg-[#18191A] ">
         <RouterProvider router={router} />
