@@ -8,6 +8,9 @@ import Landing from "./routes/landing";
 import Portfolio from "./routes/portfolio";
 import ErrorPage from "./routes/error-page";
 import { Helmet } from "react-helmet";
+// STORE
+import { RecoilRoot } from "recoil";
+
 // AUTH
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Login from "./routes/login";
@@ -41,12 +44,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <meta charSet="utf-8" />
         <title>On The Desk</title>
       </Helmet>
-      <div className="flex flex-col h-[100vh]">
-        <div className="flex-1 overflow-auto bg-[#18191A] ">
-          <RouterProvider router={router} />
+      <RecoilRoot>
+        <div className="flex flex-col h-[100vh]">
+          <div className="flex-1 overflow-auto bg-[#18191A] ">
+            <RouterProvider router={router} />
+          </div>
+          <Footer className="flex-[0 0 auto]" />
         </div>
-        <Footer className="flex-[0 0 auto]" />
-      </div>
+      </RecoilRoot>
     </React.StrictMode>
   </GoogleOAuthProvider>
 );
