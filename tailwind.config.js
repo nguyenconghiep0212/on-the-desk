@@ -4,11 +4,11 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        "<sm": { max: "360px" },
-        // => @media (max-width: 360px) { ... }
-"<xs": {max: "240px"},
-        "mobile": { max: "960px" },
-        "desktop":  "960px" ,
+        "<sm": { max: "640px" },
+        "<xs": { max: "360px" },
+        "<xxs": { max: "240px" },
+        mobile: { max: "960px" },
+        desktop: "960px",
       },
 
       boxShadow: {
