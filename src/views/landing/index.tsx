@@ -11,10 +11,36 @@ import {
 // COMPONENTS
 import Header from "./components/header";
 // STORE
-import { textState } from "store/root.ts";
+import { currentTab } from "store/root.ts";
+import { Box, Typography } from "@mui/material";
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+function CustomTabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
 
 function Landing() {
-  const [text] = useRecoilState(textState);
+  const [tab] = useRecoilState(currentTab);
 
   // async function getCat() {
   //   const params = {
@@ -27,10 +53,16 @@ function Landing() {
   //   }
   // }
 
-   return (
+  return (
     <div className="text-white">
-      {text}
+      {tab}
       <Header />
+      {/* <CustomTabPanel value={value} index={0}>
+        Item One
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={1}>
+        Item Two
+      </CustomTabPanel> */}
     </div>
   );
 }

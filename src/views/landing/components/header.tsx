@@ -1,21 +1,25 @@
-import React, { useEffect } from "react";
-import { textState } from "store/root.ts";
+import React, { useEffect, useState } from "react";
+import { currentTab } from "store/root.ts";
 import {
-  RecoilRoot,
-  atom,
-  selector,
   useRecoilState,
-  useRecoilValue,
 } from "recoil";
-import { Input } from "@mui/material";
+import {   Tab, Tabs } from "@mui/material";
 
 function Header() {
-  const [text, setText] = useRecoilState(textState);
-function onChange(event){
-    setText(event.target.value)
-}
+   const [value, setValue] = useRecoilState(currentTab);
+
+
+
+const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  setValue(newValue);
+  console.log(value);
+};
   return <div className="text-white"> 
-  <Input value={text} onChange={onChange}/>
+  <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+          <Tab label="Item One"   />
+          <Tab label="Item Two"  />
+          <Tab label="Item Three"   />
+        </Tabs>
   </div>;
 }
 
