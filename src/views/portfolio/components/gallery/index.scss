@@ -1,4 +1,6 @@
  .filter-tag {
+  padding: 8px;
+  font-size: 12px;
    position: relative;
    box-sizing: border-box;
    color: #47b5ff !important;
@@ -24,6 +26,8 @@
  }
 
  .filter-tag-checked {
+  padding: 8px;
+  font-size: 12px;
    color: white !important;
    border-radius: 8px !important;
    background: linear-gradient(180deg, #47b5ff 0%, #1363df 100%);

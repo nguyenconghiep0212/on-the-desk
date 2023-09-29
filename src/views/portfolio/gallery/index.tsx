@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { Button } from "@mui/material";
+import { Button } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { data, galleries, customer } from "views/mock.ts";
@@ -96,7 +96,9 @@ function Component() {
   }
 
   function getCustomerGallery() {
-    const arr = galleries.find((e) => e.customer_id === params.customerId).galleries;
+    const arr = galleries.find(
+      (e) => e.customer_id === params.customerId
+    ).galleries;
     setGallery(arr);
   }
 
@@ -122,8 +124,8 @@ function Component() {
               boxShadow: "inset 0px -70px 10px #18191A",
             }}
           ></div>
-          <div className="absolute top-0 left-0 sm:-left-12 ">
-            <Button variant="text" className="!px-0" onClick={handleBack}>
+          <div className="absolute top-0 left-8 sm:-left-4 ">
+            <Button type="text" className="!px-0" onClick={handleBack}>
               <Icon
                 className="text-2xl  ml-[-16px] text-white"
                 icon="ep:back"

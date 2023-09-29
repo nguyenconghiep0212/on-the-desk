@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { filter, customer } from "views/mock.ts";
-import { Chip } from "@mui/material";
 import { Icon } from "@iconify/react";
 import "./index.scss";
 import { useNavigate, useParams } from "react-router-dom";
@@ -74,16 +73,17 @@ function Gallery({ alias, data }) {
                     filteredTag.includes(e.key) ? "-checked" : ""
                   }-bg `}
                 >
-                  <Chip
+                  <div
                     key={index}
-                    label={e.alias}
                     className={`filter-tag${
                       filteredTag.includes(e.key) ? "-checked" : ""
                     }`}
                     onClick={() => {
                       handleClickFilterTag(e.key);
                     }}
-                  />
+                  >
+                    {e.alias}
+                  </div>
                 </div>
               </div>
             ))}
@@ -91,15 +91,14 @@ function Gallery({ alias, data }) {
             filter.length > 12 ? (
               <div className="!mb-2 !mr-2 inline-flex cursor-pointer rounded-lg bg-[#2f353f]">
                 <div className="h-full filter-tag-bg">
-                  <Chip
-                    label={
-                      "(+" +
-                      filter.filter((_, index) => index > 12).length +
-                      ")"
-                    }
+                  <div
                     className="cursor-pointer filter-tag"
                     onClick={showAllFilter}
-                  />
+                  >
+                    {"(+" +
+                      filter.filter((_, index) => index > 12).length +
+                      ")"}
+                  </div>
                 </div>
               </div>
             ) : (
@@ -138,7 +137,8 @@ function Gallery({ alias, data }) {
               <div className="text-[#72FFFF] flex space-x-2 items-center  cursor-pointer">
                 <Icon icon="carbon:partnership" />
                 <span className="text-sm">
-                  {customer.find((f) => f.id === e.customer_id)?.name || 'Anonymous'}
+                  {customer.find((f) => f.id === e.customer_id)?.name ||
+                    "Anonymous"}
                 </span>
               </div>
             </div>
