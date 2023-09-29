@@ -86,8 +86,8 @@ function Component() {
                 ))}
               </Masonry>
             </ResponsiveMasonry>
-            <div id="divider" className="py-6 flex items-center justify-center">
-              <div className="border-t border-dashed border-[#00D4FC] w-2/3"></div>
+            <div id="divider" className="flex items-center justify-center py-6">
+              <div className="w-2/3 border-t border-dashed border-primary-blue-light"></div>
             </div>
           </div>
         ))}
@@ -153,18 +153,18 @@ function Component() {
               />
             </div>
             <div className="flex flex-col">
-              <span className="text-[#72FFFF] text-xl font-semibold">
+              <span className="text-xl font-semibold text-primary-blue-light-max">
                 {info.customer.name || "Anonymous"}
               </span>
-              <span className="text-[#72FFFF] text-sm font-thin">
+              <span className="text-sm font-thin text-primary-blue-light-max">
                 {info.customer.info || "N/A"}
               </span>
             </div>
           </div>
           <div id="user" className="translate-x-1/2">
-            <div className="ml-3 h-6 w-10 border-r border-[#72FFFF] text-white" />
+            <div className="w-10 h-6 ml-3 text-white border-r border-primary-blue-light" />
             <div className="flex space-x-2">
-              <div className="ml-3 w-20 h-20 scale-75 -mt-3 border-[#72FFFF] border-2 rounded-full">
+              <div className="w-20 h-20 ml-3 -mt-3 scale-75 border-2 rounded-full border-primary-blue-light">
                 <img
                   className="h-full"
                   src={info.user.avatar_url}
@@ -180,7 +180,7 @@ function Component() {
 
         <div className="px-3 mt-3 space-y-6">
           {/* GALLERY */}
-          <div className="  overflow-auto">{masonryGrid()}</div>
+          <div className="overflow-auto ">{masonryGrid()}</div>
           {/* FEEDBACK */}
           <div className="p-3 rounded-2xl w-full bg-[#1E2530]">
             <Feedback alias={info.feedback.alias} data={info.feedback.data} />
