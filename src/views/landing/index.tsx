@@ -36,6 +36,10 @@ function Landing() {
       </div>
 
       {/* RIBBON 2 */}
+      <div className="absolute top-[75%] z-1">
+        <img src={Ribbon2} alt="ribbon1" className="w-[100vw] scale-y-75" />
+        <div className="translate-x-[135%] -translate-y-[100%] shadow-lg" />
+      </div>
 
       {/* CONTENT */}
       <div className="w-2/3 m-auto">
