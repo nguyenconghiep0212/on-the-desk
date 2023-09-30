@@ -1,19 +1,31 @@
 .ant-tabs .ant-tabs-tab {
-  color: white; 
+  color: white;
   font-weight: 100;
-  
+
 }
+
 .ant-tabs-top {
   .ant-tabs-nav::before {
     border: none;
-  } 
+  }
 }
 
-.shadow{
+.shadow {
+  box-shadow: none;
   width: 457px;
-height: 42px;
-flex-shrink: 0;
+  height: 42px;
+  flex-shrink: 0;
   border-radius: 457px;
-opacity: 0.6;
-background: radial-gradient(35.48% 49.7% at 50.3% 51.28%, #040A15 0%, rgba(3, 13, 33, 0.00) 100%);
+  opacity: 0.6;
+  background: radial-gradient(35.48% 49.7% at 50.3% 51.28%, #040A15 0%, rgba(3, 13, 33, 0.00) 100%);
+}
+
+.shadow-lg {
+  box-shadow: none;
+  width: 727px;
+  height: 95px;
+  flex-shrink: 0;
+  border-radius: 727px;
+  opacity: 0.6;
+  background: radial-gradient(35.48% 49.7% at 50.3% 51.28%, #040A15 0%, rgba(3, 13, 33, 0.00) 100%);
 }

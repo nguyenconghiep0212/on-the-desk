@@ -3,7 +3,7 @@ import { currentTab } from "store/root.ts";
 import { useRecoilState } from "recoil";
 import { Tabs } from "antd";
 import type { TabsProps } from "antd";
-import Logo from "assests/logo.svg";
+import Logo from "assests/footer_banner.svg";
 import { Icon } from "@iconify/react";
 
 function Header() {
@@ -44,19 +44,14 @@ function Header() {
     console.log(value);
   };
   return (
-    <div className="flex items-center justify-between mx-16 my-2 ">
-      <div className="flex items-center space-x-6">
-        <img src={Logo} alt="logo" className="w-8 h-8"/>
-        <Tabs
-          defaultActiveKey="1"
-          className="mainNav"
-          items={items}
-          onChange={handleChange}
-        />
+    <div className="flex items-center justify-between py-6 ">
+      <div className="flex items-center ">
+        <img src={Logo} alt="logo"  /> 
       </div>
       <div className="flex items-center mr-8 space-x-6 text-white ">
-        <Icon icon="mdi:cart-outline"/>
-        <span className="font-sans text-sm font-thin">Đăng nhập</span>
+        <Icon icon="streamline:shopping-bag-hand-bag-1-shopping-bag-purse-goods-item-products"/>
+        <Icon icon="line-md:account"/>
+        <Icon icon="gg:menu-right"/>
       </div>
     </div>
   );
