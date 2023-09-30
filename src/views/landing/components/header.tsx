@@ -4,6 +4,7 @@ import { useRecoilState } from "recoil";
 import { Tabs } from "antd";
 import type { TabsProps } from "antd";
 import Logo from "assests/logo.svg";
+import { Icon } from "@iconify/react";
 
 function Header() {
   const [value, setValue] = useRecoilState(currentTab);
@@ -43,9 +44,9 @@ function Header() {
     console.log(value);
   };
   return (
-    <div className="flex items-center justify-between mx-4 my-2">
+    <div className="flex items-center justify-between mx-16 my-2 ">
       <div className="flex items-center space-x-6">
-        <img src={Logo} alt="logo" className="w-10 h-10"/>
+        <img src={Logo} alt="logo" className="w-8 h-8"/>
         <Tabs
           defaultActiveKey="1"
           className="mainNav"
@@ -53,7 +54,10 @@ function Header() {
           onChange={handleChange}
         />
       </div>
-      <div>log in</div>
+      <div className="flex items-center mr-8 space-x-6 text-white ">
+        <Icon icon="mdi:cart-outline"/>
+        <span className="font-sans text-sm font-thin">Đăng nhập</span>
+      </div>
     </div>
   );
 }

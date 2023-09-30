@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import "./index.css";
+import "./index.scss";
 // API
 // import { fetchLandingData } from "api/index";
 // COMPONENTS
@@ -24,10 +24,10 @@ function Landing() {
   // }
 
   return (
-    <div className="text-white">
+    <div className="bg-[#1E2530]">
       <Header />
-      {tab === "product" ? <Product /> : <div></div>}
-    </div>
+      <div className="mt-20 px-[7.5rem]">{tab === "product" ? <Product /> : <div></div>}</div>
+    </div> 
   );
 }
 
