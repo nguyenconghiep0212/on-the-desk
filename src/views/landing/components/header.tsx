@@ -3,9 +3,27 @@ import { currentTab } from "store/root.ts";
 import { useRecoilState } from "recoil";
 import { Popover, Tabs } from "antd";
 import Logo from "assests/landing/footer_banner.svg";
+import Social_facebook from "assests/landing/social_logo_facebook.svg";
+import Social_instagram from "assests/landing/social_logo_instagram.svg";
+import Social_linkedin from "assests/landing/social_logo_linkedin.svg";
+import Social_messenger from "assests/landing/social_logo_messenger.svg";
+import Social_phone from "assests/landing/social_logo_phone.svg";
+import Social_tiktok from "assests/landing/social_logo_tiktok.svg";
+import Social_youtube from "assests/landing/social_logo_youtube.svg";
+import Social_zalo from "assests/landing/social_logo_zalo.svg";
 import { Icon } from "@iconify/react";
 
 function Menu({ handleChange }) {
+  const socials = [
+    Social_facebook,
+    Social_instagram,
+    Social_linkedin,
+    Social_messenger,
+    Social_phone,
+    Social_tiktok,
+    Social_youtube,
+    Social_zalo,
+  ];
   const menu_items = [
     {
       key: "product",
@@ -51,13 +69,21 @@ function Menu({ handleChange }) {
             className="flex items-center w-full h-full space-x-1 text-white menu-btn"
             key={index}
           >
-            <Icon icon={item.icon} />
+            <Icon className="text-lg" icon={item.icon} />
             <div className="font-sans font-thin tracking-wide">
               {item.label}
             </div>
           </div>
         </div>
       ))}
+      <div className="mb-4 border-t-[1px] border-solid border-white border-opacity-50"></div>
+      <div className="grid grid-cols-4 gap-2">
+        {socials.map((item, index) => (
+          <div key={index}>
+            <img src={item} alt="social" />
+          </div>
+        ))}
+      </div>
     </div>
   );
   return (

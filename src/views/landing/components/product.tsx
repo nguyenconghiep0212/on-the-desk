@@ -14,6 +14,14 @@ import Environment6 from "assests/landing/environment_6.svg";
 import Instruction_placeholder from "assests/landing/instruction_default.svg";
 import Feedback_disc from "assests/landing/feedback_disc.svg";
 import Feedback_webflow from "assests/landing/feedback_webflow.svg";
+import Social_facebook from "assests/landing/social_logo_facebook.svg";
+import Social_instagram from "assests/landing/social_logo_instagram.svg";
+import Social_linkedin from "assests/landing/social_logo_linkedin.svg";
+import Social_messenger from "assests/landing/social_logo_messenger.svg";
+import Social_phone from "assests/landing/social_logo_phone.svg";
+import Social_tiktok from "assests/landing/social_logo_tiktok.svg";
+import Social_youtube from "assests/landing/social_logo_youtube.svg";
+import Social_zalo from "assests/landing/social_logo_zalo.svg";
 import { CaretRightOutlined } from "@ant-design/icons";
 import { Button, Collapse, CollapseProps, Input, Radio, Select } from "antd";
 import { Icon } from "@iconify/react";
@@ -651,6 +659,16 @@ function Register({ packages }) {
 }
 
 function Footer() {
+  const socials = [
+    Social_facebook,
+    Social_instagram,
+    Social_linkedin,
+    Social_messenger,
+    Social_phone,
+    Social_tiktok,
+    Social_youtube,
+    Social_zalo,
+  ];
   return (
     <div
       className="!w-screen -translate-x-[16.5%] flex justify-center pb-16"
@@ -665,7 +683,13 @@ function Footer() {
               Thẻ thông minh một chạm, kết nối không giới hạn.
             </div>
             <div className="font-bold text-primary-blue-medium">Follow us:</div>
-            <div></div>
+            <div className="flex space-x-2">
+              {socials.map((item, index) => (
+                <div key={index}>
+                  <img src={item} alt="social" className="cursor-pointer" />
+                </div>
+              ))}
+            </div>
           </div>
           {/* COL 2 */}
           <div className="flex flex-col mx-auto">
