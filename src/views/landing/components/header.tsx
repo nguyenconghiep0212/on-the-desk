@@ -93,11 +93,76 @@ function Menu({ handleChange }) {
   );
 }
 
+function Profile({ handleProfileEvent }) {
+  const profile_menu = [
+    {
+      key: "card",
+      label: "Tạo thẻ",
+      icon: "solar:card-outline",
+    },
+    {
+      key: "account",
+      label: "Tài khoản",
+      icon: "line-md:account",
+    },
+    {
+      key: "portfolio",
+      label: "Hồ sơ",
+      icon: "simple-icons:readdotcv",
+    },
+  ];
+  const content = (
+    <div className="relative z-1 ">
+      {profile_menu.map((item, index) => (
+        <div
+          className="relative z-10 px-3 py-2 cursor-pointer hover:p-0 menu-btn-bg"
+          onClick={() => {
+            handleProfileEvent(item.key);
+          }}
+        >
+          <div
+            className="flex items-center w-full h-full space-x-1 text-white menu-btn"
+            key={index}
+          >
+            <Icon className="text-lg" icon={item.icon} />
+            <div className="font-sans font-thin tracking-wide">
+              {item.label}
+            </div>
+          </div>
+        </div>
+      ))}
+      <div className="my-2 border-t-[1px] border-solid border-white border-opacity-50"></div>
+      <div
+        className="relative z-10 px-3 py-2 cursor-pointer hover:p-0 menu-btn-bg"
+        onClick={() => {
+          handleProfileEvent("logout");
+        }}
+      >
+        <div className="flex items-center w-full h-full space-x-1 text-white menu-btn">
+          <Icon className="text-lg " icon="mdi:logout" />
+          <div className="font-sans font-thin tracking-wide">Đăng xuất</div>
+        </div>
+      </div>
+    </div>
+  );
+  return (
+    <div>
+      <Popover placement="bottomRight" content={content} trigger="click">
+        <Icon className="cursor-pointer" icon="line-md:account" />
+      </Popover>
+    </div>
+  );
+}
+
 function Header() {
   const [value, setValue] = useRecoilState(currentTab);
 
   const handleChange = (newValue: string) => {
     setValue(newValue);
+    console.log(value);
+  };
+
+  const handleProfileEvent = (value: string) => {
     console.log(value);
   };
   return (
@@ -110,7 +175,7 @@ function Header() {
           className="cursor-pointer"
           icon="streamline:shopping-bag-hand-bag-1-shopping-bag-purse-goods-item-products"
         />
-        <Icon className="cursor-pointer" icon="line-md:account" />
+        <Profile handleProfileEvent={handleProfileEvent} />
         <Menu handleChange={handleChange} />
       </div>
     </div>
