@@ -49,9 +49,9 @@ function Header() {
         <img src={Logo} alt="logo"  /> 
       </div>
       <div className="flex items-center mr-8 space-x-6 text-white ">
-        <Icon icon="streamline:shopping-bag-hand-bag-1-shopping-bag-purse-goods-item-products"/>
-        <Icon icon="line-md:account"/>
-        <Icon icon="gg:menu-right"/>
+        <Icon className="cursor-pointer" icon="streamline:shopping-bag-hand-bag-1-shopping-bag-purse-goods-item-products"/>
+        <Icon className="cursor-pointer" icon="line-md:account"/>
+        <Icon className="cursor-pointer" icon="gg:menu-right"/>
       </div>
     </div>
   );

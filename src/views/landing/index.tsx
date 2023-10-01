@@ -14,7 +14,7 @@ function Landing() {
   const [tab] = useRecoilState(currentTab);
 
   return (
-    <div className="bg-[#1E2530] relative z-3">
+    <div className="bg-[#1E2530] relative z-3 overflow-x-clip">
       {/* RIBBON 1 */}
       <div className="absolute top-[15%] z-2">
         <img src={Ribbon1} alt="ribbon1" className="w-[100vw] scale-y-75" />
