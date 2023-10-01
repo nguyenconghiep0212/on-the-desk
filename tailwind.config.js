@@ -6,8 +6,9 @@ module.exports = {
       screens: {
         "<sm": { max: "600px" },
         "<xs": { max: "480px" },
-        "<xxs": { max: "390px" },
-        'xxs': '390px',
+        "<xxs": { max: "280px" },
+        
+        'xxs': '280px',
         'xs': '480px',
         // => @media (min-width: 640px) { ... }
         'sm': '600px',
@@ -24,8 +25,8 @@ module.exports = {
   
         '2xl': '1536px',
         // => @media (min-width: 1536px) { ... }
-        mobile: { max: "960px" },
-        desktop: "960px",
+        mobile: { max: "1024px" },
+        desktop: "1024px",
       },
 
       boxShadow: {

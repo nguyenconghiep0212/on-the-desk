@@ -18,7 +18,7 @@ function SwiperMobile({ currentImg, getCurrentImg, background }) {
         }}
       ></div>
       <Swiper
-        className="   z-1 h-full w-full lg:!w-3/4 <xs:!w-3/4    !absolute top-1/2 -translate-y-1/2  "
+        className="   z-1 h-full w-full lg:!w-3/4 <xxs:!w-3/4    !absolute top-1/2 -translate-y-1/2  "
         slidesPerView={1}
         pagination={{
           dynamicBullets: true,
