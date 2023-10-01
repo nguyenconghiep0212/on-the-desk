@@ -17,7 +17,7 @@ import Feedback_webflow from "assests/landing/feedback_webflow.svg";
 import { CaretRightOutlined } from "@ant-design/icons";
 import { Button, Collapse, CollapseProps, Input, Radio, Select } from "antd";
 import { Icon } from "@iconify/react";
-import { fetchPackageList } from "api";
+import { fetchFeedback, fetchPackageList } from "api";
 
 function Hero1() {
   return (
@@ -397,14 +397,46 @@ function ProductAndService({ packages }) {
   );
 }
 
-function Feedback() {
+function Feedback({ feedbacks }) {
   return (
-    <div>
+    <div className="space-y-16">
       <div className="text-primary-blue-medium text-[45px] font-bold">
         Khách hàng hài lòng - Đối tác tin tưởng
       </div>
       {/* FEEDDBACK */}
-      <div></div>
+      <div className="flex space-x-4 overflow-x-auto">
+        {feedbacks.map((item, index) => (
+          <div key={index} className="min-w-[200px] sm:min-w-[350px]">
+            <div
+              id="comment"
+              className="max-w-sm max-h-36 font-sans font-thin text-white w-full p-3 m-2 italic rounded-3xl bg-[#1e2530]"
+            >
+              {item.comment}
+            </div>
+            <div id="comment-caret"></div>
+            <div id="comment-caret-shadow"></div>
+
+            <div
+              id="customer"
+              className="inline-flex items-center justify-center ml-3.5 mt-2 mb-3 space-x-3  rounded-full"
+            >
+              <img
+                src={item.commenterAvatar}
+                alt="customer_avatar"
+                className="bg-white border-0 rounded-full w-14 h-14"
+              />
+              <div className="w-20 h-full mt-[10%]">
+                <div className="text-sm font-semibold text-primary-blue-dark">
+                  {item.commenter || "Anonymous"}
+                </div>
+                <div className="text-sm  text-[#ffffff7c]">
+                  {item.commenterAddress}
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
 
       <div className="w-1/2 mx-auto my-12 border-b-2 border-dashed border-primary-blue-medium"></div>
       <div className="grid grid-cols-6 gap-4 mb-2">
@@ -666,7 +698,14 @@ function Footer() {
 }
 function Product() {
   const [packages, setPackages] = useState([]);
+  const [feedbacks, setFeedbacks] = useState([]);
 
+  async function getFeedback() {
+    const res = await fetchFeedback();
+    if (res) {
+      setFeedbacks(res.data);
+    }
+  }
   async function getPackageList() {
     const res = await fetchPackageList();
     if (res) {
@@ -675,6 +714,7 @@ function Product() {
   }
   useEffect(() => {
     getPackageList();
+    getFeedback();
   }, []);
   return (
     <div className="pt-32 space-y-36">
@@ -685,7 +725,7 @@ function Product() {
       <Divider />
       <Environment />
       <ProductAndService packages={packages} />
-      <Feedback />
+      <Feedback feedbacks={feedbacks} />
       <FAQs />
       <Register packages={packages} />
       <Footer />
