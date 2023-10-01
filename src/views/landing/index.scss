@@ -30,6 +30,29 @@
   }
 }
 
+
+
+.menu-btn:hover {
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 7.3px !important;
+  padding: 8px 12px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+
+  &-bg:hover {
+    content: '';
+    z-index: 1;
+    border-radius: 8px;
+    background: linear-gradient(100deg, #2f353f93 61%, rgba(255, 255, 255, 0.15) 120%),
+      linear-gradient(120deg, #7fa1d3ad 3%, rgba(255, 255, 255, 0) 20%);
+    ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 35px;
+  }
+}
+
 .shadow {
   box-shadow: none;
   width: 457px;
