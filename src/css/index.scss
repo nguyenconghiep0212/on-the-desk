@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import './radio.scss';
+@import './collapse.scss';
+@import './button.scss';
+
+html * {
+  font-family: "Montserrat", sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+::-webkit-scrollbar {
+  height: 0px;
+  width: 4px;
+  border: 1px solid #d5d5d5;
+  border-radus: 4px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 0;
+  background: #eeeeee;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0;
+  background: #b0b0b0;
+} 
+.default_card {
+  background-color: #1E2530;
+  border-radius: 18px;
+  color: white;
+  padding: 10px;
+  box-shadow: 2px 2px 8px 0px #000000, -2px -2px 8px 0px rgba(60, 173, 255, 0.50);
+}

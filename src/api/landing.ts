@@ -1,10 +1,9 @@
 import http from 'helper/request'
 
-export function fetchLandingData(params) {
+export function fetchPackageList() {
     return http({
-      method: 'post',
-      url: `/user/list`,
-      data: params
+      method: 'get',
+      url: `/api/packages/list`,
     },
   
     )

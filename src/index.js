@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { createHashRouter, RouterProvider } from "react-router-dom";
-import "./index.scss";
+import "./css/index.scss";
 import Footer from "./views/footer";
 import Gallery from "./routes/gallery";
 import Landing from "./routes/landing";

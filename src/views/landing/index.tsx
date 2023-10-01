@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import "./index.scss";
-// API
-// import { fetchLandingData } from "api/index";
 // COMPONENTS
 import Header from "./components/header";
 import Product from "./components/product";
@@ -15,20 +13,8 @@ import { currentTab } from "store/root.ts";
 function Landing() {
   const [tab] = useRecoilState(currentTab);
 
-  // async function getCat() {
-  //   const params = {
-  //     limit: 10,
-  //     offset: 0,
-  //   };
-  //   const res = await fetchLandingData(params);
-  //   if(res){
-  //     console.log(res)
-  //   }
-  // }
-
   return (
     <div className="bg-[#1E2530] relative z-2">
-
       {/* RIBBON 1 */}
       <div className="absolute top-[15%] z-1">
         <img src={Ribbon1} alt="ribbon1" className="w-[100vw] scale-y-75" />

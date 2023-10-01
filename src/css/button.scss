@@ -1,0 +1,9 @@
+.ant-btn {
+    &:hover {
+      color: #72FFFF !important
+    }
+  
+    border: none;
+    box-shadow: 2px 2px 8px 0px #001940,
+    -2px -2px 8px 0px rgba(60, 173, 255, 0.50);
+  }
