@@ -5,8 +5,8 @@ import "./index.scss";
 import Header from "./components/header";
 import Product from "./components/product";
 // ASSETS
-import Ribbon1 from "assests/ribbon_1.svg";
-import Ribbon2 from "assests/ribbon_2.svg";
+import Ribbon1 from "assests/landing/ribbon_1.svg";
+import Ribbon2 from "assests/landing/ribbon_2.svg";
 // STORE
 import { currentTab } from "store/root.ts";
 

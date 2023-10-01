@@ -1,0 +1,26 @@
+.ant-input {
+    border-radius: 8px;
+    border: none;
+    background: #151B23;
+    /* neumorphic blue */
+    box-shadow: 2px 2px 8px 0px #001940, -2px -2px 8px 0px rgba(60, 173, 255, 0.50);
+    color: white;
+
+    &::placeholder {
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    &-affix-wrapper {
+        color: white;
+        border-radius: 8px;
+        border: none;
+        background: #151B23;
+        /* neumorphic blue */
+        box-shadow: 2px 2px 8px 0px #001940, -2px -2px 8px 0px rgba(60, 173, 255, 0.50);
+
+        .ant-input {
+            color: white;
+            box-shadow: none
+        }
+    }
+}

@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
-import Logo from "assests/logo.svg";
-import Logo_white from "assests/logo_white.svg";
-import Hero1_banner from "assests/hero_1.svg";
-import Hero2_banner from "assests/hero_2.svg";
-import Hero3_banner from "assests/hero_3.svg";
-import Environment1 from "assests/environment_1.svg";
-import Environment2 from "assests/environment_2.svg";
-import Environment3 from "assests/environment_3.svg";
-import Environment4 from "assests/environment_4.svg";
-import Environment5 from "assests/environment_5.svg";
-import Environment6 from "assests/environment_6.svg";
-import Instruction_placeholder from "assests/instruction_default.svg";
-import Feedback_disc from "assests/feedback_disc.svg";
-import Feedback_webflow from "assests/feedback_webflow.svg";
+import Footer_banner from "assests/landing/footer_banner.svg";
+import Logo from "assests/landing/logo.svg";
+import Logo_white from "assests/landing/logo_white.svg";
+import Hero1_banner from "assests/landing/hero_1.svg";
+import Hero2_banner from "assests/landing/hero_2.svg";
+import Hero3_banner from "assests/landing/hero_3.svg";
+import Environment1 from "assests/landing/environment_1.svg";
+import Environment2 from "assests/landing/environment_2.svg";
+import Environment3 from "assests/landing/environment_3.svg";
+import Environment4 from "assests/landing/environment_4.svg";
+import Environment5 from "assests/landing/environment_5.svg";
+import Environment6 from "assests/landing/environment_6.svg";
+import Instruction_placeholder from "assests/landing/instruction_default.svg";
+import Feedback_disc from "assests/landing/feedback_disc.svg";
+import Feedback_webflow from "assests/landing/feedback_webflow.svg";
 import { CaretRightOutlined } from "@ant-design/icons";
-import { Button, Collapse, CollapseProps, Radio } from "antd";
+import { Button, Collapse, CollapseProps, Input, Radio, Select } from "antd";
 import { Icon } from "@iconify/react";
 import { fetchPackageList } from "api";
 
@@ -272,7 +273,7 @@ function Environment() {
         mọi nhu cầu của cá nhân và doanh nghiệp.
       </div>
 
-      <Button className="flex items-center mt-12 space-x-1 text-white environment_btn">
+      <Button className="flex items-center mt-12 space-x-1 text-white gradient_btn">
         <img src={Logo_white} alt="logo" className="w-6 pt-1 " />
         <span className="font-sans text-lg tracking-wide">Bắt đầu ngay</span>
       </Button>
@@ -302,18 +303,7 @@ function Environment() {
   );
 }
 
-function ProductAndService() {
-  const [packages, setPackages] = useState([]);
-
-  async function getPackageList() {
-    const res = await fetchPackageList();
-    if (res) {
-      setPackages(res.data);
-    }
-  }
-  useEffect(() => {
-    getPackageList();
-  }, []);
+function ProductAndService({ packages }) {
   return (
     <div className="grid grid-cols-4 gap-4 ">
       {packages.map((item: any, index: number) => (
@@ -385,7 +375,7 @@ function ProductAndService() {
               </div>
             </div>
             {/* BUTTON */}
-            <Button className="flex items-center !mt-4 text-white environment_btn">
+            <Button className="flex items-center !mt-4 text-white gradient_btn">
               <span className="text-lg tracking-wide ">
                 {item.showCallMe ? (
                   <div className="flex items-center space-x-1">
@@ -600,18 +590,105 @@ function FAQs() {
     </div>
   );
 }
-function Product() {
+
+function Register({ packages }) {
+  const options = packages.map((item) => {
+    return { value: item.id, label: item.name };
+  });
   return (
-    <div className="py-32 space-y-36">
+    <div>
+      <div className="text-primary-blue-medium text-[45px] font-bold ">
+        Đăng ký ngay
+      </div>
+      <div className="-mt-2 italic text-primary-blue-dark">
+        Hãy để lại thông tin, chuyên viên tư vấn sẽ liên hệ lại ngay.
+      </div>
+      <div className="flex mt-4 space-x-2">
+        <Input placeholder="Số điện thoại" />
+        <Select
+          style={{ width: 200 }}
+          options={options}
+          placeholder="Chọn gói dịch vụ"
+        />
+        <Button className="gradient_btn">
+          <span className="font-sans font-thin text-white">Đăng kí ngay</span>
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function Footer() {
+  return (
+    <div
+      className="!w-screen -translate-x-[16.5%] flex justify-center pb-16"
+      style={{ background: "linear-gradient(180deg, #1E2530 0%, #000 100%)" }}
+    >
+      <div className="w-2/3 text-white">
+        <div className="grid grid-cols-3 gap-2">
+          {/* COL 1 */}
+          <div className="space-y-5">
+            <img src={Footer_banner} alt="footer banner" />
+            <div className="font-sans font-thin">
+              Thẻ thông minh một chạm, kết nối không giới hạn.
+            </div>
+            <div className="font-bold text-primary-blue-medium">Follow us:</div>
+            <div></div>
+          </div>
+          {/* COL 2 */}
+          <div className="flex flex-col mx-auto">
+            <div className="font-bold ">Điều khoản & Dịch vụ</div>
+            <div className="font-sans font-thin">Sản phẩm & Dịch vụ</div>
+            <div className="font-sans font-thin">Legal Notice</div>
+            <div className="font-sans font-thin">Privacy Policy</div>
+            <div className="font-sans font-thin">Refund Policy</div>
+            <div className="font-sans font-thin">Shipping Policy</div>
+            <div className="font-sans font-thin">Terms of Service</div>
+          </div>
+          {/* COL 3 */}
+          <div className="flex flex-col w-full">
+            <div className="font-bold ">Liên hệ </div>
+            <div className="font-sans font-thin">contact@onthedesk.vn </div>
+            <div className="font-sans font-thin">+84 931 14 12 97 </div>
+            <div className="font-sans font-thin">
+              Vinhomes Ocean Park,Hà Nội
+            </div>
+            <Input
+              className="w-full mt-10"
+              placeholder="Email nhận tin tức"
+              suffix={<Icon icon="maki:arrow" className="cursor-pointer" />}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+function Product() {
+  const [packages, setPackages] = useState([]);
+
+  async function getPackageList() {
+    const res = await fetchPackageList();
+    if (res) {
+      setPackages(res.data);
+    }
+  }
+  useEffect(() => {
+    getPackageList();
+  }, []);
+  return (
+    <div className="pt-32 space-y-36">
       <Hero1 />
       <Hero2 />
       <Hero3 />
       <Instruction />
       <Divider />
       <Environment />
-      <ProductAndService />
+      <ProductAndService packages={packages} />
       <Feedback />
       <FAQs />
+      <Register packages={packages} />
+      <Footer />
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { currentTab } from "store/root.ts";
 import { useRecoilState } from "recoil";
 import { Tabs } from "antd";
 import type { TabsProps } from "antd";
-import Logo from "assests/footer_banner.svg";
+import Logo from "assests/landing/footer_banner.svg";
 import { Icon } from "@iconify/react";
 
 function Header() {
