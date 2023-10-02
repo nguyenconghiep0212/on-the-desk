@@ -31,15 +31,15 @@ function Hero1() {
   return (
     <div className="grid grid-cols-3 gap-2 ">
       <div className="flex flex-col justify-start col-span-2 pr-6 space-y-2">
-        <div className="flex space-x-2 text-[48px] italic">
-          <span className="  font-thin text-primary-blue-medium">
+        <div className="flex flex-col 2xl:flex-row space-x-2 text-[48px] italic">
+          <div className=" w-fit marker:font-light text-white ">
             Everythinks
-          </span>
-          <span className="  font-bold text-primary-blue-medium">
+          </div>
+          <div className=" w-fit font-bold text-primary-blue-medium">
             On The Desk
-          </span>
+          </div>
         </div>
-        <div className="  text-lg font-thin tracking-wide text-white !my-6">
+        <div className="  text-lg  tracking-wide text-white !my-6">
           Thẻ thông minh hàng đầu Việt Nam kết nối và tối ưu cho từng cá nhân và
           doanh nghiệp một cách nhanh chóng dễ dàng.
         </div>
@@ -73,26 +73,26 @@ function Hero2() {
         <span className="text-[45px]   font-bold text-primary-blue-medium">
           Cá nhân hóa
         </span>
-        <span className="-mt-2   text-lg italic font-light text-primary-blue-medium">
+        <span className="-mt-2   text-lg italic  text-primary-blue-medium">
           Phong cách của bạn là duy nhất
         </span>
         <div className="mt-3 text-white">
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" />
-            <span className="  text-lg font-thin tracking-wide">
+            <span className="  text-lg   tracking-wide">
               Đặc quyền <span className="font-bold">thiết kế riêng</span> thẻ
               thông minh và hồ sơ trực tuyến.
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" />
-            <span className="  text-lg font-thin tracking-wide">
+            <span className="  text-lg  placeholder:tracking-wide">
               Giao diện hiện đại phù hợp với phong cách và công việc của bạn.
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" />
-            <span className="  text-lg font-thin tracking-wide">
+            <span className="  text-lg   tracking-wide">
               Kết nối và chia sẻ thông tin ấn tượng ngay từ lần đầu tiên.
             </span>
           </div>
@@ -115,19 +115,19 @@ function Hero3() {
         <div className="mt-3 text-white">
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" />
-            <span className="  text-lg font-thin tracking-wide">
+            <span className="  text-lg  placeholder: tracking-wide">
               Phát triển nội dung số chuyên nghiệp không giới hạn.
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" />
-            <span className="  text-lg font-thin tracking-wide">
+            <span className="  text-lg    tracking-wide">
               Tối ưu chi phí vận hành.
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" />
-            <span className="  text-lg font-thin tracking-wide">
+            <span className="  text-lg   tracking-wide">
               Nâng cao trải nghiệm khách hàng.
             </span>
           </div>
@@ -166,7 +166,7 @@ function Instruction() {
   ];
   return (
     <div className="flex flex-col space-y-5">
-      <span className="text-[45px]   font-bold text-primary-blue-medium">
+      <span className="text-[45px] font-bold text-primary-blue-medium">
         Hướng dẫn sử dụng
       </span>
       <Radio.Group
@@ -183,16 +183,15 @@ function Instruction() {
       </Radio.Group>
       <div className="flex !mt-8 space-x-4">
         {instructions.map((item, index) => (
-          <div
-            key={index}
-            className="space-y-6 transition-all duration-300 cursor-pointer default_card hover:scale-105"
-          >
-            <img src={item.url} alt="instruction_default" />
-            <div className="text-[14px] tracking-wide   font-thin">
-              {item.description}
+          <div className=" transition-all duration-300 cursor-pointer default_card hover:scale-105">
+            <div key={index} className="space-y-4">
+              <img src={item.url} alt="instruction_default" />
+              <div className="text-[14px] tracking-wide   ">
+                {item.description}
+              </div>
             </div>
-            <div className="text-right">
-              <span className="  instruction_index">{index + 1}</span>
+            <div className="text-right h-[90px] -mr-2 mb-4">
+              <div className="instruction_index !-mt-6  ">{index + 1}</div>
             </div>
           </div>
         ))}
@@ -275,14 +274,14 @@ function Environment() {
       <div className="text-primary-blue-medium text-[45px] font-bold">
         Hệ sinh thái toàn diện
       </div>
-      <div className="  italic font-thin tracking-wide text-center text-white">
+      <div className="  italic  tracking-wide text-center text-white">
         On the Desk cung cấp giải pháp bao gồm thẻ thông minh, hồ sơ trực tuyến
         được cá nhân hoá và dịch vụ phát triển giao diện nội dung phù hợp với
         mọi nhu cầu của cá nhân và doanh nghiệp.
       </div>
 
       <Button className="flex items-center mt-12 space-x-1 text-white gradient_btn">
-        <img src={Logo_white} alt="logo" className="w-6   " />
+        <img src={Logo_white} alt="logo" className="w-[22px] h-[22px] " />
         <span className="  text-lg tracking-wide">Bắt đầu ngay</span>
       </Button>
 
@@ -293,7 +292,7 @@ function Environment() {
             <div className="  text-2xl font-bold text-primary-blue-medium">
               {item.header}
             </div>
-            <div className="space-x-1   font-thin tracking-wide text-white">
+            <div className="space-x-1  tracking-wide text-white">
               <span className="  font-bold">{item.bold}</span>
               <span>{item.description}</span>
               <a
@@ -326,7 +325,7 @@ function ProductAndService({ packages }) {
                 }
               : {}
           }
-          className="relative space-y-6 default_card hover:scale-105 transition-all duration-300 cursor-pointer h-fit !px-4"
+          className="relative !py-0 default_card hover:scale-105 transition-all duration-300 cursor-pointer h-fit !px-4"
           key={index}
         >
           {/* STICKER */}
@@ -335,19 +334,19 @@ function ProductAndService({ packages }) {
           </div>
 
           {/* CONTENT */}
-          <div className="space-y-8">
-            {/* NAME */}
-            <div className="mt-12   text-3xl font-bold tracking-wide gradient-text text-primary-blue-medium">
-              {item.name}
-            </div>
-            {/* DESCRIPTION */}
+          <div className="space-y-6 mb-6 mt-12">
             <div>
+              {/* NAME */}
+              <div className="text-3xl mb-[30px] font-bold tracking-wide gradient-text text-primary-blue-medium">
+                {item.name}
+              </div>{" "}
+              {/* DESCRIPTION */}
               {item.features.map((item_child: string, index_child: number) => (
                 <div
                   key={index_child}
                   className={`${
                     index === 1 || index === 2 ? "last:font-bold" : ""
-                  }   font-thin tracking-wide text-lg`}
+                  }     tracking-wide text-lg`}
                 >
                   {item_child}
                 </div>
@@ -383,17 +382,25 @@ function ProductAndService({ packages }) {
               </div>
             </div>
             {/* BUTTON */}
-            <Button className="flex items-center !mt-4 text-white gradient_btn">
+            <Button 
+              className="  flex items-center text-white gradient_btn"
+            >
               <span className="text-lg tracking-wide ">
                 {item.showCallMe ? (
                   <div className="flex items-center space-x-1">
-                    <Icon icon="material-symbols:call-outline" />
-                    <span className="  font-thin">Gọi chúng tôi</span>
+                    <Icon
+                      className="w-[22px] h-[22px]"
+                      icon="material-symbols:call-outline"
+                    />
+                    <span>Gọi chúng tôi</span>
                   </div>
                 ) : (
                   <div className="flex items-center space-x-1">
-                    <Icon icon="mdi:cart-outline" />
-                    <span className="  font-thin">Đăng ký ngay</span>
+                    <Icon
+                      className="w-[22px] h-[22px]"
+                      icon="mdi:cart-outline"
+                    />
+                    <span>Đăng ký ngay</span>
                   </div>
                 )}
               </span>
@@ -417,7 +424,7 @@ function Feedback({ feedbacks }) {
           <div key={index} className="min-w-[200px] sm:min-w-[350px]">
             <div
               id="comment"
-              className="max-w-sm max-h-36   font-thin text-white w-full p-3 m-2 italic rounded-3xl bg-[#1e2530]"
+              className="max-w-sm max-h-36  text-white w-full p-3 m-2 italic rounded-3xl bg-[#1e2530]"
             >
               {item.comment}
             </div>
@@ -671,15 +678,15 @@ function Footer() {
   ];
   return (
     <div
-      className="!w-screen -translate-x-[16.5%] flex justify-center pb-16"
+      className="!w-screen -translate-x-[8.3%] 2xl:-translate-x-[16.5%] flex justify-center pb-16"
       style={{ background: "linear-gradient(180deg, #1E2530 0%, #000 100%)" }}
     >
-      <div className="w-2/3 text-white">
+      <div className="w-5/6 2xl:w-2/3 text-white">
         <div className="grid grid-cols-3 gap-2">
           {/* COL 1 */}
           <div className="space-y-5">
             <img src={Footer_banner} alt="footer banner" />
-            <div className="  font-thin">
+            <div className=" text-sm  ">
               Thẻ thông minh một chạm, kết nối không giới hạn.
             </div>
             <div className="font-bold text-primary-blue-medium">Follow us:</div>
@@ -693,22 +700,39 @@ function Footer() {
           </div>
           {/* COL 2 */}
           <div className="flex flex-col mx-auto">
-            <div className="font-bold ">Điều khoản & Dịch vụ</div>
-            <div className="  font-thin">Sản phẩm & Dịch vụ</div>
-            <div className="  font-thin">Legal Notice</div>
-            <div className="  font-thin">Privacy Policy</div>
-            <div className="  font-thin">Refund Policy</div>
-            <div className="  font-thin">Shipping Policy</div>
-            <div className="  font-thin">Terms of Service</div>
+            <div className="text-sm font-extrabold ">Điều khoản & Dịch vụ</div>
+            <div className=" text-sm  font-light">Sản phẩm & Dịch vụ</div>
+            <div className=" text-sm  ">Legal Notice</div>
+            <div className=" text-sm  ">Privacy Policy</div>
+            <div className=" text-sm  ">Refund Policy</div>
+            <div className="text-sm   ">Shipping Policy</div>
+            <div className=" text-sm  ">Terms of Service</div>
           </div>
           {/* COL 3 */}
-          <div className="flex flex-col w-full">
-            <div className="font-bold ">Liên hệ </div>
-            <div className="  font-thin">contact@onthedesk.vn </div>
-            <div className="  font-thin">+84 931 14 12 97 </div>
-            <div className="  font-thin">
-              Vinhomes Ocean Park,Hà Nội
+          <div className="flex flex-col w-full space-y-[18px]">
+            <div className="font-extrabold text-sm">Liên hệ </div>
+            <div className="space-y-1">
+              <div className=" flex text-sm  space-x-2">
+                <Icon
+                  className="w-[22px] h-[22px]"
+                  icon="material-symbols:call-outline"
+                />
+                <div>+84 931 14 12 97</div>
+              </div>
+              <div className="flex text-sm  space-x-2">
+                <Icon
+                  className="w-[22px] h-[22px]"
+                  icon="material-symbols:mail-outline"
+                />
+                <div>contact@onthedesk.vn</div>
+              </div>
+
+              <div className="flex text-sm  space-x-2">
+                <Icon className="w-[22px] h-[22px]" icon="tdesign:location" />
+                <div>Vinhomes Ocean Park,Hà Nội</div>
+              </div>
             </div>
+
             <Input
               className="w-full mt-10"
               placeholder="Email nhận tin tức"

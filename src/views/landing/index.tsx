@@ -28,7 +28,7 @@ function Landing() {
       </div>
 
       {/* CONTENT */}
-      <div className="w-2/3 m-auto">
+      <div className="w-5/6 2xl:w-2/3 m-auto">
         <Header />
         <div className="relative z-3">
           {tab === "product" ? <Product /> : <div></div>}
