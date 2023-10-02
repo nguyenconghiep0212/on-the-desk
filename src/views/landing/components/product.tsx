@@ -32,14 +32,14 @@ function Hero1() {
     <div className="grid grid-cols-3 gap-2 ">
       <div className="flex flex-col justify-start col-span-2 pr-6 space-y-2">
         <div className="flex space-x-2 text-[48px] italic">
-          <span className="font-sans font-thin text-primary-blue-medium">
+          <span className="  font-thin text-primary-blue-medium">
             Everythinks
           </span>
-          <span className="font-sans font-bold text-primary-blue-medium">
+          <span className="  font-bold text-primary-blue-medium">
             On The Desk
           </span>
         </div>
-        <div className="font-sans text-lg font-thin tracking-wide text-white !my-6">
+        <div className="  text-lg font-thin tracking-wide text-white !my-6">
           Thẻ thông minh hàng đầu Việt Nam kết nối và tối ưu cho từng cá nhân và
           doanh nghiệp một cách nhanh chóng dễ dàng.
         </div>
@@ -50,7 +50,7 @@ function Hero1() {
               Create
             </span>
           </Button>
-          <span className="font-sans text-lg italic font-semibold text-primary-blue-medium">
+          <span className="  text-lg italic font-semibold text-primary-blue-medium">
             your own life with your own style
           </span>
         </div>
@@ -70,29 +70,29 @@ function Hero2() {
         <img src={Hero2_banner} alt="hero2" className="scale-125" />
       </div>
       <div className="flex flex-col items-start justify-center col-span-2 ml-4">
-        <span className="text-[45px] font-sans font-bold text-primary-blue-medium">
+        <span className="text-[45px]   font-bold text-primary-blue-medium">
           Cá nhân hóa
         </span>
-        <span className="-mt-2 font-sans text-lg italic font-light text-primary-blue-medium">
+        <span className="-mt-2   text-lg italic font-light text-primary-blue-medium">
           Phong cách của bạn là duy nhất
         </span>
         <div className="mt-3 text-white">
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" />
-            <span className="font-sans text-lg font-thin tracking-wide">
+            <span className="  text-lg font-thin tracking-wide">
               Đặc quyền <span className="font-bold">thiết kế riêng</span> thẻ
               thông minh và hồ sơ trực tuyến.
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" />
-            <span className="font-sans text-lg font-thin tracking-wide">
+            <span className="  text-lg font-thin tracking-wide">
               Giao diện hiện đại phù hợp với phong cách và công việc của bạn.
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" />
-            <span className="font-sans text-lg font-thin tracking-wide">
+            <span className="  text-lg font-thin tracking-wide">
               Kết nối và chia sẻ thông tin ấn tượng ngay từ lần đầu tiên.
             </span>
           </div>
@@ -106,28 +106,28 @@ function Hero3() {
   return (
     <div className="grid grid-cols-3 gap-8">
       <div className="flex flex-col justify-center col-span-2 text-white">
-        <span className="text-[45px] font-sans font-bold text-primary-blue-medium">
+        <span className="text-[45px]   font-bold text-primary-blue-medium">
           Tối ưu doanh nghiệp
         </span>
-        <span className="-mt-2 font-sans text-lg italic font-light text-primary-blue-medium">
+        <span className="-mt-2   text-lg italic font-light text-primary-blue-medium">
           Hiện đại hoá doanh nghiệp và cách vận hành
         </span>
         <div className="mt-3 text-white">
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" />
-            <span className="font-sans text-lg font-thin tracking-wide">
+            <span className="  text-lg font-thin tracking-wide">
               Phát triển nội dung số chuyên nghiệp không giới hạn.
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" />
-            <span className="font-sans text-lg font-thin tracking-wide">
+            <span className="  text-lg font-thin tracking-wide">
               Tối ưu chi phí vận hành.
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" />
-            <span className="font-sans text-lg font-thin tracking-wide">
+            <span className="  text-lg font-thin tracking-wide">
               Nâng cao trải nghiệm khách hàng.
             </span>
           </div>
@@ -166,7 +166,7 @@ function Instruction() {
   ];
   return (
     <div className="flex flex-col space-y-5">
-      <span className="text-[45px] font-sans font-bold text-primary-blue-medium">
+      <span className="text-[45px]   font-bold text-primary-blue-medium">
         Hướng dẫn sử dụng
       </span>
       <Radio.Group
@@ -188,11 +188,11 @@ function Instruction() {
             className="space-y-6 transition-all duration-300 cursor-pointer default_card hover:scale-105"
           >
             <img src={item.url} alt="instruction_default" />
-            <div className="text-[14px] tracking-wide font-sans font-thin">
+            <div className="text-[14px] tracking-wide   font-thin">
               {item.description}
             </div>
             <div className="text-right">
-              <span className="font-sans instruction_index">{index + 1}</span>
+              <span className="  instruction_index">{index + 1}</span>
             </div>
           </div>
         ))}
@@ -275,26 +275,26 @@ function Environment() {
       <div className="text-primary-blue-medium text-[45px] font-bold">
         Hệ sinh thái toàn diện
       </div>
-      <div className="font-sans italic font-thin tracking-wide text-center text-white">
+      <div className="  italic font-thin tracking-wide text-center text-white">
         On the Desk cung cấp giải pháp bao gồm thẻ thông minh, hồ sơ trực tuyến
         được cá nhân hoá và dịch vụ phát triển giao diện nội dung phù hợp với
         mọi nhu cầu của cá nhân và doanh nghiệp.
       </div>
 
       <Button className="flex items-center mt-12 space-x-1 text-white gradient_btn">
-        <img src={Logo_white} alt="logo" className="w-6 pt-1 " />
-        <span className="font-sans text-lg tracking-wide">Bắt đầu ngay</span>
+        <img src={Logo_white} alt="logo" className="w-6   " />
+        <span className="  text-lg tracking-wide">Bắt đầu ngay</span>
       </Button>
 
       <div className="grid w-full grid-cols-3 gap-8 mt-16 gap-y-16 ">
         {environments.map((item, index) => (
           <div key={index} className="space-y-6">
             <img src={item.img} alt="environment" className="h-16" />
-            <div className="font-sans text-2xl font-bold text-primary-blue-medium">
+            <div className="  text-2xl font-bold text-primary-blue-medium">
               {item.header}
             </div>
-            <div className="space-x-1 font-sans font-thin tracking-wide text-white">
-              <span className="font-sans font-bold">{item.bold}</span>
+            <div className="space-x-1   font-thin tracking-wide text-white">
+              <span className="  font-bold">{item.bold}</span>
               <span>{item.description}</span>
               <a
                 href={item.url}
@@ -337,7 +337,7 @@ function ProductAndService({ packages }) {
           {/* CONTENT */}
           <div className="space-y-8">
             {/* NAME */}
-            <div className="mt-12 font-sans text-3xl font-bold tracking-wide gradient-text text-primary-blue-medium">
+            <div className="mt-12   text-3xl font-bold tracking-wide gradient-text text-primary-blue-medium">
               {item.name}
             </div>
             {/* DESCRIPTION */}
@@ -347,7 +347,7 @@ function ProductAndService({ packages }) {
                   key={index_child}
                   className={`${
                     index === 1 || index === 2 ? "last:font-bold" : ""
-                  } font-sans font-thin tracking-wide text-lg`}
+                  }   font-thin tracking-wide text-lg`}
                 >
                   {item_child}
                 </div>
@@ -357,7 +357,7 @@ function ProductAndService({ packages }) {
             <div className="ml-2">
               <div>
                 {item.showContactPrice ? (
-                  <div className="font-sans text-3xl font-bold tracking-wide">
+                  <div className="  text-3xl font-bold tracking-wide">
                     Giá liên hệ
                   </div>
                 ) : (
@@ -388,12 +388,12 @@ function ProductAndService({ packages }) {
                 {item.showCallMe ? (
                   <div className="flex items-center space-x-1">
                     <Icon icon="material-symbols:call-outline" />
-                    <span className="font-sans font-thin">Gọi chúng tôi</span>
+                    <span className="  font-thin">Gọi chúng tôi</span>
                   </div>
                 ) : (
                   <div className="flex items-center space-x-1">
                     <Icon icon="mdi:cart-outline" />
-                    <span className="font-sans font-thin">Đăng ký ngay</span>
+                    <span className="  font-thin">Đăng ký ngay</span>
                   </div>
                 )}
               </span>
@@ -417,7 +417,7 @@ function Feedback({ feedbacks }) {
           <div key={index} className="min-w-[200px] sm:min-w-[350px]">
             <div
               id="comment"
-              className="max-w-sm max-h-36 font-sans font-thin text-white w-full p-3 m-2 italic rounded-3xl bg-[#1e2530]"
+              className="max-w-sm max-h-36   font-thin text-white w-full p-3 m-2 italic rounded-3xl bg-[#1e2530]"
             >
               {item.comment}
             </div>
@@ -651,7 +651,7 @@ function Register({ packages }) {
           placeholder="Chọn gói dịch vụ"
         />
         <Button className="gradient_btn">
-          <span className="font-sans font-thin text-white">Đăng kí ngay</span>
+          <span className="  font-thin text-white">Đăng kí ngay</span>
         </Button>
       </div>
     </div>
@@ -679,7 +679,7 @@ function Footer() {
           {/* COL 1 */}
           <div className="space-y-5">
             <img src={Footer_banner} alt="footer banner" />
-            <div className="font-sans font-thin">
+            <div className="  font-thin">
               Thẻ thông minh một chạm, kết nối không giới hạn.
             </div>
             <div className="font-bold text-primary-blue-medium">Follow us:</div>
@@ -694,19 +694,19 @@ function Footer() {
           {/* COL 2 */}
           <div className="flex flex-col mx-auto">
             <div className="font-bold ">Điều khoản & Dịch vụ</div>
-            <div className="font-sans font-thin">Sản phẩm & Dịch vụ</div>
-            <div className="font-sans font-thin">Legal Notice</div>
-            <div className="font-sans font-thin">Privacy Policy</div>
-            <div className="font-sans font-thin">Refund Policy</div>
-            <div className="font-sans font-thin">Shipping Policy</div>
-            <div className="font-sans font-thin">Terms of Service</div>
+            <div className="  font-thin">Sản phẩm & Dịch vụ</div>
+            <div className="  font-thin">Legal Notice</div>
+            <div className="  font-thin">Privacy Policy</div>
+            <div className="  font-thin">Refund Policy</div>
+            <div className="  font-thin">Shipping Policy</div>
+            <div className="  font-thin">Terms of Service</div>
           </div>
           {/* COL 3 */}
           <div className="flex flex-col w-full">
             <div className="font-bold ">Liên hệ </div>
-            <div className="font-sans font-thin">contact@onthedesk.vn </div>
-            <div className="font-sans font-thin">+84 931 14 12 97 </div>
-            <div className="font-sans font-thin">
+            <div className="  font-thin">contact@onthedesk.vn </div>
+            <div className="  font-thin">+84 931 14 12 97 </div>
+            <div className="  font-thin">
               Vinhomes Ocean Park,Hà Nội
             </div>
             <Input
