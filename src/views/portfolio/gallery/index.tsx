@@ -70,8 +70,8 @@ function Component() {
   function masonryGrid() {
     return (
       <div>
-        {gallery.map((e) => (
-          <div className="my-2">
+        {gallery.map((e, index) => (
+          <div key={index} className="my-2">
             <div className="text-[#B6B6B6] font-bold text-lg mb-4">
               {e.name}
             </div>

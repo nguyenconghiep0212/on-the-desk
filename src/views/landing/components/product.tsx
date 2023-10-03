@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Footer_banner from "assests/landing/footer_banner.svg";
 import Logo from "assests/landing/logo.svg";
 import Logo_white from "assests/landing/logo_white.svg";
@@ -29,35 +29,33 @@ import { fetchFeedback, fetchPackageList } from "api";
 
 function Hero1() {
   return (
-    <div className="grid grid-cols-3 gap-2 ">
-      <div className="flex flex-col justify-start col-span-2 pr-6 space-y-2">
-        <div className="flex flex-col 2xl:flex-row space-x-2 text-[48px] italic">
-          <div className=" w-fit marker:font-light text-white ">
-            Everythinks
-          </div>
-          <div className=" w-fit font-bold text-primary-blue-medium">
+    <div className="flex flex-col ">
+      <div className="flex flex-col items-center ">
+        <img src={Hero1_banner} alt="hero1" className="desktop:w-[90%]" />
+        <div className="-mt-24 shadow-hero-1" />
+      </div>
+      <div className="flex flex-col items-center">
+        <div className="flex  flex-col xs:flex-row space-x-2 text-[48px] italic">
+          <div className="text-5xl font-light text-white ">Everythinks</div>
+          <div className="text-5xl font-bold text-primary-blue-medium">
             On The Desk
           </div>
         </div>
-        <div className="  text-lg  tracking-wide text-white !my-6">
+        <div className=" mt-3 text-lg  tracking-wide text-white !my-6">
           Thẻ thông minh hàng đầu Việt Nam kết nối và tối ưu cho từng cá nhân và
           doanh nghiệp một cách nhanh chóng dễ dàng.
         </div>
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center mt-6 space-x-3">
           <Button className="flex items-center hover:scale-105">
             <img src={Logo} alt="logo" className="w-4 mr-1" />
-            <span className="font-semibold text-primary-blue-medium">
+            <span className="text-lg font-semibold text-primary-blue-medium">
               Create
             </span>
           </Button>
-          <span className="  text-lg italic font-semibold text-primary-blue-medium">
+          <span className="text-lg italic font-semibold text-primary-blue-medium">
             your own life with your own style
           </span>
         </div>
-      </div>
-      <div className="flex flex-col items-center justify-center">
-        <img src={Hero1_banner} alt="hero1" className="scale-125" />
-        <div className="scale-x-150 shadow" />
       </div>
     </div>
   );
@@ -65,34 +63,35 @@ function Hero1() {
 
 function Hero2() {
   return (
-    <div className="grid grid-cols-3 gap-8">
-      <div className="flex flex-col items-center justify-center">
-        <img src={Hero2_banner} alt="hero2" className="scale-125" />
+    <div className="grid grid-cols-2 ">
+      <div className="flex flex-col items-center">
+        <img src={Hero2_banner} alt="hero2" className=" desktop:w-1/2" />
+        <div className="shadow-hero-2"></div>
       </div>
-      <div className="flex flex-col items-start justify-center col-span-2 ml-4">
-        <span className="text-[45px]   font-bold text-primary-blue-medium">
+      <div className="flex flex-col items-start justify-center ml-4">
+        <span className="text-[45px] font-bold text-primary-blue-medium">
           Cá nhân hóa
         </span>
-        <span className="-mt-2   text-lg italic  text-primary-blue-medium">
+        <span className="-mt-2 text-lg italic text-primary-blue-medium">
           Phong cách của bạn là duy nhất
         </span>
-        <div className="mt-3 text-white">
+        <div className="mt-6 text-white">
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" />
-            <span className="  text-lg   tracking-wide">
+            <span className="text-lg tracking-wide ">
               Đặc quyền <span className="font-bold">thiết kế riêng</span> thẻ
               thông minh và hồ sơ trực tuyến.
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" />
-            <span className="  text-lg  placeholder:tracking-wide">
+            <span className="text-lg placeholder:tracking-wide">
               Giao diện hiện đại phù hợp với phong cách và công việc của bạn.
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" />
-            <span className="  text-lg   tracking-wide">
+            <span className="text-lg tracking-wide ">
               Kết nối và chia sẻ thông tin ấn tượng ngay từ lần đầu tiên.
             </span>
           </div>
@@ -104,44 +103,46 @@ function Hero2() {
 
 function Hero3() {
   return (
-    <div className="grid grid-cols-3 gap-8">
-      <div className="flex flex-col justify-center col-span-2 text-white">
-        <span className="text-[45px]   font-bold text-primary-blue-medium">
-          Tối ưu doanh nghiệp
-        </span>
-        <span className="-mt-2   text-lg italic font-light text-primary-blue-medium">
-          Hiện đại hoá doanh nghiệp và cách vận hành
-        </span>
-        <div className="mt-3 text-white">
-          <div className="flex items-center space-x-2">
-            <Icon icon="mdi:dot" />
-            <span className="  text-lg  placeholder: tracking-wide">
-              Phát triển nội dung số chuyên nghiệp không giới hạn.
-            </span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Icon icon="mdi:dot" />
-            <span className="  text-lg    tracking-wide">
-              Tối ưu chi phí vận hành.
-            </span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Icon icon="mdi:dot" />
-            <span className="  text-lg   tracking-wide">
-              Nâng cao trải nghiệm khách hàng.
-            </span>
+    <div className="grid grid-cols-2 ">
+      <div className="flex flex-col items-center justify-center text-white">
+        <div className="flex flex-col w-fit">
+          <span className="text-[45px]   font-bold text-primary-blue-medium">
+            Tối ưu doanh nghiệp
+          </span>
+          <span className="-mt-2 text-lg italic font-light text-primary-blue-medium">
+            Hiện đại hoá doanh nghiệp và cách vận hành
+          </span>
+          <div className="mt-6 text-white">
+            <div className="flex items-center space-x-2">
+              <Icon icon="mdi:dot" />
+              <span className="text-lg tracking-wide placeholder:">
+                Phát triển nội dung số chuyên nghiệp không giới hạn.
+              </span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Icon icon="mdi:dot" />
+              <span className="text-lg tracking-wide ">
+                Tối ưu chi phí vận hành.
+              </span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Icon icon="mdi:dot" />
+              <span className="text-lg tracking-wide ">
+                Nâng cao trải nghiệm khách hàng.
+              </span>
+            </div>
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center justify-center">
-        <img src={Hero3_banner} alt="hero1" className="scale-150" />
-        <div className="ml-4 shadow mt-14" />
+      <div className="flex flex-col items-center">
+        <img src={Hero3_banner} alt="hero3" className="desktop:w-full" />
+        <div className="-mt-12 shadow-hero-3" />
       </div>
     </div>
   );
 }
 
-function Instruction() {
+const Instruction = ({ innerRef }) => {
   const instructions = [
     {
       url: Instruction_placeholder,
@@ -165,12 +166,12 @@ function Instruction() {
     },
   ];
   return (
-    <div className="flex flex-col space-y-5">
+    <div ref={innerRef} className="flex flex-col items-center space-y-5">
       <span className="text-[45px] font-bold text-primary-blue-medium">
         Hướng dẫn sử dụng
       </span>
       <Radio.Group
-        className="w-fit"
+        className="flex justify-center w-full"
         defaultValue="smart_card"
         buttonStyle="solid"
         onChange={() => {}}
@@ -183,7 +184,10 @@ function Instruction() {
       </Radio.Group>
       <div className="flex !mt-8 space-x-4">
         {instructions.map((item, index) => (
-          <div className=" transition-all duration-300 cursor-pointer default_card hover:scale-105">
+          <div
+            key={index}
+            className="transition-all duration-300 cursor-pointer default_card hover:scale-105"
+          >
             <div key={index} className="space-y-4">
               <img src={item.url} alt="instruction_default" />
               <div className="text-[14px] tracking-wide   ">
@@ -198,16 +202,33 @@ function Instruction() {
       </div>
     </div>
   );
-}
+};
 
 function Divider() {
   return (
-    <div className="flex justify-center !mt-16 space-x-3">
-      <div className="small_star">*</div>
-      <div className="medium_star">*</div>
-      <div className="large_star">*</div>
-      <div className="medium_star">*</div>
-      <div className="small_star">*</div>
+    <div className="">
+      <div className="flex justify-center !mt-16 space-x-3">
+        <div className="small_star">*</div>
+        <div className="medium_star">*</div>
+        <div className="large_star">*</div>
+        <div className="medium_star">*</div>
+        <div className="small_star">*</div>
+      </div>
+      <div className="flex flex-col items-center desktop:px-[84px]">
+        <div className="text-primary-blue-medium text-[45px] font-bold">
+          Hệ sinh thái toàn diện
+        </div>
+        <div className="italic tracking-wide text-center text-white ">
+          On the Desk cung cấp giải pháp bao gồm thẻ thông minh, hồ sơ trực
+          tuyến được cá nhân hoá và dịch vụ phát triển giao diện nội dung phù
+          hợp với mọi nhu cầu của cá nhân và doanh nghiệp.
+        </div>
+
+        <Button className="flex items-center mt-12 space-x-1 text-white gradient_btn">
+          <img src={Logo_white} alt="logo" className="w-[22px] h-[22px] " />
+          <span className="text-lg tracking-wide ">Bắt đầu ngay</span>
+        </Button>
+      </div>
     </div>
   );
 }
@@ -271,29 +292,15 @@ function Environment() {
   ];
   return (
     <div className="flex flex-col !mt-8 items-center">
-      <div className="text-primary-blue-medium text-[45px] font-bold">
-        Hệ sinh thái toàn diện
-      </div>
-      <div className="  italic  tracking-wide text-center text-white">
-        On the Desk cung cấp giải pháp bao gồm thẻ thông minh, hồ sơ trực tuyến
-        được cá nhân hoá và dịch vụ phát triển giao diện nội dung phù hợp với
-        mọi nhu cầu của cá nhân và doanh nghiệp.
-      </div>
-
-      <Button className="flex items-center mt-12 space-x-1 text-white gradient_btn">
-        <img src={Logo_white} alt="logo" className="w-[22px] h-[22px] " />
-        <span className="  text-lg tracking-wide">Bắt đầu ngay</span>
-      </Button>
-
       <div className="grid w-full grid-cols-3 gap-8 mt-16 gap-y-16 ">
         {environments.map((item, index) => (
           <div key={index} className="space-y-6">
             <img src={item.img} alt="environment" className="h-16" />
-            <div className="  text-2xl font-bold text-primary-blue-medium">
+            <div className="text-2xl font-bold text-primary-blue-medium">
               {item.header}
             </div>
-            <div className="space-x-1  tracking-wide text-white">
-              <span className="  font-bold">{item.bold}</span>
+            <div className="space-x-1 tracking-wide text-white">
+              <span className="font-bold ">{item.bold}</span>
               <span>{item.description}</span>
               <a
                 href={item.url}
@@ -312,111 +319,116 @@ function Environment() {
 
 function ProductAndService({ packages }) {
   return (
-    <div className="grid grid-cols-4 gap-4 ">
-      {packages.map((item: any, index: number) => (
-        <div
-          style={
-            item.objectTarget === "Corporation"
-              ? {
-                  background:
-                    "linear-gradient(127deg, #05224A 30.25%, #2F66B3 100%)",
-                  boxShadow:
-                    "2px 2px 8px 0px #001940, -2px -2px 8px 0px rgba(60, 173, 255, 0.50)",
-                }
-              : {}
-          }
-          className="relative !py-0 default_card hover:scale-105 transition-all duration-300 cursor-pointer h-fit !px-4"
-          key={index}
-        >
-          {/* STICKER */}
-          <div className="absolute top-0 right-0 py-1 px-3 text-black rounded-bl-[18px] rounded-tr-[18px] bg-primary-blue-light-max">
-            {item.objectTarget}
-          </div>
-
-          {/* CONTENT */}
-          <div className="space-y-6 mb-6 mt-12">
-            <div>
-              {/* NAME */}
-              <div className="text-3xl mb-[30px] font-bold tracking-wide gradient-text text-primary-blue-medium">
-                {item.name}
-              </div>{" "}
-              {/* DESCRIPTION */}
-              {item.features.map((item_child: string, index_child: number) => (
-                <div
-                  key={index_child}
-                  className={`${
-                    index === 1 || index === 2 ? "last:font-bold" : ""
-                  }     tracking-wide text-lg`}
-                >
-                  {item_child}
-                </div>
-              ))}
+    <div className="flex flex-col items-center">
+      <div className="text-primary-blue-medium text-[45px] font-bold p-12">
+        Sản phẩm & Dịch vụ
+      </div>
+      <div className="grid grid-cols-4 gap-4 ">
+        {packages.map((item: any, index: number) => (
+          <div
+            style={
+              item.objectTarget === "Corporation"
+                ? {
+                    background:
+                      "linear-gradient(127deg, #05224A 30.25%, #2F66B3 100%)",
+                    boxShadow:
+                      "2px 2px 8px 0px #001940, -2px -2px 8px 0px rgba(60, 173, 255, 0.50)",
+                  }
+                : {}
+            }
+            className="relative !py-0 default_card hover:scale-105 transition-all duration-300 cursor-pointer h-fit !px-4"
+            key={index}
+          >
+            {/* STICKER */}
+            <div className="absolute top-0 right-0 py-1 px-3 text-black rounded-bl-[18px] rounded-tr-[18px] bg-primary-blue-light-max">
+              {item.objectTarget}
             </div>
-            {/* PRICE */}
-            <div className="ml-2">
+
+            {/* CONTENT */}
+            <div className="mt-12 mb-6 space-y-6">
               <div>
-                {item.showContactPrice ? (
-                  <div className="  text-3xl font-bold tracking-wide">
-                    Giá liên hệ
-                  </div>
-                ) : (
-                  <div>
-                    <div className="flex space-x-1 text-primary-blue-dark">
-                      <div className="line-through">
-                        {item.originalPrice
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
-                      </div>
-                      <div className="text-xs align-top">đ</div>
+                {/* NAME */}
+                <div className="text-3xl mb-[30px] font-bold tracking-wide gradient-text text-primary-blue-medium">
+                  {item.name}
+                </div>{" "}
+                {/* DESCRIPTION */}
+                {item.features.map(
+                  (item_child: string, index_child: number) => (
+                    <div
+                      key={index_child}
+                      className={`${
+                        index === 1 || index === 2 ? "last:font-bold" : ""
+                      }     tracking-wide text-lg`}
+                    >
+                      {item_child}
                     </div>
-                    <div className="flex space-x-1 font-bold">
-                      <div className="text-2xl ">
-                        {item.promotionPrice
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
-                      </div>
-                      <div className="text-sm align-top">đ</div>
-                    </div>
-                  </div>
+                  )
                 )}
               </div>
+              {/* PRICE */}
+              <div className="ml-2">
+                <div>
+                  {item.showContactPrice ? (
+                    <div className="text-3xl font-bold tracking-wide ">
+                      Giá liên hệ
+                    </div>
+                  ) : (
+                    <div>
+                      <div className="flex space-x-1 text-primary-blue-dark">
+                        <div className="line-through">
+                          {item.originalPrice
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                        </div>
+                        <div className="text-xs align-top">đ</div>
+                      </div>
+                      <div className="flex space-x-1 font-bold">
+                        <div className="text-2xl ">
+                          {item.promotionPrice
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+                        </div>
+                        <div className="text-sm align-top">đ</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+              {/* BUTTON */}
+              <Button className="flex items-center text-white gradient_btn">
+                <span className="text-lg tracking-wide ">
+                  {item.showCallMe ? (
+                    <div className="flex items-center space-x-1">
+                      <Icon
+                        className="w-[22px] h-[22px]"
+                        icon="material-symbols:call-outline"
+                      />
+                      <span>Gọi chúng tôi</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center space-x-1">
+                      <Icon
+                        className="w-[22px] h-[22px]"
+                        icon="mdi:cart-outline"
+                      />
+                      <span>Đăng ký ngay</span>
+                    </div>
+                  )}
+                </span>
+              </Button>
             </div>
-            {/* BUTTON */}
-            <Button 
-              className="  flex items-center text-white gradient_btn"
-            >
-              <span className="text-lg tracking-wide ">
-                {item.showCallMe ? (
-                  <div className="flex items-center space-x-1">
-                    <Icon
-                      className="w-[22px] h-[22px]"
-                      icon="material-symbols:call-outline"
-                    />
-                    <span>Gọi chúng tôi</span>
-                  </div>
-                ) : (
-                  <div className="flex items-center space-x-1">
-                    <Icon
-                      className="w-[22px] h-[22px]"
-                      icon="mdi:cart-outline"
-                    />
-                    <span>Đăng ký ngay</span>
-                  </div>
-                )}
-              </span>
-            </Button>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }
 
 function Feedback({ feedbacks }) {
   return (
-    <div className="space-y-16">
-      <div className="text-primary-blue-medium text-[45px] font-bold">
-        Khách hàng hài lòng - Đối tác tin tưởng
+    <div className="w-full space-y-16">
+      <div className="m-auto w-fit text-primary-blue-medium text-[45px] font-bold">
+        Khách hàng & Đối tác
       </div>
       {/* FEEDDBACK */}
       <div className="flex space-x-4 overflow-x-auto">
@@ -454,47 +466,31 @@ function Feedback({ feedbacks }) {
       </div>
 
       <div className="w-1/2 mx-auto my-12 border-b-2 border-dashed border-primary-blue-medium"></div>
-      <div className="grid grid-cols-6 gap-4 mb-2">
-        {(() => {
-          const arr = [];
-          for (let i = 0; i < 6; i++) {
-            if (i % 2 === 0)
-              arr.push(
-                <div className="flex items-center justify-center">
-                  <img src={Feedback_webflow} alt="disc" />
-                </div>
-              );
-            else
-              arr.push(
-                <div className="flex items-center justify-center">
-                  <img src={Feedback_disc} alt="webflow" />
-                </div>
-              );
-          }
-          return arr;
-        })()}
-      </div>
-      <div className="grid grid-cols-6 gap-4">
-        <div></div>
-        {(() => {
-          const arr = [];
-          for (let i = 0; i < 4; i++) {
-            if (i % 2 === 0)
-              arr.push(
-                <div className="flex items-center justify-center">
-                  <img src={Feedback_webflow} alt="disc" />
-                </div>
-              );
-            else
-              arr.push(
-                <div className="flex items-center justify-center">
-                  <img src={Feedback_disc} alt="webflow" />
-                </div>
-              );
-          }
-          return arr;
-        })()}
-        <div></div>
+      <div className="rssBlock">
+        <div className="cnnContents">
+          <div className="marqueeStyle">
+            <div className="flex space-x-0">
+              {(() => {
+                const arr: any = [];
+                for (let i = 0; i < 6; i++) {
+                  if (i % 2 === 0)
+                    arr.push(
+                      <div className="flex items-center justify-center">
+                        <img src={Feedback_webflow} alt="disc" />
+                      </div>
+                    );
+                  else
+                    arr.push(
+                      <div className="flex items-center justify-center">
+                        <img src={Feedback_disc} alt="webflow" />
+                      </div>
+                    );
+                }
+                return arr;
+              })()}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -621,12 +617,13 @@ function FAQs() {
     },
   ];
   return (
-    <div>
+    <div className="w-full">
       <div className="text-primary-blue-medium text-[45px] font-bold ">
         FAQs
       </div>
       <div>
         <Collapse
+          accordion={true}
           items={faq}
           expandIcon={({ isActive }) => (
             <CaretRightOutlined rotate={isActive ? 90 : 0} />
@@ -639,27 +636,78 @@ function FAQs() {
 }
 
 function Register({ packages }) {
+  const { TextArea } = Input;
+  const [form] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    value: "",
+    subscription: "",
+  });
   const options = packages.map((item) => {
     return { value: item.id, label: item.name };
   });
+
+  function handleRegister() {
+    console.log("form", form);
+  }
+  useEffect(() => {
+    console.log(form);
+  }, [form]);
   return (
-    <div>
+    <div className="w-full">
       <div className="text-primary-blue-medium text-[45px] font-bold ">
-        Đăng ký ngay
+        Đăng ký dịch vụ
       </div>
-      <div className="-mt-2 italic text-primary-blue-dark">
-        Hãy để lại thông tin, chuyên viên tư vấn sẽ liên hệ lại ngay.
+      <div className="-mt-2 italic text-white">
+        Đồng hành cùng những điều đặc biệt.
       </div>
-      <div className="flex mt-4 space-x-2">
-        <Input placeholder="Số điện thoại" />
-        <Select
-          style={{ width: 200 }}
-          options={options}
-          placeholder="Chọn gói dịch vụ"
+      <div className="flex flex-col mt-4 space-y-2">
+        <div className="grid grid-cols-2 gap-2">
+          <Input
+            placeholder="Họ tên (*)"
+            onChange={(e) => {
+              form.name = e.target.value;
+            }}
+          />
+          <Input
+            placeholder="Số điện thoại (*)"
+            onChange={(e) => {
+              form.phone = e.target.value;
+            }}
+          />
+        </div>
+        <Input
+          placeholder="Email (*)"
+          onChange={(e) => {
+            form.email = e.target.value;
+          }}
         />
-        <Button className="gradient_btn">
-          <span className="  font-thin text-white">Đăng kí ngay</span>
-        </Button>
+        <TextArea
+          placeholder="Lời nhắn"
+          onChange={(e) => {
+            form.value = e.target.value;
+          }}
+        />
+
+        <div className="grid grid-cols-2 gap-2">
+          <Select
+            className="w-full"
+            options={options}
+            placeholder="Chọn gói dịch vụ"
+            onChange={(e) => {
+              form.subscription = e;
+            }}
+          />
+          <Button
+            className="gradient_btn"
+            onClick={() => {
+              handleRegister();
+            }}
+          >
+            <span className="font-thin text-white ">Đăng kí ngay</span>
+          </Button>
+        </div>
       </div>
     </div>
   );
@@ -677,16 +725,17 @@ function Footer() {
     Social_zalo,
   ];
   return (
-    <div
-      className="!w-screen -translate-x-[8.3%] 2xl:-translate-x-[16.5%] flex justify-center pb-16"
-      style={{ background: "linear-gradient(180deg, #1E2530 0%, #000 100%)" }}
-    >
-      <div className="w-5/6 2xl:w-2/3 text-white">
+    <div className="relative !w-screen  flex justify-center pb-16">
+      <div
+        style={{ background: "linear-gradient(180deg, #1E2530 0%, #000 100%)" }}
+        className="absolute bottom-0 w-full h-full z-[1]"
+      ></div>
+      <div className="text-white z-[2]">
         <div className="grid grid-cols-3 gap-2">
           {/* COL 1 */}
           <div className="space-y-5">
             <img src={Footer_banner} alt="footer banner" />
-            <div className=" text-sm  ">
+            <div className="text-sm ">
               Thẻ thông minh một chạm, kết nối không giới hạn.
             </div>
             <div className="font-bold text-primary-blue-medium">Follow us:</div>
@@ -701,25 +750,25 @@ function Footer() {
           {/* COL 2 */}
           <div className="flex flex-col mx-auto">
             <div className="text-sm font-extrabold ">Điều khoản & Dịch vụ</div>
-            <div className=" text-sm  font-light">Sản phẩm & Dịch vụ</div>
-            <div className=" text-sm  ">Legal Notice</div>
-            <div className=" text-sm  ">Privacy Policy</div>
-            <div className=" text-sm  ">Refund Policy</div>
-            <div className="text-sm   ">Shipping Policy</div>
-            <div className=" text-sm  ">Terms of Service</div>
+            <div className="text-sm font-light ">Sản phẩm & Dịch vụ</div>
+            <div className="text-sm ">Legal Notice</div>
+            <div className="text-sm ">Privacy Policy</div>
+            <div className="text-sm ">Refund Policy</div>
+            <div className="text-sm ">Shipping Policy</div>
+            <div className="text-sm ">Terms of Service</div>
           </div>
           {/* COL 3 */}
           <div className="flex flex-col w-full space-y-[18px]">
-            <div className="font-extrabold text-sm">Liên hệ </div>
+            <div className="text-sm font-extrabold">Liên hệ </div>
             <div className="space-y-1">
-              <div className=" flex text-sm  space-x-2">
+              <div className="flex space-x-2 text-sm ">
                 <Icon
                   className="w-[22px] h-[22px]"
                   icon="material-symbols:call-outline"
                 />
                 <div>+84 931 14 12 97</div>
               </div>
-              <div className="flex text-sm  space-x-2">
+              <div className="flex space-x-2 text-sm">
                 <Icon
                   className="w-[22px] h-[22px]"
                   icon="material-symbols:mail-outline"
@@ -727,7 +776,7 @@ function Footer() {
                 <div>contact@onthedesk.vn</div>
               </div>
 
-              <div className="flex text-sm  space-x-2">
+              <div className="flex space-x-2 text-sm">
                 <Icon className="w-[22px] h-[22px]" icon="tdesign:location" />
                 <div>Vinhomes Ocean Park,Hà Nội</div>
               </div>
@@ -745,6 +794,8 @@ function Footer() {
   );
 }
 function Product() {
+  const instructionRef: any = useRef(null);
+
   const [packages, setPackages] = useState([]);
   const [feedbacks, setFeedbacks] = useState([]);
 
@@ -760,16 +811,27 @@ function Product() {
       setPackages(res.data);
     }
   }
+
   useEffect(() => {
     getPackageList();
     getFeedback();
+
+    const url = window.location.href;
+    if (url.includes("#huong-dan")) {
+      if (instructionRef.current) {
+        setTimeout(() => {
+          instructionRef.current.scrollIntoView({ behavior: "smooth" });
+        }, 400);
+      }
+    }
+    console.log(window.location.href);
   }, []);
   return (
-    <div className="pt-32 space-y-36">
+    <div className="flex flex-col items-center pt-20 space-y-10">
       <Hero1 />
       <Hero2 />
       <Hero3 />
-      <Instruction />
+      <Instruction innerRef={instructionRef} />
       <Divider />
       <Environment />
       <ProductAndService packages={packages} />

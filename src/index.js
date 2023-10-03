@@ -21,6 +21,11 @@ const router = createHashRouter([
     errorElement: <ErrorPage />,
   },
   {
+    path: "/huong-dan",
+    element: <Landing />,
+    errorElement: <ErrorPage />,
+  },
+  {
     path: "/",
     element: <Landing />,
     errorElement: <ErrorPage />,

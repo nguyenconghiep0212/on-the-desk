@@ -73,6 +73,36 @@
   background: radial-gradient(35.48% 49.7% at 50.3% 51.28%, #040A15 0%, rgba(3, 13, 33, 0.00) 100%);
 }
 
+.shadow-hero-1 {
+  box-shadow: none;
+  width: 100%;
+  height: 74.202px;
+  flex-shrink: 0;
+  border-radius: 990.794px;
+  opacity: 0.6;
+  background: radial-gradient(35.48% 49.7% at 50.3% 51.28%, #040A15 0%, rgba(3, 13, 33, 0.00) 100%);
+}
+
+.shadow-hero-2 {
+  width: 100%;
+  height: 23.888px;
+  transform: rotate(-4deg);
+  flex-shrink: 0;
+  background: radial-gradient(35.48% 49.7% at 50.3% 51.28%, #040A15 0%, rgba(3, 13, 33, 0.00) 100%);
+  box-shadow: none;
+  opacity: 0.6;
+}
+
+.shadow-hero-3 {
+  width: 100%;
+  height: 27px;
+  flex-shrink: 0;
+  border-radius: 295px;
+  box-shadow: none;
+  opacity: 0.6;
+  background: radial-gradient(35.48% 49.7% at 50.3% 51.28%, #040A15 0%, rgba(3, 13, 33, 0.00) 100%);
+
+}
 
 
 .instruction_index {
@@ -119,4 +149,48 @@
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+
+// MARQUEE
+.rssBlock {
+  left: 0px;
+  height: 80px;
+  background: transparent; 
+  width: 100%;
+  overflow: hidden;
+}
+
+/*remove p*/
+.cnnContents {
+  width: 100%;   
+}
+
+.marqueeStyle {
+  display: inline-block;
+  /* Apply animation to this element */
+  -webkit-animation: scrolling-left 20s linear infinite;
+  animation: scrolling-left 20s linear infinite;
+}
+
+@keyframes scrolling-left {
+  0% {
+    transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+  }
+}
+
+@-webkit-keyframes scrolling-left {
+  0% {
+    -webkit-transform: translateX(100%);
+  }
+
+  100% {
+    -webkit-transform: translateX(-100%);
+  }
 }

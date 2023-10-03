@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { currentTab } from "store/root.ts";
 import { useRecoilState } from "recoil";
-import { Popover, Tabs } from "antd";
+import { Affix, Popover, Tabs } from "antd";
 import Logo from "assests/landing/footer_banner.svg";
 import Social_facebook from "assests/landing/social_logo_facebook.svg";
 import Social_instagram from "assests/landing/social_logo_instagram.svg";
@@ -60,6 +60,7 @@ function Menu({ handleChange }) {
     <div className="relative z-1 ">
       {menu_items.map((item, index) => (
         <div
+          key={index}
           className="relative z-10 px-3 py-2 cursor-pointer hover:p-0 menu-btn-bg"
           onClick={() => {
             handleChange(item.key);
@@ -88,7 +89,7 @@ function Menu({ handleChange }) {
   );
   return (
     <Popover placement="bottomRight" content={content} trigger="click">
-      <Icon className="cursor-pointer" icon="gg:menu-right" />
+      <Icon className="cursor-pointer 3xl:text-2xl " icon="gg:menu-right" />
     </Popover>
   );
 }
@@ -115,6 +116,7 @@ function Profile({ handleProfileEvent }) {
     <div className="relative z-1 ">
       {profile_menu.map((item, index) => (
         <div
+          key={index}
           className="relative z-10 px-3 py-2 cursor-pointer hover:p-0 menu-btn-bg"
           onClick={() => {
             handleProfileEvent(item.key);
@@ -139,7 +141,7 @@ function Profile({ handleProfileEvent }) {
         }}
       >
         <div className="flex items-center w-full h-full space-x-1 text-white menu-btn">
-          <Icon className="text-lg " icon="mdi:logout" />
+          <Icon className="text-xl" icon="mdi:logout" />
           <div className="font-sans font-thin tracking-wide">Đăng xuất</div>
         </div>
       </div>
@@ -148,7 +150,7 @@ function Profile({ handleProfileEvent }) {
   return (
     <div>
       <Popover placement="bottomRight" content={content} trigger="click">
-        <Icon className="cursor-pointer" icon="line-md:account" />
+        <Icon className="cursor-pointer 3xl:text-2xl" icon="line-md:account" />
       </Popover>
     </div>
   );
@@ -166,19 +168,21 @@ function Header() {
     console.log(value);
   };
   return (
-    <div className="flex items-center justify-between py-6 ">
-      <div className="flex items-center ">
-        <img src={Logo} alt="logo" />
+    
+      <div className="flex items-center justify-between">
+        <div className="flex items-center ">
+          <img src={Logo} alt="logo" className="3xl:w-[280px]" />
+        </div>
+        <div className="flex items-center mr-8 space-x-6 text-white ">
+          <Icon
+            className="cursor-pointer 3xl:text-2xl"
+            icon="akar-icons:shopping-bag"
+          />
+          <Profile handleProfileEvent={handleProfileEvent} />
+          <Menu handleChange={handleChange} />
+        </div>
       </div>
-      <div className="flex items-center mr-8 space-x-6 text-white ">
-        <Icon
-          className="cursor-pointer"
-          icon="streamline:shopping-bag-hand-bag-1-shopping-bag-purse-goods-item-products"
-        />
-        <Profile handleProfileEvent={handleProfileEvent} />
-        <Menu handleChange={handleChange} />
-      </div>
-    </div>
+    
   );
 }
 
