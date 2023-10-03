@@ -725,12 +725,12 @@ function Footer() {
     Social_zalo,
   ];
   return (
-    <div className="relative !w-screen  flex justify-center pb-16">
+    <div className="relative flex justify-center w-full pb-16">
       <div
         style={{ background: "linear-gradient(180deg, #1E2530 0%, #000 100%)" }}
-        className="absolute bottom-0 w-full h-full z-[1]"
+        className="w-screen absolute bottom-0  h-full z-[1]"
       ></div>
-      <div className="text-white z-[2]">
+      <div className="text-white z-[2] w-full">
         <div className="grid grid-cols-3 gap-2">
           {/* COL 1 */}
           <div className="space-y-5">

@@ -9,7 +9,6 @@ import Ribbon1 from "assests/landing/ribbon_1.svg";
 import Ribbon2 from "assests/landing/ribbon_2.svg";
 // STORE
 import { currentTab } from "store/root.ts";
-import { Affix } from "antd";
 
 function Landing() {
   const [tab] = useRecoilState(currentTab);
@@ -30,12 +29,12 @@ function Landing() {
 
       {/* CONTENT */}
       <div>
-        <div className="fixed top-0 w-full 3xl:px-20 3xl:py-[22px] 2xl:px-[60px] 2xl:py-[22px]  backdrop-blur z-50">
+        <div className="fixed top-0 w-full 3xl:px-20 3xl:py-[22px] desktop:px-[60px] py-[22px] px-10  backdrop-blur z-50">
           <Header />
         </div>
 
         <div className="relative z-3  m-auto  desktop:w-[96%]">
-          {tab === "product" ? <Product /> : <div></div>}
+          <Product />
         </div>
       </div>
     </div>
