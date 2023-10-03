@@ -5,8 +5,10 @@ module.exports = {
     extend: {
       screens: {
         "<sm": { max: "600px" },
+        
+        "<md": { max: "768px" },
 
-        "<xs": { max: "480px" },
+        "<xs": { max: "425px" },
 
         "<xxs": { max: "280px" },
 

@@ -33,7 +33,7 @@ function Landing() {
           <Header />
         </div>
 
-        <div className="relative z-3  m-auto  desktop:w-[96%]">
+        <div className="relative z-3  m-auto <xs:px-10 xs:w-[95%] 3xl:!w-[75%]">
           <Product />
         </div>
       </div>

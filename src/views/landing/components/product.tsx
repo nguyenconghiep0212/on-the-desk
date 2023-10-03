@@ -29,30 +29,32 @@ import { fetchFeedback, fetchPackageList } from "api";
 
 function Hero1() {
   return (
-    <div className="flex flex-col ">
+    <div className="flex flex-col w-full">
       <div className="flex flex-col items-center ">
         <img src={Hero1_banner} alt="hero1" className="desktop:w-[90%]" />
         <div className="-mt-24 shadow-hero-1" />
       </div>
       <div className="flex flex-col items-center">
-        <div className="flex  flex-col xs:flex-row space-x-2 text-[48px] italic">
-          <div className="text-5xl font-light text-white ">Everythinks</div>
-          <div className="text-5xl font-bold text-primary-blue-medium">
+        <div className="flex flex-col mobile:items-center md:flex-row space-x-2 text-[48px] italic">
+          <div className="text-5xl font-light text-white <xs:text-4xl">
+            Everythinks
+          </div>
+          <div className="text-5xl font-bold text-primary-blue-medium <xs:text-4xl">
             On The Desk
           </div>
         </div>
-        <div className=" mt-3 text-lg  tracking-wide text-white !my-6">
+        <div className=" mt-3 text-lg text-center  tracking-wide text-white !my-6">
           Thẻ thông minh hàng đầu Việt Nam kết nối và tối ưu cho từng cá nhân và
           doanh nghiệp một cách nhanh chóng dễ dàng.
         </div>
-        <div className="flex items-center mt-6 space-x-3">
+        <div className="flex <xs:flex-col items-center mt-6 space-x-3">
           <Button className="flex items-center hover:scale-105">
             <img src={Logo} alt="logo" className="w-4 mr-1" />
             <span className="text-lg font-semibold text-primary-blue-medium">
               Create
             </span>
           </Button>
-          <span className="text-lg italic font-semibold text-primary-blue-medium">
+          <span className="text-lg <xs:w-[55%] italic font-semibold text-primary-blue-medium">
             your own life with your own style
           </span>
         </div>
@@ -63,16 +65,20 @@ function Hero1() {
 
 function Hero2() {
   return (
-    <div className="grid grid-cols-2 ">
+    <div className="grid w-full grid-cols-1 md:grid-cols-2">
       <div className="flex flex-col items-center">
-        <img src={Hero2_banner} alt="hero2" className=" desktop:w-1/2" />
+        <img
+          src={Hero2_banner}
+          alt="hero2"
+          className=" desktop:w-1/2 3xl:!w-2/3"
+        />
         <div className="shadow-hero-2"></div>
       </div>
-      <div className="flex flex-col items-start justify-center ml-4">
-        <span className="text-[45px] font-bold text-primary-blue-medium">
+      <div className="flex flex-col items-center justify-center ml-4 md:items-start">
+        <span className="md:text-[45px] text-4xl text-center font-bold text-primary-blue-medium">
           Cá nhân hóa
         </span>
-        <span className="-mt-2 text-lg italic text-primary-blue-medium">
+        <span className="text-lg italic text-center text-primary-blue-medium">
           Phong cách của bạn là duy nhất
         </span>
         <div className="mt-6 text-white">
@@ -103,38 +109,36 @@ function Hero2() {
 
 function Hero3() {
   return (
-    <div className="grid grid-cols-2 ">
-      <div className="flex flex-col items-center justify-center text-white">
-        <div className="flex flex-col w-fit">
-          <span className="text-[45px]   font-bold text-primary-blue-medium">
-            Tối ưu doanh nghiệp
-          </span>
-          <span className="-mt-2 text-lg italic font-light text-primary-blue-medium">
-            Hiện đại hoá doanh nghiệp và cách vận hành
-          </span>
-          <div className="mt-6 text-white">
-            <div className="flex items-center space-x-2">
-              <Icon icon="mdi:dot" />
-              <span className="text-lg tracking-wide placeholder:">
-                Phát triển nội dung số chuyên nghiệp không giới hạn.
-              </span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Icon icon="mdi:dot" />
-              <span className="text-lg tracking-wide ">
-                Tối ưu chi phí vận hành.
-              </span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Icon icon="mdi:dot" />
-              <span className="text-lg tracking-wide ">
-                Nâng cao trải nghiệm khách hàng.
-              </span>
-            </div>
+    <div className="flex flex-col-reverse w-full md:grid md:grid-cols-2">
+      <div className="flex flex-col items-center justify-center text-white md:items-start">
+        <span className="md:text-[45px] text-4xl text-center font-bold text-primary-blue-medium">
+          Tối ưu doanh nghiệp
+        </span>
+        <span className="text-lg italic font-light text-center text-primary-blue-medium">
+          Hiện đại hoá doanh nghiệp và cách vận hành
+        </span>
+        <div className="mt-6 text-white">
+          <div className="flex items-center space-x-2">
+            <Icon icon="mdi:dot" />
+            <span className="text-lg tracking-wide placeholder:">
+              Phát triển nội dung số chuyên nghiệp không giới hạn.
+            </span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Icon icon="mdi:dot" />
+            <span className="text-lg tracking-wide ">
+              Tối ưu chi phí vận hành.
+            </span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Icon icon="mdi:dot" />
+            <span className="text-lg tracking-wide ">
+              Nâng cao trải nghiệm khách hàng.
+            </span>
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center ">
         <img src={Hero3_banner} alt="hero3" className="desktop:w-full" />
         <div className="-mt-12 shadow-hero-3" />
       </div>
@@ -166,12 +170,12 @@ const Instruction = ({ innerRef }) => {
     },
   ];
   return (
-    <div ref={innerRef} className="flex flex-col items-center space-y-5">
-      <span className="text-[45px] font-bold text-primary-blue-medium">
+    <div ref={innerRef} className="flex flex-col items-center w-full space-y-5">
+      <span className="text-[45px] text-center font-bold text-primary-blue-medium">
         Hướng dẫn sử dụng
       </span>
       <Radio.Group
-        className="flex justify-center w-full"
+        className="flex justify-center w-full <xs:overflow-x-auto"
         defaultValue="smart_card"
         buttonStyle="solid"
         onChange={() => {}}
@@ -182,7 +186,8 @@ const Instruction = ({ innerRef }) => {
           Thiết bị tương thích
         </Radio.Button>
       </Radio.Group>
-      <div className="flex !mt-8 space-x-4">
+
+      <div className="grid desktop:grid-cols-4 mobile:grid-cols-2 <xs:!grid-cols-1 gap-4 !mt-8">
         {instructions.map((item, index) => (
           <div
             key={index}
@@ -206,7 +211,7 @@ const Instruction = ({ innerRef }) => {
 
 function Divider() {
   return (
-    <div className="">
+    <div className="w-full ">
       <div className="flex justify-center !mt-16 space-x-3">
         <div className="small_star">*</div>
         <div className="medium_star">*</div>
@@ -215,7 +220,7 @@ function Divider() {
         <div className="small_star">*</div>
       </div>
       <div className="flex flex-col items-center desktop:px-[84px]">
-        <div className="text-primary-blue-medium text-[45px] font-bold">
+        <div className="text-primary-blue-medium text-center md:text-[45px] text-4xl font-bold">
           Hệ sinh thái toàn diện
         </div>
         <div className="italic tracking-wide text-center text-white ">
@@ -291,8 +296,8 @@ function Environment() {
     },
   ];
   return (
-    <div className="flex flex-col !mt-8 items-center">
-      <div className="grid w-full grid-cols-3 gap-8 mt-16 gap-y-16 ">
+    <div className="flex flex-col !mt-8 items-center  w-full">
+      <div className="grid w-full <xs:grid-cols-1 grid-cols-3 gap-8 mt-16 gap-y-16 ">
         {environments.map((item, index) => (
           <div key={index} className="space-y-6">
             <img src={item.img} alt="environment" className="h-16" />
@@ -319,11 +324,11 @@ function Environment() {
 
 function ProductAndService({ packages }) {
   return (
-    <div className="flex flex-col items-center">
-      <div className="text-primary-blue-medium text-[45px] font-bold p-12">
+    <div className="flex flex-col items-center w-full">
+      <div className="text-primary-blue-medium text-4xl md:text-[45px] font-bold p-12">
         Sản phẩm & Dịch vụ
       </div>
-      <div className="grid grid-cols-4 gap-4 ">
+      <div className="grid gap-4 desktop:grid-cols-4 mobile:grid-cols-2 <xs:!grid-cols-1">
         {packages.map((item: any, index: number) => (
           <div
             style={
@@ -336,7 +341,7 @@ function ProductAndService({ packages }) {
                   }
                 : {}
             }
-            className="relative !py-0 default_card hover:scale-105 transition-all duration-300 cursor-pointer h-fit !px-4"
+            className="relative !py-0 default_card hover:scale-105 transition-all duration-300 cursor-pointer desktop:h-fit !px-4"
             key={index}
           >
             {/* STICKER */}
@@ -427,7 +432,7 @@ function ProductAndService({ packages }) {
 function Feedback({ feedbacks }) {
   return (
     <div className="w-full space-y-16">
-      <div className="m-auto w-fit text-primary-blue-medium text-[45px] font-bold">
+      <div className="m-auto w-fit text-primary-blue-medium text-center text-4xl md:text-[45px] font-bold">
         Khách hàng & Đối tác
       </div>
       {/* FEEDDBACK */}
@@ -465,7 +470,7 @@ function Feedback({ feedbacks }) {
         ))}
       </div>
 
-      <div className="w-1/2 mx-auto my-12 border-b-2 border-dashed border-primary-blue-medium"></div>
+      <div className="mx-auto my-12 border-b-2 border-dashed <xs:w-full w-2/3 md:w-1/2 border-primary-blue-medium"></div>
       <div className="rssBlock">
         <div className="cnnContents">
           <div className="marqueeStyle">
@@ -655,13 +660,16 @@ function Register({ packages }) {
     console.log(form);
   }, [form]);
   return (
-    <div className="w-full">
-      <div className="text-primary-blue-medium text-[45px] font-bold ">
-        Đăng ký dịch vụ
+    <div className="w-full desktop:grid desktop:grid-cols-2 desktop:gap-2">
+      <div>
+        <div className="text-primary-blue-medium text-[45px] font-bold ">
+          Đăng ký dịch vụ
+        </div>
+        <div className="-mt-2 italic text-white">
+          Đồng hành cùng những điều đặc biệt.
+        </div>
       </div>
-      <div className="-mt-2 italic text-white">
-        Đồng hành cùng những điều đặc biệt.
-      </div>
+
       <div className="flex flex-col mt-4 space-y-2">
         <div className="grid grid-cols-2 gap-2">
           <Input
@@ -731,7 +739,7 @@ function Footer() {
         className="w-screen absolute bottom-0  h-full z-[1]"
       ></div>
       <div className="text-white z-[2] w-full">
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid <xs:grid-cols-1 gap-2 grid-cols-3">
           {/* COL 1 */}
           <div className="space-y-5">
             <img src={Footer_banner} alt="footer banner" />
@@ -748,7 +756,7 @@ function Footer() {
             </div>
           </div>
           {/* COL 2 */}
-          <div className="flex flex-col mx-auto">
+          <div className="flex flex-col mx-auto <xs:mx-0">
             <div className="text-sm font-extrabold ">Điều khoản & Dịch vụ</div>
             <div className="text-sm font-light ">Sản phẩm & Dịch vụ</div>
             <div className="text-sm ">Legal Notice</div>
