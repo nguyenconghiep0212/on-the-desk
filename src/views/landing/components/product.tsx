@@ -1,4 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
+import { CaretRightOutlined } from "@ant-design/icons";
+import { Button, Collapse, CollapseProps, Input, Radio, Select } from "antd";
+import { Icon } from "@iconify/react";
+import { fetchFeedback, fetchPackageList } from "api";
+import { useRecoilState } from "recoil";
+
+// IMAGE
 import Footer_banner from "assests/landing/footer_banner.svg";
 import Logo from "assests/landing/logo.svg";
 import Logo_white from "assests/landing/logo_white.svg";
@@ -22,14 +29,17 @@ import Social_phone from "assests/landing/social_logo_phone.svg";
 import Social_tiktok from "assests/landing/social_logo_tiktok.svg";
 import Social_youtube from "assests/landing/social_logo_youtube.svg";
 import Social_zalo from "assests/landing/social_logo_zalo.svg";
-import { CaretRightOutlined } from "@ant-design/icons";
-import { Button, Collapse, CollapseProps, Input, Radio, Select } from "antd";
-import { Icon } from "@iconify/react";
-import { fetchFeedback, fetchPackageList } from "api";
 
-function Hero1() {
+// STORE
+import { currentTab } from "store/root.ts";
+
+function Hero1({ innerRef }) {
   return (
-    <div className="flex flex-col w-full">
+    <div className="relative flex flex-col w-full">
+      <div
+        ref={innerRef}
+        className="absolute h-[70px] top-[-70px] pointer-events-none"
+      ></div>
       <div className="flex flex-col items-center ">
         <img src={Hero1_banner} alt="hero1" className="desktop:w-[90%]" />
         <div className="-mt-24 shadow-hero-1" />
@@ -63,9 +73,13 @@ function Hero1() {
   );
 }
 
-function Hero2() {
+function Hero2({ innerRef }) {
   return (
-    <div className="grid w-full grid-cols-1 md:grid-cols-2">
+    <div className="relative grid w-full grid-cols-1 md:grid-cols-2">
+      <div
+        ref={innerRef}
+        className="absolute h-[70px] top-[-70px] pointer-events-none"
+      ></div>
       <div className="flex flex-col items-center">
         <img
           src={Hero2_banner}
@@ -170,7 +184,11 @@ const Instruction = ({ innerRef }) => {
     },
   ];
   return (
-    <div ref={innerRef} className="flex flex-col items-center w-full space-y-5">
+    <div className="relative flex flex-col items-center w-full space-y-5">
+      <div
+        ref={innerRef}
+        className="absolute h-[70px] top-[-70px] pointer-events-none"
+      ></div>
       <span className="text-[45px] text-center font-bold text-primary-blue-medium">
         Hướng dẫn sử dụng
       </span>
@@ -322,9 +340,14 @@ function Environment() {
   );
 }
 
-function ProductAndService({ packages }) {
+function ProductAndService({ innerRef, packages }) {
   return (
-    <div className="flex flex-col items-center w-full">
+    <div className="relative flex flex-col items-center w-full">
+      <div
+        ref={innerRef}
+        className="absolute h-[70px] top-[-70px] pointer-events-none"
+      ></div>
+
       <div className="text-primary-blue-medium text-4xl md:text-[45px] font-bold p-12">
         Sản phẩm & Dịch vụ
       </div>
@@ -501,7 +524,7 @@ function Feedback({ feedbacks }) {
   );
 }
 
-function FAQs() {
+function FAQs({ innerRef }) {
   const faq: CollapseProps["items"] = [
     {
       key: "1",
@@ -622,7 +645,11 @@ function FAQs() {
     },
   ];
   return (
-    <div className="w-full">
+    <div className="relative w-full">
+      <div
+        ref={innerRef}
+        className="absolute h-[70px] top-[-70px] pointer-events-none"
+      ></div>
       <div className="text-primary-blue-medium text-[45px] font-bold ">
         FAQs
       </div>
@@ -640,7 +667,7 @@ function FAQs() {
   );
 }
 
-function Register({ packages }) {
+function Register({ innerRef, packages }) {
   const { TextArea } = Input;
   const [form] = useState({
     name: "",
@@ -660,7 +687,11 @@ function Register({ packages }) {
     console.log(form);
   }, [form]);
   return (
-    <div className="w-full desktop:grid desktop:grid-cols-2 desktop:gap-2">
+    <div className="relative w-full desktop:grid desktop:grid-cols-2 desktop:gap-2">
+      <div
+        ref={innerRef}
+        className="absolute h-[70px] top-[-70px] pointer-events-none"
+      ></div>
       <div>
         <div className="text-primary-blue-medium text-[45px] font-bold ">
           Đăng ký dịch vụ
@@ -802,7 +833,14 @@ function Footer() {
   );
 }
 function Product() {
+  const [tab] = useRecoilState(currentTab);
+
+  const productRef: any = useRef(null);
+  const introductionRef: any = useRef(null);
   const instructionRef: any = useRef(null);
+  const serviceRef: any = useRef(null);
+  const infomationRef: any = useRef(null);
+  const contactRef: any = useRef(null);
 
   const [packages, setPackages] = useState([]);
   const [feedbacks, setFeedbacks] = useState([]);
@@ -820,32 +858,56 @@ function Product() {
     }
   }
 
+  function scrollToView(ref, delay = 400) {
+    if (ref.current) {
+      setTimeout(() => {
+        ref.current.scrollIntoView({
+          top: ref.current.offsetTop - 70,
+          behavior: "smooth",
+        });
+      }, delay);
+    }
+  }
+  useEffect(() => { 
+    switch (tab) { 
+      case 'product':scrollToView(productRef ,0)
+        break;
+      case 'introduction':scrollToView(introductionRef,0)
+        break;
+      case 'instruction':scrollToView(instructionRef,0)
+        break;
+      case 'service':scrollToView(serviceRef,0)
+        break;
+      case 'news':scrollToView(infomationRef,0)
+        break;
+      case 'contact':scrollToView(contactRef,0)
+        break;
+
+      default:
+        break;
+    }
+  }, [tab]);
   useEffect(() => {
     getPackageList();
     getFeedback();
 
     const url = window.location.href;
     if (url.includes("#huong-dan")) {
-      if (instructionRef.current) {
-        setTimeout(() => {
-          instructionRef.current.scrollIntoView({ behavior: "smooth" });
-        }, 400);
-      }
+      scrollToView(instructionRef);
     }
-    console.log(window.location.href);
   }, []);
   return (
     <div className="flex flex-col items-center pt-20 space-y-10">
-      <Hero1 />
-      <Hero2 />
+      <Hero1 innerRef={productRef} />
+      <Hero2 innerRef={introductionRef} />
       <Hero3 />
       <Instruction innerRef={instructionRef} />
       <Divider />
       <Environment />
-      <ProductAndService packages={packages} />
+      <ProductAndService innerRef={serviceRef} packages={packages} />
       <Feedback feedbacks={feedbacks} />
-      <FAQs />
-      <Register packages={packages} />
+      <FAQs innerRef={infomationRef} />
+      <Register innerRef={contactRef} packages={packages} />
       <Footer />
     </div>
   );

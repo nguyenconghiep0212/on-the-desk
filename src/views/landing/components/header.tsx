@@ -16,13 +16,13 @@ import { Icon } from "@iconify/react";
 function Menu({ handleChange }) {
   const socials = [
     Social_facebook,
+    Social_messenger,
     Social_instagram,
     Social_linkedin,
-    Social_messenger,
-    Social_phone,
-    Social_tiktok,
     Social_youtube,
+    Social_tiktok,
     Social_zalo,
+    Social_phone,
   ];
   const menu_items = [
     {
@@ -61,13 +61,13 @@ function Menu({ handleChange }) {
       {menu_items.map((item, index) => (
         <div
           key={index}
-          className="relative z-10 px-3 py-2 cursor-pointer hover:p-0 menu-btn-bg"
+          className="relative z-10 p-[2px] cursor-pointer h-9 w-40 menu-btn-bg"
           onClick={() => {
             handleChange(item.key);
           }}
         >
           <div
-            className="flex items-center w-full h-full space-x-1 text-white menu-btn"
+            className="flex px-3  items-center w-full h-full space-x-1 text-white menu-btn"
             key={index}
           >
             <Icon className="text-lg" icon={item.icon} />
@@ -160,8 +160,7 @@ function Header() {
   const [value, setValue] = useRecoilState(currentTab);
 
   const handleChange = (newValue: string) => {
-    setValue(newValue);
-    console.log(value);
+    setValue(newValue); 
   };
 
   const handleProfileEvent = (value: string) => {

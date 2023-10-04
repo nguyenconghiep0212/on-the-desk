@@ -32,12 +32,13 @@
 
 
 
-.menu-btn:hover {
-  position: relative;
-  box-sizing: border-box;
-  border-radius: 8px !important;
-  padding: 8px 12px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+.menu-btn {
+  &:hover {
+    position: relative;
+    box-sizing: border-box;
+    border-radius: 8px !important;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.04) 100%);
+  }
 
   &-bg:hover {
     content: '';
@@ -49,19 +50,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 35px;
   }
 }
 
-.shadow {
-  box-shadow: none;
-  width: 457px;
-  height: 42px;
-  flex-shrink: 0;
-  border-radius: 457px;
-  opacity: 0.6;
-  background: radial-gradient(35.48% 49.7% at 50.3% 51.28%, #040A15 0%, rgba(3, 13, 33, 0.00) 100%);
-}
+
 
 .shadow-lg {
   box-shadow: none;
@@ -156,14 +148,14 @@
 .rssBlock {
   left: 0px;
   height: 80px;
-  background: transparent; 
+  background: transparent;
   width: 100%;
   overflow: hidden;
 }
 
 /*remove p*/
 .cnnContents {
-  width: 100%;   
+  width: 100%;
 }
 
 .marqueeStyle {
