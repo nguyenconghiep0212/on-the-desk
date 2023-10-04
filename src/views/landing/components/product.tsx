@@ -935,6 +935,8 @@ function Product() {
     const url = window.location.href;
     if (url.includes("#huong-dan")) {
       scrollToView(instructionRef);
+    }else{
+      scrollToView(productRef, 0);
     }
   }, []);
   return (
