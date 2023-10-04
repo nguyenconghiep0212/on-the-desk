@@ -155,19 +155,21 @@
 
 /*remove p*/
 .cnnContents {
+  height: 100%;
   width: 100%;
 }
 
 .marqueeStyle {
+  height: 100%;
   display: inline-block;
   /* Apply animation to this element */
-  -webkit-animation: scrolling-left 20s linear infinite;
-  animation: scrolling-left 20s linear infinite;
+  -webkit-animation: scrolling-left 10s linear infinite;
+  animation: scrolling-left 10s linear infinite;
 }
 
 @keyframes scrolling-left {
   0% {
-    transform: translateX(100%);
+    transform: translateX(0%);
     -webkit-transform: translateX(100%);
   }
 
@@ -179,7 +181,7 @@
 
 @-webkit-keyframes scrolling-left {
   0% {
-    -webkit-transform: translateX(100%);
+    -webkit-transform: translateX(0%);
   }
 
   100% {

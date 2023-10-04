@@ -4,17 +4,21 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        "<sm": { max: "600px" },
+        "<sm": { max: "601px" },
         
-        "<md": { max: "768px" },
+        "<md": { max: "769px" },
 
-        "<xs": { max: "425px" },
+        "<xs": { max: "426px" },
 
-        "<xxs": { max: "280px" },
+        "<2xs": { max: "321px" },
 
-        xxs: "280px",
+        "<3xs": { max: "281px" },
 
-        xs: "425px",
+        '3xs': "280px",
+
+        '2xs': "321px",
+
+        xs: "426px",
 
         sm: "600px",
 
@@ -37,7 +41,7 @@ module.exports = {
       },
       colors: {
         "primary-blue-dark": "#2F66B3",
-        "primary-blue-medium": "#0096FF",
+        "primary-blue-medium": "#1B94D2",
         "primary-blue-light": "#00D7FF",
         "primary-blue-light-max": "#72FFFF",
         // Configure your color palette here

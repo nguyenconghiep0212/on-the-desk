@@ -26,7 +26,7 @@ function Contact({ alias, data }) {
   return (
     <div>
       <div className="text-[#B6B6B6] font-bold text-lg mb-4">{alias}</div>
-      <div className="grid <xxs:grid-cols-1 grid-cols-2 gap-2 3xl:grid-cols-5 lg:grid-cols-3 ">
+      <div className="grid <3xs:grid-cols-1 grid-cols-2 gap-2 3xl:grid-cols-5 lg:grid-cols-3 ">
         {data.map((e, index) => (
           <div
             key={index}

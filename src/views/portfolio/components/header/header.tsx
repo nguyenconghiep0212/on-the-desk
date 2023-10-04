@@ -18,7 +18,7 @@ function SwiperMobile({ currentImg, getCurrentImg, background }) {
         }}
       ></div>
       <Swiper
-        className="   z-1 h-full w-full lg:!w-3/4 <xxs:!w-3/4    !absolute top-1/2 -translate-y-1/2  "
+        className="   z-1 h-full w-full lg:!w-3/4 <3xs:!w-3/4    !absolute top-1/2 -translate-y-1/2  "
         slidesPerView={1}
         pagination={{
           dynamicBullets: true,
@@ -98,13 +98,13 @@ function Header({ background, avatar, name, description }) {
           ? SwiperMobile({ currentImg, getCurrentImg, background })
           : SwiperDesk({ currentImg, getCurrentImg, background })}
 
-        <div className="flex items-center mx-2 <xxs:flex <xxs:flex-col <xxs:items-center -mt-8 desktop:-mt-10 z-10">
+        <div className="flex items-center mx-2 <3xs:flex <3xs:flex-col <3xs:items-center -mt-8 desktop:-mt-10 z-10">
           <img
             src={avatar}
             alt="Avatar"
             className="z-10 w-24 rounded-full :h-24 desktop:w-32 desktop:h-32 "
           />
-          <div className="flex flex-col <xxs:items-center <xxs:w-full <xxs:mt-2 mt-8 ml-4 space-y-1 ">
+          <div className="flex flex-col <3xs:items-center <3xs:w-full <3xs:mt-2 mt-8 ml-4 space-y-1 ">
             <span className="<xs:text-xl 	 text-2xl username-desktop">
               {name}
             </span>

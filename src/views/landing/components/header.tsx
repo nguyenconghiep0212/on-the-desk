@@ -67,7 +67,7 @@ function Menu({ handleChange }) {
           }}
         >
           <div
-            className="flex px-3  items-center w-full h-full space-x-1 text-white menu-btn"
+            className="flex items-center w-full h-full px-3 space-x-1 text-white menu-btn"
             key={index}
           >
             <Icon className="text-lg" icon={item.icon} />
@@ -170,9 +170,9 @@ function Header() {
     
       <div className="flex items-center justify-between">
         <div className="flex items-center ">
-          <img src={Logo} alt="logo" className="3xl:w-[280px]" />
+          <img src={Logo} alt="logo" className="3xl:w-[280px] <2xs:w-[164px] <xs:w-[210px]" />
         </div>
-        <div className="flex items-center mr-8 space-x-6 text-white ">
+        <div className="flex space-x-6 text-white ">
           <Icon
             className="cursor-pointer 3xl:text-2xl"
             icon="akar-icons:shopping-bag"
