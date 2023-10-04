@@ -234,7 +234,7 @@ const Instruction = ({ innerRef }) => {
         {instructions.map((item, index) => (
           <div
             key={index}
-            className="transition-all duration-300 cursor-pointer default_card hover:scale-105"
+            className="cursor-pointer default_card"
           >
             <div key={index} className="space-y-6">
               <img
@@ -393,7 +393,7 @@ function ProductAndService({ innerRef, packages }) {
                   }
                 : {}
             }
-            className="relative !py-0 default_card hover:scale-105 transition-all duration-300 cursor-pointer desktop:h-fit !px-4"
+            className="relative !py-0 default_card cursor-pointer desktop:h-fit !px-4"
             key={index}
           >
             {/* STICKER */}
