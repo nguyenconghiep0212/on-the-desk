@@ -487,7 +487,7 @@ function ProductAndService({ innerRef, packages }) {
 
 function Feedback({ feedbacks }) {
   return (
-    <div className="w-full space-y-16">
+    <div className="w-full !mt-20 space-y-10">
       <div className="m-auto w-fit text-primary-blue-medium text-center text-4xl md:text-[45px] font-bold">
         Khách hàng & Đối tác
       </div>
