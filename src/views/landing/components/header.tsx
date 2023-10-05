@@ -23,7 +23,7 @@ function Cart({activeMenuEvent, activatedMenu}) {
   return (
     <div>
       <img
-        className={`${activatedMenu === 'Cart' ? 'menu-bg-activated' : '' } p-1 text-2xl cursor-pointer` }
+        className={`${activatedMenu === 'Cart' ? 'menu-bg-activated' : '' }  text-2xl cursor-pointer` }
         src={IconShoppingBag}
         alt="IconShoppingBag"
         onClick={() => {
@@ -117,7 +117,7 @@ function Menu({ handleChange, activeMenuEvent, activatedMenu }) {
       trigger="click"
     >
       <img
-        className={`${activatedMenu === 'Menu' ? 'menu-bg-activated' : '' } p-1 text-2xl cursor-pointer` }
+        className={`${activatedMenu === 'Menu' ? 'menu-bg-activated' : '' }  text-2xl cursor-pointer` }
         src={IconBurgerRight}
         alt="IconBurgerRight"
         onClick={() => {activeMenuEvent('Menu')}}
@@ -190,7 +190,7 @@ function Profile({ handleProfileEvent ,activeMenuEvent, activatedMenu }) {
         trigger="click"
       >
         <img
-          className={`${activatedMenu === 'Profile' ? 'menu-bg-activated' : '' } p-1 text-2xl cursor-pointer` }
+          className={`${activatedMenu === 'Profile' ? 'menu-bg-activated' : '' }  text-2xl cursor-pointer` }
           src={IconAccount}
           alt="IconAccount"
           onClick={() => {
