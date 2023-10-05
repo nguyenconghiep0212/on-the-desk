@@ -6,6 +6,7 @@ import Product from "./components/product";
 // ASSETS
 import Ribbon1 from "assests/landing/ribbon_1.svg";
 import Ribbon2 from "assests/landing/ribbon_2.svg";
+import Footer from "views/footer";
 
 function Landing() {
   return (
@@ -24,14 +25,15 @@ function Landing() {
 
       {/* CONTENT */}
       <div>
-        <div className="fixed top-0 w-full 2xl:px-20 3xl:!px-[168px] desktop:px-[60px] py-[22px] <xs:px-5 md:px-10  backdrop-blur z-50">
+        <div className="fixed top-0 w-full 2xl:px-20 3xl:!px-[168px] desktop:px-[60px] py-[22px] px-5 md:px-10  backdrop-blur z-50">
           <Header />
         </div>
 
-        <div className="relative z-3  m-auto <xs:w-[90%] w-[95%] 3xl:!w-[75%]">
+        <div className="relative z-3  m-auto <xs:px-5 <xs:w-full w-[95%] 3xl:!w-[75%]">
           <Product />
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

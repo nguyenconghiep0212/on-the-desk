@@ -53,8 +53,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <div className="flex flex-col h-[100vh]">
           <div className="flex-1 overflow-auto  bg-[#18191A] ">
             <RouterProvider router={router} />
+            
           </div>
-          <Footer className="flex-[0 0 auto]" />
+          
         </div>
       </RecoilRoot>
     </React.StrictMode>

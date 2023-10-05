@@ -4,7 +4,8 @@ import { Button, Collapse, CollapseProps, Input, Radio, Select } from "antd";
 import { Icon } from "@iconify/react";
 import { fetchFeedback, fetchPackageList } from "api";
 import { useRecoilState } from "recoil";
-
+// ICON
+import IconShoppingBag from "assests/icon/ic-shopping-bag.svg";
 // IMAGE
 import Footer_banner from "assests/landing/footer_banner.svg";
 import Logo from "assests/landing/logo.svg";
@@ -104,7 +105,7 @@ function Hero2({ innerRef }) {
         <span className="md:text-[45px] text-4xl text-center font-bold text-primary-blue-medium">
           Cá nhân hóa
         </span>
-        <span className="text-lg <xs:text-sm italic text-center text-primary-blue-medium">
+        <span className="mt-[6px] text-lg <xs:text-sm italic text-center text-primary-blue-medium">
           Phong cách của bạn là duy nhất
         </span>
         <div className="mt-6 text-white ">
@@ -138,7 +139,7 @@ function Hero3() {
     <div className="flex flex-col-reverse w-full md:grid md:grid-cols-2">
       <div className="flex flex-col items-center justify-center text-white md:items-start">
         {/* DEFAULT */}
-        <span className="md:text-[45px] text-4xl text-center font-bold text-primary-blue-medium <xs:hidden">
+        <span className="md:text-[45px] text-4xl font-bold text-primary-blue-medium <xs:hidden">
           Tối ưu doanh nghiệp
         </span>
         {/* <425px */}
@@ -147,7 +148,7 @@ function Hero3() {
           <div>doanh nghiệp</div>
         </div>
         {/*  */}
-        <span className="text-lg <xs:text-sm italic font-light text-center text-primary-blue-medium">
+        <span className="mt-[6px]  text-lg <xs:text-sm italic font-light text-center text-primary-blue-medium">
           Hiện đại hoá doanh nghiệp và cách vận hành
         </span>
         <div className="mt-6 text-white">
@@ -232,10 +233,7 @@ const Instruction = ({ innerRef }) => {
 
       <div className="grid desktop:grid-cols-4 mobile:grid-cols-2 <xs:!grid-cols-1 gap-4 !mt-8">
         {instructions.map((item, index) => (
-          <div
-            key={index}
-            className="cursor-pointer default_card"
-          >
+          <div key={index} className="cursor-pointer default_card">
             <div key={index} className="space-y-6">
               <img
                 src={item.url}
@@ -347,7 +345,7 @@ function Environment() {
       <div className="grid w-full <xs:grid-cols-1 grid-cols-3 gap-8 mt-16 gap-y-16 ">
         {environments.map((item, index) => (
           <div key={index} className="space-y-6">
-            <img src={item.img} alt="environment" className="h-16 " />
+            <img src={item.img} alt="environment" className="h-[68px] " />
             <div className="text-2xl font-bold text-primary-blue-medium">
               {item.header}
             </div>
@@ -377,7 +375,7 @@ function ProductAndService({ innerRef, packages }) {
         className="absolute h-[70px] top-[-70px] pointer-events-none"
       ></div>
 
-      <div className="text-primary-blue-medium text-4xl text-center md:text-[45px] font-bold p-12">
+      <div className="text-primary-blue-medium text-4xl text-center md:text-[45px] font-bold pt-12 pb-6">
         Sản phẩm & Dịch vụ
       </div>
       <div className="grid gap-4 desktop:grid-cols-4 mobile:grid-cols-2 <xs:!grid-cols-1">
@@ -397,7 +395,7 @@ function ProductAndService({ innerRef, packages }) {
             key={index}
           >
             {/* STICKER */}
-            <div className="absolute top-0 right-0 py-1 px-3 text-black rounded-bl-[18px] rounded-tr-[18px] bg-primary-blue-light-max">
+            <div className="absolute top-0 right-0 p-[10px] text-white rounded-bl-[18px] rounded-tr-[18px] bg-primary-blue-medium">
               {item.objectTarget}
             </div>
 
@@ -417,7 +415,11 @@ function ProductAndService({ innerRef, packages }) {
                         index === 1
                           ? "last:font-bold"
                           : index === 2
-                          ? `last:font-bold ${index_child === item.features.length - 2 ? 'font-bold' : ''}`
+                          ? `last:font-bold ${
+                              index_child === item.features.length - 2
+                                ? "font-bold"
+                                : ""
+                            }`
                           : ""
                       } tracking-wide text-lg`}
                     >
@@ -431,7 +433,7 @@ function ProductAndService({ innerRef, packages }) {
                 <div>
                   {item.showContactPrice ? (
                     <div className="text-3xl font-bold tracking-wide ">
-                      Giá liên hệ
+                      Liên hệ
                     </div>
                   ) : (
                     <div>
@@ -464,15 +466,16 @@ function ProductAndService({ innerRef, packages }) {
                         className="w-[22px] h-[22px]"
                         icon="material-symbols:call-outline"
                       />
-                      <span>Gọi chúng tôi</span>
+                      <span>Gọi ngay</span>
                     </div>
                   ) : (
                     <div className="flex items-center space-x-1">
-                      <Icon
+                      <img
                         className="w-[22px] h-[22px]"
-                        icon="mdi:cart-outline"
+                        src={IconShoppingBag}
+                        alt="IconShoppingBag"
                       />
-                      <span>Đăng ký ngay</span>
+                      <span>Mua ngay</span>
                     </div>
                   )}
                 </span>
@@ -537,13 +540,21 @@ function Feedback({ feedbacks }) {
                   if (i % 2 === 0)
                     arr.push(
                       <div className="flex items-center justify-center h-full">
-                        <img src={Feedback_webflow} alt="disc"  className="h-full max-w-none" />
+                        <img
+                          src={Feedback_webflow}
+                          alt="disc"
+                          className="h-full max-w-none"
+                        />
                       </div>
                     );
                   else
                     arr.push(
                       <div className="flex items-center justify-center h-full">
-                        <img src={Feedback_disc} alt="webflow" className="h-full max-w-none" />
+                        <img
+                          src={Feedback_disc}
+                          alt="webflow"
+                          className="h-full max-w-none"
+                        />
                       </div>
                     );
                 }
@@ -734,8 +745,8 @@ function Register({ innerRef, packages }) {
         </div>
       </div>
 
-      <div className="flex flex-col space-y-2 ">
-        <div className="grid <xs:grid-cols-1 grid-cols-2 gap-2">
+      <div className="flex flex-col space-y-3 ">
+        <div className="grid <xs:grid-cols-1 grid-cols-2 xs:gap-2 <xs:space-y-3">
           <Input
             placeholder="Họ tên (*)"
             onChange={(e) => {
@@ -762,11 +773,16 @@ function Register({ innerRef, packages }) {
           }}
         />
 
-        <div className="grid <xs:grid-cols-1 grid-cols-2 gap-2">
+        <div className="grid <xs:grid-cols-1 <xs:space-y-3 grid-cols-2 xs:gap-2">
           <Select
             className="w-full"
             options={options}
-            placeholder="Chọn gói dịch vụ"
+            placeholder={
+              <div className="flex items-center space-x-1 font-semibold text-white">
+                <Icon icon="ep:arrow-down-bold" />
+                <span>Chọn dịch vụ</span>
+              </div>
+            }
             onChange={(e) => {
               form.subscription = e;
             }}
@@ -777,7 +793,7 @@ function Register({ innerRef, packages }) {
               handleRegister();
             }}
           >
-            <span className="font-thin text-white ">Đăng kí ngay</span>
+            <span className="font-semibold text-white ">Đăng kí ngay</span>
           </Button>
         </div>
       </div>
@@ -935,7 +951,7 @@ function Product() {
     const url = window.location.href;
     if (url.includes("#huong-dan")) {
       scrollToView(instructionRef);
-    }else{
+    } else {
       scrollToView(productRef, 0);
     }
   }, []);

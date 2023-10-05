@@ -1,7 +1,7 @@
-.ant-select,
-.ant-select-single.ant-select-open {
-    box-shadow: 2px 2px 8px 0px #001940, -2px -2px 8px 0px rgba(60, 173, 255, 0.50);
-    border-radius: 8px;
+.ant-select
+ {
+    box-shadow: 2px 2px 4px 0px #001940, -2px -2px 4px 0px rgba(60, 173, 255, 0.50);
+        border-radius: 8px;
 
     .ant-select-selector {
         border: none !important;
@@ -18,12 +18,21 @@
     }
 
     .ant-select-selection-placeholder {
+        display: flex;
+        justify-content: center;
         color: rgba(255, 255, 255, 0.6);
     }
 
 
 }
+.ant-select-single.ant-select-open{
+    box-shadow: 2px 2px 16px 0px #001940, -2px -2px 16px 0px rgba(60, 173, 255, 0.50);
+    
+    .ant-select-selection-item {
+        color: white;
 
+    }
+}
 .ant-select-dropdown {
     background-color: #1e2530;
 }

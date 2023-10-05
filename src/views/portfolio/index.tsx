@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "./components/header/header.tsx";
 import { data } from "../mock.ts";
 import DynamicComponent from "./components/dynamicComponent";
+import Footer from "views/footer/index.tsx";
 
 function Portfolio() {
   const userInfo = data;
@@ -21,6 +22,8 @@ function Portfolio() {
             </div>
           ))}
         </div>
+      <Footer />
+
       </div>
     </div>
   );

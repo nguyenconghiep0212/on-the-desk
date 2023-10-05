@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { currentTab } from "store/root.ts";
 import { useRecoilState } from "recoil";
-import { Affix, Popover, Tabs } from "antd";
+import { Popover } from "antd";
+// ICON
+import IconShoppingBag from "assests/icon/ic-shopping-bag.svg";
+import IconAccount from "assests/icon/ic-account.svg";
+import IconBurgerRight from "assests/icon/ic-burger-right.svg";
+
+// IMAGE
 import Logo from "assests/landing/footer_banner.svg";
 import Social_facebook from "assests/landing/social_logo_facebook.svg";
 import Social_instagram from "assests/landing/social_logo_instagram.svg";
@@ -13,7 +19,21 @@ import Social_youtube from "assests/landing/social_logo_youtube.svg";
 import Social_zalo from "assests/landing/social_logo_zalo.svg";
 import { Icon } from "@iconify/react";
 
-function Menu({ handleChange }) {
+function Cart({activeMenuEvent, activatedMenu}) {
+  return (
+    <div>
+      <img
+        className={`${activatedMenu === 'Cart' ? 'menu-bg-activated' : '' } p-1 text-2xl cursor-pointer` }
+        src={IconShoppingBag}
+        alt="IconShoppingBag"
+        onClick={() => {
+          activeMenuEvent("Cart")
+        }}
+      />
+    </div>
+  );
+}
+function Menu({ handleChange, activeMenuEvent, activatedMenu }) {
   const socials = [
     Social_facebook,
     Social_messenger,
@@ -61,7 +81,7 @@ function Menu({ handleChange }) {
       {menu_items.map((item, index) => (
         <div
           key={index}
-          className="relative z-10 p-[2px] cursor-pointer h-9 w-40 menu-btn-bg"
+          className="relative z-10 p-[1px] cursor-pointer h-9 w-40 menu-btn-bg"
           onClick={() => {
             handleChange(item.key);
           }}
@@ -77,8 +97,8 @@ function Menu({ handleChange }) {
           </div>
         </div>
       ))}
-      <div className="mb-4 border-t-[1px] border-solid border-white border-opacity-50"></div>
-      <div className="grid grid-cols-4 gap-2">
+      <div className="my-[6px] border-t-[1px] border-solid border-white border-opacity-50"></div>
+      <div className="grid grid-cols-4 gap-2 px-4 py-2">
         {socials.map((item, index) => (
           <div key={index}>
             <img src={item} alt="social" />
@@ -88,13 +108,25 @@ function Menu({ handleChange }) {
     </div>
   );
   return (
-    <Popover placement="bottomRight" content={content} trigger="click">
-      <Icon className="cursor-pointer 3xl:text-2xl " icon="gg:menu-right" />
+    <Popover
+      align={{
+        offset: [10, 10],
+      }}
+      placement="bottomRight"
+      content={content}
+      trigger="click"
+    >
+      <img
+        className={`${activatedMenu === 'Menu' ? 'menu-bg-activated' : '' } p-1 text-2xl cursor-pointer` }
+        src={IconBurgerRight}
+        alt="IconBurgerRight"
+        onClick={() => {activeMenuEvent('Menu')}}
+      />
     </Popover>
   );
 }
 
-function Profile({ handleProfileEvent }) {
+function Profile({ handleProfileEvent ,activeMenuEvent, activatedMenu }) {
   const profile_menu = [
     {
       key: "card",
@@ -117,13 +149,13 @@ function Profile({ handleProfileEvent }) {
       {profile_menu.map((item, index) => (
         <div
           key={index}
-          className="relative z-10 px-3 py-2 cursor-pointer hover:p-0 menu-btn-bg"
+          className="relative z-10 p-[1px] cursor-pointer h-9 w-40 menu-btn-bg"
           onClick={() => {
             handleProfileEvent(item.key);
           }}
         >
           <div
-            className="flex items-center w-full h-full space-x-1 text-white menu-btn"
+            className="flex items-center w-full h-full px-3 space-x-1 text-white menu-btn"
             key={index}
           >
             <Icon className="text-lg" icon={item.icon} />
@@ -133,7 +165,7 @@ function Profile({ handleProfileEvent }) {
           </div>
         </div>
       ))}
-      <div className="my-2 border-t-[1px] border-solid border-white border-opacity-50"></div>
+      <div className="my-[6px] border-t-[1px] border-solid border-white border-opacity-50"></div>
       <div
         className="relative z-10 px-3 py-2 cursor-pointer hover:p-0 menu-btn-bg"
         onClick={() => {
@@ -141,7 +173,7 @@ function Profile({ handleProfileEvent }) {
         }}
       >
         <div className="flex items-center w-full h-full space-x-1 text-white menu-btn">
-          <Icon className="text-xl" icon="mdi:logout" />
+          <Icon className="text-2xl" icon="mdi:logout" />
           <div className="font-sans font-thin tracking-wide">Đăng xuất</div>
         </div>
       </div>
@@ -149,8 +181,22 @@ function Profile({ handleProfileEvent }) {
   );
   return (
     <div>
-      <Popover placement="bottomRight" content={content} trigger="click">
-        <Icon className="cursor-pointer 3xl:text-2xl" icon="line-md:account" />
+      <Popover
+        align={{
+          offset: [7, 10],
+        }}
+        placement="bottomRight"
+        content={content}
+        trigger="click"
+      >
+        <img
+          className={`${activatedMenu === 'Profile' ? 'menu-bg-activated' : '' } p-1 text-2xl cursor-pointer` }
+          src={IconAccount}
+          alt="IconAccount"
+          onClick={() => {
+            activeMenuEvent("Profile");
+          }}
+        />
       </Popover>
     </div>
   );
@@ -158,30 +204,34 @@ function Profile({ handleProfileEvent }) {
 
 function Header() {
   const [value, setValue] = useRecoilState(currentTab);
-
+const [activatedMenu, setActivatedMenu] = useState('') 
+  function activeMenuEvent(menu: string){
+    setActivatedMenu(menu)
+  }
   const handleChange = (newValue: string) => {
-    setValue(newValue); 
+    setValue(newValue);
   };
 
   const handleProfileEvent = (value: string) => {
     console.log(value);
   };
+
+  useEffect(() => {} , [activatedMenu])
   return (
-    
-      <div className="flex items-center justify-between">
-        <div className="flex items-center ">
-          <img src={Logo} alt="logo" className="3xl:w-[280px] <2xs:w-[164px] <xs:w-[210px]" />
-        </div>
-        <div className="flex space-x-6 text-white ">
-          <Icon
-            className="cursor-pointer 3xl:text-2xl"
-            icon="akar-icons:shopping-bag"
-          />
-          <Profile handleProfileEvent={handleProfileEvent} />
-          <Menu handleChange={handleChange} />
-        </div>
+    <div className="flex items-center justify-between">
+      <div className="flex items-center ">
+        <img
+          src={Logo}
+          alt="logo"
+          className="3xl:w-[280px] <2xs:w-[164px] <xs:w-[210px]"
+        />
       </div>
-    
+      <div className="flex space-x-3 text-white xs:space-x-4 md:!space-x-9 ">
+        <Cart activeMenuEvent={activeMenuEvent} activatedMenu={activatedMenu}/>
+        <Profile handleProfileEvent={handleProfileEvent} activeMenuEvent={activeMenuEvent} activatedMenu={activatedMenu}/>
+        <Menu handleChange={handleChange} activeMenuEvent={activeMenuEvent} activatedMenu={activatedMenu}/>
+      </div>
+    </div>
   );
 }
 

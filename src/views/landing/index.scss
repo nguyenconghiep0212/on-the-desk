@@ -30,7 +30,10 @@
   }
 }
 
-
+.menu-bg-activated{
+  border-radius: 4px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%);
+}
 
 .menu-btn {
   &:hover {

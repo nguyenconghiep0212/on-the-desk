@@ -8,7 +8,8 @@
     }
 }
 
-.ant-popover-inner {
+.ant-popover .ant-popover-inner {
+    padding: 17px 14px ;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%) !important;
     backdrop-filter: blur(8px);
 

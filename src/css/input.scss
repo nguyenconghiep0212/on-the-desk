@@ -2,9 +2,15 @@
     border-radius: 8px;
     border: none;
     background: #151B23;
-    /* neumorphic blue */
-    box-shadow: 2px 2px 8px 0px #001940, -2px -2px 8px 0px rgba(60, 173, 255, 0.50);
+
     color: white;
+    box-shadow: 2px 2px 4px 0px #001940, -2px -2px 4px 0px rgba(60, 173, 255, 0.50);
+
+    &:focus {
+        /* neumorphic blue */
+        box-shadow: 2px 2px 16px 0px #001940, -2px -2px 16px 0px rgba(60, 173, 255, 0.50);
+
+    }
 
     &::placeholder {
         color: rgba(255, 255, 255, 0.6);
