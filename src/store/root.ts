@@ -7,4 +7,7 @@ export const currentTab = atom({
     default: 'product', // default value (aka initial value)
   });
 
-  
+  export const activatedMenu = atom({
+    key: 'activatedMenu',
+    default: ''
+  })

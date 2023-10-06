@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { currentTab } from "store/root.ts";
+import { currentTab, activatedMenu as activatedMenuAtom } from "store/root.ts";
 import { useRecoilState } from "recoil";
 import { Popover } from "antd";
 // ICON
@@ -34,6 +34,7 @@ function Cart({activeMenuEvent, activatedMenu}) {
   );
 }
 function Menu({ handleChange, activeMenuEvent, activatedMenu }) {
+  const [ _,setActivatedMenu] = useRecoilState(activatedMenuAtom);
   const socials = [
     Social_facebook,
     Social_messenger,
@@ -76,6 +77,7 @@ function Menu({ handleChange, activeMenuEvent, activatedMenu }) {
       icon: "material-symbols:contact-support-outline-rounded",
     },
   ];
+  
   const content = (
     <div className="relative z-1 ">
       {menu_items.map((item, index) => (
@@ -115,6 +117,9 @@ function Menu({ handleChange, activeMenuEvent, activatedMenu }) {
       placement="bottomRight"
       content={content}
       trigger="click"
+      onOpenChange={(e) => {if(!e){
+        setActivatedMenu('')
+      }}}
     >
       <img
         className={`${activatedMenu === 'Menu' ? 'menu-bg-activated' : '' }  text-2xl cursor-pointer` }
@@ -127,6 +132,7 @@ function Menu({ handleChange, activeMenuEvent, activatedMenu }) {
 }
 
 function Profile({ handleProfileEvent ,activeMenuEvent, activatedMenu }) {
+  const [ _,setActivatedMenu] = useRecoilState(activatedMenuAtom);
   const profile_menu = [
     {
       key: "card",
@@ -187,7 +193,10 @@ function Profile({ handleProfileEvent ,activeMenuEvent, activatedMenu }) {
         }}
         placement="bottomRight"
         content={content}
-        trigger="click"
+        trigger="click" 
+        onOpenChange={(e) => {if(!e){
+          setActivatedMenu('')
+        }}}
       >
         <img
           className={`${activatedMenu === 'Profile' ? 'menu-bg-activated' : '' }  text-2xl cursor-pointer` }
@@ -203,10 +212,16 @@ function Profile({ handleProfileEvent ,activeMenuEvent, activatedMenu }) {
 }
 
 function Header() {
-  const [value, setValue] = useRecoilState(currentTab);
-const [activatedMenu, setActivatedMenu] = useState('') 
+  const [activatedMenu, setActivatedMenu] = useRecoilState(activatedMenuAtom);
+  const [  setValue] = useRecoilState(currentTab);  
   function activeMenuEvent(menu: string){
-    setActivatedMenu(menu)
+    if(activatedMenu === menu){
+      setActivatedMenu('')
+
+    }else{
+      setActivatedMenu(menu)
+      
+    }
   }
   const handleChange = (newValue: string) => {
     setValue(newValue);
@@ -218,7 +233,7 @@ const [activatedMenu, setActivatedMenu] = useState('')
 
   useEffect(() => {} , [activatedMenu])
   return (
-    <div className="flex items-center justify-between">
+    <div className="relative flex items-center justify-between">
       <div className="flex items-center ">
         <img
           src={Logo}
@@ -226,7 +241,7 @@ const [activatedMenu, setActivatedMenu] = useState('')
           className="3xl:w-[280px] <2xs:w-[164px] <xs:w-[210px]"
         />
       </div>
-      <div className="flex space-x-3 text-white xs:space-x-4 md:!space-x-9 ">
+      <div className=" flex space-x-3 text-white xs:space-x-4 md:!space-x-9 ">
         <Cart activeMenuEvent={activeMenuEvent} activatedMenu={activatedMenu}/>
         <Profile handleProfileEvent={handleProfileEvent} activeMenuEvent={activeMenuEvent} activatedMenu={activatedMenu}/>
         <Menu handleChange={handleChange} activeMenuEvent={activeMenuEvent} activatedMenu={activatedMenu}/>
