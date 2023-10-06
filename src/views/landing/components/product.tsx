@@ -110,7 +110,7 @@ function Hero2({ innerRef }) {
         </span>
         <div className="mt-6 text-white ">
           <div className="flex items-center space-x-2">
-            <Icon icon="mdi:dot" />
+            <Icon icon="mdi:dot"  />
             <span className="text-lg  <xs:text-xs tracking-wide ">
               Đặc quyền <span className="font-bold">thiết kế riêng</span> thẻ
               thông minh và hồ sơ trực tuyến.
@@ -148,7 +148,7 @@ function Hero3() {
           <div>doanh nghiệp</div>
         </div>
         {/*  */}
-        <span className="mt-[6px]  text-lg <xs:text-sm italic font-light text-center text-primary-blue-medium">
+        <span className="mt-[6px]  text-lg <xs:text-sm italic  text-center text-primary-blue-medium">
           Hiện đại hoá doanh nghiệp và cách vận hành
         </span>
         <div className="mt-6 text-white">
@@ -160,13 +160,13 @@ function Hero3() {
           </div>
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" />
-            <span className="text-lg   <xs:text-xs tracking-wide ">
+            <span className="text-lg <xs:text-xs tracking-wide ">
               Tối ưu chi phí vận hành.
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" />
-            <span className="text-lg  <xs:text-xs tracking-wide ">
+            <span className="text-lg <xs:text-xs tracking-wide ">
               Nâng cao trải nghiệm khách hàng.
             </span>
           </div>

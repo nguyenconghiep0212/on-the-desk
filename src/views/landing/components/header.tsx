@@ -6,6 +6,7 @@ import { Popover } from "antd";
 import IconShoppingBag from "assests/icon/ic-shopping-bag.svg";
 import IconAccount from "assests/icon/ic-account.svg";
 import IconBurgerRight from "assests/icon/ic-burger-right.svg";
+import IconClose from "assests/icon/ic-close.svg";
 
 // IMAGE
 import Logo from "assests/landing/footer_banner.svg";
@@ -19,22 +20,24 @@ import Social_youtube from "assests/landing/social_logo_youtube.svg";
 import Social_zalo from "assests/landing/social_logo_zalo.svg";
 import { Icon } from "@iconify/react";
 
-function Cart({activeMenuEvent, activatedMenu}) {
+function Cart({ activeMenuEvent, activatedMenu }) {
   return (
     <div>
       <img
-        className={`${activatedMenu === 'Cart' ? 'menu-bg-activated' : '' }  text-2xl cursor-pointer` }
+        className={`${
+          activatedMenu === "Cart" ? "menu-bg-activated" : ""
+        }  text-2xl cursor-pointer`}
         src={IconShoppingBag}
         alt="IconShoppingBag"
         onClick={() => {
-          activeMenuEvent("Cart")
+          activeMenuEvent("Cart");
         }}
       />
     </div>
   );
 }
 function Menu({ handleChange, activeMenuEvent, activatedMenu }) {
-  const [ _,setActivatedMenu] = useRecoilState(activatedMenuAtom);
+  const [_, setActivatedMenu] = useRecoilState(activatedMenuAtom);
   const socials = [
     Social_facebook,
     Social_messenger,
@@ -77,7 +80,7 @@ function Menu({ handleChange, activeMenuEvent, activatedMenu }) {
       icon: "material-symbols:contact-support-outline-rounded",
     },
   ];
-  
+
   const content = (
     <div className="relative z-1 ">
       {menu_items.map((item, index) => (
@@ -117,22 +120,28 @@ function Menu({ handleChange, activeMenuEvent, activatedMenu }) {
       placement="bottomRight"
       content={content}
       trigger="click"
-      onOpenChange={(e) => {if(!e){
-        setActivatedMenu('')
-      }}}
+      onOpenChange={(e) => {
+        if (!e) {
+          setActivatedMenu("");
+        }
+      }}
     >
       <img
-        className={`${activatedMenu === 'Menu' ? 'menu-bg-activated' : '' }  text-2xl cursor-pointer` }
-        src={IconBurgerRight}
+        className={`${
+          activatedMenu === "Menu" ? "menu-bg-activated" : ""
+        }  text-2xl cursor-pointer`}
+        src={activatedMenu === "Menu" ? IconClose : IconBurgerRight}
         alt="IconBurgerRight"
-        onClick={() => {activeMenuEvent('Menu')}}
+        onClick={() => {
+          activeMenuEvent("Menu");
+        }}
       />
     </Popover>
   );
 }
 
-function Profile({ handleProfileEvent ,activeMenuEvent, activatedMenu }) {
-  const [ _,setActivatedMenu] = useRecoilState(activatedMenuAtom);
+function Profile({ handleProfileEvent, activeMenuEvent, activatedMenu }) {
+  const [_, setActivatedMenu] = useRecoilState(activatedMenuAtom);
   const profile_menu = [
     {
       key: "card",
@@ -173,12 +182,12 @@ function Profile({ handleProfileEvent ,activeMenuEvent, activatedMenu }) {
       ))}
       <div className="my-[6px] border-t-[1px] border-solid border-white border-opacity-50"></div>
       <div
-        className="relative z-10 px-3 py-2 cursor-pointer hover:p-0 menu-btn-bg"
+        className="relative z-10 p-[1px] cursor-pointer h-9 w-40 menu-btn-bg"
         onClick={() => {
           handleProfileEvent("logout");
         }}
       >
-        <div className="flex items-center w-full h-full space-x-1 text-white menu-btn">
+        <div className="flex items-center w-full h-full px-3 space-x-1 text-white menu-btn">
           <Icon className="text-2xl" icon="mdi:logout" />
           <div className="font-sans font-thin tracking-wide">Đăng xuất</div>
         </div>
@@ -193,13 +202,17 @@ function Profile({ handleProfileEvent ,activeMenuEvent, activatedMenu }) {
         }}
         placement="bottomRight"
         content={content}
-        trigger="click" 
-        onOpenChange={(e) => {if(!e){
-          setActivatedMenu('')
-        }}}
+        trigger="click"
+        onOpenChange={(e) => {
+          if (!e) {
+            setActivatedMenu("");
+          }
+        }}
       >
         <img
-          className={`${activatedMenu === 'Profile' ? 'menu-bg-activated' : '' }  text-2xl cursor-pointer` }
+          className={`${
+            activatedMenu === "Profile" ? "menu-bg-activated" : ""
+          }  text-2xl cursor-pointer`}
           src={IconAccount}
           alt="IconAccount"
           onClick={() => {
@@ -213,14 +226,12 @@ function Profile({ handleProfileEvent ,activeMenuEvent, activatedMenu }) {
 
 function Header() {
   const [activatedMenu, setActivatedMenu] = useRecoilState(activatedMenuAtom);
-  const [  setValue] = useRecoilState(currentTab);  
-  function activeMenuEvent(menu: string){
-    if(activatedMenu === menu){
-      setActivatedMenu('')
-
-    }else{
-      setActivatedMenu(menu)
-      
+  const [setValue] = useRecoilState(currentTab);
+  function activeMenuEvent(menu: string) {
+    if (activatedMenu === menu) {
+      setActivatedMenu("");
+    } else {
+      setActivatedMenu(menu);
     }
   }
   const handleChange = (newValue: string) => {
@@ -231,7 +242,7 @@ function Header() {
     console.log(value);
   };
 
-  useEffect(() => {} , [activatedMenu])
+  useEffect(() => {}, [activatedMenu]);
   return (
     <div className="relative flex items-center justify-between">
       <div className="flex items-center ">
@@ -242,9 +253,17 @@ function Header() {
         />
       </div>
       <div className=" flex space-x-3 text-white xs:space-x-4 md:!space-x-9 ">
-        <Cart activeMenuEvent={activeMenuEvent} activatedMenu={activatedMenu}/>
-        <Profile handleProfileEvent={handleProfileEvent} activeMenuEvent={activeMenuEvent} activatedMenu={activatedMenu}/>
-        <Menu handleChange={handleChange} activeMenuEvent={activeMenuEvent} activatedMenu={activatedMenu}/>
+        <Cart activeMenuEvent={activeMenuEvent} activatedMenu={activatedMenu} />
+        <Profile
+          handleProfileEvent={handleProfileEvent}
+          activeMenuEvent={activeMenuEvent}
+          activatedMenu={activatedMenu}
+        />
+        <Menu
+          handleChange={handleChange}
+          activeMenuEvent={activeMenuEvent}
+          activatedMenu={activatedMenu}
+        />
       </div>
     </div>
   );
