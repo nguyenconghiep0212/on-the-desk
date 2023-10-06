@@ -1,25 +1,9 @@
 import React from "react";
-import { platforms } from "views/mock.ts";
-import facebook from "assests/logo_facebook.svg";
-import behance from "assests/logo_behance.svg";
-import flickr from "assests/logo_flickr.svg";
-import youtube from "assests/logo_youtube.svg";
-import twitter from "assests/logo_twitter.svg";
-import instagram from "assests/logo_instagram.svg";
-import patreon from "assests/logo_patreon.svg";
-import tiktok from "assests/logo_tiktok.svg";
+import { platforms , keyToUrl } from "./platforms";
 
-function Contact({ alias, data }) {
-  const keyToUrl = [
-    { key: "facebook", url: facebook },
-    { key: "behance", url: behance },
-    { key: "flickr", url: flickr },
-    { key: "youtube", url: youtube },
-    { key: "twitter", url: twitter },
-    { key: "instagram", url: instagram },
-    { key: "patreon", url: patreon },
-    { key: "tiktok", url: tiktok },
-  ];
+
+function Contact({ alias, data }) { 
+
   function onpenContact(url) {
     window.open(url, "_blank", "noopener,noreferrer");
   }

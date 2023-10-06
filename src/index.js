@@ -44,7 +44,7 @@ const router = createHashRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-    <React.StrictMode>
+    {/* <React.StrictMode> */}
       <Helmet>
         <meta charSet="utf-8" />
         <title>On The Desk</title>
@@ -58,6 +58,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           
         </div>
       </RecoilRoot>
-    </React.StrictMode>
+    {/* </React.StrictMode> */}
   </GoogleOAuthProvider>
 );

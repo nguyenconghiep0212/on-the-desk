@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.css";
 import { useCheckMobileScreen } from "helper/checkMobile.ts";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -33,7 +33,7 @@ function SwiperMobile({ currentImg, getCurrentImg, background }) {
               style={{
                 backgroundImage: `url(${e})`,
                 backgroundPosition: "center",
-                backgroundSize: "cover",
+                backgroundSize: "fit",
                 boxShadow: "inset 0px -70px 45px #18191A",
               }}
             ></div>
@@ -53,7 +53,7 @@ function SwiperDesk({ currentImg, getCurrentImg, background }) {
           backgroundImage: `url(${currentImg})`,
           WebkitFilter: `blur(24px)`,
           backgroundPosition: "center",
-          backgroundSize: "cover",
+          backgroundSize: "fit",
           boxShadow: "inset 0px -70px 10px #18191A",
         }}
       ></div>
@@ -85,14 +85,17 @@ function SwiperDesk({ currentImg, getCurrentImg, background }) {
   );
 }
 
-function Header({ background, avatar, name, description }) {
+function Header({ background, avatar, name, description }) { 
   const [currentImg, setCurentImg] = useState(background[0]);
 
   function getCurrentImg(event) {
     setCurentImg(background[event.activeIndex]);
   }
+  useEffect(() => {
+    setCurentImg(background[0])
+  }, [background])
   return (
-    <div className="relative flex justify-center h-2/5 ">
+    <div className="relative flex justify-center h-[40vh]">
       <div className="flex flex-col w-full">
         {useCheckMobileScreen()
           ? SwiperMobile({ currentImg, getCurrentImg, background })
