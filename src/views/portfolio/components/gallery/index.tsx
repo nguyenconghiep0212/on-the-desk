@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { Icon } from "@iconify/react";
 import "./index.scss";
 import { useNavigate, useParams } from "react-router-dom";
@@ -70,7 +71,7 @@ function Gallery({ alias, data, userInfo }) {
     const res = await getGalleryByUserId(userInfo.shortcut);
     if (res) {
       setAllGallery(res.data.gals);
-      handleClickFilterTag('all')
+      handleClickFilterTag("all");
       const filter = [
         { key: "all", alias: "Tất cả" },
         res.data.topics.map((e) => {
@@ -87,6 +88,7 @@ function Gallery({ alias, data, userInfo }) {
   useEffect(() => {
     handleFilterGallery();
   }, [filteredTag]);
+  useEffect(() => {}, [filteredGallery]);
   return (
     <div>
       <div className="text-[#B6B6B6] font-bold text-lg mb-4">{alias}</div>
@@ -150,18 +152,13 @@ function Gallery({ alias, data, userInfo }) {
                 redirectToGallery(e.customerShortcut);
               }}
             >
-              <div
-                className="relative flex items-center justify-center h-32 bg-white xl:h-44 2xl:h-64 rounded-2xl"
-                style={{
-                  backgroundImage: `${
-                    e.galleryThumb
-                      ? `url(${e.galleryThumb})`
-                      : `url(${ThumbnailPlaceholder})`
-                  }`,
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                }}
-              >
+              <div className="relative flex items-center justify-center h-32 bg-white xl:h-44 2xl:h-64 rounded-2xl overflow-clip ">
+                <LazyLoadImage
+                  alt="thumbnail" 
+                  placeholderSrc={e.galleryThumb}
+                  src={e.galleryThumb || ThumbnailPlaceholder}
+                  className="w-full "
+                />
                 <div className="absolute bottom-0 right-0 flex items-center justify-center p-1 space-x-1 text-white bg-black w-14 bg-opacity-40 rounded-br-2xl rounded-tl-2xl">
                   <Icon className="!text-xl" icon="ri:stack-fill" />
                   <div className="text-sm font-thin">
@@ -173,7 +170,7 @@ function Gallery({ alias, data, userInfo }) {
               <div className="font-bold text-white">{e.galleryName}</div>
               <div className="text-[#72FFFF] flex space-x-2 items-center  cursor-pointer">
                 <Icon icon="carbon:partnership" />
-                <span className="text-sm">{userInfo.name}</span>
+                <span className="text-sm">{e.customerName}</span>
               </div>
             </div>
           ))}

@@ -15,7 +15,7 @@ export interface GALLERY_CUSTOMER {
   galleryShortcut: string;
   customerName: string;
   galleryName: string;
-  galleryThumb?: string;
+  galleryThumb: string;
   topPictures:PICTURE[]
 }
 

@@ -33,7 +33,7 @@ function SwiperMobile({ currentImg, getCurrentImg, background }) {
               style={{
                 backgroundImage: `url(${e})`,
                 backgroundPosition: "center",
-                backgroundSize: "fit",
+                backgroundSize: "cover",
                 boxShadow: "inset 0px -70px 45px #18191A",
               }}
             ></div>
