@@ -60,7 +60,7 @@ function Gallery({ alias, data, userInfo }) {
   }
 
   function redirectToGallery(customerId: string) {
-    return navigate(`/portfolio/${params.userId}/gallery/${customerId}`);
+    return navigate(`/${params.userId}/gallery/${customerId}`);
   }
 
   function showAllFilter() {

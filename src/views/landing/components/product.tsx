@@ -110,7 +110,7 @@ function Hero2({ innerRef }) {
         </span>
         <div className="mt-6 text-white ">
           <div className="flex items-center space-x-2">
-            <Icon icon="mdi:dot"  />
+            <Icon icon="mdi:dot" />
             <span className="text-lg  <xs:text-xs tracking-wide ">
               Đặc quyền <span className="font-bold">thiết kế riêng</span> thẻ
               thông minh và hồ sơ trực tuyến.
@@ -496,8 +496,8 @@ function Feedback({ feedbacks }) {
       </div>
       {/* FEEDDBACK */}
       <div className="flex space-x-4 overflow-x-auto">
-        {feedbacks.map((item, index) => (
-          <div key={index} className="min-w-[200px] sm:min-w-[350px]">
+        {feedbacks.map((item: any, i: number) => (
+          <div key={i} className="min-w-[200px] sm:min-w-[350px]">
             <div
               id="comment"
               className="max-w-sm max-h-36  text-white w-full p-3 m-2 italic rounded-3xl bg-[#1e2530]"
