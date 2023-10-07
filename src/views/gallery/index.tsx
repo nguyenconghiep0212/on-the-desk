@@ -3,25 +3,41 @@ import { Button } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { data, galleries, customer } from "views/mock.ts";
-import Feedback from "../components/feedback/index";
+// import Feedback from "../portfolio/components/feedback/index";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import CustomerAvatarPlaceholder from 'assests/customer_avatar_placeholder.jpg'
+import { GALLERY_CUSTOMER } from "interface/gallery";
+import { CUSTOMER } from "interface/customer";
+import { USER_INFO } from "interface/user";
+import { getUserProfile, getGalleryByCustomerId, getCustomerById } from "api";
 
-interface Info {
-  thumbnail: string;
-  customer: {
-    avatar_url: string;
-    name: string;
-    info: string;
-  };
-  user: {
-    avatar_url: string;
-    name: string;
-  };
-  feedback: any;
-}
+// interface Info {
+//   thumbnail: string;
+//   customer: {
+//     avatar_url: string;
+//     name: string;
+//     info: string;
+//   };
+//   user: {
+//     avatar_url: string;
+//     name: string;
+//   };
+//   feedback: any;
+// }
 
 function Component() {
-  const [gallery, setGallery] = useState<any>([]);
+  const [gallery, setGallery] = useState<GALLERY_CUSTOMER[]>([]);
+  const [userInfo, setUserInfo] = useState<USER_INFO>({
+    name:'',
+shortcut:'',
+package:{
+  id: ''
+}
+  });
+  const [customerInfo, setCustomerInfo] = useState<CUSTOMER>({
+    customerName: "",
+    shortcut: ""
+  });
   const [info, setInfo] = useState<Info>({
     thumbnail: "",
     customer: {
@@ -38,13 +54,66 @@ function Component() {
       data: [],
     },
   });
-  const params = useParams();
+  const routeParams = useParams();
+  console.log('routeParams', routeParams)
   const navigate = useNavigate();
+
+
+
+async function handleGetUserProfile(){
+  if(routeParams.userId){
+    try{
+      const res = await getUserProfile(routeParams.userId);
+      if(res){
+        setUserInfo(res.data)
+      }
+    }catch(error){
+
+    }
+   
+  }
+  
+}
+async function handleGetCustomerById(){
+  if(routeParams.customerId){
+    try{
+      const res = await getCustomerById(routeParams.customerId)
+if(res){
+  setCustomerInfo(res.data)
+  console.log('customerInfo',customerInfo)
+}
+    }catch(error){}
+  }
+}
+
+  async function handleGetGalleryByCustomerId() {
+if(routeParams.customerId){
+  try{
+     const res = await getGalleryByCustomerId(routeParams.customerId)
+  if(res){ 
+    const galleryData = res.data.gals 
+    setGallery([...galleryData])
+    console.log('res.data.gals',res.data.gals)
+    console.log('gallery',gallery)
+  }
+  }catch(error){
+
+  }
+ 
+
+}
+  
+   
+}
+
+
+
+
   function getInfo() {
     const temp = data.components
       .find((e) => e.key === "gallery")
-      ?.data.find((e) => e.customer_id === params.customerId);
-    const customerInfo = customer.find((e) => e.id === params.customerId);
+      ?.data.find((e) => e.customer_id === routeParams.customerId);
+    const customerInfo = customer.find((e) => e.id === routeParams.customerId);
     const obj = {
       thumbnail: temp.thumbnail,
       customer: {
@@ -66,6 +135,23 @@ function Component() {
     setInfo(obj);
     console.log(obj);
   }
+
+ 
+
+
+
+  function handleBack() {
+    return navigate(-1);
+  }
+  useEffect(() => {
+    handleGetUserProfile();
+    handleGetCustomerById();
+handleGetGalleryByCustomerId();
+
+    
+    getInfo();
+  }, []);
+
 
   function masonryGrid() {
     return (
@@ -94,21 +180,6 @@ function Component() {
       </div>
     );
   }
-
-  function getCustomerGallery() {
-    const arr = galleries.find(
-      (e) => e.customer_id === params.customerId
-    ).galleries;
-    setGallery(arr);
-  }
-
-  function handleBack() {
-    return navigate(-1);
-  }
-  useEffect(() => {
-    getCustomerGallery();
-    getInfo();
-  }, []);
   return (
     <div className="w-full h-full sm:flex sm:flex-col sm:items-center">
       <div className="h-full pb-3 sm:w-1/2">
@@ -143,13 +214,13 @@ function Component() {
           ></div>
         </div>
         <div className="relative bg-[#18191A] z-10  sm:w-[300%] sm:overflow-x-clip -translate-x-1/2">
-          <div
-            id="customer"
+         {/* CUSTOMER */}
+          <div 
             className="flex items-center space-x-2 translate-x-1/2"
           >
             <div className=" w-20 h-20 ml-3 mt-[-25px]">
               <img
-                src={info.customer.avatar_url}
+                src={info.customer.avatar_url || CustomerAvatarPlaceholder}
                 alt="customer_avatar"
                 className="z-20 h-full rounded-full"
               />
@@ -163,18 +234,20 @@ function Component() {
               </span>
             </div>
           </div>
-          <div id="user" className="translate-x-1/2">
+
+          {/* USER */}
+          <div   className="translate-x-1/2">
             <div className="w-10 h-6 ml-3 text-white border-r border-primary-blue-light" />
             <div className="flex space-x-2">
               <div className="w-20 h-20 ml-3 -mt-3 scale-75 border-2 rounded-full border-primary-blue-light">
                 <img
                   className="h-full"
-                  src={info.user.avatar_url}
+                  src={userInfo.avatar}
                   alt="user_avatar"
                 />
               </div>
               <span className="mt-4 text-lg font-semibold text-white">
-                {info.user.name}
+                {userInfo.name}
               </span>
             </div>
           </div>
@@ -184,9 +257,9 @@ function Component() {
           {/* GALLERY */}
           <div className="overflow-auto ">{masonryGrid()}</div>
           {/* FEEDBACK */}
-          <div className="p-3 rounded-2xl w-full bg-[#1E2530]">
+          {/* <div className="p-3 rounded-2xl w-full bg-[#1E2530]">
             <Feedback alias={info.feedback.alias} data={info.feedback.data} />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

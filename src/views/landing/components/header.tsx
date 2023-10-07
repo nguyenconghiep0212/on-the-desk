@@ -226,7 +226,7 @@ function Profile({ handleProfileEvent, activeMenuEvent, activatedMenu }) {
 
 function Header() {
   const [activatedMenu, setActivatedMenu] = useRecoilState(activatedMenuAtom);
-  const [setValue] = useRecoilState(currentTab);
+  const [_, setValue] = useRecoilState(currentTab);
   function activeMenuEvent(menu: string) {
     if (activatedMenu === menu) {
       setActivatedMenu("");

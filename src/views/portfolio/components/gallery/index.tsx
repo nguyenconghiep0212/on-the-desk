@@ -147,7 +147,7 @@ function Gallery({ alias, data, userInfo }) {
               key={index}
               className="space-y-1 cursor-pointer"
               onClick={() => {
-                redirectToGallery(e.customerName);
+                redirectToGallery(e.customerShortcut);
               }}
             >
               <div

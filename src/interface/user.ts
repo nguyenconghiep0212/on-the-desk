@@ -1,19 +1,19 @@
 export interface USER_INFO {
-  id: string;
-  name: string;
-  email: string;
-  description: string;
-  shortcut: string;
-  job: string;
-  avatar: string;
-  contacts: Contact[];
-  backgrounds: string[];
-  package: Package;
+  id?: string;
+  name: string; // req
+  email?: string;
+  description?: string;
+  shortcut: string; // req
+  job?: string;
+  avatar?: string;
+  contacts?: Contact[];
+  backgrounds?: string[];
+  package: Package; // req
 }
 
 interface Package {
-  id: string;
-  packageName: string;
+  id: string; // req
+  packageName?: string;
 }
 
 interface Contact {

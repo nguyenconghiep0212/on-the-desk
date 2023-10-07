@@ -13,21 +13,3 @@ export function getComponentFromPackage(id: string) {
     url: `/api/packagecomponent/getcompnents/${id}`,
   });
 }
-
-export function getGalleryById(params: {
-  id: String;
-  page: Number;
-  size: Number;
-}) {
-  return http({
-    method: "get",
-    url: `/api/gallery/detail/${params.id}/${params.page}/${params.size}`,
-  });
-}
-
-export function getGalleryByUserId(id: string) {
-  return http({
-    method: "get",
-    url: `/api/users/galleries/${id}`,
-  });
-}

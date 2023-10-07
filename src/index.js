@@ -2,7 +2,8 @@ import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import "./css/index.scss";
-import Footer from "./views/footer";
+
+// COMPONENT
 import Gallery from "./routes/gallery";
 import Landing from "./routes/landing";
 import Portfolio from "./routes/portfolio";
@@ -45,19 +46,17 @@ const router = createHashRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
     {/* <React.StrictMode> */}
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>On The Desk</title>
-      </Helmet>
-      <RecoilRoot>
-        <div className="flex flex-col h-[100vh]">
-          <div className="flex-1 overflow-auto  bg-[#18191A] ">
-            <RouterProvider router={router} />
-            
-          </div>
-          
+    <Helmet>
+      <meta charSet="utf-8" />
+      <title>On The Desk</title>
+    </Helmet>
+    <RecoilRoot>
+      <div className="flex flex-col h-[100vh]">
+        <div className="flex-1 overflow-auto  bg-[#18191A] ">
+          <RouterProvider router={router} />
         </div>
-      </RecoilRoot>
+      </div>
+    </RecoilRoot>
     {/* </React.StrictMode> */}
   </GoogleOAuthProvider>
 );

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Header from "./components/header/header.tsx";
-import { data } from "../mock.ts";
-import DynamicComponent from "./components/dynamicComponent";
+ import DynamicComponent from "./components/dynamicComponent";
 import Footer from "views/footer/index.tsx";
+
 // API
 import { getUserProfile, getComponentFromPackage } from "api/index.ts";
 import { useNavigate, useParams } from "react-router-dom";
@@ -37,7 +37,8 @@ function Portfolio() {
 
   let routeParams = useParams();
   async function handleGetUserProfile() {
-    try {
+    if(routeParams.userId){
+      try {
       const res = await getUserProfile(routeParams.userId);
       if (res) {
         userInfo = res.data;
@@ -63,6 +64,16 @@ function Portfolio() {
         navigate("/");
       }, 2500);
     }
+    }else{
+      messageApi.open({
+        type: "error",
+        content: "Người dùng không tồn tại, quay trở lại trang chủ...",
+      });
+      setTimeout(() => {
+        navigate("/");
+      }, 2500);
+    }
+    
   }
 
   async function handleGetComponentFromPackage() {

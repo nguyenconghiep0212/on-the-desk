@@ -1,6 +1,6 @@
 import React from "react";
 // COMPONENTS
-import Gallery from "views/portfolio/gallery";
+import Gallery from "views/gallery";
 
 function Component() {
   return <Gallery />;
