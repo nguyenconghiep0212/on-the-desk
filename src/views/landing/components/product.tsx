@@ -110,21 +110,21 @@ function Hero2({ innerRef }) {
         </span>
         <div className="mt-6 text-white ">
           <div className="flex items-center space-x-2">
-            <Icon icon="mdi:dot" />
-            <span className="text-lg  <xs:text-xs tracking-wide ">
+            <Icon icon="mdi:dot" className="min-w-[16px]"/>
+            <span className="text-lg  <xs:text-xs <xs:leading-6 tracking-wide ">
               Đặc quyền <span className="font-bold">thiết kế riêng</span> thẻ
               thông minh và hồ sơ trực tuyến.
             </span>
           </div>
           <div className="flex items-center space-x-2">
-            <Icon icon="mdi:dot" />
-            <span className="text-lg  <xs:text-xs placeholder:tracking-wide">
+            <Icon icon="mdi:dot" className="min-w-[16px]"/>
+            <span className="text-lg  <xs:text-xs <xs:leading-6 placeholder:tracking-wide">
               Giao diện hiện đại phù hợp với phong cách và công việc của bạn.
             </span>
           </div>
           <div className="flex items-center space-x-2">
-            <Icon icon="mdi:dot" />
-            <span className="text-lg  <xs:text-xs tracking-wide ">
+            <Icon icon="mdi:dot" className="min-w-[16px]"/>
+            <span className="text-lg  <xs:text-xs tracking-wide <xs:leading-6">
               Kết nối và chia sẻ thông tin ấn tượng ngay từ lần đầu tiên.
             </span>
           </div>
@@ -153,20 +153,20 @@ function Hero3() {
         </span>
         <div className="mt-6 text-white">
           <div className="flex items-center space-x-2">
-            <Icon icon="mdi:dot" />
-            <span className="text-lg <xs:text-xs tracking-wide placeholder:">
+            <Icon icon="mdi:dot" className="min-w-[16px]" />
+            <span className="text-lg <xs:text-xs <xs:leading-6 tracking-wide placeholder:">
               Phát triển nội dung số chuyên nghiệp không giới hạn.
             </span>
           </div>
           <div className="flex items-center space-x-2">
-            <Icon icon="mdi:dot" />
-            <span className="text-lg <xs:text-xs tracking-wide ">
+            <Icon icon="mdi:dot" className="min-w-[16px]"/>
+            <span className="text-lg <xs:text-xs <xs:leading-6 tracking-wide ">
               Tối ưu chi phí vận hành.
             </span>
           </div>
           <div className="flex items-center space-x-2">
-            <Icon icon="mdi:dot" />
-            <span className="text-lg <xs:text-xs tracking-wide ">
+            <Icon icon="mdi:dot" className="min-w-[16px]"/>
+            <span className="text-lg <xs:text-xs <xs:leading-6 tracking-wide ">
               Nâng cao trải nghiệm khách hàng.
             </span>
           </div>
@@ -209,7 +209,7 @@ const Instruction = ({ innerRef }) => {
         ref={innerRef}
         className="absolute h-[70px] top-[-70px] pointer-events-none"
       ></div>
-      <span className="text-[45px] text-center font-bold text-primary-blue-medium">
+      <span className="md:text-[45px] text-4xl text-center font-bold text-primary-blue-medium">
         Hướng dẫn sử dụng
       </span>
       <div className="w-full bg-shadow">
@@ -265,7 +265,7 @@ function Divider() {
         <div className="small_star">*</div>
       </div>
       <div className="flex flex-col items-center space-y-2 desktop:px-[84px]">
-        <div className="text-primary-blue-medium text-center md:text-[45px] <xs:w-2/3 text-4xl font-bold">
+        <div className="text-primary-blue-medium text-center md:text-[45px]   text-4xl font-bold">
           Hệ sinh thái toàn diện
         </div>
         <div className="italic tracking-wide text-center text-white ">
@@ -345,7 +345,7 @@ function Environment() {
       <div className="grid w-full <xs:grid-cols-1 grid-cols-3 gap-8 mt-16 gap-y-16 ">
         {environments.map((item, index) => (
           <div key={index} className="space-y-6">
-            <img src={item.img} alt="environment" className="h-[68px] " />
+            <img src={item.img} alt="environment" className="w-[68px] " />
             <div className="text-2xl font-bold text-primary-blue-medium">
               {item.header}
             </div>
@@ -378,7 +378,7 @@ function ProductAndService({ innerRef, packages }) {
       <div className="text-primary-blue-medium text-4xl text-center md:text-[45px] font-bold pt-12 pb-6">
         Sản phẩm & Dịch vụ
       </div>
-      <div className="grid gap-4 desktop:grid-cols-4 mobile:grid-cols-2 <xs:!grid-cols-1">
+      <div className="grid gap-4 desktop:grid-cols-4 mobile:grid-cols-2 <xs:!grid-cols-1 w-full">
         {packages.map((item: any, index: number) => (
           <div
             style={
@@ -643,14 +643,14 @@ function FAQs({ innerRef }) {
             cho nhiều mục đích khác nhau, bao gồm:
           </div>
           <div className="flex ">
-            <Icon icon="mdi:dot" className="mt-1.5" />
+            <Icon icon="mdi:dot" className="mt-1.5 min-w-[16px]" />
             <div>
               Cá nhân: Kết nối và chia sẽ thông tin cá nhân như liên hệ, công
               việc, các hoạt động của bạn và tất cả những gì bạn muốn chia sẽ.
             </div>
           </div>
           <div className="flex ">
-            <Icon icon="mdi:dot" className="mt-1.5" />
+            <Icon icon="mdi:dot" className="mt-1.5 min-w-[16px]" />
             <div>
               Doanh nghiệp: Số hoá Doanh nghiệp tiết kiệm tối đa chi phí vận
               hành.
@@ -813,7 +813,7 @@ function Footer() {
     Social_zalo,
   ];
   return (
-    <div className="relative flex justify-center w-full pb-16">
+    <div className="relative flex justify-center w-full pb-16 !mt-24">
       <div
         style={{ background: "linear-gradient(180deg, #1E2530 0%, #000 100%)" }}
         className="w-screen absolute bottom-0  h-full z-[1]"

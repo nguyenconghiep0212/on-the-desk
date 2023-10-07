@@ -15,7 +15,7 @@ import { RecoilRoot } from "recoil";
 // AUTH
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Login from "./routes/login";
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/login",
     element: <Login />,
@@ -42,7 +42,7 @@ const router = createBrowserRouter([
     element: <Gallery />,
     errorElement: <ErrorPage />,
   },
-],{ basename: "/" });
+]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
