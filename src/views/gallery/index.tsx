@@ -132,7 +132,9 @@ function Component() {
           <div
             className="sm:w-[300%] sm:-translate-x-1/2 h-full  "
             style={{
-              backgroundImage: `url('${gallery[0].galleryThumb|| userInfo.backgrounds}')`,
+              backgroundImage: `url('${
+                gallery[0].galleryThumb || userInfo.backgrounds
+              }')`,
               WebkitFilter: `blur(24px)`,
               backgroundPosition: "center",
               backgroundSize: "cover",
@@ -153,7 +155,7 @@ function Component() {
           </div>
 
           <div
-            className="absolute top-0 w-3/4 h-full -translate-x-1/2 sm:w-full 3xl:w-3/5 left-1/2"
+            className="absolute top-0   h-full -translate-x-1/2 w-full lg:!w-3/4 <3xs:!w-3/4 left-1/2"
             style={{
               backgroundImage: `url('${
                 gallery[0].galleryThumb || userInfo.backgrounds
@@ -176,7 +178,7 @@ function Component() {
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-semibold text-primary-blue-light-max">
-                {customerInfo.customerName || "Anonymous"} 
+                {customerInfo.customerName || "Anonymous"}
               </span>
               <span className="text-sm font-thin text-primary-blue-light-max">
                 {customerInfo.customerAddress || "N/A"}

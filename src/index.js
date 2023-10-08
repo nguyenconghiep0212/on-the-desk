@@ -15,7 +15,7 @@ import { RecoilRoot } from "recoil";
 // AUTH
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Login from "./routes/login";
-const router = createHashRouter([
+const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
