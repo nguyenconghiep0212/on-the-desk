@@ -101,7 +101,7 @@ function Component() {
               {e.galleryName}
             </div>
             <ResponsiveMasonry
-              columnsCountBreakPoints={{ 290: 1, 360: 2, 1536: 3 }}
+              columnsCountBreakPoints={{ 290: 1, 360: 2, 768: 3 }}
             >
               <Masonry gutter="0.5rem">
                 {e.topPictures.map((f, i) => (
@@ -125,23 +125,21 @@ function Component() {
     );
   }
   return (
-    <div className="w-full h-full sm:flex sm:flex-col sm:items-center">
-      <div className="h-full pb-3 sm:w-1/2">
+    <div className="flex flex-col items-center w-full h-full">
+      <div className="w-full lg:!w-3/4 <3xs:!w-3/4 h-full pb-3">
         {/* INFO */}
         <div className="relative w-full h-1/3 sm:h-2/5 lg:h-3/5">
           <div
-            className="sm:w-[300%] sm:-translate-x-1/2 h-full  "
+            className="sm:w-[300%] sm:-translate-x-1/2 h-full z-[5] relative "
             style={{
-              backgroundImage: `url('${
-                gallery[0].galleryThumb || userInfo.backgrounds
-              }')`,
+              backgroundImage: `url('${gallery[0].galleryThumb|| userInfo.backgrounds}')`,
               WebkitFilter: `blur(24px)`,
               backgroundPosition: "center",
               backgroundSize: "cover",
               boxShadow: "inset 0px -70px 10px #18191A",
             }}
           ></div>
-          <div className="absolute top-0 left-8 sm:-left-4 ">
+          <div className="absolute top-0 z-10 <3xs:-left-2 left-6 lg:-left-4 ">
             <Button
               type="text"
               className="!px-0 !shadow-none"
@@ -155,7 +153,7 @@ function Component() {
           </div>
 
           <div
-            className="absolute top-0   h-full -translate-x-1/2 w-full lg:!w-3/4 <3xs:!w-3/4 left-1/2"
+            className="absolute z-[5] top-0 w-full h-full -translate-x-1/2 left-1/2"
             style={{
               backgroundImage: `url('${
                 gallery[0].galleryThumb || userInfo.backgrounds
@@ -178,7 +176,7 @@ function Component() {
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-semibold text-primary-blue-light-max">
-                {customerInfo.customerName || "Anonymous"}
+                {customerInfo.customerName || "Anonymous"} 
               </span>
               <span className="text-sm font-thin text-primary-blue-light-max">
                 {customerInfo.customerAddress || "N/A"}
