@@ -14,7 +14,7 @@ function SwiperMobile({ currentImg, getCurrentImg, background }) {
         style={{
           backgroundImage: `url(${currentImg})`,
           WebkitFilter: `blur(24px)`,
-          boxShadow: "inset 0px -70px 45px #18191A",
+          boxShadow: "inset 0px -70px 45px -45px #18191A",
         }}
       ></div>
       <Swiper
@@ -31,10 +31,11 @@ function SwiperMobile({ currentImg, getCurrentImg, background }) {
             <div
               className="h-full "
               style={{
+                // backgroundColor: 'white',
                 backgroundImage: `url(${e})`,
                 backgroundPosition: "center",
                 backgroundSize: "cover",
-                boxShadow: "inset 0px -70px 45px #18191A",
+                boxShadow: "inset   0px -70px 45px -45px  #18191A",
               }}
             ></div>
           </SwiperSlide>
@@ -54,7 +55,7 @@ function SwiperDesk({ currentImg, getCurrentImg, background }) {
           WebkitFilter: `blur(24px)`,
           backgroundPosition: "center",
           backgroundSize: "fit",
-          boxShadow: "inset 0px -70px 10px #18191A",
+          boxShadow: "inset 0px -70px 15px -45px #18191A",
         }}
       ></div>
 
@@ -75,7 +76,7 @@ function SwiperDesk({ currentImg, getCurrentImg, background }) {
                 backgroundImage: `url(${e})`,
                 backgroundPosition: "center",
                 backgroundSize: "cover",
-                boxShadow: "inset 0px -70px 45px #18191A",
+                boxShadow: "inset 0px -70px 45px -45px #18191A",
               }}
             ></div>
           </SwiperSlide>
@@ -95,7 +96,7 @@ function Header({ background, avatar, name, description }) {
     setCurentImg(background[0])
   }, [background])
   return (
-    <div className="relative flex justify-center h-[40vh]">
+    <div className="relative flex justify-center <xs:!h-[320px] h-[40vh]">
       <div className="flex flex-col w-full">
         {useCheckMobileScreen()
           ? SwiperMobile({ currentImg, getCurrentImg, background })

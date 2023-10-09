@@ -1,19 +1,28 @@
-import { Icon } from "@iconify/react";
-import { Button } from "antd";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-// import Feedback from "../portfolio/components/feedback/index";
+import { useRecoilState } from "recoil";
+import { fullScreenVisible } from "store/gallery";
+import "./index.scss";
+// COMPONENT
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import { Icon } from "@iconify/react";
+import { Button, Modal } from "antd";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import FullScreenImg from "./fullScreen";
+// import Feedback from "../portfolio/components/feedback/index";
 import CustomerAvatarPlaceholder from "assests/customer_avatar_placeholder.jpg";
+import GalleryPlaceholder from "assests/gallery_thumbnail_placeholder.jpg";
+
+// INTERFACE
 import { GALLERY_CUSTOMER } from "interface/gallery";
 import { CUSTOMER } from "interface/customer";
 import { USER_INFO } from "interface/user";
+
+// API
 import { getUserProfile, getGalleryByCustomerId, getCustomerById } from "api";
 
 function Component() {
-  const [gallery, setGallery] = useState<GALLERY_CUSTOMER[]>([
+  const [galleries, setGalleries] = useState<GALLERY_CUSTOMER[]>([
     {
       customerShortcut: "",
       galleryShortcut: "",
@@ -43,10 +52,26 @@ function Component() {
     customerName: "",
     shortcut: "",
   });
+  const [visible, setVisible] = useRecoilState(fullScreenVisible);
+  const [currentImg, setCurrentImg] = useState("");
+  const [currentGallery, setCurrentGallery] = useState([]);
   const routeParams = useParams();
-  console.log("routeParams", routeParams);
   const navigate = useNavigate();
 
+  function handleOpenFullscreen(gallery, img) {
+    setCurrentImg(img);
+    setCurrentGallery(gallery);
+    setVisible(true);
+  }
+  function handleCloseFullscreen() {
+    setCurrentImg("");
+    setVisible(false);
+  }
+  function handleBack() {
+    return navigate(-1);
+  }
+
+  // GỌI API
   async function handleGetUserProfile() {
     if (routeParams.userId) {
       try {
@@ -68,34 +93,29 @@ function Component() {
       } catch (error) {}
     }
   }
-
   async function handleGetGalleryByCustomerId() {
     if (routeParams.customerId) {
       try {
         const res = await getGalleryByCustomerId(routeParams.customerId);
         if (res) {
           const galleryData = res.data.gals;
-          setGallery([...galleryData]);
+          setGalleries([...galleryData]);
         }
       } catch (error) {}
     }
   }
+  //
 
-  function handleBack() {
-    return navigate(-1);
-  }
   useEffect(() => {
     handleGetGalleryByCustomerId();
     handleGetUserProfile();
     handleGetCustomerById();
   }, []);
-  useEffect(() => {
-    console.log("gallery", gallery[0].galleryThumb);
-  }, [gallery]);
+  useEffect(() => {}, [galleries, visible]);
   function masonryGrid() {
     return (
       <div>
-        {gallery.map((e, index) => (
+        {galleries.map((e, index) => (
           <div key={index} className="my-2">
             <div className="text-[#B6B6B6] font-bold text-lg mb-4">
               {e.galleryName}
@@ -108,16 +128,20 @@ function Component() {
                   <div key={i} className={` rounded-2xl`}>
                     <LazyLoadImage
                       alt="gallery_src"
-                      placeholderSrc={f.ref}
+                      effect="opacity"
+                      placeholderSrc={GalleryPlaceholder}
                       src={f.ref}
                       className=" rounded-2xl"
+                      onClick={() => {
+                        handleOpenFullscreen(e.topPictures, f.ref);
+                      }}
                     />
                   </div>
                 ))}
               </Masonry>
             </ResponsiveMasonry>
             <div id="divider" className="flex items-center justify-center py-6">
-              <div className="w-2/3 border-t border-dashed border-primary-blue-light"></div>
+              <div className="w-2/3 border-t border-dashed border-primary-blue-medium"></div>
             </div>
           </div>
         ))}
@@ -125,18 +149,20 @@ function Component() {
     );
   }
   return (
-    <div className="flex flex-col items-center w-full h-full">
+    <div className="relative flex flex-col items-center w-full h-full">
       <div className="w-full lg:!w-3/4 <3xs:!w-3/4 h-full pb-3">
         {/* INFO */}
         <div className="relative w-full h-1/3 sm:h-2/5 lg:h-3/5">
           <div
             className="sm:w-[300%] sm:-translate-x-1/2 h-full z-[5] relative "
             style={{
-              backgroundImage: `url('${gallery[0].galleryThumb|| userInfo.backgrounds}')`,
+              backgroundImage: `url('${
+                galleries[0].galleryThumb || userInfo.backgrounds
+              }')`,
               WebkitFilter: `blur(24px)`,
               backgroundPosition: "center",
               backgroundSize: "cover",
-              boxShadow: "inset 0px -70px 10px #18191A",
+              boxShadow: "inset 0px -70px 35px -25px #18191A",
             }}
           ></div>
           <div className="absolute top-0 z-10 <3xs:-left-2 left-6 lg:-left-4 ">
@@ -156,11 +182,11 @@ function Component() {
             className="absolute z-[5] top-0 w-full h-full -translate-x-1/2 left-1/2"
             style={{
               backgroundImage: `url('${
-                gallery[0].galleryThumb || userInfo.backgrounds
+                galleries[0].galleryThumb || userInfo.backgrounds
               }')`,
               backgroundPosition: "center",
               backgroundSize: "cover",
-              boxShadow: "inset 0px -70px 40px #18191A",
+              boxShadow: "inset 0px -70px 35px -40px #18191A",
             }}
           ></div>
         </div>
@@ -175,10 +201,10 @@ function Component() {
               />
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-semibold text-primary-blue-light-max">
-                {customerInfo.customerName || "Anonymous"} 
+              <span className="text-xl font-semibold text-primary-blue-medium">
+                {customerInfo.customerName || "Anonymous"}
               </span>
-              <span className="text-sm font-thin text-primary-blue-light-max">
+              <span className="text-sm font-thin text-primary-blue-medium">
                 {customerInfo.customerAddress || "N/A"}
               </span>
             </div>
@@ -186,9 +212,9 @@ function Component() {
 
           {/* USER */}
           <div className="translate-x-1/2">
-            <div className="w-10 h-6 ml-3 text-white border-r border-primary-blue-light" />
+            <div className="w-10 h-6 ml-3 text-white border-r border-primary-blue-medium" />
             <div className="flex space-x-2">
-              <div className="w-20 h-20 ml-3 -mt-3 scale-75 border-2 rounded-full border-primary-blue-light">
+              <div className="w-20 h-20 ml-3 -mt-3 scale-75 border-2 rounded-full border-primary-blue-medium">
                 <img
                   className="h-full rounded-full"
                   src={userInfo.avatar}
@@ -211,6 +237,17 @@ function Component() {
           </div> */}
         </div>
       </div>
+
+      <Modal
+        className="modalFullScreen"
+        open={visible}
+        footer={null}
+        onCancel={() => {
+          handleCloseFullscreen();
+        }}
+      >
+        <FullScreenImg currentGallery={currentGallery} initImg={currentImg} />
+      </Modal>
     </div>
   );
 }

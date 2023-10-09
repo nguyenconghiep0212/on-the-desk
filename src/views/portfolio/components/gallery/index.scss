@@ -1,5 +1,5 @@
  .filter-tag {
-  padding: 8px;
+  padding: 2px 12px;
   font-size: 12px;
    position: relative;
    box-sizing: border-box;
@@ -20,13 +20,12 @@
      display: flex;
      justify-content: center;
      align-items: center;
-     min-height: 35px;
    }
 
  }
 
  .filter-tag-checked {
-  padding: 8px;
+  padding: 2px 12px;
   font-size: 12px;
    color: white !important;
    border-radius: 8px !important;
@@ -40,7 +39,12 @@
 
      display: flex;
      justify-content: center;
-     min-height: 35px;
      align-items: center;
    }
+ }
+
+ .lazy-load-image-background.lazy-load-image-loaded{
+  object-fit: cover; 
+  min-width: 100%;
+  // min-height: 100%
  }

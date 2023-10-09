@@ -6,8 +6,8 @@ import twitter from "assests/logo_twitter.svg";
 import instagram from "assests/logo_instagram.svg";
 import patreon from "assests/logo_patreon.svg";
 import tiktok from "assests/logo_tiktok.svg";
-import zalo from "assests/landing/social_logo_zalo.svg";
-import phone from "assests/landing/social_logo_phone.svg";
+import zalo from "assests/logo_zalo.svg";
+import phone from "assests/logo_phone.svg";
 
 export const platforms = [
     {

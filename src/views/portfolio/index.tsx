@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "./components/header/header.tsx";
- import DynamicComponent from "./components/dynamicComponent";
+import DynamicComponent from "./components/dynamicComponent";
 import Footer from "views/footer/index.tsx";
 
 // API
@@ -37,25 +37,34 @@ function Portfolio() {
 
   let routeParams = useParams();
   async function handleGetUserProfile() {
-    if(routeParams.userId){
+    if (routeParams.userId) {
       try {
-      const res = await getUserProfile(routeParams.userId);
-      if (res) {
-        userInfo = res.data;
-        setUserInfo(userInfo);
-        await handleGetComponentFromPackage();
-        const temp = userPackage.find((e) => e.key === "contact");
-        if (temp) {
-          temp.config.data = userInfo.contacts.map((e) => {
-            return {
-              url: e.contactValue,
-              platform: e.platformKey,
-              name: userInfo.name,
-            };
-          });
+        const res = await getUserProfile(routeParams.userId);
+        if (res) {
+          userInfo = res.data;
+          setUserInfo(userInfo);
+          await handleGetComponentFromPackage();
+          const temp = userPackage.find((e) => e.key === "contact");
+          if (temp) {
+            temp.config.data = userInfo.contacts.map((e) => {
+              return {
+                url: e.contactValue,
+                platform: e.platformKey,
+                name: userInfo.name,
+              };
+            });
+          }
         }
+      } catch (e) {
+        messageApi.open({
+          type: "error",
+          content: "Người dùng không tồn tại, quay trở lại trang chủ...",
+        });
+        setTimeout(() => {
+          navigate("/");
+        }, 2500);
       }
-    } catch (e) {
+    } else {
       messageApi.open({
         type: "error",
         content: "Người dùng không tồn tại, quay trở lại trang chủ...",
@@ -64,16 +73,6 @@ function Portfolio() {
         navigate("/");
       }, 2500);
     }
-    }else{
-      messageApi.open({
-        type: "error",
-        content: "Người dùng không tồn tại, quay trở lại trang chủ...",
-      });
-      setTimeout(() => {
-        navigate("/");
-      }, 2500);
-    }
-    
   }
 
   async function handleGetComponentFromPackage() {
@@ -87,7 +86,7 @@ function Portfolio() {
         }
       });
       userPackage = res.data;
-      setUserPackage(userPackage); 
+      setUserPackage(userPackage);
     }
   }
 
@@ -102,7 +101,7 @@ function Portfolio() {
         id="focus_point"
         className="flex flex-col h-full mobile:w-full sm:p-0 desktop:w-1/2"
       >
-        <div className="flex-auto">
+        <div className="flex-auto overflow-auto">
           <Header
             avatar={userInfo.avatar}
             background={userInfo.backgrounds}
@@ -121,10 +120,16 @@ function Portfolio() {
               </div>
             ))}
           </div>
-        </div>
-
-        <div className="flex-[0 0 auto]">
+          <div
+          className="sticky bottom-0"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(24, 25, 26, 0.25) 0%, rgba(0, 0, 0, 0.50) 100%)",
+            backdropFilter: "blur(9px)",
+          }}
+        >
           <Footer />
+        </div>
         </div>
       </div>
     </div>

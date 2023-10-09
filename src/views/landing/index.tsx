@@ -6,7 +6,7 @@ import Product from "./components/product";
 // ASSETS
 import Ribbon1 from "assests/landing/ribbon_1.svg";
 import Ribbon2 from "assests/landing/ribbon_2.svg";
-import Footer from "views/footer";
+
 
 function Landing() {
   return (
@@ -33,7 +33,7 @@ function Landing() {
           <Product />
         </div>
       </div>
-      <Footer />
+   
     </div>
   );
 }

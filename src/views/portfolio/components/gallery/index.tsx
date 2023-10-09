@@ -110,7 +110,7 @@ function Gallery({ alias, data, userInfo }) {
                 >
                   <div
                     key={index}
-                    className={`filter-tag${
+                    className={`font-semibold filter-tag${
                       filteredTag.includes(e.key) ? "-checked" : ""
                     }`}
                     onClick={() => {
@@ -127,7 +127,7 @@ function Gallery({ alias, data, userInfo }) {
               <div className="!mb-2 !mr-2 inline-flex cursor-pointer rounded-lg bg-[#2f353f]">
                 <div className="h-full filter-tag-bg">
                   <div
-                    className="cursor-pointer filter-tag"
+                    className="font-semibold cursor-pointer filter-tag"
                     onClick={showAllFilter}
                   >
                     {"(+" +
@@ -155,22 +155,23 @@ function Gallery({ alias, data, userInfo }) {
               <div className="relative flex items-center justify-center h-32 bg-white xl:h-44 2xl:h-64 rounded-2xl overflow-clip ">
                 <LazyLoadImage
                   alt="thumbnail" 
-                  placeholderSrc={e.galleryThumb}
+                  effect="opacity"
+                  placeholderSrc={ThumbnailPlaceholder}
                   src={e.galleryThumb || ThumbnailPlaceholder}
-                  className="w-full "
+                  className="h-full"
                 />
-                <div className="absolute bottom-0 right-0 flex items-center justify-center p-1 space-x-1 text-white bg-black w-14 bg-opacity-40 rounded-br-2xl rounded-tl-2xl">
+                <div className="absolute bottom-0 right-0 flex items-center justify-center px-2 py-1 space-x-1 text-white bg-black w-14 bg-opacity-40 rounded-br-2xl rounded-tl-2xl">
                   <Icon className="!text-xl" icon="ri:stack-fill" />
-                  <div className="text-sm font-thin">
+                  <div className="text-sm ">
                     {formatNumber(e.galleryImageCount)}
                   </div>
                 </div>
               </div>
 
-              <div className="font-bold text-white">{e.galleryName}</div>
+              <div className="font-bold text-white ">{e.galleryName}</div>
               <div className="text-[#72FFFF] flex space-x-2 items-center  cursor-pointer">
-                <Icon icon="carbon:partnership" />
-                <span className="text-sm">{e.customerName}</span>
+                <Icon icon="carbon:partnership"  className="!min-w-[16px]"/>
+                <span className="text-sm truncate">{e.customerName}</span>
               </div>
             </div>
           ))}

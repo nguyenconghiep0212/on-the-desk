@@ -4,6 +4,7 @@ import { Button, Collapse, CollapseProps, Input, Radio, Select } from "antd";
 import { Icon } from "@iconify/react";
 import { fetchFeedback, fetchPackageList } from "api";
 import { useRecoilState } from "recoil";
+import ParentFooter from "views/footer";
 // ICON
 import IconShoppingBag from "assests/icon/ic-shopping-bag.svg";
 // IMAGE
@@ -110,20 +111,20 @@ function Hero2({ innerRef }) {
         </span>
         <div className="mt-6 text-white ">
           <div className="flex items-center space-x-2">
-            <Icon icon="mdi:dot" className="min-w-[16px]"/>
+            <Icon icon="mdi:dot" className="min-w-[16px]" />
             <span className="text-lg  <xs:text-xs <xs:leading-6 tracking-wide ">
               Đặc quyền <span className="font-bold">thiết kế riêng</span> thẻ
               thông minh và hồ sơ trực tuyến.
             </span>
           </div>
           <div className="flex items-center space-x-2">
-            <Icon icon="mdi:dot" className="min-w-[16px]"/>
+            <Icon icon="mdi:dot" className="min-w-[16px]" />
             <span className="text-lg  <xs:text-xs <xs:leading-6 placeholder:tracking-wide">
               Giao diện hiện đại phù hợp với phong cách và công việc của bạn.
             </span>
           </div>
           <div className="flex items-center space-x-2">
-            <Icon icon="mdi:dot" className="min-w-[16px]"/>
+            <Icon icon="mdi:dot" className="min-w-[16px]" />
             <span className="text-lg  <xs:text-xs tracking-wide <xs:leading-6">
               Kết nối và chia sẻ thông tin ấn tượng ngay từ lần đầu tiên.
             </span>
@@ -159,13 +160,13 @@ function Hero3() {
             </span>
           </div>
           <div className="flex items-center space-x-2">
-            <Icon icon="mdi:dot" className="min-w-[16px]"/>
+            <Icon icon="mdi:dot" className="min-w-[16px]" />
             <span className="text-lg <xs:text-xs <xs:leading-6 tracking-wide ">
               Tối ưu chi phí vận hành.
             </span>
           </div>
           <div className="flex items-center space-x-2">
-            <Icon icon="mdi:dot" className="min-w-[16px]"/>
+            <Icon icon="mdi:dot" className="min-w-[16px]" />
             <span className="text-lg <xs:text-xs <xs:leading-6 tracking-wide ">
               Nâng cao trải nghiệm khách hàng.
             </span>
@@ -813,7 +814,7 @@ function Footer() {
     Social_zalo,
   ];
   return (
-    <div className="relative flex justify-center w-full pb-16 !mt-24">
+    <div className="relative flex flex-col items-center w-full  !mt-24">
       <div
         style={{ background: "linear-gradient(180deg, #1E2530 0%, #000 100%)" }}
         className="w-screen absolute bottom-0  h-full z-[1]"
@@ -879,6 +880,9 @@ function Footer() {
             />
           </div>
         </div>
+      </div>
+      <div className="z-10 mt-6">
+        <ParentFooter />
       </div>
     </div>
   );
