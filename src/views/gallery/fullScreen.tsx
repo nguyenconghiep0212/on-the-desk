@@ -47,7 +47,7 @@ export default function Component({ currentGallery, initImg }) {
       >
         {currentGallery.map((e, index) => (
           <SwiperSlide key={index} className="!h-[fit-content] z-10">
-            <img src={e.ref} alt="gallery" />
+            <img src={e.ref} alt="gallery" style={{ objectFit: "cover" }} />
           </SwiperSlide>
         ))}
       </Swiper>

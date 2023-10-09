@@ -95,13 +95,13 @@ function Portfolio() {
   }, []);
   useEffect(() => {}, [userInfo]);
   return (
-    <div className="flex flex-col items-center w-full h-full">
+    <div className="relative flex flex-col items-center w-full h-full ">
       {contextHolder}
       <div
         id="focus_point"
         className="flex flex-col h-full mobile:w-full sm:p-0 desktop:w-1/2"
       >
-        <div className="flex-auto overflow-auto">
+        <div className="flex-auto">
           <Header
             avatar={userInfo.avatar}
             background={userInfo.backgrounds}
@@ -120,8 +120,9 @@ function Portfolio() {
               </div>
             ))}
           </div>
-          <div
-          className="sticky bottom-0"
+        </div>
+        <div
+          className="sticky bottom-0 w-[100vw] desktop:-translate-x-1/4"
           style={{
             background:
               "linear-gradient(180deg, rgba(24, 25, 26, 0.25) 0%, rgba(0, 0, 0, 0.50) 100%)",
@@ -129,7 +130,6 @@ function Portfolio() {
           }}
         >
           <Footer />
-        </div>
         </div>
       </div>
     </div>
