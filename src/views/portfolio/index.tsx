@@ -121,14 +121,7 @@ function Portfolio() {
             ))}
           </div>
         </div>
-        <div
-          className="sticky bottom-0 w-[100vw] desktop:-translate-x-1/4"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(24, 25, 26, 0.25) 0%, rgba(0, 0, 0, 0.50) 100%)",
-            backdropFilter: "blur(9px)",
-          }}
-        >
+        <div className="sticky bottom-0 w-[100vw] desktop:-translate-x-1/4 backdrop-blur">
           <Footer />
         </div>
       </div>
