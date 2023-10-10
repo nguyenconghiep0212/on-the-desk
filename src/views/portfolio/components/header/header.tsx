@@ -5,8 +5,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
+import ReactDOMServer from 'react-dom/server'
 
-function SwiperMobile({ currentImg, getCurrentImg, background }) {
+function SwiperMobile({ currentImg, getCurrentImg, background, pagination }) {
   return (
     <div className="relative flex justify-center w-full h-full bg-neutral-900 ">
       <div
@@ -45,7 +46,7 @@ function SwiperMobile({ currentImg, getCurrentImg, background }) {
   );
 }
 
-function SwiperDesk({ currentImg, getCurrentImg, background }) {
+function SwiperDesk({ currentImg, getCurrentImg, background, pagination }) {
   return (
     <div className="relative w-full h-full ">
       <div
@@ -88,6 +89,16 @@ function SwiperDesk({ currentImg, getCurrentImg, background }) {
 
 function Header({ background, avatar, name, description }) { 
   const [currentImg, setCurentImg] = useState(background[0]);
+  const pagination = {
+    clickable: true,
+    type: 'custom',
+    renderCustom: function (swiper: any, current: number, total: number) {
+      console.log(swiper, current, total)
+      return ReactDOMServer.renderToStaticMarkup(<div className="text-white">
+aaaaaaaaaaaa
+      </div>);
+    },
+  };
 
   function getCurrentImg(event) {
     setCurentImg(background[event.activeIndex]);
@@ -99,8 +110,8 @@ function Header({ background, avatar, name, description }) {
     <div className="relative flex justify-center <xs:!h-[320px] h-[40vh]">
       <div className="flex flex-col w-full">
         {useCheckMobileScreen()
-          ? SwiperMobile({ currentImg, getCurrentImg, background })
-          : SwiperDesk({ currentImg, getCurrentImg, background })}
+          ? SwiperMobile({ currentImg, getCurrentImg, background ,pagination})
+          : SwiperDesk({ currentImg, getCurrentImg, background ,pagination})}
 
         <div className="flex items-center mx-2 <3xs:flex <3xs:flex-col <3xs:items-center -mt-8 desktop:-mt-10 z-10">
           <img
