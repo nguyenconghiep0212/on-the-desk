@@ -54,7 +54,7 @@ function Component() {
   });
   const [visible, setVisible] = useRecoilState(fullScreenVisible);
   const [currentImg, setCurrentImg] = useState("");
-  const [currentGallery, setCurrentGallery] = useState([]);
+  const [currentGallery, setCurrentGallery] = useState({});
   const routeParams = useParams();
   const navigate = useNavigate();
 
@@ -64,8 +64,7 @@ function Component() {
     setVisible(true);
   }
   function handleCloseFullscreen() {
-    setCurrentImg("");
-    setVisible(false);
+    setCurrentImg(""); 
   }
   function handleBack() {
     return navigate(-1);
@@ -133,7 +132,7 @@ function Component() {
                       src={f.ref}
                       className=" rounded-2xl"
                       onClick={() => {
-                        handleOpenFullscreen(e.topPictures, f.ref);
+                        handleOpenFullscreen(e, f.ref);
                       }}
                     />
                   </div>
@@ -241,8 +240,9 @@ function Component() {
       <Modal
         className="modalFullScreen"
         open={visible}
+        closeIcon={false}
         footer={null}
-        onCancel={() => {
+        afterClose={() => {
           handleCloseFullscreen();
         }}
       >
