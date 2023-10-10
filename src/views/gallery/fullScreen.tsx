@@ -12,7 +12,8 @@ import "swiper/css/thumbs";
 import IcCloseLeft from "assests/icon/ic-arrow-left.svg";
 import { useRecoilState } from "recoil";
 import { fullScreenVisible } from "store/gallery";
-
+import { Icon } from "@iconify/react";
+ 
 export default function Component({ currentGallery, initImg }) {
   const [_, setVisible] = useRecoilState(fullScreenVisible);
   const topSwiperRef: any = useRef(null);
@@ -27,10 +28,9 @@ export default function Component({ currentGallery, initImg }) {
   }
 
   useEffect(() => {
-    topSwiperRef.current.swiper.slideTo(initIndex);
-    console.log("topSwiperRef", topSwiperRef);
-
-    console.log("initIndex", initIndex);
+    setTimeout(() => {
+      topSwiperRef.current.swiper.slideTo(initIndex);
+    }, 200);
   }, [initIndex]);
   useEffect(() => {
     getInitIndex();
@@ -42,7 +42,7 @@ export default function Component({ currentGallery, initImg }) {
         className="absolute top-0 left-0 w-full h-full transition-all duration-300 "
         style={{
           background: "rgba(0, 0, 0, 0.5)",
-          WebkitFilter: `blur(8px)`,
+          backdropFilter: `blur(8px)`,
           zIndex: 1,
         }}
       />
@@ -54,6 +54,9 @@ export default function Component({ currentGallery, initImg }) {
             setVisible(false);
           }}
         />
+      </div>
+      <div className="absolute top-[33px] z-10  text-2xl 3xs:right-3">
+        <Icon icon='bx:user' className="text-primary-blue-medium"/>
       </div>
       <div className="z-10 text-lg font-bold text-white">
         {currentGallery.galleryName}

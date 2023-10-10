@@ -12,7 +12,7 @@ import FullScreenImg from "./fullScreen";
 // import Feedback from "../portfolio/components/feedback/index";
 import CustomerAvatarPlaceholder from "assests/customer_avatar_placeholder.jpg";
 import GalleryPlaceholder from "assests/gallery_thumbnail_placeholder.jpg";
-
+import IcAccount from "assests/icon/ic-account.svg";
 // INTERFACE
 import { GALLERY_CUSTOMER } from "interface/gallery";
 import { CUSTOMER } from "interface/customer";
@@ -169,6 +169,9 @@ function Component() {
             icon="ep:back"
             onClick={handleBack}
           />
+          <div className="absolute top-[33px] z-10  text-2xl 3xs:right-3 <3xs:right-0  ">
+            <Icon icon="bx:user" className="text-primary-blue-medium" />
+          </div>
 
           <div
             className="absolute z-[5] top-0 w-full h-full -translate-x-1/2 left-1/2"
@@ -185,15 +188,15 @@ function Component() {
         <div className="relative bg-[#18191A] z-10  sm:w-[300%] sm:overflow-x-clip -translate-x-1/2">
           {/* CUSTOMER */}
           <div className="flex items-center space-x-2 translate-x-1/2">
-            <div className=" w-20 h-20 ml-3 mt-[-25px]">
+            <div className="3xs:w-20 3xs:h-20 3xs:ml-3 <3xs:w-14 <3xs:h-14 <3xs:!min-w-[3.5rem]  mt-[-25px]">
               <img
                 src={customerInfo.customerAvatar || CustomerAvatarPlaceholder}
                 alt="customer_avatar"
-                className="z-20 h-full rounded-full"
+                className="z-20 w-full h-full rounded-full"
               />
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-semibold text-primary-blue-medium">
+              <span className="text-xl <3xs:text-lg font-semibold <3xs:truncate text-primary-blue-medium">
                 {customerInfo.customerName || "Anonymous"}
               </span>
               <span className="text-sm font-thin text-primary-blue-medium">
@@ -203,17 +206,17 @@ function Component() {
           </div>
 
           {/* USER */}
-          <div className="translate-x-1/2">
-            <div className="w-10 h-6 ml-3 text-white border-r border-primary-blue-medium" />
+          <div className="translate-x-1/2 <3xs:mr-3 <3xs:-mt-2 ">
+            <div className="w-10 <3xs:w-8 h-6 text-white border-r 3xs:ml-3  border-primary-blue-medium" />
             <div className="flex space-x-2">
-              <div className="w-20 h-20 ml-3 -mt-3 scale-75 border-2 rounded-full border-primary-blue-medium">
+              <div className="w-20 h-20 <3xs:w-16 <3xs:h-16 -mt-3 scale-75 border-2 rounded-full 3xs:ml-3 border-primary-blue-medium">
                 <img
                   className="h-full rounded-full"
                   src={userInfo.avatar}
                   alt="user_avatar"
                 />
               </div>
-              <span className="mt-4 text-lg font-semibold text-white">
+              <span className="mt-4 text-lg <3xs:text-base font-semibold text-white">
                 {userInfo.name}
               </span>
             </div>
