@@ -125,7 +125,7 @@ function Component() {
             >
               <Masonry gutter="0.5rem">
                 {e.topPictures.map((f, i) => (
-                  <div key={i} className={` rounded-2xl`}>
+                  <div key={i} className='cursor-pointer rounded-2xl'>
                     <LazyLoadImage
                       alt="gallery_src"
                       effect="opacity"
