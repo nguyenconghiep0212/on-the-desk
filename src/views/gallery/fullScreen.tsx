@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useCheck425Screen } from "helper/checkMobile";
 import { LazyLoadComponent } from "react-lazy-load-image-component";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -15,7 +15,7 @@ import { fullScreenVisible } from "store/gallery";
 
 export default function Component({ currentGallery, initImg }) {
   const [_, setVisible] = useRecoilState(fullScreenVisible);
-
+  const topSwiperRef: any = useRef(null);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   const [initIndex, setInitIndex] = useState(0);
@@ -27,6 +27,9 @@ export default function Component({ currentGallery, initImg }) {
   }
 
   useEffect(() => {
+    topSwiperRef.current.swiper.slideTo(initIndex);
+    console.log("topSwiperRef", topSwiperRef);
+
     console.log("initIndex", initIndex);
   }, [initIndex]);
   useEffect(() => {
@@ -43,7 +46,7 @@ export default function Component({ currentGallery, initImg }) {
           zIndex: 1,
         }}
       />
-      <div className="absolute z-10 cursor-pointer top-5 left-5">
+      <div className="absolute z-10 cursor-pointer top-[33px] 3xs:left-3">
         <img
           src={IcCloseLeft}
           alt="IcCloseLeft"
@@ -56,6 +59,7 @@ export default function Component({ currentGallery, initImg }) {
         {currentGallery.galleryName}
       </div>
       <Swiper
+        ref={topSwiperRef}
         spaceBetween={30}
         initialSlide={initIndex}
         thumbs={{ swiper: thumbsSwiper }}

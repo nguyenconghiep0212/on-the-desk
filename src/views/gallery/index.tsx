@@ -64,7 +64,7 @@ function Component() {
     setVisible(true);
   }
   function handleCloseFullscreen() {
-    setCurrentImg(""); 
+    setCurrentImg("");
   }
   function handleBack() {
     return navigate(-1);
@@ -124,7 +124,7 @@ function Component() {
             >
               <Masonry gutter="0.5rem">
                 {e.topPictures.map((f, i) => (
-                  <div key={i} className='cursor-pointer rounded-2xl'>
+                  <div key={i} className="cursor-pointer rounded-2xl">
                     <LazyLoadImage
                       alt="gallery_src"
                       effect="opacity"
@@ -148,8 +148,8 @@ function Component() {
     );
   }
   return (
-    <div className="relative flex flex-col items-center w-full h-full">
-      <div className="w-full lg:!w-3/4 <3xs:!w-3/4 h-full pb-3">
+    <div className="flex flex-col items-center w-full h-full ">
+      <div className="relative w-full lg:!w-3/4 <3xs:!w-3/4 h-full pb-3">
         {/* INFO */}
         <div className="relative w-full h-1/3 sm:h-2/5 lg:h-3/5">
           <div
@@ -164,18 +164,11 @@ function Component() {
               boxShadow: "inset 0px -70px 35px -25px #18191A",
             }}
           ></div>
-          <div className="absolute top-0 z-10 <3xs:-left-2 left-5 lg:-left-4 ">
-            <Button
-              type="text"
-              className="!px-0 !shadow-none"
-              onClick={handleBack}
-            >
-              <Icon
-                className="text-2xl  ml-[-16px] text-white"
-                icon="ep:back"
-              />
-            </Button>
-          </div>
+          <Icon
+            className="absolute top-[33px] z-10  text-2xl 3xs:left-3  text-white"
+            icon="ep:back"
+            onClick={handleBack}
+          />
 
           <div
             className="absolute z-[5] top-0 w-full h-full -translate-x-1/2 left-1/2"
