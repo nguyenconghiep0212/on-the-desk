@@ -164,7 +164,7 @@ function Component() {
               boxShadow: "inset 0px -70px 35px -25px #18191A",
             }}
           ></div>
-          <div className="absolute top-0 z-10 <3xs:-left-2 left-6 lg:-left-4 ">
+          <div className="absolute top-0 z-10 <3xs:-left-2 left-5 lg:-left-4 ">
             <Button
               type="text"
               className="!px-0 !shadow-none"

@@ -38,7 +38,7 @@ export default function Component({ currentGallery, initImg }) {
       <div
         className="absolute top-0 left-0 w-full h-full transition-all duration-300 "
         style={{
-          background: "rgba(0, 0, 0, 0.60)",
+          background: "rgba(0, 0, 0, 0.5)",
           WebkitFilter: `blur(8px)`,
           zIndex: 1,
         }}

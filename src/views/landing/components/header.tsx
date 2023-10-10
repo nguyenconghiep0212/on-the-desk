@@ -6,7 +6,7 @@ import { Popover } from "antd";
 import IconShoppingBag from "assests/icon/ic-shopping-bag.svg";
 import IconAccount from "assests/icon/ic-account.svg";
 import IconBurgerRight from "assests/icon/ic-burger-right.svg";
-import IconClose from "assests/icon/ic-close.svg";
+import IconAdd from "assests/icon/ic-add.svg";
 
 // IMAGE
 import Logo from "assests/landing/footer_banner.svg";
@@ -126,16 +126,24 @@ function Menu({ handleChange, activeMenuEvent, activatedMenu }) {
         }
       }}
     >
-      <img
+      <div
         className={`${
-          activatedMenu === "Menu" ? "menu-bg-activated" : ""
+          activatedMenu === "Menu" ? "menu-bg-activated " : ""
         }  text-2xl cursor-pointer`}
-        src={activatedMenu === "Menu" ? IconClose : IconBurgerRight}
-        alt="IconBurgerRight"
-        onClick={() => {
-          activeMenuEvent("Menu");
-        }}
-      />
+      >
+        <img
+          className={`${
+            activatedMenu === "Menu"
+              ? "-rotate-45 scale-110 "
+              : "rotate-0"
+          } transition-all duration-300 `}
+          src={activatedMenu === "Menu" ? IconAdd : IconBurgerRight}
+          alt="IconBurgerRight"
+          onClick={() => {
+            activeMenuEvent("Menu");
+          }}
+        />
+      </div>
     </Popover>
   );
 }
