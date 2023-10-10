@@ -38,7 +38,7 @@ const router = createBrowserRouter([
   },
  
   {
-    path: "/:userId/gallery/:customerId",
+    path: "/:userId/:customerId",
     element: <Gallery />,
     errorElement: <ErrorPage />,
   },

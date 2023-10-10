@@ -59,7 +59,7 @@ function Gallery({ alias, data, userInfo }) {
   }
 
   function redirectToGallery(customerId: string) {
-    return navigate(`/${params.userId}/gallery/${customerId}`);
+    return navigate(`/${params.userId}/${customerId}`);
   }
 
   function showAllFilter() {

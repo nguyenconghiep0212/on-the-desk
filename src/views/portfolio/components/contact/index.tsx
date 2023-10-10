@@ -1,9 +1,27 @@
 import React from "react";
-import { platforms , keyToUrl } from "./platforms";
+import { platforms, keyToUrl } from "./platforms";
+// import vCard from "vcards-js";
+import SaveToContact from "assests/save_to_contact.svg";
 
+function Contact({ alias, data, userInfo }) {
+  function generateVCF() {
+    // const vcf = vCard();
 
-function Contact({ alias, data }) { 
+    // vcf.firstName = userInfo.name;
+    // vcf.photo.attachFromUrl(userInfo.avatar, "JPEG");
+    // vcf.cellPhone = userInfo.contacts.find(
+    //   (e) => e.platformKey === "phone"
+    // ).contactValue;
+    // const linkElement = document.createElement("a");
+    // linkElement.setAttribute("href", `data:${vcf.getFormattedString()}`);
+    // linkElement.setAttribute("download", "card.vcf");
 
+    // linkElement.style.display = "none";
+
+    // document.body.appendChild(linkElement);
+    // linkElement.click();
+    // document.body.removeChild(linkElement);
+  }
   function onpenContact(url) {
     window.open(url, "_blank", "noopener,noreferrer");
   }
@@ -59,6 +77,20 @@ function Contact({ alias, data }) {
             </div>
           </div>
         ))}
+        {/* SAVE TO CONTACT (DEFAULT) */}
+        <div
+          className="flex items-center justify-start w-full cursor-pointer h-9"
+          onClick={() => {
+            generateVCF();
+          }}
+        >
+          <div className="bg-[#d6d6cc] flex items-center justify-center overflow-clip w-10 h-[inherit] rounded-tl-md rounded-bl-md">
+            <img src={SaveToContact} alt="platform logo" className="w-full rounded-tl-md rounded-bl-md" />
+          </div>
+          <div className="flex bg-[#908D84] items-center justify-start w-[calc(100%-40px)] h-[inherit] px-4 rounded-tr-md rounded-br-md">
+            <span className="text-white truncate">Lưu danh bạ</span>
+          </div>
+        </div>
       </div>
     </div>
   );
