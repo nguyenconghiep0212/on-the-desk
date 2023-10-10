@@ -209,7 +209,7 @@ function Component() {
           <div className="translate-x-1/2 <3xs:mr-3 <3xs:-mt-2 ">
             <div className="w-10 <3xs:w-8 h-6 text-white border-r 3xs:ml-3  border-primary-blue-medium" />
             <div className="flex space-x-2">
-              <div className="w-20 h-20 <3xs:w-16 <3xs:h-16 -mt-3 scale-75 border-2 rounded-full 3xs:ml-3 border-primary-blue-medium">
+              <div className="w-20 h-20 <3xs:w-16 <3xs:min-w-[4rem] <3xs:h-16 -mt-3 scale-75 border-2 rounded-full 3xs:ml-3 border-primary-blue-medium">
                 <img
                   className="h-full rounded-full"
                   src={userInfo.avatar}
