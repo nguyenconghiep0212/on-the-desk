@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useCheck425Screen } from "helper/checkMobile";
-
+import { LazyLoadComponent } from "react-lazy-load-image-component";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import "swiper/css";
@@ -64,14 +64,6 @@ export default function Component({ currentGallery, initImg }) {
       >
         {currentGallery.topPictures.map((e, index) => (
           <SwiperSlide key={index} className="relative">
-            <div
-              className="absolute top-0 left-0 w-full h-full"
-              style={{
-                background: `url('${e.ref}')`,
-                backgroundPosition: "center",
-                WebkitFilter: `blur(4px)`,
-              }}
-            />
             <img src={e.ref} alt="gallery" className="relative z-10" />
           </SwiperSlide>
         ))}
@@ -88,15 +80,16 @@ export default function Component({ currentGallery, initImg }) {
       >
         {currentGallery.topPictures.map((e, index) => (
           <SwiperSlide key={index} className="relative">
-            <div
-              className="absolute top-0 left-0 w-full h-full"
-              style={{
-                background: `url('${e.ref}')`,
-                backgroundPosition: "center",
-                WebkitFilter: `blur(4px)`,
-              }}
-            />
-            <img src={e.ref} alt="gallery" className="relative z-10" />
+            <LazyLoadComponent>
+              <div
+                className="absolute top-0 left-0 w-full h-full"
+                style={{
+                  background: `url('${e.ref}')`,
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                }}
+              />
+            </LazyLoadComponent>
           </SwiperSlide>
         ))}
       </Swiper>

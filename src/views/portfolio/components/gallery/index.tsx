@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+import { LazyLoadComponent } from "react-lazy-load-image-component";
 import { Icon } from "@iconify/react";
 import "./index.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatNumber } from "helper/formatNumber.ts";
 import { getGalleryByUserId } from "api";
 import { GALLERY } from "interface/gallery";
-import ThumbnailPlaceholder from "assests/gallery_thumbnail_placeholder.jpg";
 
 function Gallery({ alias, data, userInfo }) {
   const [isAllFilter, setIsAllFilter] = useState(false);
@@ -152,14 +151,18 @@ function Gallery({ alias, data, userInfo }) {
                 redirectToGallery(e.customerShortcut);
               }}
             >
-              <div className="relative flex items-center justify-center h-32 bg-white xl:h-44 2xl:h-64 rounded-2xl overflow-clip ">
-                <LazyLoadImage
-                  alt="thumbnail" 
-                  effect="opacity"
-                  placeholderSrc={ThumbnailPlaceholder}
-                  src={e.galleryThumb || ThumbnailPlaceholder}
-                  className="h-full"
-                />
+              <div className="relative flex items-center justify-center h-32 bg-black xl:h-44 2xl:h-64 rounded-2xl overflow-clip ">
+                <LazyLoadComponent>
+                  <div
+                    className="w-full h-full"
+                    style={{
+                      background: `url('${e.galleryThumb}')`,
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                    }}
+                  />
+                </LazyLoadComponent>
+
                 <div className="absolute bottom-0 right-0 flex items-center justify-center px-2 py-1 space-x-1 text-white bg-black w-14 bg-opacity-40 rounded-br-2xl rounded-tl-2xl">
                   <Icon className="!text-xl" icon="ri:stack-fill" />
                   <div className="text-sm ">
@@ -170,7 +173,7 @@ function Gallery({ alias, data, userInfo }) {
 
               <div className="font-bold text-white ">{e.galleryName}</div>
               <div className="text-[#72FFFF] flex space-x-2 items-center  cursor-pointer">
-                <Icon icon="carbon:partnership"  className="!min-w-[16px]"/>
+                <Icon icon="carbon:partnership" className="!min-w-[16px]" />
                 <span className="text-sm truncate">{e.customerName}</span>
               </div>
             </div>

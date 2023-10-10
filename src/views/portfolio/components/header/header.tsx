@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import "./index.css";
+import "./index.scss";
 import { useCheckMobileScreen } from "helper/checkMobile.ts";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Pagination } from "swiper/modules";
-import ReactDOMServer from 'react-dom/server'
+import { Pagination, Autoplay } from "swiper/modules";
 
-function SwiperMobile({ currentImg, getCurrentImg, background, pagination }) {
+function SwiperMobile({ currentImg, getCurrentImg, background }) {
   return (
     <div className="relative flex justify-center w-full h-full bg-neutral-900 ">
       <div
@@ -21,16 +20,18 @@ function SwiperMobile({ currentImg, getCurrentImg, background, pagination }) {
       <Swiper
         className="   z-1 h-full w-full lg:!w-3/4 <3xs:!w-3/4    !absolute top-1/2 -translate-y-1/2  "
         slidesPerView={1}
-        pagination={{
-          dynamicBullets: true,
-        }}
-        modules={[Pagination]}
+        pagination={true}
+        modules={[Autoplay, Pagination]}
         onSlideChange={getCurrentImg}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+        }}
       >
         {background.map((e, index) => (
           <SwiperSlide key={index} className="!h-[inherit]">
             <div
-              className="h-full "
+              className="w-full h-full"
               style={{
                 // backgroundColor: 'white',
                 backgroundImage: `url(${e})`,
@@ -46,7 +47,7 @@ function SwiperMobile({ currentImg, getCurrentImg, background, pagination }) {
   );
 }
 
-function SwiperDesk({ currentImg, getCurrentImg, background, pagination }) {
+function SwiperDesk({ currentImg, getCurrentImg, background }) {
   return (
     <div className="relative w-full h-full ">
       <div
@@ -61,18 +62,20 @@ function SwiperDesk({ currentImg, getCurrentImg, background, pagination }) {
       ></div>
 
       <Swiper
-        className=" mySwiper z-1   !absolute top-1/2 -translate-y-1/2  "
+        className="   z-1   !absolute top-1/2 -translate-y-1/2  "
         slidesPerView={1}
-        pagination={{
-          dynamicBullets: true,
-        }}
-        modules={[Pagination]}
+        pagination={true}
+        modules={[Autoplay, Pagination]}
         onSlideChange={getCurrentImg}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+        }}
       >
         {background.map((e, index) => (
           <SwiperSlide key={index} className="!h-[inherit]">
             <div
-              className="h-full "
+              className="w-full h-full"
               style={{
                 backgroundImage: `url(${e})`,
                 backgroundPosition: "center",
@@ -87,31 +90,21 @@ function SwiperDesk({ currentImg, getCurrentImg, background, pagination }) {
   );
 }
 
-function Header({ background, avatar, name, description }) { 
+function Header({ background, avatar, name, description }) {
   const [currentImg, setCurentImg] = useState(background[0]);
-  const pagination = {
-    clickable: true,
-    type: 'custom',
-    renderCustom: function (swiper: any, current: number, total: number) {
-      console.log(swiper, current, total)
-      return ReactDOMServer.renderToStaticMarkup(<div className="text-white">
-aaaaaaaaaaaa
-      </div>);
-    },
-  };
 
   function getCurrentImg(event) {
     setCurentImg(background[event.activeIndex]);
   }
   useEffect(() => {
-    setCurentImg(background[0])
-  }, [background])
+    setCurentImg(background[0]);
+  }, [background]);
   return (
     <div className="relative flex justify-center <xs:!h-[320px] h-[40vh]">
       <div className="flex flex-col w-full">
         {useCheckMobileScreen()
-          ? SwiperMobile({ currentImg, getCurrentImg, background ,pagination})
-          : SwiperDesk({ currentImg, getCurrentImg, background ,pagination})}
+          ? SwiperMobile({ currentImg, getCurrentImg, background })
+          : SwiperDesk({ currentImg, getCurrentImg, background })}
 
         <div className="flex items-center mx-2 <3xs:flex <3xs:flex-col <3xs:items-center -mt-8 desktop:-mt-10 z-10">
           <img
