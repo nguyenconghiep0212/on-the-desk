@@ -47,16 +47,15 @@ module.exports = {
         // Configure your color palette here
       },
     },
-    // fontSize: {
-    //   sm: '1rem',
-    //   base: '1.25rem',
-    //   md:'1.5',
-    //   xl: '2rem',
-    //   '2xl': '2.75rem',
-    //   '3xl': '4rem',
-    //   '4xl': '5.75rem',
-    //   '5xl': '6rem',
-    // }
+    fontSize: {
+      sm: '1rem',
+      base: '1.25rem',
+      xl: '1.5rem',
+      '2xl': '2rem',
+      '3xl': '2.75rem',
+      '4xl': '4rem',
+      '5xl': '5.75rem',
+    }
   },
   plugins: [],
 };

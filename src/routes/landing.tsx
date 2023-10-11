@@ -3,7 +3,7 @@ import React from "react";
 import Landing from "views/landing";
  
 function Component() {
-  return <div  > <Landing /></div>;
+  return <Landing /> ;
 }
 
 export default Component;
