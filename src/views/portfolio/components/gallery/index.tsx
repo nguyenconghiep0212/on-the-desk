@@ -90,7 +90,7 @@ function Gallery({ alias, data, userInfo }) {
   useEffect(() => {}, [filteredGallery]);
   return (
     <div>
-      <div className="text-[#B6B6B6] font-bold text-lg mb-4">{alias}</div>
+      <div className="text-[#B6B6B6] font-bold  text-base mb-4">{alias}</div>
       <div className="space-y-4">
         <div className="">
           {filterTag
@@ -163,8 +163,8 @@ function Gallery({ alias, data, userInfo }) {
                   />
                 </LazyLoadComponent>
 
-                <div className="absolute bottom-0 right-0 flex items-center justify-center px-2 py-1 space-x-1 text-white bg-black w-14 bg-opacity-40 rounded-br-2xl rounded-tl-2xl">
-                  <Icon className="!text-xl" icon="ri:stack-fill" />
+                <div className="absolute bottom-0 right-0 flex items-center justify-center px-2 py-1 space-x-1 text-white bg-black bg-opacity-40 rounded-br-2xl rounded-tl-2xl">
+                  <Icon className="!text-base  " icon="ri:stack-fill" />
                   <div className="text-sm ">
                     {formatNumber(e.galleryImageCount)}
                   </div>
@@ -174,7 +174,7 @@ function Gallery({ alias, data, userInfo }) {
               <div className="font-bold text-white ">{e.galleryName}</div>
               <div className="flex items-center space-x-2 cursor-pointer text-primary-blue-medium">
                 <Icon icon="carbon:partnership" className="!min-w-[16px]" />
-                <span className="text-sm truncate">{e.customerName}</span>
+                <span className="text-[12px] truncate">{e.customerName}</span>
               </div>
             </div>
           ))}

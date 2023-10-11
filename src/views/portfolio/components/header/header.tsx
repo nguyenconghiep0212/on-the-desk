@@ -19,7 +19,7 @@ function SwiperMobile({ currentImg, getCurrentImg, background }) {
         }}
       ></div>
       <div className="z-1 h-full w-full lg:!w-3/4 <3xs:!w-3/4 !absolute top-1/2 -translate-y-1/2">
-        
+
         <Swiper
           className=""
           slidesPerView={1}
@@ -105,7 +105,7 @@ function Header({ background, avatar, name, description }) {
   }, [background]);
   return (
     <div className="relative flex justify-center <xs:!h-[320px] h-[40vh]">
-          <div className="absolute top-[33px] z-10  text-2xl right-2   ">
+          <div className="absolute top-[33px] z-10  text-lg right-2   ">
             <Icon icon="bx:user" className="text-primary-blue-medium" />
           </div>
       <div className="flex flex-col w-full">
@@ -120,10 +120,10 @@ function Header({ background, avatar, name, description }) {
             className="z-10 w-24 rounded-full :h-24 desktop:w-32 desktop:h-32 "
           />
           <div className="flex flex-col <3xs:items-center <3xs:w-full <3xs:mt-2 mt-8 ml-4 space-y-1 ">
-            <span className="<xs:text-xl 	 text-2xl username-desktop">
+            <span className="<xs:text-base 	 text-lg username-desktop">
               {name}
             </span>
-            <span className="text-sm font-thin text-center sm:text-xs description-desktop">
+            <span className="text-[12px] font-thin <3xs:text-center description-desktop">
               {description}
             </span>
           </div>

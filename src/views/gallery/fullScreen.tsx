@@ -59,7 +59,7 @@ export default function Component({ currentGallery, initImg }) {
           }}
         />
       </div> 
-      <div className="z-10 text-lg font-bold text-white">
+      <div className="z-10 text-base font-bold text-white">
         {currentImage.name || ''}
       </div>
       <Swiper

@@ -5,7 +5,7 @@ module.exports = {
     extend: {
       screens: {
         "<sm": { max: "600px" },
-        
+
         "<md": { max: "768px" },
 
         "<xs": { max: "425px" },
@@ -14,9 +14,9 @@ module.exports = {
 
         "<3xs": { max: "280px" },
 
-        '3xs': "280px",
+        "3xs": "280px",
 
-        '2xs': "320px",
+        "2xs": "320px",
 
         xs: "425px",
 
@@ -48,14 +48,14 @@ module.exports = {
       },
     },
     fontSize: {
-      sm: '1rem',
-      base: '1.25rem',
-      xl: '1.5rem',
-      '2xl': '2rem',
-      '3xl': '2.75rem',
-      '4xl': '4rem',
-      '5xl': '5.75rem',
-    }
+      sm: "1rem",
+      base: "1.25rem",
+      lg: "1.5rem",
+      xl: "2rem",
+      "2xl": "2.75rem",
+      "3xl": "4rem",
+      "4xl": "5.75rem",
+    },
   },
   plugins: [],
 };

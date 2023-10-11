@@ -12,7 +12,7 @@ import FullScreenImg from "./fullScreen";
 // import Feedback from "../portfolio/components/feedback/index";
 import CustomerAvatarPlaceholder from "assests/portfolio/customer_avatar_placeholder.jpg";
 import GalleryPlaceholder from "assests/portfolio/gallery_thumbnail_placeholder.jpg";
- // INTERFACE
+// INTERFACE
 import { GALLERY_CUSTOMER } from "interface/gallery";
 import { CUSTOMER } from "interface/customer";
 import { USER_INFO } from "interface/user";
@@ -115,7 +115,7 @@ function Component() {
       <div>
         {galleries.map((e, index) => (
           <div key={index} className="my-2">
-            <div className="text-[#B6B6B6] font-bold text-lg mb-4">
+            <div className="text-[#B6B6B6] font-bold text-base mb-4">
               {e.galleryName}
             </div>
             <ResponsiveMasonry
@@ -164,11 +164,11 @@ function Component() {
             }}
           ></div>
           <Icon
-            className="absolute top-[33px] z-10  text-2xl 3xs:left-3  text-white"
+            className="absolute top-[33px] z-10  text-lg 3xs:left-3  text-white"
             icon="ep:back"
             onClick={handleBack}
           />
-          <div className="absolute top-[33px] z-10  text-2xl 3xs:right-3 <3xs:right-0  ">
+          <div className="absolute top-[33px] z-10  text-lg 3xs:right-3 <3xs:right-0  ">
             <Icon icon="bx:user" className="text-primary-blue-medium" />
           </div>
 
@@ -195,7 +195,7 @@ function Component() {
               />
             </div>
             <div className="flex flex-col">
-              <span className="text-xl <3xs:text-lg font-semibold <3xs:truncate text-primary-blue-medium">
+              <span className="text-base <3xs:text-sm font-semibold <3xs:truncate text-primary-blue-medium">
                 {customerInfo.customerName || "Anonymous"}
               </span>
               <span className="text-sm font-thin text-primary-blue-medium">
@@ -215,7 +215,7 @@ function Component() {
                   alt="user_avatar"
                 />
               </div>
-              <span className="mt-4 text-lg <3xs:text-base font-semibold text-white">
+              <span className="mt-4 text-base <3xs:text-sm font-semibold text-white">
                 {userInfo.name}
               </span>
             </div>

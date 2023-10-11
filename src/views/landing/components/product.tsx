@@ -42,44 +42,43 @@ function Hero1({ innerRef }) {
         ref={innerRef}
         className="absolute h-[70px] top-[-70px] pointer-events-none"
       ></div>
-      <div className="flex flex-col items-center ">
+      <div className="flex justify-center ">
         <img src={Hero1_banner} alt="hero1" className="desktop:w-[90%]" />
-        <div className="<xs:scale-x-125 <xs:scale-y-75 <xs:-mt-12 -mt-24 shadow-hero-1" />
       </div>
       <div className="flex flex-col items-center">
         <div className="flex flex-col mobile:items-center space-y-1 md:flex-row space-x-2 text-[48px] italic">
-          <div className="text-5xl font-light text-white <xs:text-4xl">
+          <div className="text-2xl font-light text-white <xs:text-[2.25rem]">
             Everythinks
           </div>
-          <div className="text-5xl font-bold text-primary-blue-medium <xs:text-4xl">
+          <div className="text-2xl font-bold text-primary-blue-medium <xs:text-[2.25rem]">
             On the Desk
           </div>
         </div>
-        <div className=" mt-3 text-lg text-center  tracking-wide text-white !my-6">
+        <div className=" mt-3 text-[1.125rem] text-center  tracking-wide text-white !my-6">
           Thẻ thông minh hàng đầu Việt Nam kết nối và tối ưu cho từng cá nhân và
           doanh nghiệp một cách nhanh chóng dễ dàng.
         </div>
         <div className="flex <2xs:flex-col justify-center items-center mt-6 space-x-3">
           <Button className="flex items-center hover:scale-105">
             <img src={Logo} alt="logo" className="w-4 mr-1" />
-            <span className="text-lg font-semibold text-primary-blue-medium">
+            <span className="text-[1.125rem] font-semibold text-primary-blue-medium">
               Create
             </span>
           </Button>
           {/* DEFAULT */}
-          <span className="<xs:hidden text-lg <xs:w-[55%] italic font-semibold text-primary-blue-medium">
+          <span className="<xs:hidden text-[1.125rem] <xs:w-[55%] italic font-semibold text-primary-blue-medium">
             your own life with your own style
           </span>
           {/* <475PX */}
           <div className="<xs:text-start <2xs:text-center <xs:block hidden ">
-            <div className="text-lg italic font-semibold text-primary-blue-medium">
+            <div className="text-[1.125rem] italic font-semibold text-primary-blue-medium">
               your own life
             </div>
             <div className="flex space-x-1">
               <div className="flex flex-col justify-center text-xs italic text-primary-blue-medium">
                 with
               </div>
-              <div className="text-lg italic font-semibold text-primary-blue-medium">
+              <div className="text-[1.125rem] italic font-semibold text-primary-blue-medium">
                 your own style
               </div>
             </div>
@@ -103,29 +102,29 @@ function Hero2({ innerRef }) {
         <div className=" shadow-hero-2"></div>
       </div>
       <div className="flex flex-col items-center justify-center md:items-start">
-        <span className="md:text-[45px] text-4xl text-center font-bold text-primary-blue-medium">
+        <span className="md:text-[45px] text-[2.25rem] text-center font-bold text-primary-blue-medium">
           Cá nhân hóa
         </span>
-        <span className="mt-[6px] text-lg <xs:text-sm italic text-center text-primary-blue-medium">
+        <span className="mt-[6px] text-[1.125rem] <xs:text-sm italic text-center text-primary-blue-medium">
           Phong cách của bạn là duy nhất
         </span>
         <div className="mt-6 text-white ">
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" className="min-w-[16px]" />
-            <span className="text-lg  <xs:text-xs <xs:leading-6 tracking-wide ">
+            <span className="text-[1.125rem]  <xs:text-xs <xs:leading-6 tracking-wide ">
               Đặc quyền <span className="font-bold">thiết kế riêng</span> thẻ
               thông minh và hồ sơ trực tuyến.
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" className="min-w-[16px]" />
-            <span className="text-lg  <xs:text-xs <xs:leading-6 placeholder:tracking-wide">
+            <span className="text-[1.125rem]  <xs:text-xs <xs:leading-6 placeholder:tracking-wide">
               Giao diện hiện đại phù hợp với phong cách và công việc của bạn.
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" className="min-w-[16px]" />
-            <span className="text-lg  <xs:text-xs tracking-wide <xs:leading-6">
+            <span className="text-[1.125rem]  <xs:text-xs tracking-wide <xs:leading-6">
               Kết nối và chia sẻ thông tin ấn tượng ngay từ lần đầu tiên.
             </span>
           </div>
@@ -140,34 +139,34 @@ function Hero3() {
     <div className="flex flex-col-reverse w-full md:grid md:grid-cols-2">
       <div className="flex flex-col items-center justify-center text-white md:items-start">
         {/* DEFAULT */}
-        <span className="md:text-[45px] text-4xl text-center md:text-start font-bold text-primary-blue-medium <xs:hidden">
+        <span className="md:text-[45px] text-[2.25rem] text-center md:text-start font-bold text-primary-blue-medium <xs:hidden">
           Tối ưu doanh nghiệp
         </span>
         {/* <425px */}
-        <div className="md:text-[45px] text-4xl text-center font-bold text-primary-blue-medium hidden <xs:flex <xs:flex-col <xs:items-center">
+        <div className="md:text-[45px] text-[2.25rem] text-center font-bold text-primary-blue-medium hidden <xs:flex <xs:flex-col <xs:items-center">
           <div>Tối ưu</div>
           <div>doanh nghiệp</div>
         </div>
         {/*  */}
-        <span className="mt-[6px]  text-lg <xs:text-sm italic text-center md:text-start text-primary-blue-medium">
+        <span className="mt-[6px]  text-[1.125rem] <xs:text-sm italic text-center md:text-start text-primary-blue-medium">
           Hiện đại hoá doanh nghiệp và cách vận hành
         </span>
         <div className="mt-6 text-white">
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" className="min-w-[16px]" />
-            <span className="text-lg <xs:text-xs <xs:leading-6 tracking-wide placeholder:">
+            <span className="text-[1.125rem] <xs:text-xs <xs:leading-6 tracking-wide placeholder:">
               Phát triển nội dung số chuyên nghiệp không giới hạn.
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" className="min-w-[16px]" />
-            <span className="text-lg <xs:text-xs <xs:leading-6 tracking-wide ">
+            <span className="text-[1.125rem] <xs:text-xs <xs:leading-6 tracking-wide ">
               Tối ưu chi phí vận hành.
             </span>
           </div>
           <div className="flex items-center space-x-2">
             <Icon icon="mdi:dot" className="min-w-[16px]" />
-            <span className="text-lg <xs:text-xs <xs:leading-6 tracking-wide ">
+            <span className="text-[1.125rem] <xs:text-xs <xs:leading-6 tracking-wide ">
               Nâng cao trải nghiệm khách hàng.
             </span>
           </div>
@@ -210,7 +209,7 @@ const Instruction = ({ innerRef }) => {
         ref={innerRef}
         className="absolute h-[70px] top-[-70px] pointer-events-none"
       ></div>
-      <span className="md:text-[45px] text-4xl text-center font-bold text-primary-blue-medium">
+      <span className="md:text-[45px] text-[2.25rem] text-center font-bold text-primary-blue-medium">
         Hướng dẫn sử dụng
       </span>
       <div className="w-full bg-shadow">
@@ -266,7 +265,7 @@ function Divider() {
         <div className="small_star">*</div>
       </div>
       <div className="flex flex-col items-center space-y-2 desktop:px-[84px]">
-        <div className="text-primary-blue-medium text-center md:text-[45px]   text-4xl font-bold">
+        <div className="text-primary-blue-medium text-center md:text-[45px]   text-[2.25rem] font-bold">
           Hệ sinh thái toàn diện
         </div>
         <div className="italic tracking-wide text-center text-white ">
@@ -277,7 +276,7 @@ function Divider() {
 
         <Button className="flex items-center <xs:!mt-6 !mt-12 space-x-1 text-white gradient_btn">
           <img src={Logo_white} alt="logo" className="w-[22px] h-[22px] " />
-          <span className="text-lg tracking-wide ">Bắt đầu ngay</span>
+          <span className="text-[1.125rem] tracking-wide ">Bắt đầu ngay</span>
         </Button>
       </div>
     </div>
@@ -346,8 +345,10 @@ function Environment() {
       <div className="grid w-full <xs:grid-cols-1 grid-cols-3 gap-8 mt-16 gap-y-16 ">
         {environments.map((item, index) => (
           <div key={index} className="space-y-6">
-            <img src={item.img} alt="environment" className="w-[68px] " />
-            <div className="text-2xl font-bold text-primary-blue-medium">
+            <div className="w-[68px] h-[68px] flex items-center">
+              <img src={item.img} alt="environment" className="w-full" />
+            </div>
+            <div className="text-lg font-bold text-primary-blue-medium">
               {item.header}
             </div>
             <div className="space-x-1 tracking-wide text-white">
@@ -376,7 +377,7 @@ function ProductAndService({ innerRef, packages }) {
         className="absolute h-[70px] top-[-70px] pointer-events-none"
       ></div>
 
-      <div className="text-primary-blue-medium text-4xl text-center md:text-[45px] font-bold pt-12 pb-6">
+      <div className="text-primary-blue-medium text-[2.25rem] text-center md:text-[45px] font-bold pt-12 pb-6">
         Sản phẩm & Dịch vụ
       </div>
       <div className="grid gap-4 desktop:grid-cols-4 mobile:grid-cols-2 <xs:!grid-cols-1 w-full">
@@ -404,7 +405,7 @@ function ProductAndService({ innerRef, packages }) {
             <div className="mt-12 mb-6 space-y-6">
               <div>
                 {/* NAME */}
-                <div className="text-3xl mb-[30px] font-bold tracking-wide gradient-text text-primary-blue-medium">
+                <div className="text-[24px] mb-[30px] font-bold tracking-wide gradient-text text-primary-blue-medium">
                   {item.name}
                 </div>{" "}
                 {/* DESCRIPTION */}
@@ -422,7 +423,7 @@ function ProductAndService({ innerRef, packages }) {
                                 : ""
                             }`
                           : ""
-                      } tracking-wide text-lg`}
+                      } tracking-wide text-[16px]`}
                     >
                       {item_child}
                     </div>
@@ -433,7 +434,7 @@ function ProductAndService({ innerRef, packages }) {
               <div className="ml-2">
                 <div>
                   {item.showContactPrice ? (
-                    <div className="text-3xl font-bold tracking-wide ">
+                    <div className="text-[28px] font-bold tracking-wide ">
                       Liên hệ
                     </div>
                   ) : (
@@ -447,7 +448,7 @@ function ProductAndService({ innerRef, packages }) {
                         <div className="text-xs align-top">đ</div>
                       </div>
                       <div className="flex space-x-1 font-bold">
-                        <div className="text-2xl ">
+                        <div className="text-[28px] ">
                           {item.promotionPrice
                             .toString()
                             .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
@@ -460,7 +461,7 @@ function ProductAndService({ innerRef, packages }) {
               </div>
               {/* BUTTON */}
               <Button className="flex items-center text-white gradient_btn">
-                <span className="text-lg tracking-wide ">
+                <span className="text-[1.125rem] tracking-wide ">
                   {item.showCallMe ? (
                     <div className="flex items-center space-x-1">
                       <Icon
@@ -492,7 +493,7 @@ function ProductAndService({ innerRef, packages }) {
 function Feedback({ feedbacks }) {
   return (
     <div className="w-full !mt-20 space-y-10">
-      <div className="m-auto w-fit text-primary-blue-medium text-center text-4xl md:text-[45px] font-bold">
+      <div className="m-auto w-fit text-primary-blue-medium text-center text-[2.25rem] md:text-[45px] font-bold">
         Khách hàng & Đối tác
       </div>
       {/* FEEDDBACK */}
@@ -738,7 +739,7 @@ function Register({ innerRef, packages }) {
         className="absolute h-[70px] top-[-70px] pointer-events-none"
       ></div>
       <div className=" <xs:text-center space-y-2">
-        <div className="text-primary-blue-medium text-4xl md:text-[45px] font-bold ">
+        <div className="text-primary-blue-medium text-[2.25rem] md:text-[45px] font-bold ">
           Đăng ký dịch vụ
         </div>
         <div className="italic text-white ">
@@ -923,41 +924,41 @@ function Product() {
       }, delay);
     }
   }
-  useEffect(() => {
-    switch (tab) {
-      case "product":
-        scrollToView(productRef, 0);
-        break;
-      case "introduction":
-        scrollToView(introductionRef, 0);
-        break;
-      case "instruction":
-        scrollToView(instructionRef, 0);
-        break;
-      case "service":
-        scrollToView(serviceRef, 0);
-        break;
-      case "news":
-        scrollToView(infomationRef, 0);
-        break;
-      case "contact":
-        scrollToView(contactRef, 0);
-        break;
+  // useEffect(() => {
+  //   switch (tab) {
+  //     case "product":
+  //       scrollToView(productRef, 0);
+  //       break;
+  //     case "introduction":
+  //       scrollToView(introductionRef, 0);
+  //       break;
+  //     case "instruction":
+  //       scrollToView(instructionRef, 0);
+  //       break;
+  //     case "service":
+  //       scrollToView(serviceRef, 0);
+  //       break;
+  //     case "news":
+  //       scrollToView(infomationRef, 0);
+  //       break;
+  //     case "contact":
+  //       scrollToView(contactRef, 0);
+  //       break;
 
-      default:
-        break;
-    }
-  }, [tab]);
+  //     default:
+  //       break;
+  //   }
+  // }, [tab]);
   useEffect(() => {
     getPackageList();
     getFeedback();
 
-    const url = window.location.href;
-    if (url.includes("#huong-dan")) {
-      scrollToView(instructionRef);
-    } else {
-      scrollToView(productRef, 0);
-    }
+    // const url = window.location.href;
+    // if (url.includes("#huong-dan")) {
+    //   scrollToView(instructionRef);
+    // } else {
+    //   scrollToView(productRef, 0);
+    // }
   }, []);
   return (
     <div className="flex flex-col items-center pt-20 space-y-12">

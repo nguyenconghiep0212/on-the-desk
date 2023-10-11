@@ -26,7 +26,7 @@ function Cart({ activeMenuEvent, activatedMenu }) {
       <img
         className={`${
           activatedMenu === "Cart" ? "menu-bg-activated" : ""
-        }  text-2xl cursor-pointer`}
+        } cursor-pointer`}
         src={IconShoppingBag}
         alt="IconShoppingBag"
         onClick={() => {
@@ -95,7 +95,7 @@ function Menu({ handleChange, activeMenuEvent, activatedMenu }) {
             className="flex items-center w-full h-full px-3 space-x-1 text-white menu-btn"
             key={index}
           >
-            <Icon className="text-lg" icon={item.icon} />
+            <Icon className="text-base" icon={item.icon} />
             <div className="font-sans font-thin tracking-wide">
               {item.label}
             </div>
@@ -129,13 +129,11 @@ function Menu({ handleChange, activeMenuEvent, activatedMenu }) {
       <div
         className={`${
           activatedMenu === "Menu" ? "menu-bg-activated " : ""
-        }  text-2xl cursor-pointer`}
+        }  cursor-pointer`}
       >
         <img
           className={`${
-            activatedMenu === "Menu"
-              ? "-rotate-45 scale-110 "
-              : "rotate-0"
+            activatedMenu === "Menu" ? "-rotate-45 scale-110 " : "rotate-0"
           } transition-all duration-300 `}
           src={activatedMenu === "Menu" ? IconAdd : IconBurgerRight}
           alt="IconBurgerRight"
@@ -181,7 +179,7 @@ function Profile({ handleProfileEvent, activeMenuEvent, activatedMenu }) {
             className="flex items-center w-full h-full px-3 space-x-1 text-white menu-btn"
             key={index}
           >
-            <Icon className="text-lg" icon={item.icon} />
+            <Icon className="text-base" icon={item.icon} />
             <div className="font-sans font-thin tracking-wide">
               {item.label}
             </div>
@@ -196,7 +194,7 @@ function Profile({ handleProfileEvent, activeMenuEvent, activatedMenu }) {
         }}
       >
         <div className="flex items-center w-full h-full px-3 space-x-1 text-white menu-btn">
-          <Icon className="text-2xl" icon="mdi:logout" />
+          <Icon className="text-base" icon="mdi:logout" />
           <div className="font-sans font-thin tracking-wide">Đăng xuất</div>
         </div>
       </div>
@@ -220,7 +218,7 @@ function Profile({ handleProfileEvent, activeMenuEvent, activatedMenu }) {
         <img
           className={`${
             activatedMenu === "Profile" ? "menu-bg-activated" : ""
-          }  text-2xl cursor-pointer`}
+          } cursor-pointer`}
           src={IconAccount}
           alt="IconAccount"
           onClick={() => {
