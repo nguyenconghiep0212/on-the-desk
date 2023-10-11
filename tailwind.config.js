@@ -4,21 +4,21 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        "<sm": { max: "601px" },
+        "<sm": { max: "600px" },
         
-        "<md": { max: "769px" },
+        "<md": { max: "768px" },
 
-        "<xs": { max: "426px" },
+        "<xs": { max: "425px" },
 
-        "<2xs": { max: "321px" },
+        "<2xs": { max: "320px" },
 
-        "<3xs": { max: "281px" },
+        "<3xs": { max: "280px" },
 
         '3xs': "280px",
 
-        '2xs': "321px",
+        '2xs': "320px",
 
-        xs: "426px",
+        xs: "425px",
 
         sm: "600px",
 
