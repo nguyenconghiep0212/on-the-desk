@@ -156,7 +156,7 @@ function Gallery({ alias, data, userInfo }) {
                   <div
                     className="w-full h-full"
                     style={{
-                      background: `url('${e.galleryThumb}')`,
+                      backgroundImage: `url('${e.galleryThumb}')`,
                       backgroundPosition: "center",
                       backgroundSize: "cover",
                     }}
