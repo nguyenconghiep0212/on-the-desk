@@ -9,22 +9,25 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 
 // ICON
-import IcCloseLeft from "assests/icon/ic-arrow-left.svg";
+import IcClose from "assests/icon/ic-close.svg";
 import { useRecoilState } from "recoil";
-import { fullScreenVisible } from "store/gallery";
-import { Icon } from "@iconify/react";
+import { fullScreenVisible } from "store/gallery"; 
  
 export default function Component({ currentGallery, initImg }) {
   const [_, setVisible] = useRecoilState(fullScreenVisible);
   const topSwiperRef: any = useRef(null);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-
+  const [currentImage, setCurrentImage] = useState({})
   const [initIndex, setInitIndex] = useState(0);
 
   function getInitIndex() {
     setInitIndex(
       currentGallery.topPictures.findIndex((e) => e.ref === initImg)
     );
+  }
+
+  function handleActiveIndexChange(index){ 
+    setCurrentImage(currentGallery.topPictures.find((_, i) => i === index))
   }
 
   useEffect(() => {
@@ -35,6 +38,7 @@ export default function Component({ currentGallery, initImg }) {
   useEffect(() => {
     getInitIndex();
   }, [initImg]);
+  useEffect(()=>{},[currentImage])
 
   return (
     <div className="relative flex flex-col justify-center h-full px-5 py-20">
@@ -46,20 +50,17 @@ export default function Component({ currentGallery, initImg }) {
           zIndex: 1,
         }}
       />
-      <div className="absolute z-10 cursor-pointer top-[33px] 3xs:left-3">
+      <div className="absolute z-10 cursor-pointer top-[33px] 3xs:right-3">
         <img
-          src={IcCloseLeft}
-          alt="IcCloseLeft"
+          src={IcClose}
+          alt="IcClose"
           onClick={() => {
             setVisible(false);
           }}
         />
-      </div>
-      <div className="absolute top-[33px] z-10  text-2xl 3xs:right-3">
-        <Icon icon='bx:user' className="text-primary-blue-medium"/>
-      </div>
+      </div> 
       <div className="z-10 text-lg font-bold text-white">
-        {currentGallery.galleryName}
+        {currentImage.name || ''}
       </div>
       <Swiper
         ref={topSwiperRef}
@@ -68,6 +69,8 @@ export default function Component({ currentGallery, initImg }) {
         thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Thumbs]}
         className=" mySwiper2"
+        onActiveIndexChange= {(e) => {handleActiveIndexChange(e.activeIndex)}}
+        onSlideChange={(e) => {handleActiveIndexChange(e.activeIndex)}}
       >
         {currentGallery.topPictures.map((e, index) => (
           <SwiperSlide key={index} className="relative">
@@ -91,7 +94,7 @@ export default function Component({ currentGallery, initImg }) {
               <div
                 className="absolute top-0 left-0 w-full h-full"
                 style={{
-                  background: `url('${e.ref}')`,
+                  backgroundImage: `url('${e.ref}')`,
                   backgroundPosition: "center",
                   backgroundSize: "cover",
                 }}

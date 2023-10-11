@@ -10,10 +10,9 @@ import { Button, Modal } from "antd";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import FullScreenImg from "./fullScreen";
 // import Feedback from "../portfolio/components/feedback/index";
-import CustomerAvatarPlaceholder from "assests/customer_avatar_placeholder.jpg";
-import GalleryPlaceholder from "assests/gallery_thumbnail_placeholder.jpg";
-import IcAccount from "assests/icon/ic-account.svg";
-// INTERFACE
+import CustomerAvatarPlaceholder from "assests/portfolio/customer_avatar_placeholder.jpg";
+import GalleryPlaceholder from "assests/portfolio/gallery_thumbnail_placeholder.jpg";
+ // INTERFACE
 import { GALLERY_CUSTOMER } from "interface/gallery";
 import { CUSTOMER } from "interface/customer";
 import { USER_INFO } from "interface/user";

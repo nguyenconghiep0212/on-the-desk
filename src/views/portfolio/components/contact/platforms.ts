@@ -1,13 +1,13 @@
-import facebook from "assests/logo_facebook.svg";
-import behance from "assests/logo_behance.svg";
-import flickr from "assests/logo_flickr.svg";
-import youtube from "assests/logo_youtube.svg";
-import twitter from "assests/logo_twitter.svg";
-import instagram from "assests/logo_instagram.svg";
-import patreon from "assests/logo_patreon.svg";
-import tiktok from "assests/logo_tiktok.svg";
-import zalo from "assests/logo_zalo.svg";
-import phone from "assests/logo_phone.svg";
+import facebook from "assests/portfolio/logo_facebook.svg";
+import behance from "assests/portfolio/logo_behance.svg";
+import flickr from "assests/portfolio/logo_flickr.svg";
+import youtube from "assests/portfolio/logo_youtube.svg";
+import twitter from "assests/portfolio/logo_twitter.svg";
+import instagram from "assests/portfolio/logo_instagram.svg";
+import patreon from "assests/portfolio/logo_patreon.svg";
+import tiktok from "assests/portfolio/logo_tiktok.svg";
+import zalo from "assests/portfolio/logo_zalo.svg";
+import phone from "assests/portfolio/logo_phone.svg";
 
 export const platforms = [
     {

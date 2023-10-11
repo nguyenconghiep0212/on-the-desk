@@ -72,7 +72,7 @@ function Gallery({ alias, data, userInfo }) {
       setAllGallery(res.data.gals);
       handleClickFilterTag("all");
       const filter = [
-        { key: "all", alias: "Tất cả" },
+        { key: "all", alias: "Filter off" },
         res.data.topics.map((e) => {
           return { key: e, alias: e };
         }),
@@ -172,7 +172,7 @@ function Gallery({ alias, data, userInfo }) {
               </div>
 
               <div className="font-bold text-white ">{e.galleryName}</div>
-              <div className="text-[#72FFFF] flex space-x-2 items-center  cursor-pointer">
+              <div className="flex items-center space-x-2 cursor-pointer text-primary-blue-medium">
                 <Icon icon="carbon:partnership" className="!min-w-[16px]" />
                 <span className="text-sm truncate">{e.customerName}</span>
               </div>

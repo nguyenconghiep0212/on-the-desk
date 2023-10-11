@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
+import { Icon } from "@iconify/react";
 
 function SwiperMobile({ currentImg, getCurrentImg, background }) {
   return (
@@ -17,32 +18,35 @@ function SwiperMobile({ currentImg, getCurrentImg, background }) {
           boxShadow: "inset 0px -70px 45px -45px #18191A",
         }}
       ></div>
-      <Swiper
-        className="   z-1 h-full w-full lg:!w-3/4 <3xs:!w-3/4    !absolute top-1/2 -translate-y-1/2  "
-        slidesPerView={1}
-        pagination={true}
-        modules={[Autoplay, Pagination]}
-        onSlideChange={getCurrentImg}
-        autoplay={{
-          delay: 5000,
-          disableOnInteraction: false,
-        }}
-      >
-        {background.map((e, index) => (
-          <SwiperSlide key={index} className="!h-[inherit]">
-            <div
-              className="w-full h-full"
-              style={{
-                // backgroundColor: 'white',
-                backgroundImage: `url(${e})`,
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-                boxShadow: "inset   0px -70px 45px -45px  #18191A",
-              }}
-            ></div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      <div className="z-1 h-full w-full lg:!w-3/4 <3xs:!w-3/4 !absolute top-1/2 -translate-y-1/2">
+        
+        <Swiper
+          className=""
+          slidesPerView={1}
+          pagination={true}
+          modules={[Autoplay, Pagination]}
+          onSlideChange={getCurrentImg}
+          autoplay={{
+            delay: 5000,
+            disableOnInteraction: false,
+          }}
+        >
+          {background.map((e, index) => (
+            <SwiperSlide key={index} className="!h-[inherit]">
+              <div
+                className="w-full h-full"
+                style={{
+                  // backgroundColor: 'white',
+                  backgroundImage: `url(${e})`,
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                  boxShadow: "inset   0px -70px 45px -45px  #18191A",
+                }}
+              ></div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
     </div>
   );
 }
@@ -101,6 +105,9 @@ function Header({ background, avatar, name, description }) {
   }, [background]);
   return (
     <div className="relative flex justify-center <xs:!h-[320px] h-[40vh]">
+          <div className="absolute top-[33px] z-10  text-2xl right-2   ">
+            <Icon icon="bx:user" className="text-primary-blue-medium" />
+          </div>
       <div className="flex flex-col w-full">
         {useCheckMobileScreen()
           ? SwiperMobile({ currentImg, getCurrentImg, background })

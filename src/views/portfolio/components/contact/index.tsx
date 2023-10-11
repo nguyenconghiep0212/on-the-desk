@@ -1,7 +1,7 @@
 import React from "react";
 import { platforms, keyToUrl } from "./platforms";
 // import vCard from "vcards-js";
-import SaveToContact from "assests/save_to_contact.svg";
+import SaveToContact from "assests/portfolio/save_to_contact.svg";
 
 function Contact({ alias, data, userInfo }) {
   function generateVCF() {
