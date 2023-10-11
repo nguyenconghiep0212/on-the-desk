@@ -140,7 +140,7 @@ function Hero3() {
     <div className="flex flex-col-reverse w-full md:grid md:grid-cols-2">
       <div className="flex flex-col items-center justify-center text-white md:items-start">
         {/* DEFAULT */}
-        <span className="md:text-[45px] text-4xl font-bold text-primary-blue-medium <xs:hidden">
+        <span className="md:text-[45px] text-4xl text-center md:text-start font-bold text-primary-blue-medium <xs:hidden">
           Tối ưu doanh nghiệp
         </span>
         {/* <425px */}
@@ -149,7 +149,7 @@ function Hero3() {
           <div>doanh nghiệp</div>
         </div>
         {/*  */}
-        <span className="mt-[6px]  text-lg <xs:text-sm italic  text-center text-primary-blue-medium">
+        <span className="mt-[6px]  text-lg <xs:text-sm italic text-center md:text-start text-primary-blue-medium">
           Hiện đại hoá doanh nghiệp và cách vận hành
         </span>
         <div className="mt-6 text-white">
