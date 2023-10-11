@@ -19,6 +19,7 @@ import Social_tiktok from "assests/landing/social_logo_tiktok.svg";
 import Social_youtube from "assests/landing/social_logo_youtube.svg";
 import Social_zalo from "assests/landing/social_logo_zalo.svg";
 import { Icon } from "@iconify/react";
+import { useNavigate } from "react-router-dom";
 
 function Cart({ activeMenuEvent, activatedMenu }) {
   return (
@@ -147,6 +148,8 @@ function Menu({ handleChange, activeMenuEvent, activatedMenu }) {
 }
 
 function Profile({ handleProfileEvent, activeMenuEvent, activatedMenu }) {
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [_, setActivatedMenu] = useRecoilState(activatedMenuAtom);
   const profile_menu = [
     {
@@ -165,6 +168,23 @@ function Profile({ handleProfileEvent, activeMenuEvent, activatedMenu }) {
       icon: "simple-icons:readdotcv",
     },
   ];
+  function handleSignIn() {
+    setActivatedMenu("");
+    navigate("/login");
+  }
+  const signin = (
+    <div
+      className="relative z-10 p-[1px] cursor-pointer h-9 w-40 menu-btn-bg"
+      onClick={() => {
+        handleSignIn();
+      }}
+    >
+      <div className="flex items-center w-full h-full px-3 space-x-1 text-white menu-btn">
+        <Icon className="text-base" icon="mdi:login" />
+        <div className="font-sans font-thin tracking-wide">Đăng nhập</div>
+      </div>
+    </div>
+  );
   const content = (
     <div className="relative z-1 ">
       {profile_menu.map((item, index) => (
@@ -207,7 +227,7 @@ function Profile({ handleProfileEvent, activeMenuEvent, activatedMenu }) {
           offset: [7, 10],
         }}
         placement="bottomRight"
-        content={content}
+        content={isLoggedIn ? content : signin}
         trigger="click"
         onOpenChange={(e) => {
           if (!e) {
