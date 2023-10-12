@@ -21,6 +21,23 @@ import Social_zalo from "assests/landing/social_logo_zalo.svg";
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
 
+function DropdownMenu({activatedMenu}) {
+  return (
+    <div className="dropdown">
+    <span>Mouse over me</span>
+    <div className="dropdown-content">
+    <ul id="list">
+         <li>item</li>
+        <li>item</li>
+        <li>item</li>
+        <li>item</li>
+        <li>item</li>
+    </ul>
+    </div>
+  </div>
+  )
+}
+
 function Cart({ activeMenuEvent, activatedMenu }) {
   return (
     <div>
@@ -290,6 +307,8 @@ function Header() {
           activeMenuEvent={activeMenuEvent}
           activatedMenu={activatedMenu}
         />
+
+        <DropdownMenu activatedMenu={activatedMenu}/>
       </div>
     </div>
   );

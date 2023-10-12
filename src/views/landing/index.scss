@@ -183,3 +183,22 @@
     -webkit-transform: translateX(-100%);
   }
 }
+
+
+
+// HEADER MENU DROPDOWN
+.dropdown-content {
+    transition: all 2s; 
+    max-height: 0px;
+    overflow: clip;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); 
+    z-index: 1;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    max-height: 1000px;
+    transition: all 2s;
+  }
