@@ -1,7 +1,9 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import { createHashRouter, createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, useLocation } from "react-router-dom";
 import "./css/index.scss";
+import { CookiesProvider } from "react-cookie";
+ 
 
 // COMPONENT
 import Gallery from "./routes/gallery";
@@ -36,13 +38,15 @@ const router = createBrowserRouter([
     element: <Portfolio />,
     errorElement: <ErrorPage />,
   },
- 
+
   {
     path: "/:userId/:customerId",
     element: <Gallery />,
     errorElement: <ErrorPage />,
   },
 ]);
+ 
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
@@ -51,13 +55,16 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <meta charSet="utf-8" />
       <title>On The Desk</title>
     </Helmet>
-    <RecoilRoot>
-      <div className="flex flex-col h-[100vh]">
-        <div className="flex-1 overflow-auto h-[inherit] bg-[#18191A] ">
-          <RouterProvider router={router} />
+    <CookiesProvider>
+      <RecoilRoot>
+        <div className="flex flex-col h-[100vh]">
+          <div className="flex-1 overflow-auto h-[inherit] bg-[#18191A] ">
+            <RouterProvider router={router} />
+          </div>
         </div>
-      </div>
-    </RecoilRoot>
+      </RecoilRoot>
+    </CookiesProvider>
+
     {/* </React.StrictMode> */}
   </GoogleOAuthProvider>
 );

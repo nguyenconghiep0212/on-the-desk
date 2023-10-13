@@ -4,10 +4,14 @@ import { useGoogleLogin, googleLogout } from "@react-oauth/google";
 import { Button, Input } from "antd";
 // import jwt_decode from "jwt-decode";
 import "./index.scss";
+import { useCookies } from 'react-cookie';
+
 // COMPONENT
 import Logo from "assests/landing/footer_banner.svg";
 import IconAccount from "assests/icon/ic-account.svg";
 import Footer from "views/footer/index";
+import { Icon } from "@iconify/react";
+
 // IMAGE
 import Hero1_banner from "assests/landing/hero_1.svg";
 import LoginBlurFiller from "assests/login/login_blur_background_filler.png";
@@ -15,16 +19,36 @@ import IcMail from "assests/login/ic-mail.svg";
 import IcArrowLeft from "assests/icon/ic-arrow-left.svg";
 import IcLock from "assests/login/ic-lock.svg";
 import LogoGoogle from "assests/login/logo_google.svg";
-import { Icon } from "@iconify/react";
 
+// API
+import {signIn} from 'api/index'
+import { LOGIN } from "interface/auth";
 function Login() {
-  const [checkPassword, setCheckPassword] = useState(true);
+  const [checkPassword, setCheckPassword] = useState(false);
+  const [cookies, setCookie] = useCookies(['auth-token']);
+  const [loginCred ] = useState<LOGIN>({username:'', password:''})
   const navigate = useNavigate();
   function returnToHomePage() {
     navigate("/");
   }
 
-  const handleLogin = useGoogleLogin({
+  async function handleLogin(){
+    const res = await signIn(loginCred)
+    if(res){
+      if(res.code === 200){
+        setCookie('auth-token',res.data.token)
+        navigate("/");
+     
+      }else{
+      setCheckPassword(true)
+
+      }
+    }else{
+      setCheckPassword(true)
+    }
+  }
+
+  const handleLoginWithGoogle = useGoogleLogin({
     onSuccess: (tokenResponse) => {
       // decodeJWT(tokenResponse )
       console.log("tokenResponse", tokenResponse);
@@ -39,6 +63,8 @@ function Login() {
   //   const credential = jwt_decode(credentialEncode.credential)
   //   console.log('credential',credential)
   // }
+
+  useEffect(() => {}, [checkPassword])
   return (
     <div className="flex flex-col h-full overflow-auto bg-[#1E2530] pt-[22px] 2xl:px-[120px] 3xl:px-[240px] lg:px-[60px] md:px-[40px] px-5  ">
       {/* HEADER */}
@@ -115,10 +141,12 @@ function Login() {
                     <Input
                       prefix={<img src={IcMail} alt="username" />}
                       placeholder="Email"
+                      onChange={(e) => {loginCred.username = e.target.value}}
                     />
                     <Input.Password
                       prefix={<img src={IcLock} alt="password" />}
                       placeholder="Mật khẩu"
+                      onChange={(e) => {loginCred.password = e.target.value}}
                     />
                     <div className="flex text-[17px] xl:text-[18px] justify-between">
                       {checkPassword ? (
@@ -138,13 +166,13 @@ function Login() {
                     </div>
                   </div>
                   <div className="space-y-[18px]">
-                    <Button className="gradient_btn text-white font-semibold w-full">
+                    <Button className="gradient_btn text-white font-semibold w-full" onClick={() => {handleLogin()}}>
                       Đăng nhập
                     </Button>
                     <Button
                       className=" bg-white text-[#333] font-semibold w-full"
                       onClick={() => {
-                        handleLogin();
+                        handleLoginWithGoogle();
                       }}
                     >
                       <div className="flex justify-center items-center space-x-2">
@@ -192,10 +220,12 @@ function Login() {
                     <Input
                       prefix={<img src={IcMail} alt="username" />}
                       placeholder="Email"
+                      onChange={(e) => {loginCred.username = e.target.value}}
                     />
                     <Input.Password
                       prefix={<img src={IcLock} alt="password" />}
                       placeholder="Mật khẩu"
+                      onChange={(e) => {loginCred.password = e.target.value}}
                     />
                     <div className="flex <xs:text-[12px] text-[18px] xl:text-[18px] justify-between space-x-2">
                       {checkPassword ? (
@@ -215,13 +245,13 @@ function Login() {
                     </div>
                   </div>
                   <div className="space-y-[18px]">
-                    <Button className="gradient_btn text-white font-semibold w-full">
+                    <Button className="gradient_btn text-white font-semibold w-full" onClick={() => {handleLogin()}}>
                       Đăng nhập
                     </Button>
                     <Button
                       className=" bg-white text-[#333] font-semibold w-full"
                       onClick={() => {
-                        handleLogin();
+                        handleLoginWithGoogle();
                       }}
                     >
                       <div className="flex justify-center items-center space-x-2 px-[6px]">
