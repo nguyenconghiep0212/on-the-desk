@@ -74,10 +74,10 @@ const RouterBuilder = () => {
 ReactDOM.createRoot(document.getElementById("root")).render(
   <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
     {/* <React.StrictMode> */}
-    <Helmet>
+    {/* <Helmet>
       <meta charSet="utf-8" />
       <title>On The Desk</title>
-    </Helmet>
+    </Helmet> */}
     <CookiesProvider>
       <RecoilRoot>
         <div className="flex flex-col h-[100vh]">
