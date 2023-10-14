@@ -13,3 +13,10 @@ export function fetchFeedback() {
     url: `/api/feedback/most`,
   });
 }
+
+export function getUserProfileByToken() {
+  return http({
+    method: "get",
+    url: `/api/users/profile`,
+  });
+}

@@ -6,6 +6,9 @@ import {
 } from "store/root.ts";
 import { useRecoilState } from "recoil";
 import { Popover, message } from "antd";
+import { Icon } from "@iconify/react";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 // ICON
 import IconShoppingBag from "assests/icon/ic-shopping-bag.svg";
 import IconAccount from "assests/icon/ic-account.svg";
@@ -22,9 +25,10 @@ import Social_phone from "assests/landing/social_logo_phone.svg";
 import Social_tiktok from "assests/landing/social_logo_tiktok.svg";
 import Social_youtube from "assests/landing/social_logo_youtube.svg";
 import Social_zalo from "assests/landing/social_logo_zalo.svg";
-import { Icon } from "@iconify/react";
-import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
+import DefaultUserAvatar from "assests/portfolio/customer_avatar_placeholder.jpg";
+
+// API
+import { getUserProfileByToken } from "api";
 
 function DropdownMenu({ activatedMenu }) {
   return (
@@ -175,11 +179,11 @@ function Profile({
   isLogin,
   setIsLogin,
   activatedMenu,
-  messageApi,
 }) {
   const navigate = useNavigate();
   const [, , removeCookie] = useCookies(["auth-token", "auth-id"]);
   const [, setActivatedMenu] = useRecoilState(activatedMenuAtom);
+  const [userInfo, setUserInfo] = useState({});
   const profile_menu = [
     {
       key: "card",
@@ -208,9 +212,23 @@ function Profile({
     navigate("/login");
   }
 
+  async function getUserProfile() {
+    try {
+      const res = await getUserProfileByToken();
+      if (res) {
+        setUserInfo(res.data);
+      }
+    } catch (e) {
+      console.error("lỗi lấy user profile:", e);
+    }
+  }
   useEffect(() => {
-    console.log("mounted");
-  }, []);
+    if (isLogin) {
+      getUserProfile();
+    }
+    console.log("isLogin", isLogin);
+  }, [isLogin]);
+  useEffect(() => {}, [userInfo]);
   const signin = (
     <div
       className="relative z-10 p-[1px] cursor-pointer h-9 w-40 menu-btn-bg"
@@ -281,9 +299,15 @@ function Profile({
       >
         <img
           className={`${
-            activatedMenu === "Profile" ? "menu-bg-activated" : ""
-          } cursor-pointer`}
-          src={IconAccount}
+            isLogin || (activatedMenu === "Profile" ? "menu-bg-activated" : "")
+          } cursor-pointer rounded-full w-[24px] h-[24px]`}
+          src={
+            isLogin
+              ? userInfo.avatar
+                ? userInfo.avatar
+                : DefaultUserAvatar
+              : IconAccount
+          }
           alt="IconAccount"
           onClick={() => {
             activeMenuEvent("Profile");
@@ -314,9 +338,7 @@ function Header() {
     console.log(value);
   };
 
-  useEffect(() => {
-    console.log("checkIsLogin", checkIsLogin);
-  }, [activatedMenu, checkIsLogin]);
+  useEffect(() => {}, [activatedMenu]);
   return (
     <div className="relative flex items-center justify-between">
       {contextHolder}
@@ -335,7 +357,6 @@ function Header() {
           isLogin={checkIsLogin}
           setIsLogin={setLogin}
           activatedMenu={activatedMenu}
-          messageApi={messageApi}
         />
         <Menu
           handleChange={handleChange}
