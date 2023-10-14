@@ -89,9 +89,13 @@ function Login() {
       } else {
         setCheckPassword(false);
       }
-    } catch (e) {
+    } catch (e: any) {
       setCheckPassword(false);
       console.error("Lỗi login:", e);
+      messageApi.open({
+        type: "error",
+        content: 'Tên tài khoản hoặc mật khẩu không đúng!',
+      }); 
     }
   }
   async function handleGoogleSignIn(token: string) {
