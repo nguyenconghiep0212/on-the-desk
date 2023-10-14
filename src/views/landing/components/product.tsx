@@ -729,9 +729,7 @@ function Register({ innerRef, packages }) {
   function handleRegister() {
     console.log("form", form);
   }
-  useEffect(() => {
-    console.log(form);
-  }, [form]);
+  useEffect(() => {}, [form]);
   return (
     <div className="relative w-full desktop:grid desktop:grid-cols-2 <md:space-y-2 <xs:space-y-12 desktop:gap-2">
       <div
@@ -924,41 +922,41 @@ function Product() {
       }, delay);
     }
   }
-  // useEffect(() => {
-  //   switch (tab) {
-  //     case "product":
-  //       scrollToView(productRef, 0);
-  //       break;
-  //     case "introduction":
-  //       scrollToView(introductionRef, 0);
-  //       break;
-  //     case "instruction":
-  //       scrollToView(instructionRef, 0);
-  //       break;
-  //     case "service":
-  //       scrollToView(serviceRef, 0);
-  //       break;
-  //     case "news":
-  //       scrollToView(infomationRef, 0);
-  //       break;
-  //     case "contact":
-  //       scrollToView(contactRef, 0);
-  //       break;
+  useEffect(() => {
+    switch (tab) {
+      case "product":
+        scrollToView(productRef, 0);
+        break;
+      case "introduction":
+        scrollToView(introductionRef, 0);
+        break;
+      case "instruction":
+        scrollToView(instructionRef, 0);
+        break;
+      case "service":
+        scrollToView(serviceRef, 0);
+        break;
+      case "news":
+        scrollToView(infomationRef, 0);
+        break;
+      case "contact":
+        scrollToView(contactRef, 0);
+        break;
 
-  //     default:
-  //       break;
-  //   }
-  // }, [tab]);
+      default:
+        break;
+    }
+  }, [tab]);
   useEffect(() => {
     getPackageList();
     getFeedback();
 
-    // const url = window.location.href;
-    // if (url.includes("#huong-dan")) {
-    //   scrollToView(instructionRef);
-    // } else {
-    //   scrollToView(productRef, 0);
-    // }
+    const url = window.location.href;
+    if (url.includes("#huong-dan")) {
+      scrollToView(instructionRef);
+    } else {
+      scrollToView(productRef, 0);
+    }
   }, []);
   return (
     <div className="flex flex-col items-center pt-20 space-y-12">

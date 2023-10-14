@@ -1,11 +1,7 @@
 import React from "react";
 
-// COMPONENTS
-import Landing from "views/landing";
-
 function Component() {
-
-  return <Landing />;
+  return <div className="text-white">THIS IS ADMIN PAGE</div>;
 }
 
 export default Component;

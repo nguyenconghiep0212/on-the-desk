@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import Header from "./components/header/header.tsx";
 import DynamicComponent from "./components/dynamicComponent";
 import Footer from "views/footer/index.tsx";
-
-// API
-import { getUserProfile, getComponentFromPackage } from "api/index.ts";
 import { useNavigate, useParams } from "react-router-dom";
 import { message } from "antd";
 import { USER_INFO, USER_PACKAGE } from "interface/user.ts";
+// API
+import { getUserProfile, getComponentFromPackage } from "api/index.ts";
 
 function Portfolio() {
   let [userInfo, setUserInfo] = useState<USER_INFO>({

@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { currentTab, activatedMenu as activatedMenuAtom } from "store/root.ts";
+import {
+  currentTab,
+  activatedMenu as activatedMenuAtom,
+  isLogin,
+} from "store/root.ts";
 import { useRecoilState } from "recoil";
-import { Popover } from "antd";
+import { Popover, message } from "antd";
 // ICON
 import IconShoppingBag from "assests/icon/ic-shopping-bag.svg";
 import IconAccount from "assests/icon/ic-account.svg";
@@ -20,22 +24,23 @@ import Social_youtube from "assests/landing/social_logo_youtube.svg";
 import Social_zalo from "assests/landing/social_logo_zalo.svg";
 import { Icon } from "@iconify/react";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
-function DropdownMenu({activatedMenu}) {
+function DropdownMenu({ activatedMenu }) {
   return (
     <div className="dropdown">
-    <span>Mouse over me</span>
-    <div className="dropdown-content">
-    <ul id="list">
-         <li>item</li>
-        <li>item</li>
-        <li>item</li>
-        <li>item</li>
-        <li>item</li>
-    </ul>
+      <span>Mouse over me</span>
+      <div className="dropdown-content">
+        <ul id="list">
+          <li>item</li>
+          <li>item</li>
+          <li>item</li>
+          <li>item</li>
+          <li>item</li>
+        </ul>
+      </div>
     </div>
-  </div>
-  )
+  );
 }
 
 function Cart({ activeMenuEvent, activatedMenu }) {
@@ -164,10 +169,17 @@ function Menu({ handleChange, activeMenuEvent, activatedMenu }) {
   );
 }
 
-function Profile({ handleProfileEvent, activeMenuEvent, activatedMenu }) {
+function Profile({
+  handleProfileEvent,
+  activeMenuEvent,
+  isLogin,
+  setIsLogin,
+  activatedMenu,
+  messageApi,
+}) {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [_, setActivatedMenu] = useRecoilState(activatedMenuAtom);
+  const [, , removeCookie] = useCookies(["auth-token", "auth-id"]);
+  const [, setActivatedMenu] = useRecoilState(activatedMenuAtom);
   const profile_menu = [
     {
       key: "card",
@@ -189,6 +201,19 @@ function Profile({ handleProfileEvent, activeMenuEvent, activatedMenu }) {
     setActivatedMenu("");
     navigate("/login");
   }
+  function handleSignOut() {
+    removeCookie("auth-token");
+    removeCookie("auth-id");
+    setIsLogin(false);
+    messageApi.open({
+      type: "success",
+      content: "Đăng xuất thành công",
+    });
+  }
+
+  useEffect(() => {
+    console.log("mounted");
+  }, []);
   const signin = (
     <div
       className="relative z-10 p-[1px] cursor-pointer h-9 w-40 menu-btn-bg"
@@ -230,7 +255,12 @@ function Profile({ handleProfileEvent, activeMenuEvent, activatedMenu }) {
           handleProfileEvent("logout");
         }}
       >
-        <div className="flex items-center w-full h-full px-3 space-x-1 text-white menu-btn">
+        <div
+          className="flex items-center w-full h-full px-3 space-x-1 text-white menu-btn"
+          onClick={() => {
+            handleSignOut();
+          }}
+        >
           <Icon className="text-base" icon="mdi:logout" />
           <div className="font-sans font-thin tracking-wide">Đăng xuất</div>
         </div>
@@ -244,7 +274,7 @@ function Profile({ handleProfileEvent, activeMenuEvent, activatedMenu }) {
           offset: [7, 10],
         }}
         placement="bottomRight"
-        content={isLoggedIn ? content : signin}
+        content={isLogin ? content : signin}
         trigger="click"
         onOpenChange={(e) => {
           if (!e) {
@@ -268,8 +298,10 @@ function Profile({ handleProfileEvent, activeMenuEvent, activatedMenu }) {
 }
 
 function Header() {
+  const [messageApi, contextHolder] = message.useMessage();
+  const [checkIsLogin, setLogin] = useRecoilState(isLogin);
   const [activatedMenu, setActivatedMenu] = useRecoilState(activatedMenuAtom);
-  const [_, setValue] = useRecoilState(currentTab);
+  const [, setValue] = useRecoilState(currentTab);
   function activeMenuEvent(menu: string) {
     if (activatedMenu === menu) {
       setActivatedMenu("");
@@ -285,9 +317,12 @@ function Header() {
     console.log(value);
   };
 
-  useEffect(() => {}, [activatedMenu]);
+  useEffect(() => {
+    console.log("checkIsLogin", checkIsLogin);
+  }, [activatedMenu, checkIsLogin]);
   return (
     <div className="relative flex items-center justify-between">
+      {contextHolder}
       <div className="flex items-center ">
         <img
           src={Logo}
@@ -300,7 +335,10 @@ function Header() {
         <Profile
           handleProfileEvent={handleProfileEvent}
           activeMenuEvent={activeMenuEvent}
+          isLogin={checkIsLogin}
+          setIsLogin={setLogin}
           activatedMenu={activatedMenu}
+          messageApi={messageApi}
         />
         <Menu
           handleChange={handleChange}
@@ -308,7 +346,7 @@ function Header() {
           activatedMenu={activatedMenu}
         />
 
-        <DropdownMenu activatedMenu={activatedMenu}/>
+        {/* <DropdownMenu activatedMenu={activatedMenu} /> */}
       </div>
     </div>
   );

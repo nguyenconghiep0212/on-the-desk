@@ -1,11 +1,9 @@
 import React from "react";
-
 // COMPONENTS
-import Landing from "views/landing";
+import Admin from "views/admin";
 
 function Component() {
-
-  return <Landing />;
+  return <Admin />;
 }
 
 export default Component;

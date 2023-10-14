@@ -9,3 +9,8 @@ export const activatedMenu = atom({
   key: "activatedMenu",
   default: "",
 });
+
+export const isLogin = atom({
+  key: "isLogin",
+  default: false,
+});
