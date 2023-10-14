@@ -205,10 +205,7 @@ function Profile({
     removeCookie("auth-token");
     removeCookie("auth-id");
     setIsLogin(false);
-    messageApi.open({
-      type: "success",
-      content: "Đăng xuất thành công",
-    });
+    navigate("/login");
   }
 
   useEffect(() => {
