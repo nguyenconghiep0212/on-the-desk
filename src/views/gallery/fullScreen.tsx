@@ -82,7 +82,7 @@ export default function Component({ currentGallery, initImg }) {
         onSwiper={setThumbsSwiper}
         initialSlide={initIndex}
         spaceBetween={10}
-        slidesPerView={useCheck425Screen() ? 2.5 : 4.5}
+        slidesPerView={useCheck425Screen() ? 2.75 : 4.75}
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}

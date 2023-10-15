@@ -200,7 +200,7 @@ function Login() {
               }
             }}
           >
-            {isSignUp ? "Đăng kí" : "Đăng nhập"}
+            {isSignUp ? "Đăng ký" : "Đăng nhập"}
           </Button>
           <Button
             className=" bg-white text-[#333] font-semibold w-full"
