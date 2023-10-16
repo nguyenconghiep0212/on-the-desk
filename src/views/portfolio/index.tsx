@@ -7,6 +7,7 @@ import { message } from "antd";
 import { USER_INFO, USER_PACKAGE } from "interface/user.ts";
 // API
 import { getUserProfile, getComponentFromPackage } from "api/index.ts";
+import { Icon } from "@iconify/react";
 
 function Portfolio() {
   let [userInfo, setUserInfo] = useState<USER_INFO>({
@@ -120,7 +121,15 @@ function Portfolio() {
             ))}
           </div>
         </div>
-        <div className="sticky bottom-0 w-[100vw] desktop:-translate-x-1/4 backdrop-blur">
+
+{userInfo.isOwner && <div className="sticky ml-[auto] w-[max-content] bottom-16 z-10">
+        <div className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] ">
+            <Icon className="text-lg text-primary-blue-medium" icon="tabler:edit"/>
+          </div>
+        </div>}
+        
+        <div className=" sticky bottom-0 w-[100vw] desktop:-translate-x-1/4 backdrop-blur">
+          
           <Footer />
         </div>
       </div>

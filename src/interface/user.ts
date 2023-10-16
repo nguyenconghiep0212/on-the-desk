@@ -2,6 +2,7 @@ export interface USER_INFO {
   id?: string;
   name: string; // req
   email?: string;
+  isOwner?:boolean;
   description?: string;
   shortcut: string; // req
   job?: string;
