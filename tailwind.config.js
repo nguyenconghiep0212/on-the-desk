@@ -40,6 +40,7 @@ module.exports = {
         "header-shadow": "inset 0px -70px 10px #18191A",
       },
       colors: {
+        "primary-blue-dark-max": "#1E2530",
         "primary-blue-dark": "#2F66B3",
         "primary-blue-medium": "#1B94D2",
         "primary-blue-light": "#00D7FF",

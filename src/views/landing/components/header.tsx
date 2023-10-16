@@ -173,13 +173,7 @@ function Menu({ handleChange, activeMenuEvent, activatedMenu }) {
   );
 }
 
-function Profile({
-  handleProfileEvent,
-  activeMenuEvent,
-  isLogin,
-  setIsLogin,
-  activatedMenu,
-}) {
+function Profile({ activeMenuEvent, isLogin, setIsLogin, activatedMenu }) {
   const navigate = useNavigate();
   const [, , removeCookie] = useCookies(["auth-token", "auth-id"]);
   const [, setActivatedMenu] = useRecoilState(activatedMenuAtom);
@@ -189,18 +183,36 @@ function Profile({
       key: "card",
       label: "Tạo thẻ",
       icon: "solar:card-outline",
+      onClick() {
+        createCard();
+      },
     },
     {
       key: "account",
       label: "Tài khoản",
       icon: "line-md:account",
+      onClick() {
+        myAccount();
+      },
     },
     {
       key: "portfolio",
       label: "Hồ sơ",
       icon: "simple-icons:readdotcv",
+      onClick() {
+        myPortfolio();
+      },
     },
   ];
+  function createCard() {
+    console.log("createCard");
+  }
+  function myAccount() {
+    console.log("myAccount");
+  }
+  function myPortfolio() {
+    navigate(`/${userInfo.shortcut}`);
+  }
   function handleSignIn() {
     setActivatedMenu("");
     navigate("/login");
@@ -249,7 +261,7 @@ function Profile({
           key={index}
           className="relative z-10 p-[1px] cursor-pointer h-9 w-40 menu-btn-bg"
           onClick={() => {
-            handleProfileEvent(item.key);
+            item.onClick();
           }}
         >
           <div
@@ -264,12 +276,7 @@ function Profile({
         </div>
       ))}
       <div className="my-[6px] border-t-[1px] border-solid border-white border-opacity-50"></div>
-      <div
-        className="relative z-10 p-[1px] cursor-pointer h-9 w-40 menu-btn-bg"
-        onClick={() => {
-          handleProfileEvent("logout");
-        }}
-      >
+      <div className="relative z-10 p-[1px] cursor-pointer h-9 w-40 menu-btn-bg">
         <div
           className="flex items-center w-full h-full px-3 space-x-1 text-white menu-btn"
           onClick={() => {
@@ -334,10 +341,6 @@ function Header() {
     setValue(newValue);
   };
 
-  const handleProfileEvent = (value: string) => {
-    console.log(value);
-  };
-
   useEffect(() => {}, [activatedMenu]);
   return (
     <div className="relative flex items-center justify-between">
@@ -352,7 +355,6 @@ function Header() {
       <div className=" flex space-x-3 text-white xs:space-x-4 md:!space-x-9 ">
         <Cart activeMenuEvent={activeMenuEvent} activatedMenu={activatedMenu} />
         <Profile
-          handleProfileEvent={handleProfileEvent}
           activeMenuEvent={activeMenuEvent}
           isLogin={checkIsLogin}
           setIsLogin={setLogin}

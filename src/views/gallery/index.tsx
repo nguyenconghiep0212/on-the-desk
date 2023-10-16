@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { fullScreenVisible } from "store/gallery";
 import "./index.scss";
+import IconAccount from "assests/icon/ic-account.svg";
+
 // COMPONENT
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { Icon } from "@iconify/react";
@@ -149,7 +151,27 @@ function Component() {
   return (
     <div className="flex flex-col items-center w-full h-full ">
       <div className="relative w-full lg:!w-3/4 <3xs:!w-3/4 h-full pb-3">
-        {/* INFO */}
+        {/* NAVIGATE USER */}
+        <Icon
+          className="absolute top-[33px] z-10 cursor-pointer text-lg 3xs:left-3  text-white"
+          icon="ep:back"
+          onClick={handleBack}
+        />
+        <div
+          className="absolute top-[33px] z-10  text-lg right-5 rounded-full"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",
+          }}
+        >
+          <img
+            className="cursor-pointer w-[24px] h-[24px]"
+            src={IconAccount}
+            alt="IconAccount"
+          />
+        </div>
+
+        {/* BACKGROUND COVER */}
         <div className="relative w-full h-1/3 sm:h-2/5 lg:h-3/5">
           <div
             className="sm:w-[300%] sm:-translate-x-1/2 h-full z-[5] relative "
@@ -162,15 +184,7 @@ function Component() {
               backgroundSize: "cover",
               boxShadow: "inset 0px -70px 35px -25px #18191A",
             }}
-          ></div>
-          <Icon
-            className="absolute top-[33px] z-10  text-lg 3xs:left-3  text-white"
-            icon="ep:back"
-            onClick={handleBack}
           />
-          <div className="absolute top-[33px] z-10  text-lg 3xs:right-3 <3xs:right-0  ">
-            <Icon icon="bx:user" className="text-primary-blue-medium" />
-          </div>
 
           <div
             className="absolute z-[5] top-0 w-full h-full -translate-x-1/2 left-1/2"
@@ -182,8 +196,10 @@ function Component() {
               backgroundSize: "cover",
               boxShadow: "inset 0px -70px 35px -40px #18191A",
             }}
-          ></div>
+          />
         </div>
+
+        {/* AVATAR */}
         <div className="relative bg-[#18191A] z-10  sm:w-[300%] sm:overflow-x-clip -translate-x-1/2">
           {/* CUSTOMER */}
           <div className="flex items-center space-x-2 translate-x-1/2">

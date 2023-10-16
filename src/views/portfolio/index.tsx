@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
-import Header from "./components/header/header.tsx";
-import DynamicComponent from "./components/dynamicComponent";
-import Footer from "views/footer/index.tsx";
 import { useNavigate, useParams } from "react-router-dom";
 import { message } from "antd";
+import IconAccount from "assests/icon/ic-account.svg";
+
+// INTERFACE
 import { USER_INFO, USER_PACKAGE } from "interface/user.ts";
+
 // API
 import { getUserProfile, getComponentFromPackage } from "api/index.ts";
+
+// COMPONENT
+import Header from "./components/header/header.tsx";
+import DynamicComponent from "./components/dynamicComponent";
+import Card from "./components/card/index.tsx";
+import Footer from "views/footer/index.tsx";
 import { Icon } from "@iconify/react";
 
 function Portfolio() {
@@ -97,11 +104,29 @@ function Portfolio() {
   return (
     <div className="relative flex flex-col items-center w-full h-full ">
       {contextHolder}
+
       <div
         id="focus_point"
         className="flex flex-col h-full mobile:w-full sm:p-0 desktop:w-1/2"
       >
-        <div className="flex-auto">
+        <div className="relative flex-auto">
+          {/* NAVIGATE USER */}
+          <div
+            className="absolute top-[33px] z-10  text-lg right-5 rounded-full"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",
+            }}
+          >
+            <img
+              className="cursor-pointer w-[24px] h-[24px]"
+              src={IconAccount}
+              alt="IconAccount"
+            />
+          </div>
+
+          {/*  */}
+          <Card />
           <Header
             avatar={userInfo.avatar}
             background={userInfo.backgrounds}
@@ -122,14 +147,21 @@ function Portfolio() {
           </div>
         </div>
 
-{userInfo.isOwner && <div className="sticky ml-[auto] w-[max-content] bottom-16 z-10">
-        <div className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] ">
-            <Icon className="text-lg text-primary-blue-medium" icon="tabler:edit"/>
+        {userInfo.isOwner && (
+          <div className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-10">
+            <div
+              style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
+              className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
+            >
+              <Icon
+                className="text-lg text-primary-blue-medium"
+                icon="tabler:edit"
+              />
+            </div>
           </div>
-        </div>}
-        
+        )}
+
         <div className=" sticky bottom-0 w-[100vw] desktop:-translate-x-1/4 backdrop-blur">
-          
           <Footer />
         </div>
       </div>
