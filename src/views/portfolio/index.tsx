@@ -161,7 +161,7 @@ function Portfolio() {
           </div>
         )}
 
-        <div className=" sticky bottom-0 w-[100vw] desktop:-translate-x-1/4 backdrop-blur">
+        <div className="z-50 sticky bottom-0 w-[100vw] desktop:-translate-x-1/4 backdrop-blur">
           <Footer />
         </div>
       </div>
