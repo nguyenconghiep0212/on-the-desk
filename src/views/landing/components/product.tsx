@@ -4,7 +4,9 @@ import { Button, Collapse, CollapseProps, Input, Radio, Select } from "antd";
 import { Icon } from "@iconify/react";
 import { fetchFeedback, fetchPackageList } from "api";
 import { useRecoilState } from "recoil";
-import ParentFooter from "views/footer";
+import ParentFooter from "views/footer";  
+import { useNavigate } from "react-router-dom";
+
 // ICON
 import IconShoppingBag from "assests/icon/ic-shopping-bag.svg";
 // IMAGE
@@ -33,9 +35,18 @@ import Social_youtube from "assests/landing/social_logo_youtube.svg";
 import Social_zalo from "assests/landing/social_logo_zalo.svg";
 
 // STORE
-import { currentTab } from "store/root.ts";
+import { currentTab, isLogin } from "store/root.ts";
+ 
+function Hero1({ innerRef, isLogin,navigate }) {
 
-function Hero1({ innerRef }) {
+  function handleCreateYourStyle(){
+    if(isLogin) {}
+    else{
+      navigate('/login')
+    }
+  }
+
+
   return (
     <div className="relative flex flex-col w-full">
       <div
@@ -59,7 +70,7 @@ function Hero1({ innerRef }) {
           doanh nghiệp một cách nhanh chóng dễ dàng.
         </div>
         <div className="flex <2xs:flex-col justify-center items-center mt-6 space-x-3">
-          <Button className="flex items-center hover:scale-105">
+          <Button className="flex items-center hover:scale-105"  onClick={() => {handleCreateYourStyle()}}>
             <img src={Logo} alt="logo" className="w-4 mr-1" />
             <span className="text-[1.125rem] font-semibold text-primary-blue-medium">
               Create
@@ -254,7 +265,13 @@ const Instruction = ({ innerRef }) => {
   );
 };
 
-function Divider() {
+function Divider({isLogin, navigate}) {
+  function handleCreateYourStyle(){
+    if(isLogin) {}
+    else{
+      navigate('/login')
+    }
+  }
   return (
     <div className="w-full ">
       <div className="flex justify-center mb-6 space-x-3 h-fit">
@@ -274,7 +291,7 @@ function Divider() {
           hợp với mọi nhu cầu của cá nhân và doanh nghiệp.
         </div>
 
-        <Button className="flex items-center <xs:!mt-6 !mt-12 space-x-1 text-white gradient_btn">
+        <Button className="flex items-center <xs:!mt-6 !mt-12 space-x-1 text-white gradient_btn" onClick={() => {handleCreateYourStyle()}}>
           <img src={Logo_white} alt="logo" className="w-[22px] h-[22px] " />
           <span className="text-[1.125rem] tracking-wide ">Bắt đầu ngay</span>
         </Button>
@@ -369,7 +386,13 @@ function Environment() {
   );
 }
 
-function ProductAndService({ innerRef, packages }) {
+function ProductAndService({ innerRef, packages, isLogin, navigate }) {
+  function handleCreateYourStyle(){
+    if(isLogin) {}
+    else{
+      navigate('/login')
+    }
+  }
   return (
     <div className="relative flex flex-col items-center w-full">
       <div
@@ -471,7 +494,7 @@ function ProductAndService({ innerRef, packages }) {
                       <span>Gọi ngay</span>
                     </div>
                   ) : (
-                    <div className="flex items-center space-x-1">
+                    <div className="flex items-center space-x-1" onClick={() => {handleCreateYourStyle()}}>
                       <img
                         className="w-[22px] h-[22px]"
                         src={IconShoppingBag}
@@ -888,6 +911,9 @@ function Footer() {
 }
 function Product() {
   const [tab] = useRecoilState(currentTab);
+  const navigate = useNavigate()
+
+  const [checkIsLogIn] = useRecoilState(isLogin);
 
   const productRef: any = useRef(null);
   const introductionRef: any = useRef(null);
@@ -960,13 +986,13 @@ function Product() {
   }, []);
   return (
     <div className="flex flex-col items-center pt-20 space-y-12">
-      <Hero1 innerRef={productRef} />
+      <Hero1 innerRef={productRef} isLogin={checkIsLogIn} navigate={navigate}/>
       <Hero2 innerRef={introductionRef} />
       <Hero3 />
       <Instruction innerRef={instructionRef} />
-      <Divider />
+      <Divider isLogin={checkIsLogIn} navigate={navigate}/>
       <Environment />
-      <ProductAndService innerRef={serviceRef} packages={packages} />
+      <ProductAndService innerRef={serviceRef} packages={packages}  isLogin={checkIsLogIn} navigate={navigate}/>
       <Feedback feedbacks={feedbacks} />
       <FAQs innerRef={infomationRef} />
       <Register innerRef={contactRef} packages={packages} />
