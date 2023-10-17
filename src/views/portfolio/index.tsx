@@ -102,7 +102,7 @@ function Portfolio() {
   }, []);
   useEffect(() => {}, [userInfo]);
   return (
-    <div className="relative flex flex-col items-center w-full h-full ">
+    <div className="relative flex flex-col items-center w-full h-[max-content] ">
       {contextHolder}
 
       <div
@@ -126,7 +126,7 @@ function Portfolio() {
           </div>
 
           {/*  */}
-          <Card />
+          <Card userInfo={userInfo}/>
           <Header
             avatar={userInfo.avatar}
             background={userInfo.backgrounds}
@@ -145,9 +145,9 @@ function Portfolio() {
               </div>
             ))}
           </div>
-        </div>
-
-        {userInfo.isOwner && (
+        </div> 
+      </div>
+      {userInfo.isOwner && (
           <div className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-10">
             <div
               style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
@@ -164,7 +164,6 @@ function Portfolio() {
         <div className="z-50 sticky bottom-0 w-[100vw] desktop:-translate-x-1/4 backdrop-blur">
           <Footer />
         </div>
-      </div>
     </div>
   );
 }

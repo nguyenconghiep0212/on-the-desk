@@ -22,9 +22,6 @@
     object-fit: cover;
 }
 
-.swiper-pagination-bullet-active {
-    background: white !important
-}
 
 .swiper-wrapper {
     height: 100%
@@ -32,6 +29,13 @@
 
 
 // PAGINATION
+.swiper-pagination{
+    pointer-events: none;
+}
+.swiper-pagination-bullet-active {
+    background: white !important
+}
+
 .swiper-pagination-bullet {
     background-color: rgba(255, 255, 255, 0.50) !important;
     width: 4px !important;

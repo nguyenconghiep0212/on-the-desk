@@ -14,6 +14,7 @@ import FullScreenImg from "./fullScreen";
 // import Feedback from "../portfolio/components/feedback/index";
 import CustomerAvatarPlaceholder from "assests/portfolio/customer_avatar_placeholder.jpg";
 import GalleryPlaceholder from "assests/portfolio/gallery_thumbnail_placeholder.jpg";
+import Footer from "views/footer";
 // INTERFACE
 import { GALLERY_CUSTOMER } from "interface/gallery";
 import { CUSTOMER } from "interface/customer";
@@ -88,8 +89,7 @@ function Component() {
         const res = await getCustomerById(routeParams.customerId);
         if (res) {
           setCustomerInfo(res.data);
-          console.log("customerInfo", customerInfo);
-        }
+         }
       } catch (error) {}
     }
   }
@@ -149,7 +149,7 @@ function Component() {
     );
   }
   return (
-    <div className="flex flex-col items-center w-full h-full ">
+    <div className="flex flex-col items-center w-full h-[max-content] ">
       <div className="relative w-full lg:!w-3/4 <3xs:!w-3/4 h-full pb-3">
         {/* NAVIGATE USER */}
         <Icon
@@ -172,7 +172,7 @@ function Component() {
         </div>
 
         {/* BACKGROUND COVER */}
-        <div className="relative w-full h-1/3 sm:h-2/5 lg:h-3/5">
+        <div className="relative w-full h-[30vh] sm:h-2/5 lg:h-3/5">
           <div
             className="sm:w-[300%] sm:-translate-x-1/2 h-full z-[5] relative "
             style={{
@@ -248,6 +248,24 @@ function Component() {
         </div>
       </div>
 
+
+      {userInfo.isOwner && (
+          <div className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-10">
+            <div
+              style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
+              className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
+            >
+              <Icon
+                className="text-lg text-primary-blue-medium"
+                icon="tabler:edit"
+              />
+            </div>
+          </div>
+        )}
+
+        <div className="z-50 sticky bottom-0 w-[100vw] desktop:-translate-x-1/4 backdrop-blur">
+          <Footer />
+        </div>
       <Modal
         className="modalFullScreen"
         open={visible}

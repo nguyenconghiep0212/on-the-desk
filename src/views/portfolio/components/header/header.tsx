@@ -30,7 +30,7 @@ function SwiperMobile({ currentImg, getCurrentImg, background }) {
           }}
         >
           {background.map((e, index) => (
-            <SwiperSlide key={index} className="!h-[inherit]">
+            <SwiperSlide key={index} className="!h-[inherit] !bg-[inherit]">
               <div
                 className="w-full h-full"
                 style={{
@@ -59,7 +59,7 @@ function SwiperDesk({ currentImg, getCurrentImg, background }) {
           WebkitFilter: `blur(24px)`,
           backgroundPosition: "center",
           backgroundSize: "fit",
-          boxShadow: "inset 0px -70px 15px -45px #18191A",
+          boxShadow: "inset 0px -100px 15px -45px #18191A",
         }}
       ></div>
 
@@ -75,7 +75,7 @@ function SwiperDesk({ currentImg, getCurrentImg, background }) {
         }}
       >
         {background.map((e, index) => (
-          <SwiperSlide key={index} className="!h-[inherit]">
+          <SwiperSlide key={index} className="!h-[inherit] !bg-[inherit]">
             <div
               className="w-full h-full"
               style={{

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import DefaultCardLogo from "assests/card/default_card_logo.svg";
 import IcCard from "assests/icon/ic-card.svg";
+import {  useNavigate  } from "react-router-dom";
 
 // INTERFACE
 import { CARD } from "interface/card.ts";
@@ -15,10 +16,16 @@ import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
 import { Icon } from "@iconify/react";
 
-function Component() {
+function Component({userInfo}) {
+  const navigate = useNavigate()
   const [cardList, setCardList] = useState<CARD[]>([mock_card,mock_card,mock_card]);
-  function getCurrentCard() {}
-
+  const [currentCard, setCurrentCard] = useState({})
+  function getCurrentCard(e) { 
+    setCurrentCard(cardList[e.activeIndex])
+  }
+function handleAddCard(){
+  navigate(`/${userInfo.shortcut}/addCard`)
+}
   function Card(card) {
     return (
       <div
@@ -63,7 +70,7 @@ function Component() {
               {Card(item)}
               {/* Action */}
               <div className="flex space-x-8">
-                <div className="cursor-pointer flex items-center space-x-1 bg-opacity-20 text-[12px] font-semibold bg-white text-white border-white border rounded-lg px-[9px] py-[6px]">
+                <div className="cursor-pointer flex items-center space-x-1 bg-opacity-20 text-[12px] font-semibold bg-white text-white border-white border rounded-lg px-[9px] py-[6px]" onClick={() => {handleAddCard()}}>
                   <img
                     src={IcCard}
                     alt="add_card"
