@@ -5,23 +5,19 @@ import { cardSelector as storeCard } from "store/card";
 
 function Component() {
   const [defaultCard, setDefaultCard] = useRecoilState(storeCard);
-
+const tempCard = Object.assign({},defaultCard)
   function handleChangeAlignment(e) {
-    const obj = { alignment: "",
-    logo: "",
-    frontText: "",
-    backText: "",
-    backgroundColor: "",
-    backgroundImage: "",}
-    obj.alignment = e.target.value;
-    setDefaultCard(obj);
+    
+    tempCard.alignment = e.target.value;
+    setDefaultCard(tempCard);
   }
   return (
-    <div>
-      <div className="text-[#B6B6B6] font-bold text-base mb-4">Bố cục</div>
-      <div className="grid grid-cols-3 gap-2">
+    <div className="px-3 py-[10px] rounded-2xl bg-primary-blue-dark-max">
+      <div className="text-sm font-semibold text-white">Bố cục</div>
+      <div>
         <Radio.Group
-          className="flex xs:w-full   <xs:w-[510px] xs:justify-center"
+        value={tempCard.alignment}
+          className="flex xs:w-full <xs:w-[510px] !shadow-none !px-0 justify-start"
           defaultValue="smart_card"
           buttonStyle="solid"
           onChange={(e) => {

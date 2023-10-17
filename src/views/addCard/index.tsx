@@ -6,15 +6,16 @@ import { useRecoilState } from "recoil";
 import { card as storeCard } from "store/card";
 // COMPONENT
 import Alignment from "./components/alignment";
+import Background from './components/background'
 
 function Component() {
-  const [defaultCard, setDefaultCard] = useRecoilState(storeCard);
+  const [defaultCard] = useRecoilState(storeCard);
 
   useEffect(() => {}, [defaultCard]);
   function card() {
     return (
       <div
-        className="flex flex-col space-y-3 rounded-lg h-52 w-96 px-[30px] py-5"
+        className="flex flex-col space-y-3 rounded-lg h-full w-full px-[30px] py-5"
         style={{
           background: defaultCard.backgroundImage
             ? defaultCard.backgroundImage
@@ -48,12 +49,14 @@ function Component() {
 
   function portraitLayout() {
     return (
-      <div className="flex flex-col w-full">
-        <div className="sticky top-0 w-full h-[30vh] flex justify-center py-5">
-          {card()}
+      <div className="flex flex-col items-center w-full ">
+        <div className="w-full p-5 space-y-3 sm:w-2/3">
+          <div className="sticky top-0 flex justify-center w-full h-52">
+            {card()}
+          </div>
+          <Alignment />
+          <Background />
         </div>
-
-        <Alignment />
       </div>
     );
   }
