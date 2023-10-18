@@ -1,9 +1,20 @@
 .ant-btn {
-    &:hover {
-      color: #72FFFF !important
-    }
-  
-    border: none;
-    box-shadow: 2px 2px 8px 0px #000000,
-    -2px -2px 8px 0px rgba(60, 173, 255, 0.50);
+  &:hover {
+    color: #72FFFF 
   }
+
+  color: white;
+  border: none;
+  box-shadow: 2px 2px 8px 0px #000000,
+  -2px -2px 8px 0px rgba(60, 173, 255, 0.50);
+}
+
+.gradient_btn {
+  border-radius: 8px;
+  background: linear-gradient(180deg, #00D4FC 0%, #1955B6 100%);
+  box-shadow: 2px 2px 8px 0px #001940, -2px -2px 8px 0px rgba(60, 173, 255, 0.50);
+}
+
+.inverted_btn {
+  box-shadow: 2px 2px 2px 0px rgba(0, 25, 64, 0.50) inset, -2px -2px 2px 0px rgba(60, 173, 255, 0.25) inset
+}

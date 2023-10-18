@@ -11,6 +11,11 @@ function Component() {
     tempCard.enableFrontText = e;
     setDefaultCard(tempCard);
   }
+  function handleChangeFrontText(e){
+    
+    tempCard.frontText = e.target.value;
+    setDefaultCard(tempCard);
+  }
   return (
     <div className="px-3 py-[10px] rounded-2xl space-y-[18px] bg-primary-blue-dark-max">
       <div className="flex justify-between">
@@ -23,7 +28,7 @@ function Component() {
         />
       </div>
 
-      <Input placeholder="Nhập tối đa 36 ký tự" bordered={false} />
+      <Input placeholder="Nhập tối đa 36 ký tự" bordered={false} onChange={(e) => {handleChangeFrontText(e)}}/>
       <div className="flex items-center">
         <div className="w-1/3 text-white text-[12px] font-semibold">Font:</div>
         <div className="w-2/3">

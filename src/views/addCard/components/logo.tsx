@@ -72,7 +72,7 @@ function Component() {
       </div>
       <Radio.Group
         value={logoType}
-        className="flex xs:w-full <xs:w-[510px] !shadow-none !px-0 justify-start"
+        className="flex overflow-x-auto !shadow-none !px-0 justify-start"
         defaultValue="smart_card"
         buttonStyle="solid"
         onChange={(e) => {

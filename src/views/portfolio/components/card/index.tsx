@@ -29,7 +29,7 @@ function handleAddCard(){
   function Card(card) {
     return (
       <div
-        className=" flex flex-col space-y-3 rounded-lg h-2/3 w-2/3 px-[30px] py-5"
+        className=" flex flex-col space-y-3 rounded-lg h-[176px] w-[280px] px-[30px] py-5"
         style={{
           background: card.backgroundImage
             ? card.backgroundImage
@@ -54,7 +54,7 @@ function handleAddCard(){
   return (
     <div className="relative flex justify-center <xs:!h-[320px] h-[30vh] bg-[#18191A]">
       <Swiper
-        className=" z-1  "
+        className=" z-1"
         slidesPerView={1}
         pagination={true}
         modules={[Autoplay, Pagination]}
