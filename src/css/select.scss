@@ -44,3 +44,10 @@
 .ant-select-item-option-selected {
     background-color: #2b3442 !important;
 }
+
+.ant-select.ant-select-borderless {
+    box-shadow: none;
+    background: transparent;
+    border-bottom: 1px solid white;
+    border-radius: 0px;
+}

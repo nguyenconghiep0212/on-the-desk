@@ -172,7 +172,7 @@ function Component() {
         </div>
 
         {/* BACKGROUND COVER */}
-        <div className="relative w-full h-[30vh] sm:h-2/5 lg:h-3/5">
+        <div className="relative w-full <xs:!h-[320px] h-[40vh] ">
           <div
             className="sm:w-[300%] sm:-translate-x-1/2 h-full z-[5] relative "
             style={{
@@ -263,7 +263,7 @@ function Component() {
           </div>
         )}
 
-        <div className="z-50 sticky bottom-0 w-[100vw] desktop:-translate-x-1/4 backdrop-blur">
+        <div className="z-50 sticky bottom-0 w-[100vw] desktop:-translate-x-1/6 backdrop-blur">
           <Footer />
         </div>
       <Modal

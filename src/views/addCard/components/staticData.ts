@@ -22,3 +22,22 @@ export const colors = [
   "#14110F",
   "#D9C5B2",
 ];
+
+export const gradient = [
+  null,
+  'linear-gradient(270deg, #12C0F1 0.11%, #025A8A 99.89%)',
+  'linear-gradient(270deg, #4CF112 0.11%, #2B7508 99.89%)',
+  'linear-gradient(270deg, #FFD088 0.11%, #DAFF8A 99.89%)',
+  'linear-gradient(270deg, #FF930F 0.11%, #FFF95B 99.89%)',
+  'linear-gradient(270deg, #F9E7BB 0.11%, #E97CBB 99.89%)',
+  'linear-gradient(270deg, #07C8F9 0.11%, #0D41E1 99.89%)',
+  'linear-gradient(270deg, #E63946 0.11%, #1D3557 99.89%)',
+  'linear-gradient(270deg, #A2D2FF 0.11%, #025A8A 99.89%)',
+  'linear-gradient(270deg, #8D99AE 0.11%, #2B2D42 99.89%)',
+  'linear-gradient(270deg, #FAA307 0.11%, #9D0208 99.89%)',
+  'linear-gradient(270deg, #9BF6FF 0.11%, #BDB2FF 99.89%)',
+  'linear-gradient(270deg, #83C5BE 0.11%, #006D77 99.89%)',
+  'linear-gradient(270deg, #9A8C98 0.11%, #22223B 99.89%)',
+  'linear-gradient(270deg, #A3B18A 0.11%, #344E41 99.89%)',
+  'linear-gradient(270deg, #CBF3F0 0.11%, #2EC4B6 99.89%)'
+]

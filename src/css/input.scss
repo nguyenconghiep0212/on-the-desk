@@ -35,3 +35,10 @@
         opacity: 0.5
     }
 }
+
+.ant-input.ant-input-borderless {
+    box-shadow: none;
+    background: transparent;
+    border-bottom: 1px solid white;
+    border-radius: 0px;
+}

@@ -5,9 +5,8 @@ import { cardSelector as storeCard } from "store/card";
 
 function Component() {
   const [defaultCard, setDefaultCard] = useRecoilState(storeCard);
-const tempCard = Object.assign({},defaultCard)
+  const tempCard = Object.assign({}, defaultCard);
   function handleChangeAlignment(e) {
-    
     tempCard.alignment = e.target.value;
     setDefaultCard(tempCard);
   }
@@ -16,7 +15,7 @@ const tempCard = Object.assign({},defaultCard)
       <div className="text-sm font-semibold text-white">Bố cục</div>
       <div>
         <Radio.Group
-        value={tempCard.alignment}
+          value={tempCard.alignment}
           className="flex xs:w-full <xs:w-[510px] !shadow-none !px-0 justify-start"
           defaultValue="smart_card"
           buttonStyle="solid"

@@ -1,8 +1,8 @@
 export interface CARD {
-    alignment: string;
-    logo: string;
-    frontText: string;
-    backText: string;
-    backgroundColor: string;
-    backgroundImage: string;
+    alignment: string | null;
+    logo: string | null;
+    frontText: string | null;
+    backText: string | null;
+    backgroundColor: string | null;
+    backgroundImage: string | null;
 }
