@@ -1,8 +1,8 @@
 import { Input, Select, Switch } from "antd";
 import React from "react";
 import { useRecoilState } from "recoil";
-import { cardSelector as storeCard } from "store/card";
-
+import { cardSelector as storeCard } from "store/addCard";
+import { fontFamilies } from "./staticData";
 function Component() {
   const [defaultCard, setDefaultCard] = useRecoilState(storeCard);
   const tempCard = Object.assign({}, defaultCard);
@@ -11,9 +11,12 @@ function Component() {
     tempCard.enableFrontText = e;
     setDefaultCard(tempCard);
   }
-  function handleChangeFrontText(e){
-    
+  function handleChangeFrontText(e) {
     tempCard.frontText = e.target.value;
+    setDefaultCard(tempCard);
+  }
+  function handleChangeFontFamily(e) {
+    tempCard.fontFamily = e;
     setDefaultCard(tempCard);
   }
   return (
@@ -28,7 +31,13 @@ function Component() {
         />
       </div>
 
-      <Input placeholder="Nhập tối đa 36 ký tự" bordered={false} onChange={(e) => {handleChangeFrontText(e)}}/>
+      <Input
+        placeholder="Nhập tối đa 36 ký tự"
+        bordered={false}
+        onChange={(e) => {
+          handleChangeFrontText(e);
+        }}
+      />
       <div className="flex items-center">
         <div className="w-1/3 text-white text-[12px] font-semibold">Font:</div>
         <div className="w-2/3">
@@ -36,7 +45,12 @@ function Component() {
             defaultValue="montserrat"
             className="w-full"
             bordered={false}
-            options={[{ value: "montserrat", label: "Montserrat" }]}
+            options={fontFamilies.map((e) => {
+              return { value: e, label: e };
+            })}
+            onChange={(e) => {
+              handleChangeFontFamily(e);
+            }}
           />
         </div>
       </div>

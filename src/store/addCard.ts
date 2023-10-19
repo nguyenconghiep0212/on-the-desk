@@ -1,3 +1,4 @@
+import { COMPONENT } from "interface/component";
 import { atom, selector } from "recoil";
 
 export const card = atom({
@@ -20,3 +21,14 @@ export const cardSelector = selector({
   get: ({ get }) => ({ ...get(card) }),
   set: ({ set }, newValue) => set(card, newValue),
 });
+
+export const selectedPackage= atom<COMPONENT>({
+  key:'selectedPackage',
+  default: {
+    id: "",
+    packageId: "",
+    key: "",
+    config: "",
+    index: 0
+  }
+})

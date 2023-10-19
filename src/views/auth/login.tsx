@@ -191,7 +191,7 @@ function Login() {
         </div>
         <div className="space-y-[18px]">
           <Button
-            className="w-full font-semibold text-white gradient_btn"
+            className="w-full font-semibold text-white gradient_btn !shadow-none"
             onClick={() => {
               if (isSignUp) {
                 handleSignUp();
@@ -203,7 +203,7 @@ function Login() {
             {isSignUp ? "Đăng ký" : "Đăng nhập"}
           </Button>
           <Button
-            className=" bg-white text-[#333] font-semibold w-full"
+            className=" bg-white text-[#333] font-semibold w-full !shadow-none"
             onClick={() => {
               handleLoginWithGoogle();
             }}

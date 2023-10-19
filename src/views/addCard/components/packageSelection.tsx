@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Button } from "antd";
 import { fetchPackageList } from "api";
 import { Icon } from "@iconify/react";
+import { selectedPackage as selectedPackageAtom} from 'store/addCard'
+import { useRecoilState } from "recoil";
 
 function Component() {
-  const [selectedPackage, setSelectedPackage] = useState(null);
+  const [selectedPackage, setSelectedPackage] = useRecoilState(selectedPackageAtom);
   const [packages, setPackages] = useState([]);
   async function getPackageList() {
     const res = await fetchPackageList();
     if (res) {
       setPackages(res.data);
+      setSelectedPackage(res.data.find(e => e.name === "PRO"))
     }
   }
   useEffect(() => {}, [selectedPackage]);
@@ -103,18 +106,18 @@ function Component() {
 
               <Button
                 className={`${
-                  selectedPackage !== item.id
+                  selectedPackage.id !== item.id
                     ? "gradient_btn !text-white"
                     : "inverted_btn !text-primary-blue-medium"
                 }`}
                 onClick={() => {
-                  setSelectedPackage(item.id);
+                  setSelectedPackage(item);
                 }}
               >
                 <div className="flex items-center space-x-2 ">
                   <Icon icon="tabler:check" />
                   <span className="font-semibold">
-                    {selectedPackage !== item.id ? "Chọn" : "Đang chọn"}
+                    {selectedPackage.id !== item.id ? "Chọn" : "Đang chọn"}
                   </span>
                 </div>
               </Button>

@@ -5,4 +5,5 @@ export interface CARD {
     backText: string | null;
     backgroundColor: string | null;
     backgroundImage: string | null;
+    fontFamily: string | null
 }

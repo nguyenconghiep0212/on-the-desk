@@ -1,7 +1,7 @@
 import { Input } from "antd";
 import React from "react";
 import { useRecoilState } from "recoil";
-import { cardSelector as storeCard } from "store/card";
+import { cardSelector as storeCard } from "store/addCard";
 
 function Component() {
   const [defaultCard, setDefaultCard] = useRecoilState(storeCard);

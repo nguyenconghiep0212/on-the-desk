@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { colors, gradient } from "./staticData";
 import { Icon } from "@iconify/react";
 import { useRecoilState } from "recoil";
-import { cardSelector as storeCard } from "store/card";
+import { cardSelector as storeCard } from "store/addCard";
 
 function Component() {
   const [defaultCard, setDefaultCard] = useRecoilState(storeCard);

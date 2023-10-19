@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { Button } from "antd";
 // STORE
-import { card as storeCard } from "store/card";
+import { card as storeCard } from "store/addCard";
 // COMPONENT
 import Alignment from "./components/alignment";
 import Background from "./components/background";
@@ -13,6 +13,7 @@ import Logo from "./components/logo";
 import FrontText from "./components/frontName";
 import BackText from "./components/backName";
 import PackageSeletion from "./components/packageSelection";
+import Profile from "./components/profile";
 
 function Component() {
   const navigate = useNavigate();
@@ -32,7 +33,10 @@ function Component() {
             ? defaultCard.backgroundColor
             : "#091323",
           alignItems: defaultCard.alignment || "center",
-          justifyContent: defaultCard.alignment !== "center" ? "end" : "center",
+          justifyContent:
+            defaultCard.alignment === "end" || defaultCard.alignment === "start"
+              ? "end"
+              : "center",
         }}
       >
         {defaultCard.enableLogo && (
@@ -43,7 +47,10 @@ function Component() {
           />
         )}
         {defaultCard.enableFrontText && (
-          <div className="text-white w-[max-content] text-center">
+          <div
+            className="text-white w-[max-content] text-center"
+            style={{ fontFamily: defaultCard.fontFamily || "Montserrat" }}
+          >
             {defaultCard.frontText || "Your name here"}
           </div>
         )}
@@ -77,6 +84,7 @@ function Component() {
             <Button className="gradient_btn">Xem trước</Button>
           </div>
           <PackageSeletion />
+          <Profile />
         </div>
       </div>
     );
@@ -98,17 +106,16 @@ function Component() {
       <div className="flex md:hidden">{portraitLayout()}</div>
 
       <div className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-10">
-            <div
-              style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
-              className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
-            >
-              <Icon
-                className="text-lg text-primary-blue-medium"
-                icon="tabler:check"
-              />
-            </div>
-          </div>
-       
+        <div
+          style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
+          className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
+        >
+          <Icon
+            className="text-lg text-primary-blue-medium"
+            icon="tabler:check"
+          />
+        </div>
+      </div>
     </div>
   );
 }

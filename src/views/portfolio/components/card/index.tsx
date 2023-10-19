@@ -52,12 +52,12 @@ function handleAddCard(){
     );
   }
   return (
-    <div className="relative flex justify-center <xs:!h-[320px] h-[30vh] bg-[#18191A]">
+    <div className="relative flex justify-center h-[320px] bg-[#18191A]">
       <Swiper
         className=" z-1"
         slidesPerView={1}
         pagination={true}
-        modules={[Autoplay, Pagination]}
+        modules={[ Pagination]}
         onSlideChange={getCurrentCard}
         autoplay={{
           delay: 5000,
