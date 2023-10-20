@@ -71,6 +71,11 @@ function Component() {
     return (
       <div className="flex flex-col items-center w-full ">
         <div className="sticky top-0 z-20 flex justify-center w-full p-3 backdrop-blur h-52">
+          <Icon
+            className="absolute top-[33px] z-50 cursor-pointer text-lg 3xs:left-3  text-white"
+            icon="ep:back"
+            onClick={handleBack}
+          />
           {card()}
         </div>
         <div className="w-full px-5 py-5 space-y-3 sm:w-2/3">
@@ -91,11 +96,6 @@ function Component() {
   }
   return (
     <div className="relative">
-      <Icon
-        className="absolute top-[33px] z-50 cursor-pointer text-lg 3xs:left-3  text-white"
-        icon="ep:back"
-        onClick={handleBack}
-      />
       {/* MÀN HÌNH FULL */}
       <div className="hidden md:flex">
         {/* {landscapeLayout()} */}
