@@ -69,7 +69,7 @@ function handleAddCard(){
             <SwiperSlide className="!flex flex-col justify-center items-center space-y-4 py-3 !bg-[inherit] !h-[inherit]">
               {Card(item)}
               {/* Action */}
-              <div className="flex space-x-8">
+              {userInfo.isOwner && <div className="flex space-x-8">
                 <div className="cursor-pointer flex items-center space-x-1 bg-opacity-20 text-[12px] font-semibold bg-white text-white border-white border rounded-lg px-[9px] py-[6px]" onClick={() => {handleAddCard()}}>
                   <img
                     src={IcCard}
@@ -87,7 +87,7 @@ function handleAddCard(){
                     className="!w-[18px] !h-[18px] text-[#EB5757]"
                   />
                 </div>
-              </div>
+              </div>}
             </SwiperSlide>
           </div>
         ))}

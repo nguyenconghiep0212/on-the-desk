@@ -148,7 +148,7 @@ function Portfolio() {
           </div>
         </div>
       </div>
-      {userInfo.isOwner && isEdit ? (
+      {userInfo.isOwner && (isEdit ? (
         <div className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-10 space-y-1">
           <div
             style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
@@ -189,7 +189,7 @@ function Portfolio() {
             />
           </div>
         </div>
-      )}
+      ))}
 
       <div className="z-50 sticky bottom-0 w-[100vw] desktop:-translate-x-1/6 backdrop-blur">
         <Footer />
