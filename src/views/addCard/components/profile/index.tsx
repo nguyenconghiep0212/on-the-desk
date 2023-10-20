@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 import { selectedPackage as selectedPackageAtom } from "store/addCard";
 import DynamicComponent from "./dynamicComponents";
 import { COMPONENT } from "interface/component";
-
+import Logo from "assests/landing/logo.svg";
 function Component() {
   const [selectedPackage] = useRecoilState(selectedPackageAtom);
   const [packageComponents, setPackageComponents] = useState<COMPONENT[]>([]);
@@ -29,6 +29,15 @@ function Component() {
   }, [selectedPackage]);
   return (
     <div>
+      <div
+        id="background-cover"
+        className="flex items-center justify-center w-full opacity-50 aspect-video"
+      >
+        <img src={Logo} alt="Logo" className="w-1/4" />
+      </div>
+      <div className="w-full">
+        <img src={Logo} alt="Logo" />
+      </div>
       {packageComponents.map((item) => (
         <div className="p-3 rounded-2xl w-full bg-[#1E2530]">
           <DynamicComponent is={item.key} alias={item.config.alias} />
