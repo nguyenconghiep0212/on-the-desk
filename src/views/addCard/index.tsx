@@ -58,7 +58,7 @@ function Component() {
     );
   }
 
-  function landscapeLayout() {
+  function desktopLayout() {
     return (
       <div className="flex">
         <div className="w-1/3">{card()}</div>
@@ -67,7 +67,7 @@ function Component() {
     );
   }
 
-  function portraitLayout() {
+  function mobileLayout() {
     return (
       <div className="flex flex-col items-center w-full ">
         <div className="sticky top-0 z-20 flex justify-center w-full p-3 backdrop-blur h-52">
@@ -98,12 +98,12 @@ function Component() {
     <div className="relative">
       {/* MÀN HÌNH FULL */}
       <div className="hidden md:flex">
-        {/* {landscapeLayout()} */}
-        {portraitLayout()}
+        {/* {desktopLayout()} */}
+        {mobileLayout()}
       </div>
 
       {/* MÀN HÌNH THU GỌN */}
-      <div className="flex md:hidden">{portraitLayout()}</div>
+      <div className="flex md:hidden">{mobileLayout()}</div>
 
       <div className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-10">
         <div

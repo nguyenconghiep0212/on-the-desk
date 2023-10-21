@@ -144,6 +144,7 @@ function Login() {
             onChange={(e) => {
               loginCred.username = e.target.value;
             }}
+            onPressEnter={() => {handleLogin();}}
           />
           <Input.Password
             prefix={<img src={IcLock} alt="password" />}
@@ -151,6 +152,7 @@ function Login() {
             onChange={(e) => {
               loginCred.password = e.target.value;
             }}
+            onPressEnter={() => {handleLogin();}}
           />
           {isSignUp && (
             <Input.Password
@@ -207,6 +209,7 @@ function Login() {
             onClick={() => {
               handleLoginWithGoogle();
             }}
+           
           >
             <div className="flex items-center justify-center space-x-2">
               <img src={LogoGoogle} alt="LogoGoogle" />

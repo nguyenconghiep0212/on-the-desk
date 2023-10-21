@@ -1,0 +1,18 @@
+.ant-input-number{
+    border-radius: 8px;
+    border: none;
+    background: #151B23;
+    letter-spacing: 0.025em;
+    width: 100%;
+    color: white;
+    box-shadow: 2px 2px 4px 0px #001940, -2px -2px 4px 0px rgba(60, 173, 255, 0.50);
+    &-input-wrap{
+        input{
+            color: inherit !important
+        }
+    }
+    &::placeholder{
+        color: rgba(255, 255, 255, 0.6) !important;
+    }
+}
+ 
