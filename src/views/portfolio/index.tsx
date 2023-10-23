@@ -133,6 +133,7 @@ function Portfolio() {
             background={userInfo.backgrounds}
             name={userInfo.name}
             description={userInfo.description}
+            isEdit={isEdit}
           />
           <div className="flex flex-col justify-center m-2 space-y-4 desktop:mx-0 ">
             {userPackage.map((e, index) => (
@@ -142,6 +143,7 @@ function Portfolio() {
                   alias={e.config.alias}
                   data={e.config.data}
                   userInfo={userInfo}
+                  isEdit={isEdit}
                 />
               </div>
             ))}

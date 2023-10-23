@@ -5,10 +5,27 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
+import IcCamera from "assests/icon/ic-camera-blue.svg";
+import { Input } from "antd";
 
-function SwiperMobile({ currentImg, getCurrentImg, background }) {
+function SwiperMobile({ currentImg, getCurrentImg, background, isEdit }) {
   return (
     <div className="relative flex justify-center w-full h-full bg-neutral-900 ">
+      {isEdit && (
+        <div
+          className="absolute z-20 flex items-center justify-center w-6 h-6 rounded cursor-pointer bottom-6 right-5"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.08) 100%)",
+          }}
+        >
+          <img
+            src={IcCamera}
+            alt="IcCamera"
+            className="text-primary-blue-dark "
+          />
+        </div>
+      )}
       <div
         className="w-full h-full"
         style={{
@@ -49,9 +66,24 @@ function SwiperMobile({ currentImg, getCurrentImg, background }) {
   );
 }
 
-function SwiperDesk({ currentImg, getCurrentImg, background }) {
+function SwiperDesk({ currentImg, getCurrentImg, background, isEdit }) {
   return (
     <div className="relative w-full h-full ">
+      {isEdit && (
+        <div
+          className="absolute z-20 flex items-center justify-center w-6 h-6 rounded cursor-pointer bottom-6 right-5"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.08) 100%)",
+          }}
+        >
+          <img
+            src={IcCamera}
+            alt="IcCamera"
+            className="text-primary-blue-dark "
+          />
+        </div>
+      )}
       <div
         className="sm:w-[300%] sm:-translate-x-1/2 h-full  "
         style={{
@@ -92,7 +124,7 @@ function SwiperDesk({ currentImg, getCurrentImg, background }) {
   );
 }
 
-function Header({ background, avatar, name, description }) {
+function Header({ background, avatar, name, description, isEdit }) {
   const [currentImg, setCurentImg] = useState(background[0]);
 
   function getCurrentImg(event) {
@@ -103,24 +135,62 @@ function Header({ background, avatar, name, description }) {
   }, [background]);
   return (
     <div className="relative flex justify-center <xs:!h-[320px] h-[40vh]">
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full ">
         {useCheckMobileScreen()
-          ? SwiperMobile({ currentImg, getCurrentImg, background })
-          : SwiperDesk({ currentImg, getCurrentImg, background })}
+          ? SwiperMobile({ currentImg, getCurrentImg, background, isEdit })
+          : SwiperDesk({ currentImg, getCurrentImg, background, isEdit })}
 
         <div className="flex items-center mx-2 <3xs:flex <3xs:flex-col <3xs:items-center -mt-8 desktop:-mt-10 z-10">
-          <img
-            src={avatar}
-            alt="Avatar"
-            className="z-10 w-24 rounded-full :h-24 desktop:w-32 desktop:h-32 "
-          />
+          <div className="relative">
+            <img
+              src={avatar}
+              alt="Avatar"
+              className="z-10 w-24 rounded-full :h-24 desktop:w-32 desktop:h-32 "
+            />
+            {isEdit && (
+              <div
+                className="absolute bottom-0 z-20 flex items-center justify-center w-6 h-6 rounded cursor-pointer right-2"
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.08) 100%)",
+                }}
+              >
+                <img
+                  src={IcCamera}
+                  alt="IcCamera"
+                  className="text-primary-blue-dark "
+                />
+              </div>
+            )}
+          </div>
+
           <div className="flex flex-col <3xs:items-center <3xs:w-full <3xs:mt-2 mt-8 ml-4 space-y-1 ">
-            <span className="<xs:text-base 	 text-lg username-desktop">
-              {name}
-            </span>
-            <span className="text-[12px] font-thin <3xs:text-center description-desktop">
-              {description}
-            </span>
+            {isEdit ? (
+              <div>
+                <Input
+                  value={name}
+                  bordered={false}
+                  className="px-0 <xs:text-base text-lg username-desktop"
+                />
+              </div>
+            ) : (
+              <span className="<xs:text-base text-lg username-desktop">
+                {name}
+              </span>
+            )}
+            {isEdit ? (
+              <div>
+                <Input
+                  value={description}
+                  bordered={false}
+                  className="px-0 text-[12px] font-thin description-desktop"
+                />
+              </div>
+            ) : (
+              <span className="text-[12px] font-thin <3xs:text-center description-desktop">
+                {description}
+              </span>
+            )}
           </div>
         </div>
       </div>
