@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { platforms, keyToUrl } from "./platforms";
 import SaveToContact from "assests/portfolio/save_to_contact.svg";
 import { EditDnD, onOpenContact } from "./dragAndDrop";
+import { Icon } from "@iconify/react";
 // import { getBase64FromUrl } from "helper/formatImage";
 
 function Contact({ alias, data, userInfo, isEdit }) {
@@ -79,7 +80,11 @@ function Contact({ alias, data, userInfo, isEdit }) {
     <div className="my-3">
       <div className="">
         {isEdit ? (
-          <div>
+          <div className="space-y-2">
+            <div className="border border-white border-dashed rounded-lg p-[6px] text-white flex items-center space-x-3 cursor-pointer">
+              <Icon icon="tabler:plus" className="w-6 h-6 " />
+              <span className="text-[12px] tracking-wide">Thêm mới</span>
+            </div>
             {EditDnD({ data })}
             {saveContact()}
           </div>
