@@ -69,15 +69,18 @@ function Gallery({ alias, data, userInfo }) {
   async function getGalleryData() {
     const res = await getGalleryByUserId(userInfo.shortcut);
     if (res) {
-      setAllGallery(res.data.gals);
-      handleClickFilterTag("all");
-      const filter = [
-        { key: "all", alias: "Filter off" },
-        res.data.topics.map((e) => {
-          return { key: e, alias: e };
-        }),
-      ].flat();
-      setFilterTag(filter);
+      if (res.data) {
+        setAllGallery(res.data.gals);
+        handleClickFilterTag("all");
+        const filter = [
+          { key: "all", alias: "Filter off" },
+          res.data.topics.map((e) => {
+            return { key: e, alias: e };
+          }),
+        ].flat();
+        setFilterTag(filter);
+      } else {
+      }
     }
   }
   useEffect(() => {

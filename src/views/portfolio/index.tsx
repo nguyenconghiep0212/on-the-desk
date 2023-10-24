@@ -54,17 +54,21 @@ function Portfolio() {
           await handleGetComponentFromPackage();
           const temp = userPackage.find((e) => e.key === "contact");
           if (temp) {
-            temp.config.data = userInfo.contacts.map((e) => {
-              return {
-                url: e.contactValue,
-                platform: e.platformKey,
-                name: userInfo.name,
-              };
-            });
+            if (userInfo.contacts) {
+              temp.config.data = userInfo.contacts.map((e) => {
+                return {
+                  url: e.contactValue,
+                  platform: e.platformKey,
+                  name: userInfo.name,
+                };
+              });
+            } else {
+              temp.config.data = [];
+            }
           }
         }
       } catch (e) {
-        console.error('error profile: ',e)
+        console.error("error profile: ", e);
         messageApi.open({
           type: "error",
           content: "Người dùng không tồn tại, quay trở lại trang chủ...",
@@ -102,7 +106,9 @@ function Portfolio() {
   useEffect(() => {
     handleGetUserProfile();
   }, []);
-  useEffect(() => {}, [userInfo, isEdit]);
+  useEffect(() => {
+    console.log("userInfo:", userInfo);
+  }, [userInfo, isEdit]);
   return (
     <div className="relative flex flex-col items-center w-full h-[max-content] ">
       {contextHolder}
@@ -129,13 +135,7 @@ function Portfolio() {
 
           {/*  */}
           <Card userInfo={userInfo} />
-          <Header
-            avatar={userInfo.avatar}
-            background={userInfo.backgrounds || []}
-            name={userInfo.name}
-            description={userInfo.description}
-            isEdit={isEdit}
-          />
+          <Header userInfo={userInfo} isEdit={isEdit} />
           <div className="flex flex-col justify-center m-2 space-y-4 desktop:mx-0 ">
             {userPackage.map((e, index) => (
               <div key={index} className="p-3 rounded-2xl w-full bg-[#1E2530]">
@@ -151,48 +151,49 @@ function Portfolio() {
           </div>
         </div>
       </div>
-      {userInfo.isOwner && (isEdit ? (
-        <div className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-10 space-y-1">
+      {userInfo.isOwner &&
+        (isEdit ? (
+          <div className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-50 space-y-1">
+            <div
+              style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
+              className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
+              onClick={() => {
+                setIsEdit(false);
+              }}
+            >
+              <Icon
+                className="text-lg text-[#EB5757]"
+                icon="tabler:arrow-left"
+              />
+            </div>
+            <div
+              style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
+              className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
+            >
+              <Icon
+                className="text-lg text-primary-blue-medium"
+                icon="tabler:check"
+              />
+            </div>
+          </div>
+        ) : (
           <div
-            style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
-            className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
+            className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-50"
             onClick={() => {
-              setIsEdit(false);
+              setIsEdit(true);
             }}
           >
-            <Icon
-              className="text-lg text-[#EB5757]"
-              icon="tabler:arrow-left"
-            />
+            <div
+              style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
+              className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
+            >
+              <Icon
+                className="text-lg text-primary-blue-medium"
+                icon="tabler:edit"
+              />
+            </div>
           </div>
-          <div
-            style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
-            className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
-          >
-            <Icon
-              className="text-lg text-primary-blue-medium"
-              icon="tabler:check"
-            />
-          </div>
-        </div>
-      ) : (
-        <div
-          className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-10"
-          onClick={() => {
-            setIsEdit(true);
-          }}
-        >
-          <div
-            style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
-            className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
-          >
-            <Icon
-              className="text-lg text-primary-blue-medium"
-              icon="tabler:edit"
-            />
-          </div>
-        </div>
-      ))}
+        ))}
 
       <div className="z-50 sticky bottom-0 w-[100vw] desktop:-translate-x-1/6 backdrop-blur">
         <Footer />

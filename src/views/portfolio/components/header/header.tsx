@@ -7,8 +7,8 @@ import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
 import IcCamera from "assests/icon/ic-camera-blue.svg";
 import { Input } from "antd";
-
-function SwiperMobile({ currentImg, getCurrentImg, background, isEdit }) {
+import Logo from "assests/landing/logo.svg";
+function SwiperMobile({ currentImg, getCurrentImg, userInfo, isEdit }) {
   return (
     <div className="relative flex justify-center w-full h-full bg-neutral-900 ">
       {isEdit && (
@@ -26,14 +26,16 @@ function SwiperMobile({ currentImg, getCurrentImg, background, isEdit }) {
           />
         </div>
       )}
-      <div
-        className="w-full h-full"
-        style={{
-          backgroundImage: `url(${currentImg})`,
-          WebkitFilter: `blur(24px)`,
-          boxShadow: "inset 0px -70px 45px -45px #18191A",
-        }}
-      ></div>
+      {userInfo.background && (
+        <div
+          className="w-full h-full"
+          style={{
+            backgroundImage: `url(${currentImg})`,
+            WebkitFilter: `blur(24px)`,
+            boxShadow: "inset 0px -70px 45px -45px #18191A",
+          }}
+        />
+      )}
       <div className="z-1 h-full w-full lg:!w-3/4 <3xs:!w-3/4 !absolute top-1/2 -translate-y-1/2">
         <Swiper
           className=""
@@ -46,27 +48,30 @@ function SwiperMobile({ currentImg, getCurrentImg, background, isEdit }) {
             disableOnInteraction: false,
           }}
         >
-          {background.map((e, index) => (
-            <SwiperSlide key={index} className="!h-[inherit] !bg-[inherit]">
+          <SwiperSlide className="!h-[inherit] !bg-[inherit]">
+            {userInfo.background ? (
               <div
                 className="w-full h-full"
                 style={{
-                  // backgroundColor: 'white',
-                  backgroundImage: `url(${e})`,
+                  backgroundImage: `url(${userInfo.background[0]})`,
                   backgroundPosition: "center",
                   backgroundSize: "cover",
                   boxShadow: "inset   0px -70px 45px -45px  #18191A",
                 }}
-              ></div>
-            </SwiperSlide>
-          ))}
+              />
+            ) : (
+              <div className="flex items-center justify-center h-full opacity-50">
+                <img src={Logo} alt="Logo" className="!w-min !h-1/2" />
+              </div>
+            )}
+          </SwiperSlide>
         </Swiper>
       </div>
     </div>
   );
 }
 
-function SwiperDesk({ currentImg, getCurrentImg, background, isEdit }) {
+function SwiperDesk({ currentImg, getCurrentImg, userInfo, isEdit }) {
   return (
     <div className="relative w-full h-full ">
       {isEdit && (
@@ -84,19 +89,22 @@ function SwiperDesk({ currentImg, getCurrentImg, background, isEdit }) {
           />
         </div>
       )}
-      <div
-        className="sm:w-[300%] sm:-translate-x-1/2 h-full  "
-        style={{
-          backgroundImage: `url(${currentImg})`,
-          WebkitFilter: `blur(24px)`,
-          backgroundPosition: "center",
-          backgroundSize: "fit",
-          boxShadow: "inset 0px -100px 15px -45px #18191A",
-        }}
-      ></div>
+
+      {userInfo.background && (
+        <div
+          className="sm:w-[300%] sm:-translate-x-1/2 h-full  "
+          style={{
+            backgroundImage: `url(${currentImg})`,
+            WebkitFilter: `blur(24px)`,
+            backgroundPosition: "center",
+            backgroundSize: "fit",
+            boxShadow: "inset 0px -100px 15px -45px #18191A",
+          }}
+        />
+      )}
 
       <Swiper
-        className="   z-1   !absolute top-1/2 -translate-y-1/2  "
+        className=" z-1 !absolute top-1/2 -translate-y-1/2  "
         slidesPerView={1}
         pagination={true}
         modules={[Autoplay, Pagination]}
@@ -106,44 +114,50 @@ function SwiperDesk({ currentImg, getCurrentImg, background, isEdit }) {
           disableOnInteraction: false,
         }}
       >
-        {background.map((e, index) => (
-          <SwiperSlide key={index} className="!h-[inherit] !bg-[inherit]">
+        <SwiperSlide className="!h-[inherit] !bg-[inherit]">
+          {userInfo.background ? (
             <div
               className="w-full h-full"
               style={{
-                backgroundImage: `url(${e})`,
+                backgroundImage: `url(${userInfo.background[0]})`,
                 backgroundPosition: "center",
                 backgroundSize: "cover",
                 boxShadow: "inset 0px -70px 45px -45px #18191A",
               }}
-            ></div>
-          </SwiperSlide>
-        ))}
+            />
+          ) : (
+            <div className="flex items-center justify-center h-full opacity-50">
+              <img src={Logo} alt="Logo" className=" !h-1/2 !w-min" />
+            </div>
+          )}
+        </SwiperSlide>
       </Swiper>
     </div>
   );
 }
 
-function Header({ background , avatar, name, description, isEdit }) {
-  const [currentImg, setCurentImg] = useState(background[0]  );
+function Header({ userInfo, isEdit }) {
+  const [currentImg, setCurentImg] = useState(
+    userInfo.background ? userInfo.background[0] : Logo
+  );
 
   function getCurrentImg(event) {
-    setCurentImg(background[event.activeIndex]);
+    setCurentImg(userInfo.background[event.activeIndex]);
   }
   useEffect(() => {
-    setCurentImg(background[0]);
-  }, [background]);
+    setCurentImg(userInfo.background ? userInfo.background[0] : Logo);
+  }, [userInfo.background]);
   return (
     <div className="relative flex justify-center <xs:!h-[320px] h-[40vh]">
       <div className="flex flex-col w-full ">
         {useCheckMobileScreen()
-          ? SwiperMobile({ currentImg, getCurrentImg, background, isEdit })
-          : SwiperDesk({ currentImg, getCurrentImg, background, isEdit })}
+          ? SwiperMobile({ currentImg, getCurrentImg, userInfo, isEdit })
+          : SwiperDesk({ currentImg, getCurrentImg, userInfo, isEdit })}
 
         <div className="flex items-center mx-2 <3xs:flex <3xs:flex-col <3xs:items-center -mt-8 desktop:-mt-10 z-10">
           <div className="relative">
             <img
-              src={avatar}
+              src={userInfo.avatar}
               alt="Avatar"
               className="z-10 w-24 rounded-full :h-24 desktop:w-32 desktop:h-32 "
             />
@@ -168,31 +182,30 @@ function Header({ background , avatar, name, description, isEdit }) {
             {isEdit ? (
               <div>
                 <Input
-                  value={name}
+                  value={userInfo.name}
                   bordered={false}
                   className="px-0 <xs:text-base text-lg username-desktop"
                   onChange={(e) => {
-                    console.log(e)
-                    name = e.target.value
+                    console.log(e);
                   }}
                 />
               </div>
             ) : (
               <span className="<xs:text-base text-lg username-desktop">
-                {name}
+                {userInfo.name}
               </span>
             )}
             {isEdit ? (
               <div>
                 <Input
-                  value={description}
+                  value={userInfo.description}
                   bordered={false}
                   className="px-0 text-[12px] font-thin description-desktop"
                 />
               </div>
             ) : (
               <span className="text-[12px] font-thin <3xs:text-center description-desktop">
-                {description}
+                {userInfo.description}
               </span>
             )}
           </div>
