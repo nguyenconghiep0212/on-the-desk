@@ -64,6 +64,7 @@ function Portfolio() {
           }
         }
       } catch (e) {
+        console.error('error profile: ',e)
         messageApi.open({
           type: "error",
           content: "Người dùng không tồn tại, quay trở lại trang chủ...",
@@ -130,7 +131,7 @@ function Portfolio() {
           <Card userInfo={userInfo} />
           <Header
             avatar={userInfo.avatar}
-            background={userInfo.backgrounds}
+            background={userInfo.backgrounds || []}
             name={userInfo.name}
             description={userInfo.description}
             isEdit={isEdit}

@@ -124,8 +124,8 @@ function SwiperDesk({ currentImg, getCurrentImg, background, isEdit }) {
   );
 }
 
-function Header({ background, avatar, name, description, isEdit }) {
-  const [currentImg, setCurentImg] = useState(background[0]);
+function Header({ background , avatar, name, description, isEdit }) {
+  const [currentImg, setCurentImg] = useState(background[0]  );
 
   function getCurrentImg(event) {
     setCurentImg(background[event.activeIndex]);
@@ -171,6 +171,10 @@ function Header({ background, avatar, name, description, isEdit }) {
                   value={name}
                   bordered={false}
                   className="px-0 <xs:text-base text-lg username-desktop"
+                  onChange={(e) => {
+                    console.log(e)
+                    name = e.target.value
+                  }}
                 />
               </div>
             ) : (
