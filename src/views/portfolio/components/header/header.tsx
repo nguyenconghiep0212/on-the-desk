@@ -157,7 +157,7 @@ function Header({ userInfo, isEdit }) {
         <div className="flex items-center mx-2 <3xs:flex <3xs:flex-col <3xs:items-center -mt-8 desktop:-mt-10 z-10">
           <div className="relative">
             <img
-              src={userInfo.avatar}
+              src={userInfo.avatar || Logo}
               alt="Avatar"
               className="z-10 w-24 rounded-full :h-24 desktop:w-32 desktop:h-32 "
             />
