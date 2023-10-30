@@ -7,6 +7,14 @@ export function getUserProfile(id: string) {
   });
 }
 
+export function updateUserProfile(params: any) {
+  return http({
+    method: "post",
+    url: `/api/users/crudu/${params.id}`,
+    data: params
+  });
+}
+
 export function getComponentFromPackage(id: string) {
   return http({
     method: "get",

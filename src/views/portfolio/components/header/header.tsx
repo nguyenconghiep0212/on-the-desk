@@ -136,7 +136,7 @@ function SwiperDesk({ currentImg, getCurrentImg, userInfo, isEdit }) {
   );
 }
 
-function Header({ userInfo, isEdit }) {
+function Header({ userInfo, setUserInfo, isEdit }) {
   const [currentImg, setCurentImg] = useState(
     userInfo.background ? userInfo.background[0] : Logo
   );
@@ -186,7 +186,7 @@ function Header({ userInfo, isEdit }) {
                   bordered={false}
                   className="px-0 <xs:text-base text-lg username-desktop"
                   onChange={(e) => {
-                    console.log(e);
+                    setUserInfo({ ...userInfo, name: e.target.value });
                   }}
                 />
               </div>
@@ -201,6 +201,9 @@ function Header({ userInfo, isEdit }) {
                   value={userInfo.description}
                   bordered={false}
                   className="px-0 text-[12px] font-thin description-desktop"
+                  onChange={(e) => {
+                    setUserInfo({ ...userInfo, description: e.target.value });
+                  }}
                 />
               </div>
             ) : (

@@ -121,7 +121,7 @@ export function EditDnD({ data }) {
                         </div>
                       </div>
                       <div className="flex items-center justify-center w-6">
-                        <Icon className="text-[#EB5757]" icon="tabler:trash"/>
+                        <Icon className="text-[#EB5757]" icon="tabler:trash" />
                       </div>
                     </div>
                   </div>

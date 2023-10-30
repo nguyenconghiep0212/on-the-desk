@@ -5,7 +5,7 @@ import { EditDnD, onOpenContact } from "./dragAndDrop";
 import { Icon } from "@iconify/react";
 // import { getBase64FromUrl } from "helper/formatImage";
 
-function Contact({ alias, data, userInfo, isEdit }) {
+function Contact({ data, userInfo, isEdit }) {
   console.log("userInfo", userInfo);
   async function generateVCF() {
     const vcard = {

@@ -7,7 +7,11 @@ import IconAccount from "assests/icon/ic-account.svg";
 import { USER_INFO, USER_PACKAGE } from "interface/user.ts";
 
 // API
-import { getUserProfile, getComponentFromPackage } from "api/index.ts";
+import {
+  getUserProfile,
+  updateUserProfile,
+  getComponentFromPackage,
+} from "api/index.ts";
 
 // COMPONENT
 import Header from "./components/header/header.tsx";
@@ -39,6 +43,7 @@ function Portfolio() {
       packageName: "",
     },
   });
+  let [originalUserInfo, setOriginalUserInfo] = useState({});
   let [userPackage, setUserPackage] = useState<USER_PACKAGE[]>([]);
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
@@ -50,7 +55,9 @@ function Portfolio() {
         const res = await getUserProfile(routeParams.userId);
         if (res) {
           userInfo = res.data;
+          originalUserInfo = res.data;
           setUserInfo(userInfo);
+          setOriginalUserInfo(originalUserInfo);
           await handleGetComponentFromPackage();
           const temp = userPackage.find((e) => e.key === "contact");
           if (temp) {
@@ -103,6 +110,23 @@ function Portfolio() {
     }
   }
 
+  function handleCancelChange() {
+    setIsEdit(false);
+    setUserInfo(originalUserInfo);
+  }
+
+  async function handleAcceptChange() {
+    // Call update user info
+    try {
+      const res = await updateUserProfile(userInfo);
+      if (res) {
+        message.success("Cập nhật tài khoản thành công");
+      }
+    } catch (error) {
+      message.error("Cập nhật thất bại, vui lòng thử lại sau");
+      console.error("Lỗi cập nhật profile:", error);
+    }
+  }
   useEffect(() => {
     handleGetUserProfile();
   }, []);
@@ -135,7 +159,11 @@ function Portfolio() {
 
           {/*  */}
           <Card userInfo={userInfo} />
-          <Header userInfo={userInfo} isEdit={isEdit} />
+          <Header
+            userInfo={userInfo}
+            setUserInfo={setUserInfo}
+            isEdit={isEdit}
+          />
           <div className="flex flex-col justify-center m-2 space-y-4 desktop:mx-0 ">
             {userPackage.map((e, index) => (
               <div key={index} className="p-3 rounded-2xl w-full bg-[#1E2530]">
@@ -145,6 +173,7 @@ function Portfolio() {
                   data={e.config.data}
                   userInfo={userInfo}
                   isEdit={isEdit}
+                  setUserInfo={setUserInfo}
                 />
               </div>
             ))}
@@ -158,7 +187,7 @@ function Portfolio() {
               style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
               className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
               onClick={() => {
-                setIsEdit(false);
+                handleCancelChange();
               }}
             >
               <Icon
@@ -169,6 +198,9 @@ function Portfolio() {
             <div
               style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
               className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
+              onClick={() => {
+                handleAcceptChange();
+              }}
             >
               <Icon
                 className="text-lg text-primary-blue-medium"
