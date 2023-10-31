@@ -15,7 +15,7 @@ function SwiperMobile({ currentImg, getCurrentImg, userInfo, isEdit }) {
         <div
           className="absolute z-20 flex items-center justify-center w-6 h-6 rounded cursor-pointer bottom-6 right-5"
           style={{
-            background:
+            backgrounds:
               "linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.08) 100%)",
           }}
         >
@@ -26,7 +26,7 @@ function SwiperMobile({ currentImg, getCurrentImg, userInfo, isEdit }) {
           />
         </div>
       )}
-      {userInfo.background && (
+      {userInfo.backgrounds && (
         <div
           className="w-full h-full"
           style={{
@@ -49,11 +49,11 @@ function SwiperMobile({ currentImg, getCurrentImg, userInfo, isEdit }) {
           }}
         >
           <SwiperSlide className="!h-[inherit] !bg-[inherit]">
-            {userInfo.background ? (
+            {userInfo.backgrounds ? (
               <div
                 className="w-full h-full"
                 style={{
-                  backgroundImage: `url(${userInfo.background[0]})`,
+                  backgroundImage: `url(${userInfo.backgrounds[0]})`,
                   backgroundPosition: "center",
                   backgroundSize: "cover",
                   boxShadow: "inset   0px -70px 45px -45px  #18191A",
@@ -78,7 +78,7 @@ function SwiperDesk({ currentImg, getCurrentImg, userInfo, isEdit }) {
         <div
           className="absolute z-20 flex items-center justify-center w-6 h-6 rounded cursor-pointer bottom-6 right-5"
           style={{
-            background:
+            backgrounds:
               "linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.08) 100%)",
           }}
         >
@@ -90,7 +90,7 @@ function SwiperDesk({ currentImg, getCurrentImg, userInfo, isEdit }) {
         </div>
       )}
 
-      {userInfo.background && (
+      {userInfo.backgrounds && (
         <div
           className="sm:w-[300%] sm:-translate-x-1/2 h-full  "
           style={{
@@ -115,11 +115,11 @@ function SwiperDesk({ currentImg, getCurrentImg, userInfo, isEdit }) {
         }}
       >
         <SwiperSlide className="!h-[inherit] !bg-[inherit]">
-          {userInfo.background ? (
+          {userInfo.backgrounds ? (
             <div
               className="w-full h-full"
               style={{
-                backgroundImage: `url(${userInfo.background[0]})`,
+                backgroundImage: `url(${userInfo.backgrounds[0]})`,
                 backgroundPosition: "center",
                 backgroundSize: "cover",
                 boxShadow: "inset 0px -70px 45px -45px #18191A",
@@ -138,15 +138,15 @@ function SwiperDesk({ currentImg, getCurrentImg, userInfo, isEdit }) {
 
 function Header({ userInfo, setUserInfo, isEdit }) {
   const [currentImg, setCurentImg] = useState(
-    userInfo.background ? userInfo.background[0] : Logo
+    userInfo.backgrounds ? userInfo.backgrounds[0] : Logo
   );
-
+  console.log(userInfo);
   function getCurrentImg(event) {
-    setCurentImg(userInfo.background[event.activeIndex]);
+    setCurentImg(userInfo.backgrounds[event.activeIndex]);
   }
   useEffect(() => {
-    setCurentImg(userInfo.background ? userInfo.background[0] : Logo);
-  }, [userInfo.background]);
+    setCurentImg(userInfo.backgrounds ? userInfo.backgrounds[0] : Logo);
+  }, [userInfo.backgrounds]);
   return (
     <div className="relative flex justify-center <xs:!h-[320px] h-[40vh]">
       <div className="flex flex-col w-full ">
@@ -165,7 +165,7 @@ function Header({ userInfo, setUserInfo, isEdit }) {
               <div
                 className="absolute bottom-0 z-20 flex items-center justify-center w-6 h-6 rounded cursor-pointer right-2"
                 style={{
-                  background:
+                  backgrounds:
                     "linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.08) 100%)",
                 }}
               >

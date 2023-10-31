@@ -3,13 +3,14 @@ import DefaultCardLogo from "assests/card/default_card_logo.svg";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
-import { Button, Modal } from "antd";
+import { Button, Modal, QRCode } from "antd";
 import "./index.scss";
 // ICON
 import DefaultQR from "assests/card/default-qr.svg";
 import SignalRight from "assests/card/signal-right.svg";
 import SignalLeft from "assests/card/signal-left.svg";
 import Banner from "assests/card/banner-ext.svg";
+import Logo_SVG from "assests/landing/logo.svg";
 
 // STORE
 import { card as storeCard } from "store/addCard";
@@ -21,8 +22,11 @@ import FrontText from "./components/frontName";
 import BackText from "./components/backName";
 import PackageSeletion from "./components/packageSelection";
 import Profile from "./components/profile";
+import { isLogin } from "store/root";
 
 function Component() {
+  const [checkLogin] = useRecoilState(isLogin);
+
   const navigate = useNavigate();
   const [defaultCard] = useRecoilState(storeCard);
   const [previewVisible, setPreviewVisible] = useState(false);
@@ -76,7 +80,17 @@ function Component() {
           alt="SignalLeft"
           className="h-[15%] absolute top-1/2 -translate-y-full left-10"
         />
-        <img src={DefaultQR} alt="DefaultQR" className="h-1/2" />
+        {checkLogin ? (
+          <div className="h-1/2">
+            <QRCode
+              errorLevel="H"
+              value="https://ant.design/"
+              icon={Logo_SVG}
+            />
+          </div>
+        ) : (
+          <img src={DefaultQR} alt="DefaultQR" className="h-1/2" />
+        )}
         <img
           src={SignalRight}
           alt="SignalRight"
