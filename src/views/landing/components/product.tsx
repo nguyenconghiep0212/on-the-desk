@@ -226,7 +226,7 @@ const Instruction = ({ innerRef }) => {
       <div className="w-full bg-shadow">
         <div className="overflow-x-auto rounded-lg">
           <Radio.Group
-            className="flex xs:w-full   <xs:w-[510px] xs:justify-center"
+            className="flex xs:w-full <xs:w-[510px] xs:justify-center"
             defaultValue="smart_card"
             buttonStyle="solid"
             onChange={() => {}}

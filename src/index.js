@@ -17,7 +17,7 @@ import ErrorPage from "./routes/error-page";
 import Login from "./routes/login";
 import Admin from "./routes/admin";
 import Middleware from "./routes/middleware";
-import AddCard from './routes/add-card'
+import AddCard from "./routes/add-card";
 import { Helmet } from "react-helmet";
 // STORE
 import { RecoilRoot } from "recoil";
@@ -54,6 +54,11 @@ const RouterBuilder = () => {
     {
       path: "/:userId",
       element: <Portfolio />,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: "/addCard",
+      element: <AddCard />,
       errorElement: <ErrorPage />,
     },
     {
