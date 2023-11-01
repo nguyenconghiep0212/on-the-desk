@@ -237,8 +237,7 @@ function Profile({ activeMenuEvent, isLogin, setIsLogin, activatedMenu }) {
   useEffect(() => {
     if (isLogin) {
       getUserProfile();
-    }
-    console.log("isLogin", isLogin);
+    } 
   }, [isLogin]);
   useEffect(() => {}, [userInfo]);
   const signin = (

@@ -60,15 +60,15 @@ function Component() {
       try {
         const res = await createCard(defaultCard);
         if (res) {
-          message.success('Tạo thẻ thành công')
+          message.success("Tạo thẻ thành công");
           handleBack();
         }
       } catch (error) {
-        message.error('Tạo thẻ thất bại, vui lòng thử lại hoặc liên hệ chúng tôi')
+        message.error(
+          "Tạo thẻ thất bại, vui lòng thử lại hoặc liên hệ chúng tôi"
+        );
         console.error("Lỗi tạo thẻ:", error);
       }
-
-      console.log("new card");
     }
   }
   useEffect(() => {

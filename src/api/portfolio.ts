@@ -1,4 +1,5 @@
 import http from "helper/request";
+import httpUpload from "helper/requestFile";
 
 export function getUserProfile(id: string) {
   return http({
@@ -9,8 +10,8 @@ export function getUserProfile(id: string) {
 
 export function updateUserProfile(params: any) {
   return http({
-    method: "post",
-    url: `/api/users/crudu/${params.id}`,
+    method: "put",
+    url: `/api/users/crudu`,
     data: params
   });
 }
@@ -19,5 +20,13 @@ export function getComponentFromPackage(id: string) {
   return http({
     method: "get",
     url: `/api/packagecomponent/getcompnents/${id}`,
+  });
+}
+
+export function uploadFile(data: any) {
+  return httpUpload({
+    method: "post",
+    url: `/api/card/uploadimg`,
+    data
   });
 }

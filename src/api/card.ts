@@ -1,5 +1,6 @@
 import http from "helper/request";
-
+import httpQR from 'helper/requestQR'
+import { GEN_QR } from "interface/card";
 export function getCardByUserProfile() {
   return http({
     method: "get",
@@ -30,3 +31,10 @@ export function uploadImagesCard(params: any) {
   });
 }
 
+export function generateBankQR(params: GEN_QR) {
+  return httpQR({
+    method: "post",
+    url: `https://api.vietqr.io/v2/generate`,
+    data: params
+  });
+}

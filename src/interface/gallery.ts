@@ -8,7 +8,26 @@ export interface GALLERY {
   customerAvatar?: any;
   topics: string[]; // req
 }
+export interface UPDATE_GALLERY {
+  id: string;
+  customerId: string;
+  customerName: string;
+  index: number;
+  name: string;
+  data: GALLERY_DATA[];
+  thumb: string;
+  topics: string[];
+  shortcut: string;
+}
 
+interface GALLERY_DATA {
+  name: string;
+  ref: string;
+  caption: string;
+  index: number;
+  dimension: string;
+  sizeOnDisk: number;
+}
 
 export interface GALLERY_CUSTOMER {
   customerShortcut: string;

@@ -121,6 +121,7 @@ function Portfolio() {
       const res = await updateUserProfile(userInfo);
       if (res) {
         message.success("Cập nhật tài khoản thành công");
+        setIsEdit(false);
       }
     } catch (error) {
       message.error("Cập nhật thất bại, vui lòng thử lại sau");

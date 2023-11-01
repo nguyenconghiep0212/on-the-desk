@@ -749,8 +749,7 @@ function Register({ innerRef, packages }) {
     return { value: item.id, label: item.name };
   });
 
-  function handleRegister() {
-    console.log("form", form);
+  function handleRegister() { 
   }
   useEffect(() => {}, [form]);
   return (

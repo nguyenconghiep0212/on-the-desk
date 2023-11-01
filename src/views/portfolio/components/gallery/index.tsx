@@ -5,9 +5,21 @@ import "./index.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatNumber } from "helper/formatNumber.ts";
 import { getGalleryByUserId } from "api";
-import { GALLERY } from "interface/gallery";
+import { GALLERY, UPDATE_GALLERY } from "interface/gallery";
+import { Button, Input, Modal, Upload, UploadProps } from "antd";
 
-function Gallery({ alias, data, userInfo }) {
+function Gallery({ alias, data, userInfo, isEdit }) {
+  const [updateGallery, setUpdateGallery] = useState<UPDATE_GALLERY>({});
+  const [addVisible, setAddVisible] = useState(false);
+  const { Dragger } = Upload;
+  const props: UploadProps = {
+    name: "file",
+    multiple: true,
+    action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
+    onDrop(e) {
+      console.log("Dropped files", e.dataTransfer.files);
+    },
+  };
   const [isAllFilter, setIsAllFilter] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
@@ -17,7 +29,9 @@ function Gallery({ alias, data, userInfo }) {
     []
   );
   let [allGallery, setAllGallery] = useState<GALLERY[]>([]);
-
+  function addAlbumData() {
+    setAddVisible(true);
+  }
   function handleClickFilterTag(data: string) {
     if (data !== "all") {
       if (filteredTag.includes("all")) {
@@ -145,6 +159,52 @@ function Gallery({ alias, data, userInfo }) {
             <></>
           )}
         </div>
+        {isEdit && (
+          <div>
+            <div className="space-y-4">
+              <Dragger {...props}>
+                <p className="flex items-center justify-center space-x-1 text-sm font-semibold !text-white ant-upload-text">
+                  <Icon icon="tabler:plus" />
+                  <span> Chọn ảnh bìa</span>
+                </p>
+              </Dragger>
+              <Input placeholder="Tên album" bordered={false} className="p-0" />
+              <div className="cursor-pointer flex items-center justify-center px-3 py-1 text-white border border-white border-dashed rounded w-max text-[12px] space-x-1 font-semibold">
+                <Icon className="w-4 h-4" icon="tabler:plus" />
+                <span> Gắn thẻ</span>
+              </div>
+            </div>
+
+            <div className="text-right">
+              <Button
+                className="gradient_btn"
+                onClick={() => {
+                  addAlbumData();
+                }}
+              >
+                Thêm ảnh
+              </Button>
+            </div>
+            <Modal
+              className="modalFullScreen"
+              open={addVisible}
+              closeIcon={false}
+              footer={null}
+              afterClose={() => {
+                setAddVisible(false);
+              }}
+            >
+              <div className="relative flex flex-col items-center justify-center h-full">
+                <div
+                  className="absolute cursor-pointer top-5 right-5"
+                  onClick={() => setAddVisible(false)}
+                >
+                  <Icon className="w-5 h-5 text-white" icon="tabler:x" />
+                </div>
+              </div>
+            </Modal>
+          </div>
+        )}
         <div className="grid grid-cols-2 gap-4 3xl:grid-cols-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3">
           {filteredGallery.map((e, index) => (
             <div

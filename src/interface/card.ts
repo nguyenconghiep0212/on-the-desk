@@ -9,3 +9,13 @@ export interface CARD {
   backgroundImage: string | null;
   fontFamily: string | null;
 }
+
+
+export interface GEN_QR {
+  accountNo: string;
+  accountName: string;
+  acqId: string;
+  addInfo?: string;
+  amount?: string;
+  template: string;
+}

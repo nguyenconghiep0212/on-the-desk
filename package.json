@@ -34,6 +34,7 @@
     "sort-by": "^1.2.0",
     "swiper": "^10.2.0",
     "tailwindcss": "^3.3.3",
+    "vietqr": "^1.1.9",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

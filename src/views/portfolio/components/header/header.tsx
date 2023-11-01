@@ -6,25 +6,50 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
 import IcCamera from "assests/icon/ic-camera-blue.svg";
-import { Input } from "antd";
+import { Input, Upload, UploadProps } from "antd";
 import Logo from "assests/landing/logo.svg";
-function SwiperMobile({ currentImg, getCurrentImg, userInfo, isEdit }) {
+import { fileToBase64 } from "helper/convertToBase64";
+
+function SwiperMobile({
+  currentImg,
+  getCurrentImg,
+  userInfo,
+  setUserInfo,
+  isEdit,
+}) {
+  const props: UploadProps = {
+    name: "file",
+    action: async (file) => await uploadFile(file),
+    headers: {
+      authorization: "authorization-text",
+    },
+  };
+
+  async function uploadFile(file) {
+    const res = await fileToBase64(file);
+    setUserInfo({ ...userInfo, backgrounds: [res] });
+  }
   return (
     <div className="relative flex justify-center w-full h-full bg-neutral-900 ">
       {isEdit && (
-        <div
-          className="absolute z-20 flex items-center justify-center w-6 h-6 rounded cursor-pointer bottom-6 right-5"
-          style={{
-            backgrounds:
-              "linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.08) 100%)",
-          }}
+        <Upload
+          {...props}
+          className="absolute z-20 bottom-6 upload-hidden right-5"
         >
-          <img
-            src={IcCamera}
-            alt="IcCamera"
-            className="text-primary-blue-dark "
-          />
-        </div>
+          <div
+            className="flex items-center justify-center w-6 h-6 rounded cursor-pointer "
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.08) 100%)",
+            }}
+          >
+            <img
+              src={IcCamera}
+              alt="IcCamera"
+              className="text-primary-blue-dark "
+            />
+          </div>
+        </Upload>
       )}
       {userInfo.backgrounds && (
         <div
@@ -71,23 +96,46 @@ function SwiperMobile({ currentImg, getCurrentImg, userInfo, isEdit }) {
   );
 }
 
-function SwiperDesk({ currentImg, getCurrentImg, userInfo, isEdit }) {
+function SwiperDesk({
+  currentImg,
+  getCurrentImg,
+  userInfo,
+  setUserInfo,
+  isEdit,
+}) {
+  const props: UploadProps = {
+    name: "file",
+    action: async (file) => await uploadFile(file),
+    headers: {
+      authorization: "authorization-text",
+    },
+  };
+
+  async function uploadFile(file) {
+    const res = await fileToBase64(file);
+    setUserInfo({ ...userInfo, backgrounds: [res] });
+  }
   return (
     <div className="relative w-full h-full ">
       {isEdit && (
-        <div
-          className="absolute z-20 flex items-center justify-center w-6 h-6 rounded cursor-pointer bottom-6 right-5"
-          style={{
-            backgrounds:
-              "linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.08) 100%)",
-          }}
+        <Upload
+          {...props}
+          className="absolute bottom-0 z-20 upload-hidden right-5"
         >
-          <img
-            src={IcCamera}
-            alt="IcCamera"
-            className="text-primary-blue-dark "
-          />
-        </div>
+          <div
+            className="flex items-center justify-center w-6 h-6 rounded cursor-pointer "
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.08) 100%)",
+            }}
+          >
+            <img
+              src={IcCamera}
+              alt="IcCamera"
+              className="text-primary-blue-dark "
+            />
+          </div>
+        </Upload>
       )}
 
       {userInfo.backgrounds && (
@@ -140,7 +188,19 @@ function Header({ userInfo, setUserInfo, isEdit }) {
   const [currentImg, setCurentImg] = useState(
     userInfo.backgrounds ? userInfo.backgrounds[0] : Logo
   );
-  console.log(userInfo);
+  const props: UploadProps = {
+    name: "file",
+    action: async (file) => await uploadFile(file),
+    headers: {
+      authorization: "authorization-text",
+    },
+  };
+
+  async function uploadFile(file) {
+    const res = await fileToBase64(file);
+    setUserInfo({ ...userInfo, avatar: res });
+  }
+
   function getCurrentImg(event) {
     setCurentImg(userInfo.backgrounds[event.activeIndex]);
   }
@@ -151,8 +211,20 @@ function Header({ userInfo, setUserInfo, isEdit }) {
     <div className="relative flex justify-center <xs:!h-[320px] h-[40vh]">
       <div className="flex flex-col w-full ">
         {useCheckMobileScreen()
-          ? SwiperMobile({ currentImg, getCurrentImg, userInfo, isEdit })
-          : SwiperDesk({ currentImg, getCurrentImg, userInfo, isEdit })}
+          ? SwiperMobile({
+              currentImg,
+              getCurrentImg,
+              userInfo,
+              setUserInfo,
+              isEdit,
+            })
+          : SwiperDesk({
+              currentImg,
+              getCurrentImg,
+              userInfo,
+              setUserInfo,
+              isEdit,
+            })}
 
         <div className="flex items-center mx-2 <3xs:flex <3xs:flex-col <3xs:items-center -mt-8 desktop:-mt-10 z-10">
           <div className="relative">
@@ -162,23 +234,28 @@ function Header({ userInfo, setUserInfo, isEdit }) {
               className="z-10 w-24 rounded-full :h-24 desktop:w-32 desktop:h-32 "
             />
             {isEdit && (
-              <div
-                className="absolute bottom-0 z-20 flex items-center justify-center w-6 h-6 rounded cursor-pointer right-2"
-                style={{
-                  backgrounds:
-                    "linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.08) 100%)",
-                }}
+              <Upload
+                {...props}
+                className="absolute bottom-0 z-20 upload-hidden right-2"
               >
-                <img
-                  src={IcCamera}
-                  alt="IcCamera"
-                  className="text-primary-blue-dark "
-                />
-              </div>
+                <div
+                  className="flex items-center justify-center w-6 h-6 rounded cursor-pointer "
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.08) 100%)",
+                  }}
+                >
+                  <img
+                    src={IcCamera}
+                    alt="IcCamera"
+                    className="text-primary-blue-dark "
+                  />
+                </div>
+              </Upload>
             )}
           </div>
 
-          <div className="flex flex-col <3xs:items-center <3xs:w-full <3xs:mt-2 mt-8 ml-4 space-y-1 ">
+          <div className="flex  flex-col <3xs:items-center <3xs:w-full <3xs:mt-2 mt-8 ml-4 space-y-1 ">
             {isEdit ? (
               <div>
                 <Input
