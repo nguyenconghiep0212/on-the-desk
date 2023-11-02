@@ -34,17 +34,15 @@ function Contact({ data, userInfo, isEdit }) {
       str_fullname: `\nFN:${userInfo.name}`,
       str_phone_work:
         "\nTEL;TYPE=home,voice;VALUE=uri:" +
-        userInfo.contacts.find((e) => e.platformKey === "phone").contactValue,
+        userInfo.contacts.find((e) => e.typeContact === "phone")?.infoDetail,
       str_end: "\nEND:VCARD",
       str_personal_website: `\nURL:https://onthedesk.vn/${userInfo.shortcut}`,
       str_url: userInfo.contacts
-        .filter(
-          (e) => e.platformKey !== "phone" && !e.platformKey.includes("bank")
-        )
-        .map((e) => `\nURL:${e.contactValue}`),
+        .filter((e) => e.typeContact === "social")
+        .map((e) => `\nURL:${e.infoDetail}`),
       str_banking: userInfo.contacts
-        .filter((e) => e.platformKey.includes("bank"))
-        .map((e) => `\nURL:${e.platformName}|${e.contactValue}`),
+        .filter((e) => e.typeContact === "bank")
+        .map((e) => `\nURL:${e.nameContact}|${e.infoDetail}`),
       build_address: function () {
         var org_street = "phung khoang",
           org_city = "ha noi",

@@ -18,10 +18,16 @@ interface Package {
 }
 
 interface Contact {
-  platformKey: string;
-  platformName: string;
-  contactValue: string;
-}
+  id: string;
+  typeContact: string;
+  nameContact: string;
+  keyContact: string;
+  infoDetail: string;
+  templateId: string;
+  linkIcon: string;
+  backgoundColor: string;
+  status: number;
+} 
 
 export interface USER_PACKAGE {
     id: string;

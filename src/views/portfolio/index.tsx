@@ -56,9 +56,15 @@ function Portfolio() {
     avatar: "",
     contacts: [
       {
-        platformKey: "",
-        platformName: "",
-        contactValue: "",
+        id: "",
+        typeContact: "",
+        nameContact: "",
+        keyContact: "",
+        infoDetail: "",
+        templateId: "",
+        linkIcon: "",
+        backgoundColor: "",
+        status: 1,
       },
     ],
     backgrounds: [],
