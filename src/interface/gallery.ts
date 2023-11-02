@@ -9,12 +9,12 @@ export interface GALLERY {
   topics: string[]; // req
 }
 export interface UPDATE_GALLERY {
-  id: string;
-  customerId: string;
-  customerName: string;
-  index: number;
+  id?: string;
+  customerId?: string;
+  customerName?: string;
+  index?: number;
   name: string;
-  data: GALLERY_DATA[];
+  data?: GALLERY_DATA[];
   thumb: string;
   topics: string[];
   shortcut: string;

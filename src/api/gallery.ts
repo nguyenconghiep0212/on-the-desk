@@ -1,5 +1,6 @@
 import http from "helper/request";
 import { UPDATE_GALLERY } from "interface/gallery";
+import httpUpload from "helper/requestFile";
 
 
 export function getGalleryById(params: {
@@ -34,3 +35,19 @@ export function getGalleryById(params: {
       data: params
     })
   }
+
+  export function createGallery(params:UPDATE_GALLERY){
+    return http({
+      method: 'post',
+      url: `/api/gallery/crudc`,
+      data: params
+    })
+  }
+  export function uploadGallery(data: any) {
+    return httpUpload({
+      method: "post",
+      url: `/api/users/uploadgalleries`,
+      data
+    });
+  }
+  

@@ -8,7 +8,7 @@ import { Pagination, Autoplay } from "swiper/modules";
 import IcCamera from "assests/icon/ic-camera-blue.svg";
 import { Input, Upload, UploadProps } from "antd";
 import Logo from "assests/landing/logo.svg";
-import { fileToBase64 } from "helper/convertToBase64";
+import { uploadAvatar, uploadCover } from "api/index";
 
 function SwiperMobile({
   currentImg,
@@ -26,8 +26,15 @@ function SwiperMobile({
   };
 
   async function uploadFile(file) {
-    const res = await fileToBase64(file);
-    setUserInfo({ ...userInfo, backgrounds: [res] });
+    const fd = new FormData();
+    fd.append("file", file);
+    const res = await uploadCover(fd);
+    if (res) {
+      setUserInfo({
+        ...userInfo,
+        backgrounds: [`https://cdn.onthedesk.vn${res.data}`],
+      });
+    }
   }
   return (
     <div className="relative flex justify-center w-full h-full bg-neutral-900 ">
@@ -112,8 +119,15 @@ function SwiperDesk({
   };
 
   async function uploadFile(file) {
-    const res = await fileToBase64(file);
-    setUserInfo({ ...userInfo, backgrounds: [res] });
+    const fd = new FormData();
+    fd.append("file", file);
+    const res = await uploadCover(fd);
+    if (res) {
+      setUserInfo({
+        ...userInfo,
+        backgrounds: [`https://cdn.onthedesk.vn${res.data}`],
+      });
+    }
   }
   return (
     <div className="relative w-full h-full ">
@@ -197,8 +211,15 @@ function Header({ userInfo, setUserInfo, isEdit }) {
   };
 
   async function uploadFile(file) {
-    const res = await fileToBase64(file);
-    setUserInfo({ ...userInfo, avatar: res });
+    const fd = new FormData();
+    fd.append("file", file);
+    const res = await uploadAvatar(fd);
+    if (res) {
+      setUserInfo({
+        ...userInfo,
+        avatar: `https://cdn.onthedesk.vn${res.data}`,
+      });
+    }
   }
 
   function getCurrentImg(event) {

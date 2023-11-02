@@ -62,13 +62,7 @@ function Portfolio() {
           const temp = userPackage.find((e) => e.key === "contact");
           if (temp) {
             if (userInfo.contacts) {
-              temp.config.data = userInfo.contacts.map((e) => {
-                return {
-                  url: e.contactValue,
-                  platform: e.platformKey,
-                  name: userInfo.name,
-                };
-              });
+              temp.config.data = userInfo.contacts;
             } else {
               temp.config.data = [];
             }
@@ -150,6 +144,7 @@ function Portfolio() {
               background:
                 "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",
             }}
+            onClick={() => navigate("/")}
           >
             <img
               className="cursor-pointer w-[24px] h-[24px]"

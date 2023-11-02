@@ -4,18 +4,35 @@ import { Icon } from "@iconify/react";
 import "./index.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatNumber } from "helper/formatNumber.ts";
-import { getGalleryByUserId } from "api";
+import { getGalleryByUserId, createGallery, uploadGallery } from "api";
 import { GALLERY, UPDATE_GALLERY } from "interface/gallery";
 import { Button, Input, Modal, Upload, UploadProps } from "antd";
 
 function Gallery({ alias, data, userInfo, isEdit }) {
-  const [updateGallery, setUpdateGallery] = useState<UPDATE_GALLERY>({});
+  const [newGallery, setNewGallery] = useState<UPDATE_GALLERY>({
+    customerId: "",
+    customerName: "",
+    index: 0,
+    name: "",
+    data: [],
+    thumb: "",
+    topics: [],
+    shortcut: "",
+  });
   const [addVisible, setAddVisible] = useState(false);
   const { Dragger } = Upload;
   const props: UploadProps = {
     name: "file",
     multiple: true,
-    action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
+    action: async (file) => await uploadFile(file, "thumb"),
+    onDrop(e) {
+      console.log("Dropped files", e.dataTransfer.files);
+    },
+  };
+  const propsChild: UploadProps = {
+    name: "file",
+    multiple: true,
+    action: async (file) => await uploadFile(file, "data"),
     onDrop(e) {
       console.log("Dropped files", e.dataTransfer.files);
     },
@@ -29,8 +46,46 @@ function Gallery({ alias, data, userInfo, isEdit }) {
     []
   );
   let [allGallery, setAllGallery] = useState<GALLERY[]>([]);
+
+  async function uploadFile(file, mode) {
+    const fd = new FormData();
+    fd.append("files", file);
+    const res = await uploadGallery(fd);
+    if (res) {
+      if (mode === "thumb") {
+        setNewGallery({
+          ...newGallery,
+          thumb: `https://cdn.onthedesk.vn${res.data[0]}`,
+        });
+      }
+      if (mode === "data") {
+        const arr = newGallery.data.concat([
+          {
+            name: "",
+            ref: `https://cdn.onthedesk.vn${res.data[0]}`,
+            caption: "",
+            index: newGallery.data.length,
+            dimension: "",
+            sizeOnDisk: file.size,
+          },
+        ]);
+        setNewGallery({
+          ...newGallery,
+          data: arr,
+        });
+      }
+    }
+  }
+
   function addAlbumData() {
     setAddVisible(true);
+  }
+  function addNewTag() {
+    setNewGallery({ ...newGallery, topics: [...newGallery.topics, ""] });
+  }
+  function removeTag(i) {
+    const arr = newGallery.topics.filter((el, index) => i !== index);
+    setNewGallery({ ...newGallery, topics: arr });
   }
   function handleClickFilterTag(data: string) {
     if (data !== "all") {
@@ -87,7 +142,7 @@ function Gallery({ alias, data, userInfo, isEdit }) {
         setAllGallery(res.data.gals);
         handleClickFilterTag("all");
         const filter = [
-          { key: "all", alias: "Filter off" },
+          { key: "all", alias: "Tất cả" },
           res.data.topics.map((e) => {
             return { key: e, alias: e };
           }),
@@ -97,6 +152,15 @@ function Gallery({ alias, data, userInfo, isEdit }) {
       }
     }
   }
+
+  async function createNewGallery() {
+    console.log(newGallery);
+    const res = await createGallery(newGallery);
+    if (res) {
+      setAddVisible(false);
+    }
+  }
+
   useEffect(() => {
     getGalleryData();
   }, []);
@@ -104,7 +168,7 @@ function Gallery({ alias, data, userInfo, isEdit }) {
   useEffect(() => {
     handleFilterGallery();
   }, [filteredTag]);
-  useEffect(() => {}, [filteredGallery]);
+  useEffect(() => {}, [filteredGallery, newGallery]);
   return (
     <div>
       <div className="text-[#B6B6B6] font-bold  text-base mb-4">{alias}</div>
@@ -159,19 +223,82 @@ function Gallery({ alias, data, userInfo, isEdit }) {
             <></>
           )}
         </div>
+
+        {/* THÊM THƯ VIỆN ẢNH MỚI */}
         {isEdit && (
           <div>
             <div className="space-y-4">
-              <Dragger {...props}>
-                <p className="flex items-center justify-center space-x-1 text-sm font-semibold !text-white ant-upload-text">
-                  <Icon icon="tabler:plus" />
-                  <span> Chọn ảnh bìa</span>
-                </p>
-              </Dragger>
-              <Input placeholder="Tên album" bordered={false} className="p-0" />
-              <div className="cursor-pointer flex items-center justify-center px-3 py-1 text-white border border-white border-dashed rounded w-max text-[12px] space-x-1 font-semibold">
-                <Icon className="w-4 h-4" icon="tabler:plus" />
-                <span> Gắn thẻ</span>
+              {newGallery.thumb ? (
+                <div
+                  className="h-[360px] rounded"
+                  style={{
+                    backgroundImage: `url('${newGallery.thumb}')`,
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                  }}
+                />
+              ) : (
+                <Dragger {...props} className="">
+                  <p className="flex min-h-[360px] items-center justify-center space-x-1 text-sm font-semibold !text-white ant-upload-text">
+                    <Icon icon="tabler:plus" />
+                    <span> Chọn ảnh bìa</span>
+                  </p>
+                </Dragger>
+              )}
+
+              <Input
+                placeholder="Tên album"
+                bordered={false}
+                className="p-0"
+                onChange={(e) => {
+                  setNewGallery({ ...newGallery, name: e.target.value });
+                }}
+              />
+              <div className="grid grid-cols-5 gap-1">
+                <div
+                  className="cursor-pointer flex items-center justify-center px-3 py-1 text-white border border-white border-dashed rounded w-full text-[12px] space-x-1 font-semibold"
+                  onClick={() => addNewTag()}
+                >
+                  <Icon className="w-4 h-4" icon="tabler:plus" />
+                  <span> Gắn thẻ</span>
+                </div>
+
+                {newGallery.topics.map((e, i) => (
+                  <div
+                    key={i}
+                    className="inline-flex cursor-pointer rounded-lg bg-[#2f353f]"
+                  >
+                    <div className="h-full filter-tag-bg">
+                      <div
+                        key={i}
+                        className="flex items-start justify-center space-x-1 font-semibold filter-tag"
+                      >
+                        <div
+                          className="!h-4 !w-4"
+                          onClick={() => {
+                            removeTag(i);
+                          }}
+                        >
+                          <Icon
+                            className="text-[#EB5757] h-4 w-4"
+                            icon="tabler:trash"
+                          />
+                        </div>
+
+                        <Input
+                          value={e}
+                          className="p-0"
+                          bordered={false}
+                          onChange={(e) => {
+                            const arr = [...newGallery.topics];
+                            arr[i] = e.target.value;
+                            setNewGallery({ ...newGallery, topics: arr });
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -194,17 +321,79 @@ function Gallery({ alias, data, userInfo, isEdit }) {
                 setAddVisible(false);
               }}
             >
-              <div className="relative flex flex-col items-center justify-center h-full">
+              <div className="relative flex flex-col items-center justify-center h-full space-y-2 backdrop-blur">
                 <div
                   className="absolute cursor-pointer top-5 right-5"
                   onClick={() => setAddVisible(false)}
                 >
                   <Icon className="w-5 h-5 text-white" icon="tabler:x" />
                 </div>
+                <div className="flex flex-col items-center w-full h-full my-6 space-y-10 overflow-auto">
+                  <div className="space-y-10">
+                    {newGallery.data?.map((e, i) => (
+                      <div className="relative rounded w-[255px]">
+                        <div
+                          className="absolute top-[6px] right-[6px] cursor-pointer"
+                          onClick={() => {
+                            const temp = newGallery.data.filter(
+                              (f) => f.ref !== e.ref
+                            );
+                            setNewGallery({ ...newGallery, data: temp });
+                          }}
+                        >
+                          <Icon
+                            className="text-[#EB5757] h -4 w-4"
+                            icon="tabler:trash"
+                          />
+                        </div>
+                        <img
+                          className="rounded"
+                          src={e.ref}
+                          alt="gallery data"
+                        />
+                        <Input
+                          className="p-0"
+                          bordered={false}
+                          placeholder="Tên ảnh"
+                          onChange={(e) => {
+                            const temp = newGallery;
+                            temp.data[i].name = e.target.value;
+                            setNewGallery(temp);
+                          }}
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Dragger {...propsChild} className="flex h-[255px]">
+                      <p className="flex w-[255px] aspect-square items-center justify-center space-x-1 text-sm font-semibold !text-white ant-upload-text">
+                        <Icon icon="tabler:plus" />
+                        <span> Tải ảnh lên</span>
+                      </p>
+                    </Dragger>
+                    <div className="space-x-2 text-right">
+                      <Button
+                        className="!shadow-none "
+                        onClick={() => setAddVisible(false)}
+                      >
+                        Hủy
+                      </Button>
+                      <Button
+                        className="!shadow-none gradient_btn"
+                        onClick={() => createNewGallery()}
+                      >
+                        Xong
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </Modal>
           </div>
         )}
+        {/*  */}
+
         <div className="grid grid-cols-2 gap-4 3xl:grid-cols-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3">
           {filteredGallery.map((e, index) => (
             <div
@@ -236,7 +425,7 @@ function Gallery({ alias, data, userInfo, isEdit }) {
 
               <div className="font-bold text-white ">{e.galleryName}</div>
               <div className="flex items-center space-x-2 cursor-pointer text-primary-blue-medium">
-                <Icon icon="carbon:partnership" className="!min-w-[16px]" />
+                {/* <Icon icon="carbon:partnership" className="!min-w-[16px]" /> */}
                 <span className="text-[12px] truncate">{e.customerName}</span>
               </div>
             </div>

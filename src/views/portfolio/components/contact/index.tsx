@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { platforms, keyToUrl } from "./platforms";
 import SaveToContact from "assests/portfolio/save_to_contact.svg";
 import { EditDnD, onOpenContact } from "./dragAndDrop";
 import { Icon } from "@iconify/react";
@@ -10,8 +9,15 @@ import { GEN_QR } from "interface/card";
 
 import IcAccount from "assests/icon/ic-account-blue.svg";
 import IcCard from "assests/icon/ic-card-blue.svg";
+import uuid from "react-uuid";
 
 function Contact({ data, userInfo, isEdit }) {
+  console.log(data);
+  const [dndItems, setDndItems] = useState(
+    data.map((e) => {
+      return { ...e, id: uuid() };
+    })
+  );
   const [QRbase64, setQRbase64] = useState({
     base64: "",
     bankNo: "",
@@ -126,58 +132,60 @@ function Contact({ data, userInfo, isEdit }) {
   }
   function QR() {
     return (
-      <Modal
-        className="modalFullScreen"
-        open={visibleQR}
-        closeIcon={false}
-        footer={null}
-        afterClose={() => {
-          setVisibleQR(false);
-        }}
-      >
-        <div className="relative flex items-center justify-center h-full space-y-[18px] backdrop-blur">
-          <div
-            className="absolute cursor-pointer top-5 right-5"
-            onClick={() => setVisibleQR(false)}
-          >
-            <Icon className="w-5 h-5 text-white" icon="tabler:x" />
-          </div>
-          <div className="flex flex-col mx-6 w-max space-y-[18px]">
-            <img src={QRbase64.base64} alt="QR" className="rounded-md" />
-            <div className="space-y-3">
-              <div className="flex justify-start space-x-2">
-                <img className="w-6 h-6" src={IcAccount} alt="account" />
-                <span className="text-white">{QRbase64.bankName}</span>
-              </div>
-              <div className="flex justify-between">
-                <div className="flex space-x-2 ">
-                  <img className="w-6 h-6" src={IcCard} alt="card" />
-                  <span id="BankNo" className="text-white">
-                    {QRbase64.bankNo}
-                  </span>
-                </div>
-                <div
-                  className="cursor-pointer"
-                  onClick={() => {
-                    navigator.clipboard.writeText(QRbase64.bankNo);
-                  }}
-                >
-                  <Icon className="w-6 h-6 text-white" icon="tabler:copy" />
-                </div>
-              </div>
+      <div>
+        <Modal
+          className="modalFullScreen"
+          open={visibleQR}
+          closeIcon={false}
+          footer={null}
+          afterClose={() => {
+            setVisibleQR(false);
+          }}
+        >
+          <div className="relative flex items-center justify-center h-full space-y-[18px] backdrop-blur">
+            <div
+              className="absolute cursor-pointer top-5 right-5"
+              onClick={() => setVisibleQR(false)}
+            >
+              <Icon className="w-5 h-5 text-white" icon="tabler:x" />
             </div>
+            <div className="flex flex-col mx-6 w-max space-y-[18px]">
+              <img src={QRbase64.base64} alt="QR" className="rounded-md" />
+              <div className="space-y-3">
+                <div className="flex justify-start space-x-2">
+                  <img className="w-6 h-6" src={IcAccount} alt="account" />
+                  <span className="text-white">{QRbase64.bankName}</span>
+                </div>
+                <div className="flex justify-between">
+                  <div className="flex space-x-2 ">
+                    <img className="w-6 h-6" src={IcCard} alt="card" />
+                    <span id="BankNo" className="text-white">
+                      {QRbase64.bankNo}
+                    </span>
+                  </div>
+                  <div
+                    className="cursor-pointer"
+                    onClick={() => {
+                      navigator.clipboard.writeText(QRbase64.bankNo);
+                    }}
+                  >
+                    <Icon className="w-6 h-6 text-white" icon="tabler:copy" />
+                  </div>
+                </div>
+              </div>
 
-            <div className="flex justify-center space-x-3">
-              <Button className="!shadow-none bg-[#ffffff4d] !border !border-solid !border-white">
-                <Icon className="w-[18px] h-[18px]" icon="tabler:download" />
-              </Button>
-              <Button className="!shadow-none bg-[#ffffff4d] !border !border-solid !border-white">
-                <Icon className="w-[18px] h-[18px]" icon="uil:share" />
-              </Button>
+              <div className="flex justify-center space-x-3">
+                <Button className="!shadow-none bg-[#ffffff4d] !border !border-solid !border-white">
+                  <Icon className="w-[18px] h-[18px]" icon="tabler:download" />
+                </Button>
+                <Button className="!shadow-none bg-[#ffffff4d] !border !border-solid !border-white">
+                  <Icon className="w-[18px] h-[18px]" icon="uil:share" />
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-      </Modal>
+        </Modal>
+      </div>
     );
   }
   return (
@@ -189,7 +197,7 @@ function Contact({ data, userInfo, isEdit }) {
               <Icon icon="tabler:plus" className="w-6 h-6 " />
               <span className="text-[12px] tracking-wide">Thêm mới</span>
             </div>
-            {EditDnD({ data })}
+            {EditDnD({ dndItems, setDndItems })}
             {saveContact()}
           </div>
         ) : (
@@ -207,44 +215,22 @@ function Contact({ data, userInfo, isEdit }) {
                 }}
               >
                 <div
-                  className="flex items-center justify-center w-10 h-[inherit] rounded-tl-md rounded-bl-md"
-                  style={{
-                    background: platforms.find((f) => f.key === e.platform)
-                      ?.color,
-                  }}
+                  className={`flex items-center justify-center w-10 h-[inherit] rounded-tl-md rounded-bl-md ${
+                    e.keyContact === "phone" ? "bg-[#01B634]" : "bg-white"
+                  }`}
                 >
                   <img
-                    src={
-                      keyToUrl.find(
-                        (item) =>
-                          item.key ===
-                          platforms.find((f) => f.key === e.platform)?.key
-                      )?.url
-                    }
+                    src={`https://cdn.onthedesk.vn${e.linkIcon}`}
                     alt="platform logo"
                   />
                 </div>
                 <div
                   className="flex items-center justify-start w-[calc(100%-40px)] h-[inherit] px-4 rounded-tr-md rounded-br-md"
                   style={{
-                    background: `${
-                      platforms.find((f) => f.key === e.platform)
-                        ?.background_color
-                    }`,
+                    backgroundColor: `${e.backgoundColor}`,
                   }}
                 >
-                  <span
-                    className="truncate"
-                    style={{
-                      color: ["#ffffff", "#fff"].includes(
-                        platforms.find((f) => f.key === e.platform)?.color
-                      )
-                        ? "black"
-                        : "white ",
-                    }}
-                  >
-                    {e.name}
-                  </span>
+                  <span className="text-white truncate">{e.nameContact}</span>
                 </div>
               </div>
             ))}

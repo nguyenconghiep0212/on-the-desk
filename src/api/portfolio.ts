@@ -23,6 +23,26 @@ export function getComponentFromPackage(id: string) {
   });
 }
 
+
+export function uploadAvatar(data: any) {
+  return httpUpload({
+    method: "post",
+    url: `/api/users/uploadavatar`,
+    data
+  });
+}
+
+export function uploadCover(data: any) {
+  return httpUpload({
+    method: "post",
+    url: `/api/users/uploadcover`,
+    data
+  });
+}
+
+
+
+
 export function uploadFile(data: any) {
   return httpUpload({
     method: "post",

@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import uuid from "react-uuid";
-import { keyToUrl, platforms } from "./platforms";
 import IcDnD from "assests/icon/ic-dnd.svg";
 import { Icon } from "@iconify/react";
 
 export function onOpenContact(url) {
   window.open(url, "_blank", "noopener,noreferrer");
 }
-export function EditDnD({ data }) {
-  const [items, setItems] = useState(
-    data.map((e) => {
-      return { ...e, id: uuid() };
-    })
-  );
+export function EditDnD({ dndItems, setDndItems }) {
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
@@ -37,13 +30,12 @@ export function EditDnD({ data }) {
       return;
     }
     const reorderedItems = reorder(
-      items,
+      dndItems,
       result.source.index,
       result.destination.index
     );
-    setItems(reorderedItems);
+    setDndItems(reorderedItems);
   }
-  useEffect(() => {}, [items]);
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="droppable">
@@ -53,7 +45,7 @@ export function EditDnD({ data }) {
             ref={provided.innerRef}
             style={getListStyle(snapshot.isDraggingOver)}
           >
-            {items.map((e, index) => (
+            {dndItems.map((e, index) => (
               <Draggable key={e.id} draggableId={e.id} index={index}>
                 {(provided, snapshot) => (
                   <div
@@ -77,46 +69,25 @@ export function EditDnD({ data }) {
                         }}
                       >
                         <div
-                          className="flex items-center justify-center w-10 h-[inherit] rounded-tl-md rounded-bl-md"
-                          style={{
-                            background: platforms.find(
-                              (f) => f.key === e.platform
-                            )?.color,
-                          }}
+                          className={`flex items-center justify-center w-10 h-[inherit] rounded-tl-md rounded-bl-md ${
+                            e.keyContact === "phone"
+                              ? "bg-[#01B634]"
+                              : "bg-white"
+                          }`}
                         >
                           <img
-                            src={
-                              keyToUrl.find(
-                                (item) =>
-                                  item.key ===
-                                  platforms.find((f) => f.key === e.platform)
-                                    ?.key
-                              )?.url
-                            }
+                            src={`https://cdn.onthedesk.vn${e.linkIcon}`}
                             alt="platform logo"
                           />
                         </div>
                         <div
                           className="flex items-center justify-start w-[calc(100%-40px)] h-[inherit] px-4 rounded-tr-md rounded-br-md"
                           style={{
-                            background: `${
-                              platforms.find((f) => f.key === e.platform)
-                                ?.background_color
-                            }`,
+                            backgroundColor: `${e.backgoundColor}`,
                           }}
                         >
-                          <span
-                            className="truncate"
-                            style={{
-                              color: ["#ffffff", "#fff"].includes(
-                                platforms.find((f) => f.key === e.platform)
-                                  ?.color
-                              )
-                                ? "black"
-                                : "white ",
-                            }}
-                          >
-                            {e.name}
+                          <span className="text-white truncate">
+                            {e.nameContact}
                           </span>
                         </div>
                       </div>
