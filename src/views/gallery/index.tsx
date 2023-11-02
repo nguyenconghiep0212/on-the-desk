@@ -3,14 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { fullScreenVisible } from "store/gallery";
 import "./index.scss";
-import IconAccount from "assests/icon/ic-account.svg";
 
 // COMPONENT
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { Icon } from "@iconify/react";
-import { Button, Modal } from "antd";
+import { Modal } from "antd";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import FullScreenImg from "./fullScreen";
+import NavigateMenu from "../navigateMenu/index";
 // import Feedback from "../portfolio/components/feedback/index";
 import CustomerAvatarPlaceholder from "assests/portfolio/customer_avatar_placeholder.jpg";
 import GalleryPlaceholder from "assests/portfolio/gallery_thumbnail_placeholder.jpg";
@@ -24,6 +24,30 @@ import { USER_INFO } from "interface/user";
 import { getUserProfile, getGalleryByCustomerId, getCustomerById } from "api";
 
 function Component() {
+  const profile_menu = [
+    {
+      key: "card",
+      label: "Tạo thẻ",
+      icon: "solar:card-outline",
+      onClick() {
+        navigate(`/${userInfo.shortcut}/addCard`);
+      },
+    },
+    {
+      key: "account",
+      label: "Tài khoản",
+      icon: "line-md:account",
+      onClick() {},
+    },
+    {
+      key: "portfolio",
+      label: "Hồ sơ",
+      icon: "simple-icons:readdotcv",
+      onClick() {
+        navigate(`/${userInfo.shortcut}`);
+      },
+    },
+  ];
   const [galleries, setGalleries] = useState<GALLERY_CUSTOMER[]>([
     {
       customerShortcut: "",
@@ -89,7 +113,7 @@ function Component() {
         const res = await getCustomerById(routeParams.customerId);
         if (res) {
           setCustomerInfo(res.data);
-         }
+        }
       } catch (error) {}
     }
   }
@@ -164,11 +188,7 @@ function Component() {
               "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",
           }}
         >
-          <img
-            className="cursor-pointer w-[24px] h-[24px]"
-            src={IconAccount}
-            alt="IconAccount"
-          />
+          <NavigateMenu profile_menu={profile_menu} />
         </div>
 
         {/* BACKGROUND COVER */}
@@ -248,24 +268,23 @@ function Component() {
         </div>
       </div>
 
-
       {userInfo.isOwner && (
-          <div className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-10">
-            <div
-              style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
-              className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
-            >
-              <Icon
-                className="text-lg text-primary-blue-medium"
-                icon="tabler:edit"
-              />
-            </div>
+        <div className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-10">
+          <div
+            style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
+            className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
+          >
+            <Icon
+              className="text-lg text-primary-blue-medium"
+              icon="tabler:edit"
+            />
           </div>
-        )}
-
-        <div className="z-50 sticky bottom-0 w-[100vw] desktop:-translate-x-1/6 backdrop-blur">
-          <Footer />
         </div>
+      )}
+
+      <div className="z-50 sticky bottom-0 w-[100vw] desktop:-translate-x-1/6 backdrop-blur">
+        <Footer />
+      </div>
       <Modal
         className="modalFullScreen"
         open={visible}

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { message } from "antd";
-import IconAccount from "assests/icon/ic-account.svg";
 
 // INTERFACE
 import { USER_INFO, USER_PACKAGE } from "interface/user.ts";
@@ -19,8 +18,33 @@ import DynamicComponent from "./components/dynamicComponent";
 import Card from "./components/card/index.tsx";
 import Footer from "views/footer/index.tsx";
 import { Icon } from "@iconify/react";
+import NavigateMenu from "../navigateMenu/index";
 
 function Portfolio() {
+  const profile_menu = [
+    {
+      key: "card",
+      label: "Tạo thẻ",
+      icon: "solar:card-outline",
+      onClick() {
+        navigate(`/${userInfo.shortcut}/addCard`);
+      },
+    },
+    {
+      key: "account",
+      label: "Tài khoản",
+      icon: "line-md:account",
+      onClick() {},
+    },
+    {
+      key: "portfolio",
+      label: "Hồ sơ",
+      icon: "simple-icons:readdotcv",
+      onClick() {
+        navigate(`/${userInfo.shortcut}`);
+      },
+    },
+  ];
   const [isEdit, setIsEdit] = useState(false);
   let [userInfo, setUserInfo] = useState<USER_INFO>({
     id: "",
@@ -128,6 +152,7 @@ function Portfolio() {
   useEffect(() => {
     console.log("userInfo:", userInfo);
   }, [userInfo, isEdit]);
+
   return (
     <div className="relative flex flex-col items-center w-full h-[max-content] ">
       {contextHolder}
@@ -144,13 +169,8 @@ function Portfolio() {
               background:
                 "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",
             }}
-            onClick={() => navigate("/")}
           >
-            <img
-              className="cursor-pointer w-[24px] h-[24px]"
-              src={IconAccount}
-              alt="IconAccount"
-            />
+            <NavigateMenu profile_menu={profile_menu} />
           </div>
 
           {/*  */}
