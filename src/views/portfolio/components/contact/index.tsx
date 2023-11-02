@@ -92,17 +92,17 @@ function Contact({ data, userInfo, isEdit }) {
 
   async function genQR(data) {
     const params: GEN_QR = {
-      accountNo: data.url.split("|")[1],
-      accountName: data.url.split("|")[0],
-      acqId: "970422", // MB BANK, check https://api.vietqr.io/v2/banksto get bank list
+      accountNo: data.infoDetail.split("|")[1],
+      accountName: data.infoDetail.split("|")[0],
+      acqId: data.keyContact, // MB BANK, check https://api.vietqr.io/v2/banksto get bank list
       template: "compact",
     };
     const res = await generateBankQR(params);
     if (res) {
       setVisibleQR(true);
       setQRbase64({
-        bankNo: data.url.split("|")[1],
-        bankName: data.url.split("|")[0],
+        bankNo: data.infoDetail.split("|")[1],
+        bankName: data.infoDetail.split("|")[0],
         base64: res.data.qrDataURL,
       });
       console.log(res);
@@ -207,7 +207,7 @@ function Contact({ data, userInfo, isEdit }) {
                 key={index}
                 className="flex items-center justify-start w-full cursor-pointer h-9"
                 onClick={() => {
-                  if (e.platform.includes("bank")) {
+                  if (e.typeContact === "bank") {
                     genQR(e);
                   } else {
                     onOpenContact(e.url);
