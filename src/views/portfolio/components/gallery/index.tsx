@@ -229,14 +229,27 @@ function Gallery({ alias, data, userInfo, isEdit }) {
           <div>
             <div className="space-y-4">
               {newGallery.thumb ? (
-                <div
-                  className="h-[360px] rounded"
-                  style={{
-                    backgroundImage: `url('${newGallery.thumb}')`,
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
-                  }}
-                />
+                <div className="relative">
+                  <div
+                    className="absolute top-[6px] right-[6px] cursor-pointer"
+                    onClick={() => {
+                      setNewGallery({ ...newGallery, thumb: "" });
+                    }}
+                  >
+                    <Icon
+                      className="text-[#EB5757] h-4 w-4"
+                      icon="tabler:trash"
+                    />
+                  </div>
+                  <div
+                    className="h-[360px] rounded"
+                    style={{
+                      backgroundImage: `url('${newGallery.thumb}')`,
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                    }}
+                  />
+                </div>
               ) : (
                 <Dragger {...props} className="">
                   <p className="flex min-h-[360px] items-center justify-center space-x-1 text-sm font-semibold !text-white ant-upload-text">
