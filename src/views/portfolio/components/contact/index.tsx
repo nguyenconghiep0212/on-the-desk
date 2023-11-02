@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SaveToContact from "assests/portfolio/save_to_contact.svg";
-import { EditDnD, onOpenContact } from "./dragAndDrop";
+import { EditDnD } from "./dragAndDrop";
 import { Icon } from "@iconify/react";
 import { getBase64FromUrl } from "helper/convertToBase64";
 import { generateBankQR } from "api";
@@ -87,7 +87,13 @@ function Contact({ data, userInfo, isEdit }) {
     };
     download(vcard.str_vcard, "card.vcf");
   }
-
+  function onOpenContact(data) {
+    window.open(
+      data.typeContact === "phone" ? `tel:${data.infoDetail}` : data.infoDetail,
+      "_blank",
+      "noopener,noreferrer"
+    );
+  }
   async function genQR(data) {
     const params: GEN_QR = {
       accountNo: data.infoDetail.split("|")[1],
@@ -208,7 +214,7 @@ function Contact({ data, userInfo, isEdit }) {
                   if (e.typeContact === "bank") {
                     genQR(e);
                   } else {
-                    onOpenContact(e.url);
+                    onOpenContact(e);
                   }
                 }}
               >

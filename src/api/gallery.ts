@@ -51,3 +51,11 @@ export function getGalleryById(params: {
     });
   }
   
+  export function detailGallery({shortcut, page, size}) {
+    return httpUpload({
+      method: "get",
+      url: `/api/gallery/detail/${shortcut}/${page}/${size}`,
+       
+    });
+  }
+  

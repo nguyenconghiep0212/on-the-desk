@@ -237,7 +237,7 @@ function Profile({ activeMenuEvent, isLogin, setIsLogin, activatedMenu }) {
   useEffect(() => {
     if (isLogin) {
       getUserProfile();
-    } 
+    }
   }, [isLogin]);
   useEffect(() => {}, [userInfo]);
   const signin = (
@@ -305,14 +305,28 @@ function Profile({ activeMenuEvent, isLogin, setIsLogin, activatedMenu }) {
       >
         <img
           className={`${
-            isLogin || (activatedMenu === "Profile" ? "menu-bg-activated" : "")
+            isLogin
+              ? userInfo.avatar || "rounded-full"
+              : activatedMenu === "Profile"
+              ? "menu-bg-activated"
+              : ""
           } cursor-pointer rounded-full w-[24px] h-[24px]`}
           src={
             isLogin
               ? userInfo.avatar
                 ? userInfo.avatar
-                : DefaultUserAvatar
+                : IconAccount
               : IconAccount
+          }
+          style={
+            isLogin
+              ? userInfo.avatar
+                ? {}
+                : {
+                    background:
+                      "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",
+                  }
+              : {}
           }
           alt="IconAccount"
           onClick={() => {

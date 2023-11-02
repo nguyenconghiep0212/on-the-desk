@@ -88,7 +88,12 @@ function Portfolio() {
           originalUserInfo = res.data;
           setUserInfo(userInfo);
           setOriginalUserInfo(originalUserInfo);
-          await handleGetComponentFromPackage();
+          if(userInfo.package){
+            await handleGetComponentFromPackage();
+          }else{
+            navigate('/addCard')
+          }
+          
           const temp = userPackage.find((e) => e.key === "contact");
           if (temp) {
             if (userInfo.contacts) {
@@ -169,18 +174,21 @@ function Portfolio() {
       >
         <div className="relative flex-auto">
           {/* NAVIGATE USER */}
-          <div
-            className="absolute top-[33px] z-10  text-lg right-5 rounded-full"
-            style={{
-              background:
-                "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",
-            }}
-          >
-            <NavigateMenu profile_menu={profile_menu} />
-          </div>
-
+          {userInfo.isOwner && (
+            <div
+              className="absolute top-[33px] z-10  text-lg right-5 rounded-full"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",
+              }}
+            >
+              <NavigateMenu profile_menu={profile_menu} />
+            </div>
+          )}
           {/*  */}
-          <Card userInfo={userInfo} />
+
+          {userInfo.isOwner && <Card userInfo={userInfo} />}
+
           <Header
             userInfo={userInfo}
             setUserInfo={setUserInfo}

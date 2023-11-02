@@ -3,9 +3,6 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import IcDnD from "assests/icon/ic-dnd.svg";
 import { Icon } from "@iconify/react";
 
-export function onOpenContact(url) {
-  window.open(url, "_blank", "noopener,noreferrer");
-}
 export function EditDnD({ dndItems, setDndItems }) {
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -62,12 +59,7 @@ export function EditDnD({ dndItems, setDndItems }) {
                       <div className="flex items-center justify-center w-6">
                         <img src={IcDnD} alt="IcDnD" />
                       </div>
-                      <div
-                        className="flex items-center justify-start w-full cursor-pointer h-9"
-                        onClick={() => {
-                          onOpenContact(e.url);
-                        }}
-                      >
+                      <div className="flex items-center justify-start w-full cursor-pointer h-9">
                         <div
                           className={`flex items-center justify-center w-10 h-[inherit] rounded-tl-md rounded-bl-md ${
                             e.keyContact === "phone"

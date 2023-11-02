@@ -33,24 +33,9 @@ function Component() {
   const pathParams = useParams();
   const [defaultCard] = useRecoilState(storeCard);
   const [previewVisible, setPreviewVisible] = useState(false);
-  const [previewQRVisible, setPreviewQRVisible] = useState(false);
 
   function handleBack() {
     return navigate(-1);
-  }
-  function downloadQRCode() {
-    const canvas = document
-      .getElementById("myqrcode")
-      ?.querySelector<HTMLCanvasElement>("canvas");
-    if (canvas) {
-      const url = canvas.toDataURL();
-      const a = document.createElement("a");
-      a.download = "QRCode.png";
-      a.href = url;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
   }
 
   async function submitCard() {
@@ -116,7 +101,7 @@ function Component() {
         className="relative flex flex-col justify-center items-center space-y-3 rounded-lg h-[176px] w-[280px]"
         style={{
           background: defaultCard.backgroundImage
-            ? defaultCard.backgroundImage
+            ? "#091323"
             : defaultCard.backgroundColor
             ? defaultCard.backgroundColor
             : "#091323",
@@ -214,14 +199,7 @@ function Component() {
             </div>
             <div className="space-x-2">
               <Button>Thoát</Button>
-              <Button
-                className="gradient_btn"
-                onClick={() => {
-                  setPreviewQRVisible(true);
-                }}
-              >
-                Preview QR
-              </Button>
+
               <Button
                 className="gradient_btn"
                 onClick={() => {
@@ -266,53 +244,6 @@ function Component() {
                       Lưu thẻ
                     </Button>
                   </div>
-                </div>
-              </div>
-            </div>
-          </Modal>
-
-          {/* PREVIEW QR */}
-          <Modal
-            className="modalFullScreen"
-            open={previewQRVisible}
-            closeIcon={false}
-            footer={null}
-            afterClose={() => {
-              setPreviewQRVisible(false);
-            }}
-          >
-            <div className="relative flex flex-col items-center justify-center h-full">
-              <div
-                className="absolute cursor-pointer top-5 right-5"
-                onClick={() => setPreviewQRVisible(false)}
-              >
-                <Icon className="w-5 h-5 text-white" icon="tabler:x" />
-              </div>
-              <div className="w-max">
-                <div id="myqrcode">
-                  <QRCode
-                    errorLevel="H"
-                    value={
-                      pathParams.userId
-                        ? `https://onthedesk.vn/${pathParams.userId}`
-                        : "https://onthedesk.vn/"
-                    }
-                    size={300}
-                    icon={Logo_SVG}
-                    color="#0083C7"
-                    bgColor="#18191a"
-                  />
-                </div>
-
-                <div className="mt-2 text-right">
-                  <Button
-                    onClick={() => {
-                      downloadQRCode();
-                    }}
-                    className="!shadow-none gradient_btn"
-                  >
-                    Xuất QR
-                  </Button>
                 </div>
               </div>
             </div>

@@ -249,10 +249,13 @@ function Header({ userInfo, setUserInfo, isEdit }) {
 
         <div className="flex items-center mx-2 <3xs:flex <3xs:flex-col <3xs:items-center -mt-8 desktop:-mt-10 z-10">
           <div className="relative">
-            <img
-              src={userInfo.avatar || Logo}
-              alt="Avatar"
-              className="z-10 w-24 rounded-full :h-24 desktop:w-32 desktop:h-32 "
+            <div
+              style={{
+                backgroundImage: `url(${userInfo.avatar || Logo})`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+              }}
+              className="z-10 w-24 h-24 rounded-full desktop:w-32 desktop:h-32 "
             />
             {isEdit && (
               <Upload

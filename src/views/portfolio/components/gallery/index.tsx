@@ -4,7 +4,12 @@ import { Icon } from "@iconify/react";
 import "./index.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatNumber } from "helper/formatNumber.ts";
-import { getGalleryByUserId, createGallery, uploadGallery } from "api";
+import {
+  getGalleryByUserId,
+  createGallery,
+  uploadGallery,
+  getGalleryByCustomerId,
+} from "api";
 import { GALLERY, UPDATE_GALLERY } from "interface/gallery";
 import { Button, Input, Modal, Upload, UploadProps } from "antd";
 
@@ -127,10 +132,6 @@ function Gallery({ alias, data, userInfo, isEdit }) {
     }
   }
 
-  function redirectToGallery(customerId: string) {
-    return navigate(`/${params.userId}/${customerId}`);
-  }
-
   function showAllFilter() {
     setIsAllFilter(true);
   }
@@ -159,6 +160,22 @@ function Gallery({ alias, data, userInfo, isEdit }) {
     if (res) {
       setAddVisible(false);
     }
+  }
+
+  async function editGallery(customerId: string) {
+    // try {
+    //   const res = await getGalleryByCustomerId(customerId);
+    //   if (res) {
+    //     const galleryData = res.data.gals;
+    //     setNewGallery(galleryData);
+    //   }
+    // } catch (error) {
+    //   console.error("Lỗi lấy gallery:", error);
+    // }
+  }
+
+  function redirectToGallery(customerId: string) {
+    return navigate(`/${params.userId}/${customerId}`);
   }
 
   useEffect(() => {
@@ -413,7 +430,9 @@ function Gallery({ alias, data, userInfo, isEdit }) {
               key={index}
               className="space-y-1 cursor-pointer"
               onClick={() => {
-                redirectToGallery(e.customerShortcut);
+                isEdit
+                  ? editGallery(e.customerShortcut)
+                  : redirectToGallery(e.customerShortcut);
               }}
             >
               <div className="relative flex items-center justify-center h-32 bg-black xl:h-44 2xl:h-64 rounded-2xl overflow-clip ">
