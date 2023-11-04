@@ -44,24 +44,37 @@ function Component({ userInfo }) {
     return (
       <div
         className=" flex flex-col space-y-3 rounded-lg h-[176px] w-[280px] px-[30px] py-5"
-        style={{
-          background: card.backgroundImage
-            ? card.backgroundImage
-            : card.backgroundColor
-            ? card.backgroundColor
-            : "#091323",
-          alignItems: card.alignment || "center",
-          justifyContent:
-            card.alignment === "end" || card.alignment === "start"
-              ? "end"
-              : "center",
-        }}
+        style={
+          card.backgroundImage
+            ? {
+                alignItems: card.alignment || "center",
+                justifyContent:
+                  card.alignment === "end" || card.alignment === "start"
+                    ? "end"
+                    : "center",
+                backgroundImage: `url('${card.backgroundImage}')`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+              }
+            : {
+                background: card.backgroundColor || "#0913239c",
+                alignItems: card.alignment || "center",
+                justifyContent:
+                  card.alignment === "end" || card.alignment === "start"
+                    ? "end"
+                    : "center",
+              }
+        }
       >
-        <img
-          src={card.logo || DefaultCardLogo}
-          alt="card_logo"
-          className="!w-12 !h-12"
-        />
+        {card.enableLogo ? (
+          <img
+            src={card.logo || DefaultCardLogo}
+            alt="card_logo"
+            className="!w-12 !h-12"
+          />
+        ) : (
+          <></>
+        )}
         <div className="text-white w-[max-content] text-center">
           {card.frontText || "Your name here"}
         </div>
@@ -108,7 +121,9 @@ function Component({ userInfo }) {
                         className="text-white"
                         content={
                           <div className="space-y-2">
-                            <span className="text-white">Bạn chắc chắn muốn xóa thẻ này?</span>
+                            <span className="text-white">
+                              Bạn chắc chắn muốn xóa thẻ này?
+                            </span>
                             <div className="text-right">
                               <Button
                                 className="!shadow-sm gradient_btn"

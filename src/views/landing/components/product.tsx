@@ -911,9 +911,7 @@ function Footer() {
 function Product() {
   const [tab] = useRecoilState(currentTab);
   const navigate = useNavigate()
-
   const [checkIsLogIn] = useRecoilState(isLogin);
-
   const productRef: any = useRef(null);
   const introductionRef: any = useRef(null);
   const instructionRef: any = useRef(null);

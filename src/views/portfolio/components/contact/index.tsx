@@ -222,7 +222,7 @@ function Contact({ data, userInfo, isEdit }) {
                   }`}
                 >
                   <img
-                    src={`https://cdn.onthedesk.vn${e.linkIcon}`}
+                    src={`${process.env.REACT_APP_BASE_IMG}${e.linkIcon}`}
                     alt="platform logo"
                   />
                 </div>

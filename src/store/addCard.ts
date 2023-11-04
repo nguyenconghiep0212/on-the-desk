@@ -11,7 +11,7 @@ export const card = atom({
     enableFrontText: true,
     backText: "",
     backgroundColor: "",
-    backgroundImage: "",
+    backgroundImage: "https://cdn.onthedesk.vn/hiep-nguyen-cong/Card/ed179f7407ca41a3b239b555aa437ff3.jpg",
     fontFamily: "",
   }, // default value (aka initial value)
 });

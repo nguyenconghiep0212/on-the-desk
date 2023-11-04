@@ -68,7 +68,7 @@ export function EditDnD({ dndItems, setDndItems }) {
                           }`}
                         >
                           <img
-                            src={`https://cdn.onthedesk.vn${e.linkIcon}`}
+                            src={`${process.env.REACT_APP_BASE_IMG}${e.linkIcon}`}
                             alt="platform logo"
                           />
                         </div>

@@ -56,14 +56,14 @@ function Gallery({ alias, data, userInfo, isEdit }) {
       if (mode === "thumb") {
         setNewGallery({
           ...newGallery,
-          thumb: `https://cdn.onthedesk.vn${res.data[0]}`,
+          thumb: `${process.env.REACT_APP_BASE_IMG}${res.data[0]}`,
         });
       }
       if (mode === "data") {
         const arr = newGallery.data.concat([
           {
             name: file.name,
-            ref: `https://cdn.onthedesk.vn${res.data[0]}`,
+            ref: `${process.env.REACT_APP_BASE_IMG}${res.data[0]}`,
             caption: "",
             index: newGallery.data.length,
             dimension: "",

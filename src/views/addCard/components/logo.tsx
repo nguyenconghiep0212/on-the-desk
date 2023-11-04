@@ -11,6 +11,8 @@ function Component() {
   const tempCard = Object.assign({}, defaultCard);
 
   const [logoType, setLogoType] = useState("image");
+  const [uploadedFile, setUploadFile] = useState({});
+
   function handleChangeLogoType(e) {
     setLogoType(e.target.value);
   }
@@ -20,7 +22,6 @@ function Component() {
     setDefaultCard(tempCard);
   }
 
-  useEffect(() => {}, [logoType]);
   function FileUpload() {
     const { Dragger } = Upload;
     const props: UploadProps = {
@@ -29,18 +30,22 @@ function Component() {
       action: async (file) => await uploadFile(file),
     };
     async function uploadFile(file) {
+      setUploadFile(file);
       const fd = new FormData();
-      fd.append("file", file);
+      fd.append("LogoImage", file);
       const res = await uploadImagesCard(fd);
       if (res) {
-        tempCard.logo = res.data;
+        tempCard.logo = process.env.REACT_APP_BASE_IMG + res.data.logoImage;
         setDefaultCard(tempCard);
       }
     }
 
+    useEffect(() => {}, [logoType, uploadedFile]);
+
     return (
       <div className="h-60">
-        <Dragger {...props}>
+        <Dragger {...props} className="logo-upload">
+          {uploadedFile && <div className="mb-2 font-semibold text-primary-blue-medium">{uploadedFile.name}</div>}
           <p className="flex items-center justify-center space-x-1 text-sm font-semibold !text-white ant-upload-text">
             <Icon icon="tabler:plus" />
             <span> Tải ảnh lên</span>

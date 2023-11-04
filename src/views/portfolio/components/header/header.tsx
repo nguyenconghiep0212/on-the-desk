@@ -32,7 +32,7 @@ function SwiperMobile({
     if (res) {
       setUserInfo({
         ...userInfo,
-        backgrounds: [`https://cdn.onthedesk.vn${res.data}`],
+        backgrounds: [`${process.env.REACT_APP_BASE_IMG}${res.data}`],
       });
     }
   }
@@ -125,7 +125,7 @@ function SwiperDesk({
     if (res) {
       setUserInfo({
         ...userInfo,
-        backgrounds: [`https://cdn.onthedesk.vn${res.data}`],
+        backgrounds: [`${process.env.REACT_APP_BASE_IMG}${res.data}`],
       });
     }
   }
@@ -217,7 +217,7 @@ function Header({ userInfo, setUserInfo, isEdit }) {
     if (res) {
       setUserInfo({
         ...userInfo,
-        avatar: `https://cdn.onthedesk.vn${res.data}`,
+        avatar: `${process.env.REACT_APP_BASE_IMG}${res.data}`,
       });
     }
   }

@@ -47,7 +47,7 @@ function Component() {
 
   function handleChangeBackgroundImage(value: string | null) {
     tempCard.backgroundColor = null;
-    tempCard.backgroundImage = value;
+    tempCard.backgroundImage = process.env.REACT_APP_BASE_IMG + value;
     setDefaultCard(tempCard);
   }
 
@@ -234,14 +234,14 @@ function Component() {
     };
     async function uploadFile(file) {
       const fd = new FormData();
-      fd.append("file", file);
+      fd.append("BackgroundImage", file);
       const res = await uploadImagesCard(fd);
-      if (res) handleChangeBackgroundImage(res.data);
+      if (res) handleChangeBackgroundImage(res.data.backgroundImage);
     }
 
     return (
       <div className="h-60">
-        <Dragger {...props}>
+        <Dragger {...props} className="background-upload">
           <p className="flex items-center justify-center space-x-1 text-sm font-semibold !text-white ant-upload-text">
             <Icon icon="tabler:plus" />
             <span> Tải ảnh lên</span>

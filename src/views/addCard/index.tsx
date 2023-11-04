@@ -64,18 +64,29 @@ function Component() {
     return (
       <div
         className="flex flex-col space-y-3 rounded-lg h-[176px] w-[280px] px-[30px] py-5"
-        style={{
-          background: defaultCard.backgroundImage
-            ? defaultCard.backgroundImage
-            : defaultCard.backgroundColor
-            ? defaultCard.backgroundColor
-            : "#091323",
-          alignItems: defaultCard.alignment || "center",
-          justifyContent:
-            defaultCard.alignment === "end" || defaultCard.alignment === "start"
-              ? "end"
-              : "center",
-        }}
+        style={
+          defaultCard.backgroundImage
+            ? {
+                alignItems: defaultCard.alignment || "center",
+                justifyContent:
+                  defaultCard.alignment === "end" ||
+                  defaultCard.alignment === "start"
+                    ? "end"
+                    : "center",
+                backgroundImage: `url('${defaultCard.backgroundImage}')`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+              }
+            : {
+                background: defaultCard.backgroundColor || "#0913239c",
+                alignItems: defaultCard.alignment || "center",
+                justifyContent:
+                  defaultCard.alignment === "end" ||
+                  defaultCard.alignment === "start"
+                    ? "end"
+                    : "center",
+              }
+        }
       >
         {defaultCard.enableLogo && (
           <img
@@ -97,14 +108,14 @@ function Component() {
   }
   function cardBack() {
     return (
-      <div className="bg-[#091323] rounded-lg">
+      <div className="bg-[#091323]">
         <div
           className="relative flex flex-col justify-center items-center space-y-3 rounded-lg h-[176px] w-[280px]"
           style={{
             background: defaultCard.backgroundImage
               ? "#0913239c"
               : defaultCard.backgroundColor
-              ? defaultCard.backgroundColor + "9c"
+              ? defaultCard.backgroundColor
               : "#0913239c",
             backgroundPosition: "center",
             backgroundSize: "cover",
