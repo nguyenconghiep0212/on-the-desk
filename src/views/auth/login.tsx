@@ -205,7 +205,7 @@ function Login() {
             {isSignUp ? "Đăng ký" : "Đăng nhập"}
           </Button>
           <Button
-            className=" bg-white text-[#333] font-semibold w-full !shadow-none"
+            className=" !bg-white text-[#333] font-semibold w-full !shadow-none"
             onClick={() => {
               handleLoginWithGoogle();
             }}

@@ -53,6 +53,7 @@ function Gallery({ alias, data, userInfo, isEdit }) {
   let [allGallery, setAllGallery] = useState<GALLERY[]>([]);
 
   async function uploadFile(file, mode) {
+console.log(file);
     const fd = new FormData();
     fd.append("files", file);
     const res = await uploadGallery(fd);
@@ -66,7 +67,7 @@ function Gallery({ alias, data, userInfo, isEdit }) {
       if (mode === "data") {
         const arr = newGallery.data.concat([
           {
-            name: "",
+            name: file.name,
             ref: `https://cdn.onthedesk.vn${res.data[0]}`,
             caption: "",
             index: newGallery.data.length,
@@ -361,7 +362,7 @@ function Gallery({ alias, data, userInfo, isEdit }) {
                 <div className="flex flex-col items-center w-full h-full my-6 space-y-10 overflow-auto">
                   <div className="space-y-10">
                     {newGallery.data?.map((e, i) => (
-                      <div className="relative rounded w-[255px]">
+                      <div key={i} className="relative rounded w-[255px]">
                         <div
                           className="absolute top-[6px] right-[6px] cursor-pointer"
                           onClick={() => {
@@ -387,7 +388,7 @@ function Gallery({ alias, data, userInfo, isEdit }) {
                           placeholder="Tên ảnh"
                           onChange={(e) => {
                             const temp = newGallery;
-                            temp.data[i].name = e.target.value;
+                            temp.data[i].caption = e.target.value;
                             setNewGallery(temp);
                           }}
                         />
@@ -396,8 +397,8 @@ function Gallery({ alias, data, userInfo, isEdit }) {
                   </div>
 
                   <div className="space-y-2">
-                    <Dragger {...propsChild} className="flex h-[255px]">
-                      <p className="flex w-[255px] aspect-square items-center justify-center space-x-1 text-sm font-semibold !text-white ant-upload-text">
+                    <Dragger {...propsChild} className="">
+                      <p className="flex w-[255px] h-[185px] items-center justify-center space-x-1 text-sm font-semibold !text-white ant-upload-text">
                         <Icon icon="tabler:plus" />
                         <span> Tải ảnh lên</span>
                       </p>

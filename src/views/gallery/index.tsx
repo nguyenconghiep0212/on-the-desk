@@ -24,6 +24,8 @@ import { USER_INFO } from "interface/user";
 import { getUserProfile, getGalleryByCustomerId, getCustomerById } from "api";
 
 function Component() {
+  const [isEdit, setIsEdit] = useState(false);
+
   const profile_menu = [
     {
       key: "card",
@@ -129,7 +131,8 @@ function Component() {
     }
   }
   //
-
+function  handleCancelChange(){}
+  function handleAcceptChange(){}
   useEffect(() => {
     handleGetGalleryByCustomerId();
     handleGetUserProfile();
@@ -235,7 +238,7 @@ function Component() {
                 {customerInfo.customerName || "Anonymous"}
               </span>
               <span className="text-sm font-thin text-primary-blue-medium">
-                {customerInfo.customerAddress || "N/A"}
+                {customerInfo.customerAddress}
               </span>
             </div>
           </div>
@@ -268,19 +271,51 @@ function Component() {
         </div>
       </div>
 
-      {userInfo.isOwner && (
-        <div className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-10">
-          <div
-            style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
-            className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
-          >
-            <Icon
-              className="text-lg text-primary-blue-medium"
-              icon="tabler:edit"
-            />
+      {userInfo.isOwner && (isEdit ? (
+          <div className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-50 space-y-1">
+            <div
+              style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
+              className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
+              onClick={() => {
+                handleCancelChange();
+              }}
+            >
+              <Icon
+                className="text-lg text-[#EB5757]"
+                icon="tabler:arrow-left"
+              />
+            </div>
+            <div
+              style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
+              className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
+              onClick={() => {
+                handleAcceptChange();
+              }}
+            >
+              <Icon
+                className="text-lg text-primary-blue-medium"
+                icon="tabler:check"
+              />
+            </div>
           </div>
-        </div>
-      )}
+        ) : (
+          <div
+            className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-50"
+            onClick={() => {
+              setIsEdit(true);
+            }}
+          >
+            <div
+              style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
+              className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
+            >
+              <Icon
+                className="text-lg text-primary-blue-medium"
+                icon="tabler:edit"
+              />
+            </div>
+          </div>
+        ))}
 
       <div className="z-50 sticky bottom-0 w-[100vw] desktop:-translate-x-1/6 backdrop-blur">
         <Footer />
