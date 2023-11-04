@@ -22,32 +22,29 @@
   }
 }
 
-// SWIPER
-
- 
-
-
-
+// SWIPER 
 .mySwiper {
   height: 40% !important;
   width: 100%;
 
   .swiper-slide {
     background: transparent;
-  img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
   }
 
 }
 
-.mySwiper2 {
+.mySwiper2.fullscreen-gallery-view{
   height: 100% !important;
   box-sizing: border-box;
   padding: 10px 0;
+  width: 100%;
 
   .swiper-slide {
     background: transparent;
@@ -57,6 +54,9 @@
       height: 100%;
       object-fit: contain;
     }
+  }
+  .swiper-pagination{
+     
   }
 }
 

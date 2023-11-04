@@ -19,15 +19,19 @@ import Card from "./components/card/index.tsx";
 import Footer from "views/footer/index.tsx";
 import { Icon } from "@iconify/react";
 import NavigateMenu from "../navigateMenu/index";
+import { useRecoilState } from "recoil";
+import { isLogin,   } from "store/root.ts";
+import { useCookies } from "react-cookie";
 
 function Portfolio() {
-  const profile_menu = [
+  const [cookies] = useCookies([ "current-user"]);
+     const profile_menu = [
     {
       key: "card",
       label: "Tạo thẻ",
       icon: "solar:card-outline",
       onClick() {
-        navigate(`/${userInfo.shortcut}/addCard`);
+        navigate(`/${cookies['current-user'].shortcut}/addCard`);
       },
     },
     {
@@ -41,10 +45,13 @@ function Portfolio() {
       label: "Hồ sơ",
       icon: "simple-icons:readdotcv",
       onClick() {
-        navigate(`/${userInfo.shortcut}`);
+        navigate(`/${cookies['current-user'].shortcut}`);
+        window.location.reload();
+
       },
     },
   ];
+  const [checkIsLogIn] = useRecoilState(isLogin);
   const [isEdit, setIsEdit] = useState(false);
   let [userInfo, setUserInfo] = useState<USER_INFO>({
     id: "",
@@ -174,7 +181,7 @@ function Portfolio() {
       >
         <div className="relative flex-auto">
           {/* NAVIGATE USER */}
-          {userInfo.isOwner && (
+          {checkIsLogIn && (
             <div
               className="absolute top-[33px] z-10  text-lg right-5 rounded-full"
               style={{

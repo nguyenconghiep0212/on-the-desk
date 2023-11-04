@@ -2,22 +2,22 @@ import React, { useEffect, useRef, useState } from "react";
 import { useCheck425Screen } from "helper/checkMobile";
 import { LazyLoadComponent } from "react-lazy-load-image-component";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import { FreeMode, Navigation, Pagination, Thumbs } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-
+import "swiper/css/pagination";
 // ICON
-import IcClose from "assests/icon/ic-close.svg";
+import IcArrowLeft from "assests/icon/ic-arrow-left.svg";
 import { useRecoilState } from "recoil";
-import { fullScreenVisible } from "store/gallery"; 
- 
+import { fullScreenVisible } from "store/gallery";
+
 export default function Component({ currentGallery, initImg }) {
   const [_, setVisible] = useRecoilState(fullScreenVisible);
   const topSwiperRef: any = useRef(null);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-  const [currentImage, setCurrentImage] = useState({})
+  const [currentImage, setCurrentImage] = useState({});
   const [initIndex, setInitIndex] = useState(0);
 
   function getInitIndex() {
@@ -26,8 +26,8 @@ export default function Component({ currentGallery, initImg }) {
     );
   }
 
-  function handleActiveIndexChange(index){ 
-    setCurrentImage(currentGallery.topPictures.find((_, i) => i === index))
+  function handleActiveIndexChange(index) {
+    setCurrentImage(currentGallery.topPictures.find((_, i) => i === index));
   }
 
   useEffect(() => {
@@ -38,10 +38,10 @@ export default function Component({ currentGallery, initImg }) {
   useEffect(() => {
     getInitIndex();
   }, [initImg]);
-  useEffect(()=>{},[currentImage])
+  useEffect(() => {}, [currentImage]);
 
   return (
-    <div className="relative flex flex-col justify-center h-full px-5 py-20">
+    <div className="relative flex flex-col justify-center h-full pt-20">
       <div
         className="absolute top-0 left-0 w-full h-full transition-all duration-300 "
         style={{
@@ -50,35 +50,42 @@ export default function Component({ currentGallery, initImg }) {
           zIndex: 1,
         }}
       />
-      <div className="absolute z-10 cursor-pointer top-[33px] 3xs:right-3">
+      <div className="absolute z-10 cursor-pointer top-[33px]  left-5">
         <img
-          src={IcClose}
-          alt="IcClose"
+          src={IcArrowLeft}
+          alt="IcArrowLeft"
           onClick={() => {
             setVisible(false);
           }}
         />
-      </div> 
-      <div className="z-10 text-base font-bold text-white">
-        {currentImage.name || ''}
+      </div>
+      <div className="z-10 ml-5 text-base font-bold text-white">
+        {currentImage.caption || ""}
       </div>
       <Swiper
         ref={topSwiperRef}
-        spaceBetween={30}
+        spaceBetween={0}
         initialSlide={initIndex}
-        thumbs={{ swiper: thumbsSwiper }}
-        modules={[FreeMode, Thumbs]}
-        className=" mySwiper2"
-        onActiveIndexChange= {(e) => {handleActiveIndexChange(e.activeIndex)}}
-        onSlideChange={(e) => {handleActiveIndexChange(e.activeIndex)}}
+        // thumbs={{ swiper: thumbsSwiper }}
+        // modules={[FreeMode, Thumbs]}
+        slidesPerView={1}
+        pagination={true}
+        modules={[Pagination]}
+        className=" mySwiper2 fullscreen-gallery-view"
+        onActiveIndexChange={(e) => {
+          handleActiveIndexChange(e.activeIndex);
+        }}
+        onSlideChange={(e) => {
+          handleActiveIndexChange(e.activeIndex);
+        }}
       >
         {currentGallery.topPictures.map((e, index) => (
-          <SwiperSlide key={index} className="relative">
+          <SwiperSlide key={index} className="relative pb-10">
             <img src={e.ref} alt="gallery" className="relative z-10" />
           </SwiperSlide>
         ))}
       </Swiper>
-      <Swiper
+      {/* <Swiper
         onSwiper={setThumbsSwiper}
         initialSlide={initIndex}
         spaceBetween={10}
@@ -102,7 +109,7 @@ export default function Component({ currentGallery, initImg }) {
             </LazyLoadComponent>
           </SwiperSlide>
         ))}
-      </Swiper>
+      </Swiper> */}
     </div>
   );
 }

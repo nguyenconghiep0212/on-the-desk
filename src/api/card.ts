@@ -1,5 +1,7 @@
 import http from "helper/request";
 import httpQR from 'helper/requestQR'
+import httpUpload from "helper/requestFile";
+
 import { GEN_QR } from "interface/card";
 export function getCardByUserProfile() {
   return http({
@@ -24,8 +26,8 @@ export function deleteCard(id: string) {
 }
 
 export function uploadImagesCard(params: any) {
-  return http({
-    method: "get",
+  return httpUpload({
+    method: "post",
     url: `/api/card/uploadimages`,
     data: params,
   });

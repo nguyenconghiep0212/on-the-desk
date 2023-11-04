@@ -1,5 +1,6 @@
 import { Icon } from "@iconify/react";
 import { Radio, Switch, Upload, UploadProps, message } from "antd";
+import { uploadImagesCard } from "api";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
@@ -19,28 +20,24 @@ function Component() {
     setDefaultCard(tempCard);
   }
 
-  useEffect( () => {} , [logoType])
+  useEffect(() => {}, [logoType]);
   function FileUpload() {
     const { Dragger } = Upload;
     const props: UploadProps = {
       name: "file",
       multiple: true,
-      action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
-      onChange(info) {
-        const { status } = info.file;
-        if (status !== "uploading") {
-          console.log(info.file, info.fileList);
-        }
-        if (status === "done") {
-          message.success(`${info.file.name} file uploaded successfully.`);
-        } else if (status === "error") {
-          message.error(`${info.file.name} file upload failed.`);
-        }
-      },
-      onDrop(e) {
-        console.log("Dropped files", e.dataTransfer.files);
-      },
+      action: async (file) => await uploadFile(file),
     };
+    async function uploadFile(file) {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await uploadImagesCard(fd);
+      if (res) {
+        tempCard.logo = res.data;
+        setDefaultCard(tempCard);
+      }
+    }
+
     return (
       <div className="h-60">
         <Dragger {...props}>
@@ -49,7 +46,9 @@ function Component() {
             <span> Tải ảnh lên</span>
           </p>
           <p className="ant-upload-hint text-[12px] !text-white">
-            <span>(khuyên dùng: 512 x 512 px {logoType === 'logo' && 'tách nền'})</span>
+            <span>
+              (khuyên dùng: 512 x 512 px {logoType === "logo" && "tách nền"})
+            </span>
           </p>
         </Dragger>
       </div>

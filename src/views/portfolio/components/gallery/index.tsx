@@ -9,11 +9,13 @@ import {
   createGallery,
   uploadGallery,
   getGalleryByCustomerId,
+  fetchCustomerList,
 } from "api";
 import { GALLERY, UPDATE_GALLERY } from "interface/gallery";
-import { Button, Input, Modal, Upload, UploadProps } from "antd";
+import { Button, Input, Modal, Select, Upload, UploadProps } from "antd";
 
 function Gallery({ alias, data, userInfo, isEdit }) {
+  const [customerList, setCustomerList] = useState([]);
   const [newGallery, setNewGallery] = useState<UPDATE_GALLERY>({
     customerId: "",
     customerName: "",
@@ -30,30 +32,23 @@ function Gallery({ alias, data, userInfo, isEdit }) {
     name: "file",
     multiple: true,
     action: async (file) => await uploadFile(file, "thumb"),
-    onDrop(e) {
-      console.log("Dropped files", e.dataTransfer.files);
-    },
   };
   const propsChild: UploadProps = {
     name: "file",
     multiple: true,
     action: async (file) => await uploadFile(file, "data"),
-    onDrop(e) {
-      console.log("Dropped files", e.dataTransfer.files);
-    },
   };
   const [isAllFilter, setIsAllFilter] = useState(false);
-  const params = useParams();
-  const navigate = useNavigate();
   const [filteredGallery, setFilteredGallery] = useState<GALLERY[]>([]);
   const [filteredTag, setFilteredTag] = useState<string[]>(["all"]);
   const [filterTag, setFilterTag] = useState<{ key: string; alias: string }[]>(
     []
   );
   let [allGallery, setAllGallery] = useState<GALLERY[]>([]);
+  const params = useParams();
+  const navigate = useNavigate();
 
   async function uploadFile(file, mode) {
-console.log(file);
     const fd = new FormData();
     fd.append("files", file);
     const res = await uploadGallery(fd);
@@ -82,7 +77,12 @@ console.log(file);
       }
     }
   }
-
+  async function getCustomerList() {
+    const res = await fetchCustomerList();
+    if (res) {
+      setCustomerList(res.data);
+    }
+  }
   function addAlbumData() {
     setAddVisible(true);
   }
@@ -156,7 +156,6 @@ console.log(file);
   }
 
   async function createNewGallery() {
-    console.log(newGallery);
     const res = await createGallery(newGallery);
     if (res) {
       setAddVisible(false);
@@ -181,12 +180,13 @@ console.log(file);
 
   useEffect(() => {
     getGalleryData();
+    getCustomerList();
   }, []);
 
   useEffect(() => {
     handleFilterGallery();
   }, [filteredTag]);
-  useEffect(() => {}, [filteredGallery, newGallery]);
+  useEffect(() => {}, [filteredGallery, newGallery, customerList]);
   return (
     <div>
       <div className="text-[#B6B6B6] font-bold  text-base mb-4">{alias}</div>
@@ -283,6 +283,24 @@ console.log(file);
                 className="p-0"
                 onChange={(e) => {
                   setNewGallery({ ...newGallery, name: e.target.value });
+                }}
+              />
+              <Select
+                allowClear
+                className="w-full album-des"
+                bordered={false}
+                options={customerList.map((e) => {
+                  return { value: e.id, label: e.customerName };
+                })}
+                placeholder="Mô tả album"
+                onChange={(e) => {
+                  setNewGallery({
+                    ...newGallery,
+                    customerId: e || "",
+                    customerName: customerList.find((f) => f.id === e)
+                      ? customerList.find((f) => f.id === e).customerName
+                      : "",
+                  });
                 }}
               />
               <div className="grid grid-cols-5 gap-1">
@@ -447,7 +465,17 @@ console.log(file);
                     }}
                   />
                 </LazyLoadComponent>
-
+                {isEdit && (
+                  <div
+                    className="absolute top-[6px] right-[6px] z-20 cursor-pointer"
+                    onClick={() => {}}
+                  >
+                    <Icon
+                      className="text-[#EB5757] h-4 w-4"
+                      icon="tabler:trash"
+                    />
+                  </div>
+                )}
                 <div className="absolute bottom-0 right-0 flex items-center justify-center px-2 py-1 space-x-1 text-white bg-black bg-opacity-40 rounded-br-2xl rounded-tl-2xl">
                   <Icon className="!text-base  " icon="ri:stack-fill" />
                   <div className="text-sm ">
@@ -458,8 +486,9 @@ console.log(file);
 
               <div className="font-bold text-white ">{e.galleryName}</div>
               <div className="flex items-center space-x-2 cursor-pointer text-primary-blue-medium">
-                {/* <Icon icon="carbon:partnership" className="!min-w-[16px]" /> */}
-                <span className="text-[12px] truncate">{e.customerName}</span>
+                <span className="text-[12px] truncate font-semibold">
+                  {e.customerName}
+                </span>
               </div>
             </div>
           ))}

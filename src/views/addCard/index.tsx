@@ -97,53 +97,57 @@ function Component() {
   }
   function cardBack() {
     return (
-      <div
-        className="relative flex flex-col justify-center items-center space-y-3 rounded-lg h-[176px] w-[280px]"
-        style={{
-          background: defaultCard.backgroundImage
-            ? "#091323"
-            : defaultCard.backgroundColor
-            ? defaultCard.backgroundColor
-            : "#091323",
-        }}
-      >
-        <div className="absolute text-white -translate-x-1/2 top-4 left-1/2">
-          {defaultCard.backText || "Your text here"}
-        </div>
-        <img
-          src={SignalLeft}
-          alt="SignalLeft"
-          className="h-[15%] absolute top-1/2 -translate-y-full left-10"
-        />
-
-        {checkLogin ? (
-          <QRCode
-            className="!h-1/2 aspect-square !w-max"
-            errorLevel="H"
-            value={
-              pathParams.userId
-                ? `https://onthedesk.vn/${pathParams.userId}`
-                : "https://onthedesk.vn/"
-            }
-            icon={Logo_SVG}
-            color="#0083C7"
-            bgColor="rgba(0, 0, 0, 0.50)"
-          />
-        ) : (
-          <img src={DefaultQR} alt="DefaultQR" className="h-1/2" />
-        )}
-        <img
-          src={SignalRight}
-          alt="SignalRight"
-          className="h-[15%] absolute top-1/2 -translate-y-full right-10"
-        />
-        <div className="absolute text-white bottom-2">
-          <div className="text-[6px]">
-            Chạm gần điện thoại thông minh của bạn hoặc quét mã QR
+      <div className="bg-[#091323] rounded-lg">
+        <div
+          className="relative flex flex-col justify-center items-center space-y-3 rounded-lg h-[176px] w-[280px]"
+          style={{
+            background: defaultCard.backgroundImage
+              ? "#0913239c"
+              : defaultCard.backgroundColor
+              ? defaultCard.backgroundColor + "9c"
+              : "#0913239c",
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+          }}
+        >
+          <div className="absolute text-white -translate-x-1/2 top-4 left-1/2">
+            {defaultCard.backText || "Your text here"}
           </div>
-          <div className="flex items-center justify-center text-[8px] space-x-2">
-            <span>Designed by</span>
-            <img src={Banner} alt="banner" className="h-2" />
+          <img
+            src={SignalLeft}
+            alt="SignalLeft"
+            className="h-[15%] absolute top-1/2 -translate-y-full left-10"
+          />
+
+          {checkLogin ? (
+            <QRCode
+              className="!h-1/2 aspect-square !w-max"
+              errorLevel="H"
+              value={
+                pathParams.userId
+                  ? `https://onthedesk.vn/${pathParams.userId}`
+                  : "https://onthedesk.vn/"
+              }
+              icon={Logo_SVG}
+              color="#0083C7"
+              bgColor="rgba(0, 0, 0, 0.50)"
+            />
+          ) : (
+            <img src={DefaultQR} alt="DefaultQR" className="h-1/2" />
+          )}
+          <img
+            src={SignalRight}
+            alt="SignalRight"
+            className="h-[15%] absolute top-1/2 -translate-y-full right-10"
+          />
+          <div className="absolute text-white bottom-2">
+            <div className="text-[6px]">
+              Chạm gần điện thoại thông minh của bạn hoặc quét mã QR
+            </div>
+            <div className="flex items-center justify-center text-[8px] space-x-2">
+              <span>Designed by</span>
+              <img src={Banner} alt="banner" className="h-2" />
+            </div>
           </div>
         </div>
       </div>

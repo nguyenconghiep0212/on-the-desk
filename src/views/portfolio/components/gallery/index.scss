@@ -1,9 +1,21 @@
-.lazy-load-image-background.lazy-load-image-loaded{
-  object-fit: cover; 
+.lazy-load-image-background.lazy-load-image-loaded {
+  object-fit: cover;
   width: 100%;
   height: 100%
- }
+}
 
- .ant-upload-list{
+.ant-upload-list {
   display: none;
- }
+}
+
+.album-des .ant-select-selection-item {
+  color: #1B94D299;
+  font-weight: 600;
+}
+
+.album-des {
+  .ant-select-selection-placeholder {
+    display: flex;
+    justify-content: start;
+  }
+}

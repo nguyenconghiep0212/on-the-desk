@@ -8,3 +8,10 @@ export function getCustomerById(id:string) {
     });
   }
  
+  export function fetchCustomerList( ) {
+    return http({
+      method: "post",
+      url: `/api/customer/list`,
+    });
+  }
+ 

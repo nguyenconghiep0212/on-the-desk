@@ -8,7 +8,11 @@ import IconAccount from "assests/icon/ic-account.svg";
 import { Popover } from "antd";
 
 function Component({ profile_menu }) {
-  const [, , removeCookie] = useCookies(["auth-token", "auth-id"]);
+  const [cookies, , removeCookie] = useCookies([
+    "auth-token",
+    "auth-id",
+    "current-user",
+  ]);
   const [, setLogin] = useRecoilState(isLogin);
 
   const navigate = useNavigate();
@@ -40,6 +44,7 @@ function Component({ profile_menu }) {
           onClick={() => {
             removeCookie("auth-token");
             removeCookie("auth-id");
+            removeCookie("current-user");
             setLogin(false);
             navigate("/login");
           }}
@@ -61,8 +66,8 @@ function Component({ profile_menu }) {
         trigger="click"
       >
         <img
-          className="cursor-pointer w-[24px] h-[24px]"
-          src={IconAccount}
+          className="cursor-pointer w-[24px] h-[24px] rounded-full"
+          src={cookies["current-user"].avatar || IconAccount}
           alt="IconAccount"
         />
       </Popover>

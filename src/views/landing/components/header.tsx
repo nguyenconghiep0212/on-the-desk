@@ -175,7 +175,11 @@ function Menu({ handleChange, activeMenuEvent, activatedMenu }) {
 
 function Profile({ activeMenuEvent, isLogin, setIsLogin, activatedMenu }) {
   const navigate = useNavigate();
-  const [, , removeCookie] = useCookies(["auth-token", "auth-id"]);
+  const [, setCookie, removeCookie] = useCookies([
+    "auth-token",
+    "auth-id",
+    "current-user",
+  ]);
   const [, setActivatedMenu] = useRecoilState(activatedMenuAtom);
   const [userInfo, setUserInfo] = useState({});
   const profile_menu = [
@@ -220,6 +224,7 @@ function Profile({ activeMenuEvent, isLogin, setIsLogin, activatedMenu }) {
   function handleSignOut() {
     removeCookie("auth-token");
     removeCookie("auth-id");
+    removeCookie("current-user");
     setIsLogin(false);
     navigate("/login");
   }
@@ -229,6 +234,8 @@ function Profile({ activeMenuEvent, isLogin, setIsLogin, activatedMenu }) {
       const res = await getUserProfileByToken();
       if (res) {
         setUserInfo(res.data);
+        console.log("set current user cookie");
+        setCookie("current-user", res.data);
       }
     } catch (e) {
       console.error("lỗi lấy user profile:", e);

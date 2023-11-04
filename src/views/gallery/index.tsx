@@ -7,7 +7,7 @@ import "./index.scss";
 // COMPONENT
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { Icon } from "@iconify/react";
-import { Modal } from "antd";
+import { Button, Input, Modal, Upload, UploadProps } from "antd";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import FullScreenImg from "./fullScreen";
 import NavigateMenu from "../navigateMenu/index";
@@ -15,41 +15,24 @@ import NavigateMenu from "../navigateMenu/index";
 import CustomerAvatarPlaceholder from "assests/portfolio/customer_avatar_placeholder.jpg";
 import GalleryPlaceholder from "assests/portfolio/gallery_thumbnail_placeholder.jpg";
 import Footer from "views/footer";
+import IcCamera from "assests/icon/ic-camera-blue.svg";
+
 // INTERFACE
-import { GALLERY_CUSTOMER } from "interface/gallery";
+import { GALLERY_CUSTOMER, UPDATE_GALLERY } from "interface/gallery";
 import { CUSTOMER } from "interface/customer";
 import { USER_INFO } from "interface/user";
 
 // API
 import { getUserProfile, getGalleryByCustomerId, getCustomerById } from "api";
+import { useCookies } from "react-cookie";
 
 function Component() {
+  const { Dragger } = Upload;
+  const routeParams = useParams();
+  const navigate = useNavigate();
+  const [visible, setVisible] = useRecoilState(fullScreenVisible);
   const [isEdit, setIsEdit] = useState(false);
-
-  const profile_menu = [
-    {
-      key: "card",
-      label: "Tạo thẻ",
-      icon: "solar:card-outline",
-      onClick() {
-        navigate(`/${userInfo.shortcut}/addCard`);
-      },
-    },
-    {
-      key: "account",
-      label: "Tài khoản",
-      icon: "line-md:account",
-      onClick() {},
-    },
-    {
-      key: "portfolio",
-      label: "Hồ sơ",
-      icon: "simple-icons:readdotcv",
-      onClick() {
-        navigate(`/${userInfo.shortcut}`);
-      },
-    },
-  ];
+  const [cookies] = useCookies(["current-user"]);
   const [galleries, setGalleries] = useState<GALLERY_CUSTOMER[]>([
     {
       customerShortcut: "",
@@ -80,17 +63,79 @@ function Component() {
     customerName: "",
     shortcut: "",
   });
-  const [visible, setVisible] = useRecoilState(fullScreenVisible);
+  const [customerInfoOrigin, setCustomerInfoOrigin] = useState({});
   const [currentImg, setCurrentImg] = useState("");
   const [currentGallery, setCurrentGallery] = useState({});
-  const routeParams = useParams();
-  const navigate = useNavigate();
+  const [newGallery, setNewGallery] = useState<UPDATE_GALLERY>({
+    customerId: "",
+    customerName: "",
+    index: 0,
+    name: "",
+    data: [],
+    thumb: "",
+    topics: [],
+    shortcut: "",
+  });
 
+  const profile_menu = [
+    {
+      key: "card",
+      label: "Tạo thẻ",
+      icon: "solar:card-outline",
+      onClick() {
+        navigate(`/${cookies["current-user"].shortcut}/addCard`);
+      },
+    },
+    {
+      key: "account",
+      label: "Tài khoản",
+      icon: "line-md:account",
+      onClick() {},
+    },
+    {
+      key: "portfolio",
+      label: "Hồ sơ",
+      icon: "simple-icons:readdotcv",
+      onClick() {
+        navigate(`/${cookies["current-user"].shortcut}`);
+        window.location.reload();
+      },
+    },
+  ];
+  const propsNewGalley: UploadProps = {
+    name: "file",
+    multiple: true,
+    action: async (file) => await uploadFileGallery(file),
+  };
+  const propsAvatar: UploadProps = {
+    name: "file",
+    action: async (file) => await uploadFile(file, "avatar"),
+    headers: {
+      authorization: "authorization-text",
+    },
+  };
+  const propsCover: UploadProps = {
+    name: "file",
+    action: async (file) => await uploadFile(file, "cover"),
+    headers: {
+      authorization: "authorization-text",
+    },
+  };
+  async function uploadFileGallery(file) {}
+  async function uploadFile(file, mode) {}
   function handleOpenFullscreen(gallery, img) {
     setCurrentImg(img);
     setCurrentGallery(gallery);
     setVisible(true);
   }
+  function addNewTag() {
+    setNewGallery({ ...newGallery, topics: [...newGallery.topics, ""] });
+  }
+  function removeTag(i) {
+    const arr = newGallery.topics.filter((el, index) => i !== index);
+    setNewGallery({ ...newGallery, topics: arr });
+  }
+
   function handleCloseFullscreen() {
     setCurrentImg("");
   }
@@ -115,6 +160,9 @@ function Component() {
         const res = await getCustomerById(routeParams.customerId);
         if (res) {
           setCustomerInfo(res.data);
+          setCustomerInfoOrigin(res.data);
+          setNewGallery({...newGallery,customerId: res.data.customerName, 
+            customerName })
         }
       } catch (error) {}
     }
@@ -131,14 +179,19 @@ function Component() {
     }
   }
   //
-function  handleCancelChange(){}
-  function handleAcceptChange(){}
+  function handleCancelChange() {
+    setIsEdit(false);
+    setCustomerInfo(customerInfoOrigin);
+  }
+  function handleAcceptChange() {}
+
   useEffect(() => {
     handleGetGalleryByCustomerId();
     handleGetUserProfile();
     handleGetCustomerById();
   }, []);
   useEffect(() => {}, [galleries, visible]);
+
   function masonryGrid() {
     return (
       <div>
@@ -208,7 +261,6 @@ function  handleCancelChange(){}
               boxShadow: "inset 0px -70px 35px -25px #18191A",
             }}
           />
-
           <div
             className="absolute z-[5] top-0 w-full h-full -translate-x-1/2 left-1/2"
             style={{
@@ -220,27 +272,94 @@ function  handleCancelChange(){}
               boxShadow: "inset 0px -70px 35px -40px #18191A",
             }}
           />
+          {isEdit && (
+            <Upload
+              {...propsCover}
+              className="absolute z-20 bottom-6 right-5 upload-hidden"
+            >
+              <div
+                className="flex items-center justify-center w-6 h-6 rounded cursor-pointer "
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.08) 100%)",
+                }}
+              >
+                <img
+                  src={IcCamera}
+                  alt="IcCamera"
+                  className="text-primary-blue-dark "
+                />
+              </div>
+            </Upload>
+          )}
         </div>
 
         {/* AVATAR */}
         <div className="relative bg-[#18191A] z-10  sm:w-[300%] sm:overflow-x-clip -translate-x-1/2">
           {/* CUSTOMER */}
           <div className="flex items-center space-x-2 translate-x-1/2">
-            <div className="3xs:w-20 3xs:h-20 3xs:ml-3 <3xs:w-14 <3xs:h-14 <3xs:!min-w-[3.5rem]  mt-[-25px]">
+            <div className="relative 3xs:w-20 3xs:h-20 3xs:ml-3 <3xs:w-14 <3xs:h-14 <3xs:!min-w-[3.5rem]  mt-[-25px]">
               <img
                 src={customerInfo.customerAvatar || CustomerAvatarPlaceholder}
                 alt="customer_avatar"
                 className="z-20 w-full h-full rounded-full"
               />
+              {isEdit && (
+                <Upload
+                  {...propsAvatar}
+                  className="absolute z-20 -bottom-1 -right-1 upload-hidden"
+                >
+                  <div
+                    className="flex items-center justify-center w-6 h-6 rounded cursor-pointer "
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.08) 100%)",
+                    }}
+                  >
+                    <img
+                      src={IcCamera}
+                      alt="IcCamera"
+                      className="text-primary-blue-dark "
+                    />
+                  </div>
+                </Upload>
+              )}
             </div>
-            <div className="flex flex-col">
-              <span className="text-base <3xs:text-sm font-semibold <3xs:truncate text-primary-blue-medium">
-                {customerInfo.customerName || "Anonymous"}
-              </span>
-              <span className="text-sm font-thin text-primary-blue-medium">
-                {customerInfo.customerAddress}
-              </span>
-            </div>
+            {isEdit ? (
+              <div className="flex flex-col">
+                <Input
+                  value={customerInfo.customerName}
+                  bordered={false}
+                  className="p-0 text-base <3xs:text-sm font-semibold <3xs:truncate !text-primary-blue-medium"
+                  onChange={(e) => {
+                    setCustomerInfo({
+                      ...customerInfo,
+                      customerName: e.target.value,
+                    });
+                  }}
+                />
+                <Input
+                  value={customerInfo.customerAddress}
+                  bordered={false}
+                  className="p-0 text-sm font-medium !text-primary-blue-medium"
+                  onChange={(e) => {
+                    setCustomerInfo({
+                      ...customerInfo,
+                      customerAddress: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+            ) : (
+              <div className="flex flex-col">
+                <span className="text-base <3xs:text-sm font-semibold <3xs:truncate text-primary-blue-medium">
+                  {customerInfo.customerName || "Anonymous"}
+                </span>
+                <span className="text-sm font-medium text-primary-blue-medium">
+                  {customerInfo.customerAddress}
+                </span>
+              </div>
+            )}
           </div>
 
           {/* USER */}
@@ -261,6 +380,102 @@ function  handleCancelChange(){}
           </div>
         </div>
 
+        {isEdit && (
+          <div className="mt-6 space-y-2">
+            {newGallery.thumb ? (
+              <div className="relative">
+                <div
+                  className="absolute top-[6px] right-[6px] cursor-pointer"
+                  onClick={() => {}}
+                >
+                  <Icon
+                    className="text-[#EB5757] h-4 w-4"
+                    icon="tabler:trash"
+                  />
+                </div>
+                <div
+                  className="h-[360px] rounded"
+                  style={{
+                    backgroundImage: `url('${newGallery.thumb}')`,
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                  }}
+                />
+              </div>
+            ) : (
+              <Dragger {...propsNewGalley} className="">
+                <p className="flex min-h-[360px] items-center justify-center space-x-1 text-sm font-semibold !text-white ant-upload-text">
+                  <Icon icon="tabler:plus" />
+                  <span> Chọn ảnh bìa</span>
+                </p>
+              </Dragger>
+            )}
+
+            <Input
+              placeholder="Tên album mới"
+              bordered={false}
+              className="p-0"
+              onChange={(e) => {}}
+            />
+
+            <div className="grid grid-cols-5 gap-1">
+              <div
+                className="cursor-pointer flex items-center justify-center px-3 py-1 text-white border border-white border-dashed rounded w-full text-[12px] space-x-1 font-semibold"
+                onClick={() => addNewTag()}
+              >
+                <Icon className="w-4 h-4" icon="tabler:plus" />
+                <span> Gắn thẻ</span>
+              </div>
+
+              {newGallery.topics.map((e, i) => (
+                <div
+                  key={i}
+                  className="inline-flex cursor-pointer rounded-lg bg-[#2f353f]"
+                >
+                  <div className="h-full filter-tag-bg">
+                    <div
+                      key={i}
+                      className="flex items-start justify-center space-x-1 font-semibold filter-tag"
+                    >
+                      <div
+                        className="!h-4 !w-4"
+                        onClick={() => {
+                          removeTag(i);
+                        }}
+                      >
+                        <Icon
+                          className="text-[#EB5757] h-4 w-4"
+                          icon="tabler:trash"
+                        />
+                      </div>
+
+                      <Input
+                        value={e}
+                        className="p-0"
+                        bordered={false}
+                        onChange={(e) => {
+                          const arr = [...newGallery.topics];
+                          arr[i] = e.target.value;
+                          setNewGallery({ ...newGallery, topics: arr });
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="text-right">
+              <Button className="gradient_btn" onClick={() => {}}>
+                Chọn ảnh
+              </Button>
+            </div>
+            <div id="divider" className="flex items-center justify-center py-6">
+              <div className="w-2/3 border-t border-dashed border-primary-blue-medium"></div>
+            </div>
+          </div>
+        )}
+
         <div className="px-3 mt-3 space-y-6">
           {/* GALLERY */}
           <div className="overflow-auto ">{masonryGrid()}</div>
@@ -271,7 +486,8 @@ function  handleCancelChange(){}
         </div>
       </div>
 
-      {userInfo.isOwner && (isEdit ? (
+      {userInfo.isOwner &&
+        (isEdit ? (
           <div className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-50 space-y-1">
             <div
               style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}

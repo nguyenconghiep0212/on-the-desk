@@ -62,8 +62,7 @@ function Contact({ data, userInfo, isEdit }) {
           org_country;
       },
       save: function () {
-        console.log(vcard.str_url);
-        vcard.str_vcard += vcard.str_fullname;
+         vcard.str_vcard += vcard.str_fullname;
         vcard.str_vcard += vcard.str_phone_work;
         vcard.str_vcard += vcard.str_photo;
         // vcard.build_address();
@@ -71,8 +70,7 @@ function Contact({ data, userInfo, isEdit }) {
         vcard.str_vcard += vcard.str_url.join("\n");
         vcard.str_vcard += vcard.str_banking.join("\n");
         vcard.str_vcard += vcard.str_end;
-        console.log(vcard);
-      },
+       },
     };
     vcard.save();
     let download = (content, filename) => {
@@ -98,7 +96,7 @@ function Contact({ data, userInfo, isEdit }) {
     const params: GEN_QR = {
       accountNo: data.infoDetail.split("|")[1],
       accountName: data.infoDetail.split("|")[0],
-      acqId: data.keyContact, // MB BANK, check https://api.vietqr.io/v2/banksto get bank list
+      acqId: data.keyContact, //  check https://api.vietqr.io/v2/banksto get bank list
       template: "compact",
     };
     const res = await generateBankQR(params);
