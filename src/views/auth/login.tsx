@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import { Button, Input, message } from "antd";
 import "./index.scss";
@@ -27,7 +27,6 @@ import { normalizeVietnamese } from "helper/formatString";
 function Login() {
   const [messageApi, contextHolder] = message.useMessage();
   const [, setCookie] = useCookies(["auth-token", "auth-id"]);
-
   const [checkPassword, setCheckPassword] = useState(true);
   const [isSignUp, setIsSignUp] = useState(false);
   const [loginCred] = useState<AUTH_FORM>({
@@ -38,6 +37,8 @@ function Login() {
   const [validateSignUpPassword, setValidateSignUpPassword] =
     useState<Nullable<Boolean>>(null);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
   function returnToHomePage() {
     navigate("/");
   }
@@ -94,8 +95,8 @@ function Login() {
       console.error("Lỗi login:", e);
       messageApi.open({
         type: "error",
-        content: 'Tên tài khoản hoặc mật khẩu không đúng!',
-      }); 
+        content: "Tên tài khoản hoặc mật khẩu không đúng!",
+      });
     }
   }
   async function handleGoogleSignIn(token: string) {
@@ -120,7 +121,11 @@ function Login() {
   });
 
   useEffect(() => {}, [checkPassword, isSignUp]);
-
+  useEffect(() => {
+    if (searchParams.get("signup")) {
+      setIsSignUp(true);
+    }
+  }, []);
   const loginForm = () => {
     return (
       <div className="h-full w-full space-y-9 mt-9 login-form-bg px-9 py-[105px]">
@@ -144,7 +149,9 @@ function Login() {
             onChange={(e) => {
               loginCred.username = e.target.value;
             }}
-            onPressEnter={() => {handleLogin();}}
+            onPressEnter={() => {
+              handleLogin();
+            }}
           />
           <Input.Password
             prefix={<img src={IcLock} alt="password" />}
@@ -152,7 +159,9 @@ function Login() {
             onChange={(e) => {
               loginCred.password = e.target.value;
             }}
-            onPressEnter={() => {handleLogin();}}
+            onPressEnter={() => {
+              handleLogin();
+            }}
           />
           {isSignUp && (
             <Input.Password
@@ -209,7 +218,6 @@ function Login() {
             onClick={() => {
               handleLoginWithGoogle();
             }}
-           
           >
             <div className="flex items-center justify-center space-x-2">
               <img src={LogoGoogle} alt="LogoGoogle" />

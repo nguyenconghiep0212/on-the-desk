@@ -16,20 +16,44 @@ function Component({ profile_menu }) {
   const [checkIsLogIn, setLogin] = useRecoilState(isLogin);
   const navigate = useNavigate();
 
-  function handleSignIn() {
-    navigate("/login");
-  }
+ 
 
   const signin = (
-    <div
-      className="relative z-10 p-[1px] cursor-pointer h-9 w-40 menu-btn-bg"
-      onClick={() => {
-        handleSignIn();
-      }}
-    >
-      <div className="flex items-center w-full h-full px-3 space-x-1 text-white menu-btn">
-        <Icon className="text-base" icon="mdi:login" />
-        <div className="font-sans font-thin tracking-wide">Đăng nhập</div>
+    <div className="relative ">
+      <div
+        className="relative z-10 p-[1px] cursor-pointer h-9 w-40 menu-btn-bg"
+        onClick={() => {
+          navigate("/addCard");
+        }}
+      >
+        <div className="flex items-center w-full h-full px-3 space-x-1 text-white menu-btn">
+          <Icon className="text-base" icon="solar:card-outline" />
+          <div className="font-sans font-thin tracking-wide">Tạo thẻ</div>
+        </div>
+      </div>
+      <div className="my-[6px] border-t-[1px] border-solid border-white border-opacity-50"></div>
+      <div className="relative z-10 p-[1px] cursor-pointer h-9 w-40 menu-btn-bg">
+        <div
+          className="flex items-center w-full h-full px-3 space-x-1 text-white menu-btn"
+          onClick={() => {
+            navigate("/login")
+          }}
+        >
+          <Icon className="text-base" icon="mdi:login" />
+          <div className="font-sans font-thin tracking-wide">Đăng nhập</div>
+        </div>
+      </div>
+
+      <div className="relative z-10 p-[1px] cursor-pointer h-9 w-40 menu-btn-bg">
+        <div
+          className="flex items-center w-full h-full px-3 space-x-1 text-white menu-btn"
+          onClick={() => {
+            navigate("/login?signup=true")
+          }}
+        >
+          <Icon className="text-base" icon="tabler:user-plus" />
+          <div className="font-sans font-thin tracking-wide">Đăng ký</div>
+        </div>
       </div>
     </div>
   );
