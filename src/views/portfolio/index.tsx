@@ -51,7 +51,6 @@ function Portfolio() {
       },
     },
   ];
-  const [checkIsLogIn] = useRecoilState(isLogin);
   const [isEdit, setIsEdit] = useState(false);
   let [userInfo, setUserInfo] = useState<USER_INFO>({
     id: "",
@@ -180,8 +179,7 @@ function Portfolio() {
         className="flex flex-col h-full mobile:w-full sm:p-0 desktop:w-1/2"
       >
         <div className="relative flex-auto">
-          {/* NAVIGATE USER */}
-          {checkIsLogIn && (
+          {/* NAVIGATE USER */} 
             <div
               className="absolute top-[33px] z-10  text-lg right-5 rounded-full"
               style={{
@@ -190,8 +188,7 @@ function Portfolio() {
               }}
             >
               <NavigateMenu profile_menu={profile_menu} />
-            </div>
-          )}
+            </div> 
           {/*  */}
 
           {userInfo.isOwner && <Card userInfo={userInfo} />}

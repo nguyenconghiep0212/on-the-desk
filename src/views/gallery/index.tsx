@@ -25,6 +25,7 @@ import { USER_INFO } from "interface/user";
 // API
 import { getUserProfile, getGalleryByCustomerId, getCustomerById } from "api";
 import { useCookies } from "react-cookie";
+import { isLogin } from "store/root";
 
 function Component() {
   const { Dragger } = Upload;
@@ -161,8 +162,11 @@ function Component() {
         if (res) {
           setCustomerInfo(res.data);
           setCustomerInfoOrigin(res.data);
-          setNewGallery({...newGallery,customerId: res.data.customerName, 
-            customerName })
+          setNewGallery({
+            ...newGallery,
+            customerId: res.data.customerName,
+            customerName,
+          });
         }
       } catch (error) {}
     }

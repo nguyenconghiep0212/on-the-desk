@@ -13,9 +13,26 @@ function Component({ profile_menu }) {
     "auth-id",
     "current-user",
   ]);
-  const [, setLogin] = useRecoilState(isLogin);
-
+  const [checkIsLogIn, setLogin] = useRecoilState(isLogin);
   const navigate = useNavigate();
+
+  function handleSignIn() {
+    navigate("/login");
+  }
+
+  const signin = (
+    <div
+      className="relative z-10 p-[1px] cursor-pointer h-9 w-40 menu-btn-bg"
+      onClick={() => {
+        handleSignIn();
+      }}
+    >
+      <div className="flex items-center w-full h-full px-3 space-x-1 text-white menu-btn">
+        <Icon className="text-base" icon="mdi:login" />
+        <div className="font-sans font-thin tracking-wide">Đăng nhập</div>
+      </div>
+    </div>
+  );
   const content = (
     <div className="relative z-1 ">
       {profile_menu.map((item, index) => (
@@ -62,12 +79,16 @@ function Component({ profile_menu }) {
           offset: [7, 10],
         }}
         placement="bottomRight"
-        content={content}
+        content={checkIsLogIn ? content : signin}
         trigger="click"
       >
         <img
           className="cursor-pointer w-[24px] h-[24px] rounded-full"
-          src={cookies["current-user"].avatar || IconAccount}
+          src={
+            cookies["current-user"]
+              ? cookies["current-user"].avatar
+              : IconAccount
+          }
           alt="IconAccount"
         />
       </Popover>
