@@ -108,18 +108,21 @@ function Component() {
   }
   function cardBack() {
     return (
-      <div className="bg-[#091323]">
+      <div
+        className=" space-y-3 rounded-lg h-[176px] w-[280px]"
+        style={{
+          background: defaultCard.backgroundImage
+            ? "#0913239c"
+            : defaultCard.backgroundColor
+            ? defaultCard.backgroundColor
+            : "#0913239c",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+        }}
+      >
         <div
-          className="relative flex flex-col justify-center items-center space-y-3 rounded-lg h-[176px] w-[280px]"
-          style={{
-            background: defaultCard.backgroundImage
-              ? "#0913239c"
-              : defaultCard.backgroundColor
-              ? defaultCard.backgroundColor
-              : "#0913239c",
-            backgroundPosition: "center",
-            backgroundSize: "cover",
-          }}
+          className="relative flex flex-col items-center justify-center w-full h-full"
+          style={{ background: "rgb(0,0,0,0.39)" }}
         >
           <div className="absolute text-white -translate-x-1/2 top-4 left-1/2">
             {defaultCard.backText || "Your text here"}
