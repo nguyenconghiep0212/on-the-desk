@@ -89,40 +89,41 @@ function Component({ data, setDndItems, setContactList }) {
               }
             }}
           />
-
-          {filteredContactList.map((e, i) => (
-            <div
-              key={i}
-              className="flex items-center justify-start w-full cursor-pointer h-9"
-              onClick={async () => {
-                setDndItems(data.concat([e]));
-                setContactList(data.concat([e]));
-                const { id: _, ...rest }: any = e;
-                await addContactApi({
-                  contacts: [{ ...rest, templateId: e.id }],
-                });
-              }}
-            >
+          <div className="max-h-[30vh] space-y-2 overflow-auto">
+            {filteredContactList.map((e, i) => (
               <div
-                className={`flex items-center justify-center w-10 h-[inherit] rounded-tl-md rounded-bl-md ${
-                  e.keyContact === "phone" ? "bg-[#01B634]" : "bg-white"
-                }`}
-              >
-                <img
-                  src={`${process.env.REACT_APP_BASE_IMG}${e.linkIcon}`}
-                  alt="platform logo"
-                />
-              </div>
-              <div
-                className="flex items-center justify-start w-[calc(100%-40px)] h-[inherit] px-4 rounded-tr-md rounded-br-md"
-                style={{
-                  backgroundColor: `${e.backgoundColor}`,
+                key={i}
+                className="flex items-center justify-start w-full cursor-pointer h-9"
+                onClick={async () => {
+                  setDndItems(data.concat([e]));
+                  setContactList(data.concat([e]));
+                  const { id: _, ...rest }: any = e;
+                  await addContactApi({
+                    contacts: [{ ...rest, templateId: e.id }],
+                  });
                 }}
               >
-                <span className="text-white truncate">{e.nameContact}</span>
+                <div
+                  className={`flex items-center justify-center w-10 h-[inherit] rounded-tl-md rounded-bl-md ${
+                    e.keyContact === "phone" ? "bg-[#01B634]" : "bg-white"
+                  }`}
+                >
+                  <img
+                    src={`${process.env.REACT_APP_BASE_IMG}${e.linkIcon}`}
+                    alt="platform logo"
+                  />
+                </div>
+                <div
+                  className="flex items-center justify-start w-[calc(100%-40px)] h-[inherit] px-4 rounded-tr-md rounded-br-md"
+                  style={{
+                    backgroundColor: `${e.backgoundColor}`,
+                  }}
+                >
+                  <span className="text-white truncate">{e.nameContact}</span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
     </div>
