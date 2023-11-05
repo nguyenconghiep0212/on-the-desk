@@ -31,7 +31,7 @@ function Component() {
   const [isAddNewProfile, setIsAddNewProfile] = useState(true);
   const navigate = useNavigate();
   const pathParams = useParams();
-  const [defaultCard] = useRecoilState(storeCard);
+  const [defaultCard, setDefaultCard] = useRecoilState(storeCard);
   const [previewVisible, setPreviewVisible] = useState(false);
 
   function handleBack() {
@@ -46,6 +46,17 @@ function Component() {
         const res = await createCard(defaultCard);
         if (res) {
           message.success("Tạo thẻ thành công");
+          setDefaultCard({
+            alignment: "",
+            logo: "",
+            enableLogo: true,
+            frontText: "",
+            enableFrontText: true,
+            backText: "",
+            backgroundColor: "",
+            backgroundImage: "",
+            fontFamily: "",
+          });
           handleBack();
         }
       } catch (error) {
@@ -78,7 +89,7 @@ function Component() {
                 backgroundSize: "cover",
               }
             : {
-                background: defaultCard.backgroundColor || "#0913239c",
+                background: defaultCard.backgroundColor || "#091323",
                 alignItems: defaultCard.alignment || "center",
                 justifyContent:
                   defaultCard.alignment === "end" ||
@@ -110,19 +121,21 @@ function Component() {
     return (
       <div
         className=" space-y-3 rounded-lg h-[176px] w-[280px]"
-        style={{
-          background: defaultCard.backgroundImage
-            ? "#0913239c"
-            : defaultCard.backgroundColor
-            ? defaultCard.backgroundColor
-            : "#0913239c",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-        }}
+        style={
+          defaultCard.backgroundImage
+            ? {
+                background: "#091323"
+              }
+            : {
+                background: defaultCard.backgroundColor || "#091323",
+              }
+        }
       >
         <div
-          className="relative flex flex-col items-center justify-center w-full h-full"
-          style={{ background: "rgb(0,0,0,0.39)" }}
+          className="relative flex flex-col items-center justify-center w-full h-full rounded-lg"
+          style={
+            defaultCard.backgroundColor && !defaultCard.backgroundImage ? { background: "rgb(0,0,0,0.39)" } : {}
+          }
         >
           <div className="absolute text-white -translate-x-1/2 top-4 left-1/2">
             {defaultCard.backText || "Your text here"}
@@ -258,7 +271,10 @@ function Component() {
                   {card()}
                   {cardBack()}
                   <div className="text-right">
-                    <Button className="!shadow-none gradient_btn w-max">
+                    <Button
+                      className="!shadow-none gradient_btn w-max"
+                      onClick={() => submitCard()}
+                    >
                       Lưu thẻ
                     </Button>
                   </div>
