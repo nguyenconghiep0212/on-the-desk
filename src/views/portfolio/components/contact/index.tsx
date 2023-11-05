@@ -9,12 +9,18 @@ import { Button, Modal } from "antd";
 import { GEN_QR } from "interface/card";
 import IcAccount from "assests/icon/ic-account-blue.svg";
 import IcCard from "assests/icon/ic-card-blue.svg";
+import uuid from "react-uuid";
 
 function Contact({ data, userInfo, isEdit }) {
   const [contactList, setContactList] = useState(data);
 
   // DnD State
-  const [dndItems, setDndItems] = useState(data);
+  const [dndItems, setDndItems] = useState(
+    data.map((e) => {
+      const { id: _, ...rest } = e;
+      return { ...rest, id: uuid() };
+    })
+  );
   const [editingContact, setEditingContact] = useState({});
 
   const [QRbase64, setQRbase64] = useState({
