@@ -23,6 +23,30 @@ export function getComponentFromPackage(id: string) {
   });
 }
 
+export function addContact(params: {contacts: any[]}) {
+  return http({
+    method: "post",
+    url: `/api/users/contact/addcontacts`,
+    data: params
+  });
+}
+
+export function editContact(params: any) {
+  return http({
+    method: "post",
+    url: `/api/users/contact/updatecontact`,
+    data: params
+  });
+}
+
+export function deleteContact(id: string) {
+  return http({
+    method: "delete",
+    url: `/api/users/contact/deletecontract?id=${id}`,
+  });
+}
+
+
 
 export function uploadAvatar(data: any) {
   return httpUpload({

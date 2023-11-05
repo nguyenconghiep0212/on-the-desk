@@ -16,6 +16,7 @@ import Logo_SVG from "assests/landing/logo.svg";
 
 // STORE
 import { card as storeCard } from "store/addCard";
+
 // COMPONENT
 import Alignment from "./components/alignment";
 import Background from "./components/background";
@@ -124,7 +125,7 @@ function Component() {
         style={
           defaultCard.backgroundImage
             ? {
-                background: "#091323"
+                background: "#091323",
               }
             : {
                 background: defaultCard.backgroundColor || "#091323",
@@ -134,7 +135,9 @@ function Component() {
         <div
           className="relative flex flex-col items-center justify-center w-full h-full rounded-lg"
           style={
-            defaultCard.backgroundColor && !defaultCard.backgroundImage ? { background: "rgb(0,0,0,0.39)" } : {}
+            defaultCard.backgroundColor && !defaultCard.backgroundImage
+              ? { background: "rgb(0,0,0,0.39)" }
+              : {}
           }
         >
           <div className="absolute text-white -translate-x-1/2 top-4 left-1/2">

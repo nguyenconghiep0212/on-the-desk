@@ -2,8 +2,16 @@ import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import IcDnD from "assests/icon/ic-dnd.svg";
 import { Icon } from "@iconify/react";
+import { Button, Input } from "antd";
+import { deleteContact, editContact } from "api";
 
-export function EditDnD({ dndItems, setDndItems }) {
+export default function EditDnD({
+  dndItems,
+  setDndItems,
+  editingContact,
+  setEditingContact,
+  setContactList,
+}) {
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
@@ -33,6 +41,21 @@ export function EditDnD({ dndItems, setDndItems }) {
     );
     setDndItems(reorderedItems);
   }
+  async function updateContact() {
+    const index = dndItems.findIndex((e) => e.id === editingContact.id);
+    if (index > -1) {
+      dndItems[index] = editingContact;
+    }
+    setDndItems(dndItems);
+    setContactList(dndItems);
+    await editContact(editingContact);
+    setEditingContact({});
+  }
+  async function handleDeleteContact(id: string) {
+    await deleteContact(id);
+    setContactList(dndItems.filter((e) => e.id !== id));
+    setDndItems(dndItems.filter((e) => e.id !== id));
+  }
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="droppable">
@@ -59,7 +82,16 @@ export function EditDnD({ dndItems, setDndItems }) {
                       <div className="flex items-center justify-center w-6">
                         <img src={IcDnD} alt="IcDnD" />
                       </div>
-                      <div className="flex items-center justify-start w-full cursor-pointer h-9">
+                      <div
+                        className="flex items-center justify-start w-full cursor-pointer h-9"
+                        onClick={() => {
+                          setEditingContact(
+                            dndItems.find((f) => f.id === e.id)
+                          );
+                          dndItems.find((f) => f.id === e.id).isEdit = true;
+                          setDndItems(dndItems);
+                        }}
+                      >
                         <div
                           className={`flex items-center justify-center w-10 h-[inherit] rounded-tl-md rounded-bl-md ${
                             e.keyContact === "phone"
@@ -84,9 +116,101 @@ export function EditDnD({ dndItems, setDndItems }) {
                         </div>
                       </div>
                       <div className="flex items-center justify-center w-6">
-                        <Icon className="text-[#EB5757]" icon="tabler:trash" />
+                        <Icon
+                          className="text-[#EB5757]"
+                          icon="tabler:trash"
+                          onClick={() => handleDeleteContact(e.id)}
+                        />
                       </div>
                     </div>
+
+                    {/* EDIT */}
+                    {editingContact.id === e.id ? (
+                      <div className="my-3 space-y-3">
+                        {editingContact.typeContact === "social" && (
+                          <Input
+                            className="p-0"
+                            bordered={false}
+                            value={editingContact.infoDetail}
+                            placeholder="Dán link"
+                            onChange={(e) =>
+                              setEditingContact({
+                                ...editingContact,
+                                infoDetail: e.target.value,
+                              })
+                            }
+                          />
+                        )}
+                        {editingContact.typeContact === "phone" && (
+                          <Input
+                            className="p-0"
+                            bordered={false}
+                            value={editingContact.infoDetail}
+                            placeholder="Số điện thoại"
+                            onChange={(e) =>
+                              setEditingContact({
+                                ...editingContact,
+                                infoDetail: e.target.value,
+                              })
+                            }
+                          />
+                        )}
+                        {editingContact.typeContact === "bank" && (
+                          <div className="space-y-3">
+                            <Input
+                              className="p-0"
+                              bordered={false}
+                              value={
+                                editingContact.infoDetail
+                                  ? editingContact.infoDetail.split("|")[0]
+                                  : ""
+                              }
+                              placeholder="Tên tài khoản"
+                              onChange={(e) => {
+                                const name = e.target.value;
+                                const number = editingContact.infoDetail
+                                  ? editingContact.infoDetail.split("|")[1]
+                                  : "";
+                                setEditingContact({
+                                  ...editingContact,
+                                  infoDetail: name + "|" + number,
+                                });
+                              }}
+                            />
+                            <Input
+                              className="p-0"
+                              bordered={false}
+                              value={
+                                editingContact.infoDetail
+                                  ? editingContact.infoDetail.split("|")[1]
+                                  : ""
+                              }
+                              placeholder="Số tài khoản"
+                              onChange={(e) => {
+                                const name = editingContact.infoDetail
+                                  ? editingContact.infoDetail.split("|")[0]
+                                  : "";
+                                const number = e.target.value;
+                                setEditingContact({
+                                  ...editingContact,
+                                  infoDetail: name + "|" + number,
+                                });
+                              }}
+                            />
+                          </div>
+                        )}
+                        <div className="mt-2 text-right">
+                          <Button
+                            className="gradient_btn"
+                            onClick={() => updateContact()}
+                          >
+                            Xong
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                 )}
               </Draggable>

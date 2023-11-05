@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from "react";
 import SaveToContact from "assests/portfolio/save_to_contact.svg";
-import { EditDnD } from "./dragAndDrop";
+import EditDnD from "./dragAndDrop";
+import SelectContact from "./selectContact.tsx";
 import { Icon } from "@iconify/react";
 import { getBase64FromUrl } from "helper/convertToBase64";
 import { generateBankQR } from "api";
 import { Button, Modal } from "antd";
 import { GEN_QR } from "interface/card";
-
 import IcAccount from "assests/icon/ic-account-blue.svg";
 import IcCard from "assests/icon/ic-card-blue.svg";
-import uuid from "react-uuid";
 
 function Contact({ data, userInfo, isEdit }) {
-  console.log(data);
-  const [dndItems, setDndItems] = useState(
-    data.map((e) => {
-      return { ...e, id: uuid() };
-    })
-  );
+  const [contactList, setContactList] = useState(data);
+
+  // DnD State
+  const [dndItems, setDndItems] = useState(data);
+  const [editingContact, setEditingContact] = useState({});
+
   const [QRbase64, setQRbase64] = useState({
     base64: "",
     bankNo: "",
@@ -62,7 +61,7 @@ function Contact({ data, userInfo, isEdit }) {
           org_country;
       },
       save: function () {
-         vcard.str_vcard += vcard.str_fullname;
+        vcard.str_vcard += vcard.str_fullname;
         vcard.str_vcard += vcard.str_phone_work;
         vcard.str_vcard += vcard.str_photo;
         // vcard.build_address();
@@ -70,7 +69,7 @@ function Contact({ data, userInfo, isEdit }) {
         vcard.str_vcard += vcard.str_url.join("\n");
         vcard.str_vcard += vcard.str_banking.join("\n");
         vcard.str_vcard += vcard.str_end;
-       },
+      },
     };
     vcard.save();
     let download = (content, filename) => {
@@ -111,6 +110,12 @@ function Contact({ data, userInfo, isEdit }) {
     }
   }
 
+  useEffect(() => {
+    console.log("editingContact", editingContact);
+  }, [editingContact]);
+  useEffect(() => {
+    console.log("contactList", contactList);
+  }, [contactList]);
   function saveContact() {
     return (
       <div
@@ -195,16 +200,24 @@ function Contact({ data, userInfo, isEdit }) {
       <div className="">
         {isEdit ? (
           <div className="space-y-2">
-            <div className="border border-white border-dashed rounded-lg p-[6px] text-white flex items-center space-x-3 cursor-pointer">
-              <Icon icon="tabler:plus" className="w-6 h-6 " />
-              <span className="text-[12px] tracking-wide">Thêm mới</span>
-            </div>
-            {EditDnD({ dndItems, setDndItems })}
+            <SelectContact
+              data={contactList}
+              setDndItems={setDndItems}
+              setContactList={setContactList}
+            />
+
+            {EditDnD({
+              dndItems,
+              setDndItems,
+              editingContact,
+              setEditingContact,
+              setContactList,
+            })}
             {saveContact()}
           </div>
         ) : (
           <div className="grid <xs:grid-cols-1 grid-cols-2 gap-2 3xl:grid-cols-5 lg:grid-cols-3 ">
-            {data.map((e, index) => (
+            {contactList.map((e, index) => (
               <div
                 key={index}
                 className="flex items-center justify-start w-full cursor-pointer h-9"
