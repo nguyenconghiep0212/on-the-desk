@@ -13,7 +13,7 @@ import FullScreenImg from "./fullScreen";
 import NavigateMenu from "../navigateMenu/index";
 // import Feedback from "../portfolio/components/feedback/index";
 import CustomerAvatarPlaceholder from "assests/portfolio/customer_avatar_placeholder.jpg";
-import GalleryPlaceholder from "assests/portfolio/gallery_thumbnail_placeholder.jpg";
+import GalleryPlaceholder from "assests/portfolio/gallery_thumbnail_placeholder.svg";
 import Footer from "views/footer";
 import IcCamera from "assests/icon/ic-camera-blue.svg";
 
