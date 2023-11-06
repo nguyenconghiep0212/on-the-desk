@@ -55,7 +55,7 @@ function Login() {
           if (res.code === 200) {
             setCookie("auth-token", res.data.token);
             setCookie("auth-id", res.data.id);
-            navigate("/");
+            navigate(-1);
           } else {
             messageApi.open({
               type: "error",
@@ -86,7 +86,7 @@ function Login() {
       if (res) {
         setCookie("auth-token", res.data.token);
         setCookie("auth-id", res.data.id);
-        navigate("/");
+        navigate(-1);
       } else {
         setCheckPassword(false);
       }
@@ -104,7 +104,7 @@ function Login() {
     if (res) {
       setCookie("auth-token", res.data.token);
       setCookie("auth-id", res.data.id);
-      navigate("/");
+      navigate(-1);
     }
   }
   const handleLoginWithGoogle = useGoogleLogin({

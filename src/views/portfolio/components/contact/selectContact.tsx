@@ -15,46 +15,17 @@ function Component({ data, setDndItems, setContactList }) {
       backgoundColor: "#1877F2",
       status: 1,
     },
-    {
-      id: "654369c94c2fd7e46ecdf27d",
-      typeContact: "social",
-      nameContact: "Viber",
-      keyContact: "viber",
-      linkIcon: "/hiep-nguyen-cong/Card/c2a98a5045794d21a0bb3f75a44bd4f3.svg",
-      backgoundColor: "#834995",
-      status: 1,
-    },
-    {
-      id: "1",
-      typeContact: "bank",
-      nameContact: "SHB",
-      keyContact: "970443",
-      linkIcon: "/hiep-nguyen-cong/Card/6b21f3da478f45938c65a76475abce85.svg",
-      backgoundColor: "#4274EB",
-      status: 1,
-    },
-    {
-      id: "2",
-      typeContact: "bank",
-      nameContact: "MB",
-      keyContact: "970422",
-      linkIcon: "/hiep-nguyen-cong/Card/592f725518e94ef08b072f49a50c030c.svg",
-      backgoundColor: "#004A99",
-      status: 1,
-    },
   ]);
   const [filteredContactList, setFilteredContactList] = useState([]);
-  async function fetchTemplate(){
-  const res = await listContactTemplate()
-  if(res){
-    setContactTemplate(res.data) 
-    setFilteredContactList(res.data);
+  async function fetchTemplate() {
+    const res = await listContactTemplate();
+    if (res) {
+      setContactTemplate(res.data);
+      setFilteredContactList(res.data);
+    }
   }
-}
   useEffect(() => {
-      fetchTemplate()
-      
-
+    fetchTemplate();
   }, []);
   useEffect(() => {}, [filteredContactList, addContact, contactTemplate]);
   return (
