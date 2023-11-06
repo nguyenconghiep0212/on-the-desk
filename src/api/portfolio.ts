@@ -23,6 +23,13 @@ export function getComponentFromPackage(id: string) {
   });
 }
 
+export function listContactTemplate() {
+  return http({
+    method: "get",
+    url: `api/users/contact/templates`
+  });
+}
+
 export function addContact(params: {contacts: any[]}) {
   return http({
     method: "post",

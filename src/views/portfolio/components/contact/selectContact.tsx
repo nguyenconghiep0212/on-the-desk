@@ -1,7 +1,7 @@
 import { Icon } from "@iconify/react";
 import { Input } from "antd";
 import React, { useEffect, useState } from "react";
-import { addContact as addContactApi } from "api";
+import { addContact as addContactApi, listContactTemplate } from "api";
 
 function Component({ data, setDndItems, setContactList }) {
   const [addContact, setAddContact] = useState(false);
@@ -44,9 +44,17 @@ function Component({ data, setDndItems, setContactList }) {
     },
   ]);
   const [filteredContactList, setFilteredContactList] = useState([]);
-
+  async function fetchTemplate(){
+  const res = await listContactTemplate()
+  if(res){
+    setContactTemplate(res.data) 
+    setFilteredContactList(res.data);
+  }
+}
   useEffect(() => {
-    setFilteredContactList(contactTemplate);
+      fetchTemplate()
+      
+
   }, []);
   useEffect(() => {}, [filteredContactList, addContact, contactTemplate]);
   return (

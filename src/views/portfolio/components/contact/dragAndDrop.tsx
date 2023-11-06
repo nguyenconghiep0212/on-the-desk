@@ -5,7 +5,7 @@ import { Icon } from "@iconify/react";
 import { Button, Input } from "antd";
 import { deleteContact, editContact } from "api";
 
-export default function EditDnD({
+ function Component({
   dndItems,
   setDndItems,
   editingContact,
@@ -222,3 +222,4 @@ export default function EditDnD({
     </DragDropContext>
   );
 }
+export default Component;
