@@ -175,7 +175,7 @@ function Menu({ handleChange, activeMenuEvent, activatedMenu }) {
 
 function Profile({ activeMenuEvent, isLogin, setIsLogin, activatedMenu }) {
   const navigate = useNavigate();
-  const [, setCookie, removeCookie] = useCookies([
+  const [, , removeCookie] = useCookies([
     "auth-token",
     "auth-id",
     "current-user",
@@ -234,8 +234,6 @@ function Profile({ activeMenuEvent, isLogin, setIsLogin, activatedMenu }) {
       const res = await getUserProfileByToken();
       if (res) {
         setUserInfo(res.data);
-        console.log("set current user cookie");
-        setCookie("current-user", res.data);
       }
     } catch (e) {
       console.error("lỗi lấy user profile:", e);

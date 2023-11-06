@@ -21,12 +21,12 @@ import IcLock from "assests/login/ic-lock.svg";
 import LogoGoogle from "assests/login/logo_google.svg";
 
 // API
-import { signIn, googleSignIn, signUp } from "api/index";
+import { signIn, googleSignIn, signUp, getUserProfileByToken } from "api/index";
 import { AUTH_FORM } from "interface/auth";
 import { normalizeVietnamese } from "helper/formatString";
 function Login() {
   const [messageApi, contextHolder] = message.useMessage();
-  const [, setCookie] = useCookies(["auth-token", "auth-id"]);
+  const [, setCookie] = useCookies(["auth-token", "auth-id", "current-user"]);
   const [checkPassword, setCheckPassword] = useState(true);
   const [isSignUp, setIsSignUp] = useState(false);
   const [loginCred] = useState<AUTH_FORM>({
@@ -55,6 +55,7 @@ function Login() {
           if (res.code === 200) {
             setCookie("auth-token", res.data.token);
             setCookie("auth-id", res.data.id);
+            await getUserProfile()
             navigate(-1);
           } else {
             messageApi.open({
@@ -86,6 +87,7 @@ function Login() {
       if (res) {
         setCookie("auth-token", res.data.token);
         setCookie("auth-id", res.data.id);
+        await getUserProfile()
         navigate(-1);
       } else {
         setCheckPassword(false);
@@ -104,6 +106,7 @@ function Login() {
     if (res) {
       setCookie("auth-token", res.data.token);
       setCookie("auth-id", res.data.id);
+      await getUserProfile()
       navigate(-1);
     }
   }
@@ -120,6 +123,17 @@ function Login() {
     },
   });
 
+  async function getUserProfile() {
+    try {
+      const res = await getUserProfileByToken();
+      if (res) {
+        console.log("set current user cookie");
+        setCookie("current-user", res.data);
+      }
+    } catch (e) {
+      console.error("lỗi lấy user profile:", e);
+    }
+  }
   useEffect(() => {}, [checkPassword, isSignUp]);
   useEffect(() => {
     if (searchParams.get("signup")) {
