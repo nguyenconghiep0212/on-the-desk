@@ -11,6 +11,13 @@ import IcAccount from "assests/icon/ic-account-blue.svg";
 import IcCard from "assests/icon/ic-card-blue.svg";
 import uuid from "react-uuid";
 
+enum QR_TEMPLATE {
+  COMPACT2 ='compact2',
+  COMPACT="compact",
+  QRONLY='qr_only',
+  FULL="print"
+}
+
 function Contact({ data, userInfo, isEdit }) {
   const [contactList, setContactList] = useState(data);
   // DnD State
@@ -105,7 +112,7 @@ function Contact({ data, userInfo, isEdit }) {
       accountNo: data.infoDetail.split("|")[1],
       accountName: data.infoDetail.split("|")[0],
       acqId: data.keyContact, //  check https://api.vietqr.io/v2/banksto get bank list
-      template: "compact",
+      template: QR_TEMPLATE.COMPACT,
     };
     const res = await generateBankQR(params);
     if (res) {
