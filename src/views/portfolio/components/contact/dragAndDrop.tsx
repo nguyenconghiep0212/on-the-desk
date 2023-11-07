@@ -5,7 +5,7 @@ import { Icon } from "@iconify/react";
 import { Button, Input } from "antd";
 import { deleteContact, editContact } from "api";
 
- function Component({
+function Component({
   dndItems,
   setDndItems,
   editingContact,
@@ -48,7 +48,8 @@ import { deleteContact, editContact } from "api";
     }
     setDndItems(dndItems);
     setContactList(dndItems);
-    await editContact(editingContact);
+    const params = { ...editingContact, contactId: editingContact.id };
+    await editContact(params);
     setEditingContact({});
   }
   async function handleDeleteContact(id: string) {
@@ -66,7 +67,8 @@ import { deleteContact, editContact } from "api";
             style={getListStyle(snapshot.isDraggingOver)}
           >
             {dndItems.map((e, index) => (
-              <Draggable key={e.id} draggableId={e.id} index={index}>
+              <Draggable key={e.dndKey} draggableId={e.dndKey} index={index}>
+
                 {(provided, snapshot) => (
                   <div
                     key={index}
@@ -125,7 +127,7 @@ import { deleteContact, editContact } from "api";
                     </div>
 
                     {/* EDIT */}
-                    {editingContact.id === e.id ? (
+                    {editingContact.dndKey === e.dndKey ? (
                       <div className="my-3 space-y-3">
                         {editingContact.typeContact === "social" && (
                           <Input

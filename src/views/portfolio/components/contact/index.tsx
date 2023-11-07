@@ -5,7 +5,7 @@ import SelectContact from "./selectContact.tsx";
 import { Icon } from "@iconify/react";
 import { getBase64FromUrl } from "helper/convertToBase64";
 import { generateBankQR } from "api";
-import { Button, Modal } from "antd";
+import { Button, Modal, message } from "antd";
 import { GEN_QR } from "interface/card";
 import IcAccount from "assests/icon/ic-account-blue.svg";
 import IcCard from "assests/icon/ic-card-blue.svg";
@@ -13,12 +13,10 @@ import uuid from "react-uuid";
 
 function Contact({ data, userInfo, isEdit }) {
   const [contactList, setContactList] = useState(data);
-
   // DnD State
   const [dndItems, setDndItems] = useState(
     data.map((e) => {
-      const { id: _, ...rest } = e;
-      return { ...rest, id: uuid() };
+       return { ...e, dndKey: uuid() };
     })
   );
   const [editingContact, setEditingContact] = useState({});
@@ -91,11 +89,16 @@ function Contact({ data, userInfo, isEdit }) {
     download(vcard.str_vcard, "card.vcf");
   }
   function onOpenContact(data) {
-    window.open(
+    if(data.infoDetail){
+       window.open(
       data.typeContact === "phone" ? `tel:${data.infoDetail}` : data.infoDetail,
       "_blank",
       "noopener,noreferrer"
     );
+    }else{
+      message.error('Đường dẫn không tồn tại')
+    }
+   
   }
   async function genQR(data) {
     const params: GEN_QR = {
@@ -207,7 +210,7 @@ function Contact({ data, userInfo, isEdit }) {
         {isEdit ? (
           <div className="space-y-2">
             <SelectContact
-              data={contactList}
+              data={dndItems}
               setDndItems={setDndItems}
               setContactList={setContactList}
             />
