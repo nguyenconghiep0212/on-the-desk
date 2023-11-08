@@ -24,6 +24,16 @@ function Component({ data, setDndItems, setContactList }) {
       setFilteredContactList(res.data);
     }
   }
+  async function handleAddContact(e) {
+    const { id: _, ...rest }: any = e;
+    const res = await addContactApi({
+      contacts: [{ ...rest, templateId: e.id }],
+    });
+    if (res) {
+      setDndItems(data.concat([{ ...e, id: res.data[0].id }]));
+      setContactList(data.concat([{ ...e, id: res.data[0].id }]));
+    }
+  }
   useEffect(() => {
     fetchTemplate();
   }, []);
@@ -74,12 +84,7 @@ function Component({ data, setDndItems, setContactList }) {
                 key={i}
                 className="flex items-center justify-start w-full cursor-pointer h-9"
                 onClick={async () => {
-                  setDndItems(data.concat([e]));
-                  setContactList(data.concat([e]));
-                  const { id: _, ...rest }: any = e;
-                  await addContactApi({
-                    contacts: [{ ...rest, templateId: e.id }],
-                  });
+                  handleAddContact(e);
                 }}
               >
                 <div

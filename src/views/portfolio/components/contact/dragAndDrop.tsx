@@ -67,7 +67,7 @@ function Component({
             style={getListStyle(snapshot.isDraggingOver)}
           >
             {dndItems.map((e, index) => (
-              <Draggable key={e.dndKey} draggableId={e.dndKey} index={index}>
+              <Draggable key={e.id} draggableId={e.id} index={index}>
 
                 {(provided, snapshot) => (
                   <div
@@ -127,7 +127,7 @@ function Component({
                     </div>
 
                     {/* EDIT */}
-                    {editingContact.dndKey === e.dndKey ? (
+                    {editingContact.id === e.id ? (
                       <div className="my-3 space-y-3">
                         {editingContact.typeContact === "social" && (
                           <Input
