@@ -23,9 +23,13 @@ import { CUSTOMER } from "interface/customer";
 import { USER_INFO } from "interface/user";
 
 // API
-import { getUserProfile, getGalleryByCustomerId, getCustomerById } from "api";
+import {
+  getUserProfile,
+  getGalleryByCustomerId,
+  getCustomerById,
+  uploadGallery,
+} from "api";
 import { useCookies } from "react-cookie";
-import { isLogin } from "store/root";
 
 function Component() {
   const { Dragger } = Upload;
@@ -122,7 +126,14 @@ function Component() {
       authorization: "authorization-text",
     },
   };
-  async function uploadFileGallery(file) {}
+  async function uploadFileGallery(file) {
+    const fd = new FormData();
+    fd.append("files", file);
+    const res = await uploadGallery(fd);
+    if (res) {
+      setNewGallery({ ...newGallery, thumb: res.data[0] });
+    }
+  }
   async function uploadFile(file, mode) {}
   function handleOpenFullscreen(gallery, img) {
     setCurrentImg(img);
@@ -395,7 +406,12 @@ function Component() {
               <div className="relative">
                 <div
                   className="absolute top-[6px] right-[6px] cursor-pointer"
-                  onClick={() => {}}
+                  onClick={() => {
+                    setNewGallery({
+                      ...newGallery,
+                      thumb: "",
+                    });
+                  }}
                 >
                   <Icon
                     className="text-[#EB5757] h-4 w-4"
@@ -403,9 +419,9 @@ function Component() {
                   />
                 </div>
                 <div
-                  className="h-[360px] rounded"
+                  className="rounded aspect-video"
                   style={{
-                    backgroundImage: `url('${newGallery.thumb}')`,
+                    backgroundImage: `url('${process.env.REACT_APP_BASE_IMG}${newGallery.thumb}')`,
                     backgroundPosition: "center",
                     backgroundSize: "cover",
                   }}

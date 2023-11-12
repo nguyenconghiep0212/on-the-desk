@@ -1,23 +1,30 @@
 .ant-select {
     box-shadow: 2px 2px 4px 0px #001940, -2px -2px 4px 0px rgba(60, 173, 255, 0.50);
     border-radius: 8px;
+    background: #1E2530;
 
     .ant-select-selector {
         border: none !important;
-        background: #1E2530 !important;
         padding: 0px !important;
+        background-color: inherit !important;
 
         &::after {
             color: white !important;
         }
     }
 
-    .ant-select-selection-item {
-        color: white;
+    .ant-select-selection {
+        &-item {
+            color: white;
+        }
 
+        &-search-input {
+            color: white !important
+        }
     }
 
     .ant-select-selection-placeholder {
+        width: 100%;
         display: flex;
         justify-content: center;
         color: rgba(255, 255, 255, 0.6);
@@ -44,6 +51,11 @@
 
 .ant-select-dropdown {
     background-color: #1e2530;
+
+    .ant-empty-description {
+        color: white;
+
+    }
 }
 
 .ant-select-item-option-content {

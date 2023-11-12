@@ -18,6 +18,7 @@ import Login from "./routes/login";
 import Admin from "./routes/admin";
 import Middleware from "./routes/middleware";
 import AddCard from "./routes/add-card";
+import AddGallery from "./routes/add-gallery";
 import { Helmet } from "react-helmet";
 // STORE
 import { RecoilRoot } from "recoil";
@@ -69,6 +70,16 @@ const RouterBuilder = () => {
     {
       path: "/:userId/:customerId",
       element: <Gallery />,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: "/:userId/addGallery",
+      element: <AddGallery />,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: "/:userId/addGallery/:customerId",
+      element: <AddGallery />,
       errorElement: <ErrorPage />,
     },
   ];

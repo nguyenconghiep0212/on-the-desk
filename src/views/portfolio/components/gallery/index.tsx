@@ -4,15 +4,9 @@ import { Icon } from "@iconify/react";
 import "./index.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatNumber } from "helper/formatNumber.ts";
-import {
-  getGalleryByUserId,
-  createGallery,
-  uploadGallery,
-  getGalleryByCustomerId,
-  fetchCustomerList,
-} from "api";
+import { getGalleryByUserId, uploadGallery, fetchCustomerList } from "api";
 import { GALLERY, UPDATE_GALLERY } from "interface/gallery";
-import { Button, Input, Modal, Select, Upload, UploadProps } from "antd";
+import { Button, Select } from "antd";
 
 function Gallery({ alias, data, userInfo, isEdit }) {
   const [customerList, setCustomerList] = useState([]);
@@ -26,18 +20,7 @@ function Gallery({ alias, data, userInfo, isEdit }) {
     topics: [],
     shortcut: "",
   });
-  const [addVisible, setAddVisible] = useState(false);
-  const { Dragger } = Upload;
-  const props: UploadProps = {
-    name: "file",
-    multiple: true,
-    action: async (file) => await uploadFile(file, "thumb"),
-  };
-  const propsChild: UploadProps = {
-    name: "file",
-    multiple: true,
-    action: async (file) => await uploadFile(file, "data"),
-  };
+
   const [isAllFilter, setIsAllFilter] = useState(false);
   const [filteredGallery, setFilteredGallery] = useState<GALLERY[]>([]);
   const [filteredTag, setFilteredTag] = useState<string[]>(["all"]);
@@ -48,51 +31,13 @@ function Gallery({ alias, data, userInfo, isEdit }) {
   const params = useParams();
   const navigate = useNavigate();
 
-  async function uploadFile(file, mode) {
-    const fd = new FormData();
-    fd.append("files", file);
-    const res = await uploadGallery(fd);
-    if (res) {
-      if (mode === "thumb") {
-        setNewGallery({
-          ...newGallery,
-          thumb: `${process.env.REACT_APP_BASE_IMG}${res.data[0]}`,
-        });
-      }
-      if (mode === "data") {
-        const arr = newGallery.data.concat([
-          {
-            name: file.name,
-            ref: `${process.env.REACT_APP_BASE_IMG}${res.data[0]}`,
-            caption: "",
-            index: newGallery.data.length,
-            dimension: "",
-            sizeOnDisk: file.size,
-          },
-        ]);
-        setNewGallery({
-          ...newGallery,
-          data: arr,
-        });
-      }
-    }
-  }
   async function getCustomerList() {
     const res = await fetchCustomerList();
     if (res) {
       setCustomerList(res.data);
     }
   }
-  function addAlbumData() {
-    setAddVisible(true);
-  }
-  function addNewTag() {
-    setNewGallery({ ...newGallery, topics: [...newGallery.topics, ""] });
-  }
-  function removeTag(i) {
-    const arr = newGallery.topics.filter((el, index) => i !== index);
-    setNewGallery({ ...newGallery, topics: arr });
-  }
+
   function handleClickFilterTag(data: string) {
     if (data !== "all") {
       if (filteredTag.includes("all")) {
@@ -155,24 +100,7 @@ function Gallery({ alias, data, userInfo, isEdit }) {
     }
   }
 
-  async function createNewGallery() {
-    const res = await createGallery(newGallery);
-    if (res) {
-      setAddVisible(false);
-    }
-  }
-
-  async function editGallery(customerId: string) {
-    // try {
-    //   const res = await getGalleryByCustomerId(customerId);
-    //   if (res) {
-    //     const galleryData = res.data.gals;
-    //     setNewGallery(galleryData);
-    //   }
-    // } catch (error) {
-    //   console.error("Lỗi lấy gallery:", error);
-    // }
-  }
+  async function editGallery(customerId: string) {}
 
   function redirectToGallery(customerId: string) {
     return navigate(`/${params.userId}/${customerId}`);
@@ -244,201 +172,19 @@ function Gallery({ alias, data, userInfo, isEdit }) {
 
         {/* THÊM THƯ VIỆN ẢNH MỚI */}
         {isEdit && (
-          <div>
-            <div className="space-y-4">
-              {newGallery.thumb ? (
-                <div className="relative">
-                  <div
-                    className="absolute top-[6px] right-[6px] cursor-pointer"
-                    onClick={() => {
-                      setNewGallery({ ...newGallery, thumb: "" });
-                    }}
-                  >
-                    <Icon
-                      className="text-[#EB5757] h-4 w-4"
-                      icon="tabler:trash"
-                    />
-                  </div>
-                  <div
-                    className="h-[360px] rounded"
-                    style={{
-                      backgroundImage: `url('${newGallery.thumb}')`,
-                      backgroundPosition: "center",
-                      backgroundSize: "cover",
-                    }}
-                  />
-                </div>
-              ) : (
-                <Dragger {...props} className="">
-                  <p className="flex min-h-[360px] items-center justify-center space-x-1 text-sm font-semibold !text-white ant-upload-text">
-                    <Icon icon="tabler:plus" />
-                    <span> Chọn ảnh bìa</span>
-                  </p>
-                </Dragger>
-              )}
-
-              <Input
-                placeholder="Tên album"
-                bordered={false}
-                className="p-0"
-                onChange={(e) => {
-                  setNewGallery({ ...newGallery, name: e.target.value });
-                }}
-              />
-              <Select
-                allowClear
-                className="w-full album-des"
-                bordered={false}
-                options={customerList.map((e) => {
-                  return { value: e.id, label: e.customerName };
-                })}
-                placeholder="Mô tả album"
-                onChange={(e) => {
-                  setNewGallery({
-                    ...newGallery,
-                    customerId: e || "",
-                    customerName: customerList.find((f) => f.id === e)
-                      ? customerList.find((f) => f.id === e).customerName
-                      : "",
-                  });
-                }}
-              />
-              <div className="grid grid-cols-5 gap-1">
-                <div
-                  className="cursor-pointer flex items-center justify-center px-3 py-1 text-white border border-white border-dashed rounded w-full text-[12px] space-x-1 font-semibold"
-                  onClick={() => addNewTag()}
-                >
-                  <Icon className="w-4 h-4" icon="tabler:plus" />
-                  <span> Gắn thẻ</span>
-                </div>
-
-                {newGallery.topics.map((e, i) => (
-                  <div
-                    key={i}
-                    className="inline-flex cursor-pointer rounded-lg bg-[#2f353f]"
-                  >
-                    <div className="h-full filter-tag-bg">
-                      <div
-                        key={i}
-                        className="flex items-start justify-center space-x-1 font-semibold filter-tag"
-                      >
-                        <div
-                          className="!h-4 !w-4"
-                          onClick={() => {
-                            removeTag(i);
-                          }}
-                        >
-                          <Icon
-                            className="text-[#EB5757] h-4 w-4"
-                            icon="tabler:trash"
-                          />
-                        </div>
-
-                        <Input
-                          value={e}
-                          className="p-0"
-                          bordered={false}
-                          onChange={(e) => {
-                            const arr = [...newGallery.topics];
-                            arr[i] = e.target.value;
-                            setNewGallery({ ...newGallery, topics: arr });
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="text-right">
-              <Button
-                className="gradient_btn"
-                onClick={() => {
-                  addAlbumData();
-                }}
-              >
-                Thêm ảnh
-              </Button>
-            </div>
-            <Modal
-              className="modalFullScreen"
-              open={addVisible}
-              closeIcon={false}
-              footer={null}
-              afterClose={() => {
-                setAddVisible(false);
-              }}
-            >
-              <div className="relative flex flex-col items-center justify-center h-full space-y-2 backdrop-blur">
-                <div
-                  className="absolute cursor-pointer top-5 right-5"
-                  onClick={() => setAddVisible(false)}
-                >
-                  <Icon className="w-5 h-5 text-white" icon="tabler:x" />
-                </div>
-                <div className="flex flex-col items-center w-full h-full my-6 space-y-10 overflow-auto">
-                  <div className="space-y-10">
-                    {newGallery.data?.map((e, i) => (
-                      <div key={i} className="relative rounded w-[255px]">
-                        <div
-                          className="absolute top-[6px] right-[6px] cursor-pointer"
-                          onClick={() => {
-                            const temp = newGallery.data.filter(
-                              (f) => f.ref !== e.ref
-                            );
-                            setNewGallery({ ...newGallery, data: temp });
-                          }}
-                        >
-                          <Icon
-                            className="text-[#EB5757] h -4 w-4"
-                            icon="tabler:trash"
-                          />
-                        </div>
-                        <img
-                          className="rounded"
-                          src={e.ref}
-                          alt="gallery data"
-                        />
-                        <Input
-                          className="p-0"
-                          bordered={false}
-                          placeholder="Tên ảnh"
-                          onChange={(e) => {
-                            const temp = newGallery;
-                            temp.data[i].caption = e.target.value;
-                            setNewGallery(temp);
-                          }}
-                        />
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="space-y-2">
-                    <Dragger {...propsChild} className="">
-                      <p className="flex w-[255px] h-[185px] items-center justify-center space-x-1 text-sm font-semibold !text-white ant-upload-text">
-                        <Icon icon="tabler:plus" />
-                        <span> Tải ảnh lên</span>
-                      </p>
-                    </Dragger>
-                    <div className="space-x-2 text-right">
-                      <Button
-                        className="!shadow-none "
-                        onClick={() => setAddVisible(false)}
-                      >
-                        Hủy
-                      </Button>
-                      <Button
-                        className="!shadow-none gradient_btn"
-                        onClick={() => createNewGallery()}
-                      >
-                        Xong
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Modal>
+          <div className=" <xs:flex <xs:flex-col <xs:space-y-2 grid grid-cols-2 gap-2">
+            <Button className="flex items-center space-x-1 text-left gradient_btn" onClick={() => {navigate(`/${userInfo.shortcut}/addGallery`)}}>
+              <Icon className="w-[18px] h-[18px]" icon="tabler:plus" />
+              <span>Tạo album mới</span>
+            </Button>
+            <Select
+              className=""
+              placeholder="Thêm album vào"
+              options={customerList.map((e) => ({
+                value: e.id,
+                label: e.customerName,
+              }))}
+            ></Select>
           </div>
         )}
         {/*  */}

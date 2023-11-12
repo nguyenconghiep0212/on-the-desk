@@ -22,6 +22,12 @@
   }
 }
 
+.upload_new_gallery_album {
+  .ant-upload.ant-upload-select {
+    width: 100%
+  }
+}
+
 // SWIPER 
 .mySwiper {
   height: 40% !important;
@@ -40,7 +46,7 @@
 
 }
 
-.mySwiper2.fullscreen-gallery-view{
+.mySwiper2.fullscreen-gallery-view {
   height: 100% !important;
   box-sizing: border-box;
   padding: 10px 0;
@@ -55,9 +61,8 @@
       object-fit: contain;
     }
   }
-  .swiper-pagination{
-     
-  }
+
+  .swiper-pagination {}
 }
 
 .mySwiper .swiper-slide {
