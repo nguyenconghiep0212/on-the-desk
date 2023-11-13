@@ -1,0 +1,17 @@
+ .confirm_dialog.ant-modal{
+     top: 50%;
+     transform: translateY(-100%);
+
+   
+ }
+ .confirm_dialog .ant-modal-content {
+    background: rgb(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(9px);
+    border-radius: 8px;
+
+}
+
+ .ant-modal-wrap:has(.confirm_dialog) {
+    background: rgb(255,255,255,0.05);
+    backdrop-filter: blur(9px);
+}

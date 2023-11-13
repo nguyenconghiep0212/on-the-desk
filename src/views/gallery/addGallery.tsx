@@ -6,11 +6,9 @@ import "./index.scss";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { Icon } from "@iconify/react";
 import { Button, Input, Select, Upload, UploadProps } from "antd";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import NavigateMenu from "../navigateMenu/index";
 // import Feedback from "../portfolio/components/feedback/index";
 import CustomerAvatarPlaceholder from "assests/portfolio/customer_avatar_placeholder.jpg";
-import GalleryPlaceholder from "assests/portfolio/gallery_thumbnail_placeholder.svg";
 import Footer from "views/footer";
 import IcCamera from "assests/icon/ic-camera-blue.svg";
 
@@ -18,6 +16,9 @@ import IcCamera from "assests/icon/ic-camera-blue.svg";
 import { GALLERY_CUSTOMER, UPDATE_GALLERY } from "interface/gallery";
 import { CUSTOMER } from "interface/customer";
 import { USER_INFO } from "interface/user";
+
+// COMPONENT
+import ConfirmDialog from "views/component/confirmDialog";
 
 // API
 import {
@@ -33,6 +34,12 @@ function Component() {
   const routeParams = useParams();
   const navigate = useNavigate();
   const [cookies] = useCookies(["current-user"]);
+  // confirm dialog
+  const [confirmDialogVisible, setConfirmDialogVisible] = useState(false);
+  const [confirmDialogMode, setConfirmDialogMode] = useState("success");
+  const [confirmDialogOkText, setConfirmDialogOkText] = useState("");
+  const [confirmDialogMessage, setConfirmDialogMessage] = useState('')
+  // 
   const [galleries, setGalleries] = useState<GALLERY_CUSTOMER[]>([]);
   const [userInfo, setUserInfo] = useState<USER_INFO>({
     name: "",
@@ -341,7 +348,12 @@ function Component() {
               <Icon
                 className="text-[#EB5757] h-6 w-6 cursor-pointer"
                 icon="tabler:trash"
-                onClick={() => {}}
+                onClick={() => {
+                  setNewGallery({
+                    ...newGallery,
+                    data: newGallery.data?.filter((_, i) => i !== index),
+                  });
+                }}
               />
             </div>
             <div
@@ -367,7 +379,7 @@ function Component() {
               placeholder="Tên album mới"
               bordered={false}
               value={newGallery.name}
-              className="p-0 mb-4"
+              className="p-0 mb-4 text-sm font-bold"
               onChange={(e) => {
                 setNewGallery({ ...newGallery, name: e.target.value });
               }}
@@ -394,17 +406,24 @@ function Component() {
 
           {newGallery.thumb ? (
             <div className="relative">
-              <div
-                className="absolute top-[6px] right-[6px] cursor-pointer"
-                onClick={() => {
-                  setNewGallery({
-                    ...newGallery,
-                    thumb: "",
-                  });
-                }}
+              <Upload
+                {...propsThumbNewGalley}
+                className="absolute z-20 bottom-5 right-5 upload-hidden"
               >
-                <Icon className="text-[#EB5757] h-4 w-4" icon="tabler:trash" />
-              </div>
+                <div
+                  className="flex items-center justify-center w-6 h-6 rounded cursor-pointer "
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.08) 100%)",
+                  }}
+                >
+                  <img
+                    src={IcCamera}
+                    alt="IcCamera"
+                    className="text-primary-blue-dark "
+                  />
+                </div>
+              </Upload>
               <div
                 className="rounded aspect-video"
                 style={{
@@ -472,7 +491,7 @@ function Component() {
               showSearch
               className="w-full text-white"
               placeholder={
-                <div className="flex items-start w-full pl-1 space-x-1 text-white">
+                <div className="flex items-start w-full pl-2 space-x-1 text-white">
                   <span>Gắn nhãn</span>
                 </div>
               }
@@ -492,7 +511,7 @@ function Component() {
           </div>
 
           <div className="overflow-auto ">{masonryGrid()}</div>
-          <div className="flex justify-end">
+          <div className="space-y-4 lg:space-y-0 lg:flex lg:justify-end lg:space-x-2">
             <Upload
               {...propsAlbumNewGallery}
               className="flex w-full h-6 upload_new_gallery_album upload-hidden lg:w-max"
@@ -509,6 +528,19 @@ function Component() {
                 </Button>
               </div>
             </Upload>
+            {newGallery.data.length && (
+              <Button
+                className="lg:w-max w-full !shadow-none gradient_btn"
+                onClick={() => {
+                  setConfirmDialogVisible(true);
+                  setConfirmDialogMode("success");
+                  setConfirmDialogOkText('Xem album')
+                  setConfirmDialogMessage('Tạo album thành công!')
+                }}
+              >
+                Hoàn thành
+              </Button>
+            )}
           </div>
           <div id="divider" className="flex items-center justify-center py-6">
             <div className="w-2/3 border-t border-dashed border-primary-blue-medium"></div>
@@ -537,6 +569,16 @@ function Component() {
       <div className="z-50 sticky bottom-0 w-[100vw] desktop:-translate-x-1/6 backdrop-blur">
         <Footer />
       </div>
+      <ConfirmDialog
+        title={undefined}
+        visible={confirmDialogVisible}
+        type={confirmDialogMode}
+        message={confirmDialogMessage}
+        cancelText='Trở lại'
+        okText={confirmDialogOkText}
+        handleOk={undefined}
+        handleCancel={() => setConfirmDialogVisible(false)}
+      />
     </div>
   );
 }
