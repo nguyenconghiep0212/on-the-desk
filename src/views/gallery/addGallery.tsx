@@ -40,6 +40,7 @@ function Component() {
   const [confirmDialogOkText, setConfirmDialogOkText] = useState("");
   const [confirmDialogMessage, setConfirmDialogMessage] = useState("");
   //
+  const [topicSearch, setTopicSearch] = useState("");
   const [galleries, setGalleries] = useState<GALLERY_CUSTOMER[]>([]);
   const [userInfo, setUserInfo] = useState<USER_INFO>({
     name: "",
@@ -147,10 +148,6 @@ function Component() {
   function addNewTag() {
     setNewGallery({ ...newGallery, topics: [...newGallery.topics, ""] });
   }
-  function removeTag(i) {
-    const arr = newGallery.topics.filter((el, index) => i !== index);
-    setNewGallery({ ...newGallery, topics: arr });
-  }
 
   function handleBack() {
     return navigate(-1);
@@ -217,7 +214,7 @@ function Component() {
     handleGetUserProfile();
     handleGetCustomerById();
   }, []);
-  useEffect(() => {}, [newGallery, galleries, confirmDialogMode]);
+  useEffect(() => {}, [newGallery, galleries, confirmDialogMode, topicSearch]);
   function header() {
     return (
       <div>
@@ -437,21 +434,27 @@ function Component() {
           </Dragger>
         )}
 
-        <div className="grid grid-cols-5 gap-1">
+        <div>
           {newGallery.topics.map((e, i) => (
             <div
               key={i}
-              className="inline-flex cursor-pointer rounded-lg bg-[#2f353f]"
+              className="mr-2 mb-2 inline-flex cursor-pointer rounded-lg bg-[#2f353f]"
             >
               <div className="h-full filter-tag-bg">
                 <div
                   key={i}
                   className="flex items-start justify-center space-x-1 font-semibold filter-tag"
                 >
+                  <span className="font-semibold text-primary-blue-medium">
+                    {e}
+                  </span>
                   <div
                     className="!h-4 !w-4"
                     onClick={() => {
-                      removeTag(i);
+                      const arr = newGallery.topics.filter(
+                        (el, index) => i !== index
+                      );
+                      setNewGallery({ ...newGallery, topics: arr });
                     }}
                   >
                     <Icon
@@ -459,17 +462,6 @@ function Component() {
                       icon="tabler:trash"
                     />
                   </div>
-
-                  <Input
-                    value={e}
-                    className="p-0"
-                    bordered={false}
-                    onChange={(e) => {
-                      const arr = [...newGallery.topics];
-                      arr[i] = e.target.value;
-                      setNewGallery({ ...newGallery, topics: arr });
-                    }}
-                  />
                 </div>
               </div>
             </div>
@@ -498,8 +490,29 @@ function Component() {
             ) =>
               (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
             }
+            dropdownRender={(menu) => (
+              <div>
+                <Button
+                  className="  !shadow-none w-full flex justify-start"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",
+                  }}
+                  onClick={() => {
+                    setNewGallery({
+                      ...newGallery,
+                      topics: [...newGallery.topics, topicSearch],
+                    });
+                  }}
+                >
+                  Thêm nhãn {topicSearch}
+                </Button>
+                {menu}
+              </div>
+            )}
             bordered={false}
             options={[]}
+            onSearch={setTopicSearch}
           />
         </div>
 
@@ -672,7 +685,14 @@ function Component() {
                     .includes(input.toLowerCase())
                 }
                 bordered={false}
+                dropdownRender={(menu) => (
+                  <div>
+                    <Button>Thêm nhãn {topicSearch}</Button>
+                    {menu}
+                  </div>
+                )}
                 options={[]}
+                onSearch={setTopicSearch}
               />
             </div>
             <div className="grid gap-1 <xs:grid-cols-2 <md:grid-cols-3 grid-cols-5 ">
