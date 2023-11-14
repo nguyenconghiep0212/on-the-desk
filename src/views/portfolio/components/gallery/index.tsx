@@ -173,18 +173,30 @@ function Gallery({ alias, data, userInfo, isEdit }) {
         {/* THÊM THƯ VIỆN ẢNH MỚI */}
         {isEdit && (
           <div className=" <xs:flex <xs:flex-col <xs:space-y-2 grid grid-cols-2 gap-2">
-            <Button className="flex items-center space-x-1 text-left gradient_btn" onClick={() => {navigate(`/${userInfo.shortcut}/addGallery`)}}>
+            <Button
+              className="!shadow-none flex items-center space-x-1 text-left gradient_btn"
+              onClick={() => {
+                navigate(`/${userInfo.shortcut}/addGallery`);
+              }}
+            >
               <Icon className="w-[18px] h-[18px]" icon="tabler:plus" />
               <span>Tạo album mới</span>
             </Button>
             <Select
-              className=""
-              placeholder="Thêm album vào"
+              allowClear
+              className="!shadow-none !bg-[#4b5159] !border-[1px] border-solid border-white "
+              placeholder={
+                <div className="flex items-center justify-start px-4 space-x-1">
+                  <Icon icon="ep:arrow-down-bold" />
+                  <span>Thêm album vào</span>
+                </div>
+              }
+              suffixIcon={null}
               options={customerList.map((e) => ({
                 value: e.id,
                 label: e.customerName,
               }))}
-            ></Select>
+            />
           </div>
         )}
         {/*  */}

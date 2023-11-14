@@ -800,7 +800,7 @@ function Register({ innerRef, packages }) {
             className="w-full"
             options={options}
             placeholder={
-              <div className="flex items-center space-x-1 font-semibold text-white">
+              <div className="flex items-center justify-center w-full space-x-1 font-semibold text-white">
                 <Icon icon="ep:arrow-down-bold" />
                 <span>Chọn dịch vụ</span>
               </div>
