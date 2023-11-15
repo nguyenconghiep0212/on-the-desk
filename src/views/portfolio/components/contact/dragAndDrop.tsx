@@ -52,10 +52,93 @@ function Component({
     await editContact(params);
     setEditingContact({});
   }
+  function updateBulk() {
+    console.log('update child');
+  }
+
   async function handleDeleteContact(id: string) {
     await deleteContact(id);
     setContactList(dndItems.filter((e) => e.id !== id));
     setDndItems(dndItems.filter((e) => e.id !== id));
+  }
+
+  function editContactRender(contact, isChild) {
+    return (
+      <div className="px-2">
+        {contact.typeContact === "social" && (
+          <Input
+            className="p-0"
+            bordered={false}
+            value={contact.infoDetail}
+            placeholder="Dán link"
+            onChange={(e) =>
+              isChild
+                ? updateBulk()
+                : setEditingContact({
+                    ...contact,
+                    infoDetail: e.target.value,
+                  })
+            }
+          />
+        )}
+        {contact.typeContact === "phone" && (
+          <Input
+            className="p-0"
+            bordered={false}
+            value={contact.infoDetail}
+            placeholder="Số điện thoại"
+            onChange={(e) =>
+              isChild
+                ? updateBulk()
+                : setEditingContact({
+                    ...contact,
+                    infoDetail: e.target.value,
+                  })
+            }
+          />
+        )}
+        {contact.typeContact === "bank" && (
+          <div className="space-y-3">
+            <Input
+              className="p-0"
+              bordered={false}
+              value={contact.infoDetail ? contact.infoDetail.split("|")[0] : ""}
+              placeholder="Tên tài khoản"
+              onChange={(e) => {
+                const name = e.target.value;
+                const number = contact.infoDetail
+                  ? contact.infoDetail.split("|")[1]
+                  : "";
+                isChild
+                  ? updateBulk()
+                  : setEditingContact({
+                      ...contact,
+                      infoDetail: name + "|" + number,
+                    });
+              }}
+            />
+            <Input
+              className="p-0"
+              bordered={false}
+              value={contact.infoDetail ? contact.infoDetail.split("|")[1] : ""}
+              placeholder="Số tài khoản"
+              onChange={(e) => {
+                const name = contact.infoDetail
+                  ? contact.infoDetail.split("|")[0]
+                  : "";
+                const number = e.target.value;
+                isChild
+                  ? updateBulk()
+                  : setEditingContact({
+                      ...contact,
+                      infoDetail: name + "|" + number,
+                    });
+              }}
+            />
+          </div>
+        )}
+      </div>
+    );
   }
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -68,7 +151,6 @@ function Component({
           >
             {dndItems.map((e, index) => (
               <Draggable key={e.id} draggableId={e.id} index={index}>
-
                 {(provided, snapshot) => (
                   <div
                     key={index}
@@ -125,91 +207,49 @@ function Component({
                         />
                       </div>
                     </div>
-
                     {/* EDIT */}
                     {editingContact.id === e.id ? (
-                      <div className="my-3 space-y-3">
-                        {editingContact.typeContact === "social" && (
-                          <Input
-                            className="p-0"
-                            bordered={false}
-                            value={editingContact.infoDetail}
-                            placeholder="Dán link"
-                            onChange={(e) =>
-                              setEditingContact({
-                                ...editingContact,
-                                infoDetail: e.target.value,
-                              })
-                            }
-                          />
-                        )}
-                        {editingContact.typeContact === "phone" && (
-                          <Input
-                            className="p-0"
-                            bordered={false}
-                            value={editingContact.infoDetail}
-                            placeholder="Số điện thoại"
-                            onChange={(e) =>
-                              setEditingContact({
-                                ...editingContact,
-                                infoDetail: e.target.value,
-                              })
-                            }
-                          />
-                        )}
-                        {editingContact.typeContact === "bank" && (
-                          <div className="space-y-3">
-                            <Input
-                              className="p-0"
-                              bordered={false}
-                              value={
-                                editingContact.infoDetail
-                                  ? editingContact.infoDetail.split("|")[0]
-                                  : ""
-                              }
-                              placeholder="Tên tài khoản"
-                              onChange={(e) => {
-                                const name = e.target.value;
-                                const number = editingContact.infoDetail
-                                  ? editingContact.infoDetail.split("|")[1]
-                                  : "";
-                                setEditingContact({
-                                  ...editingContact,
-                                  infoDetail: name + "|" + number,
-                                });
-                              }}
-                            />
-                            <Input
-                              className="p-0"
-                              bordered={false}
-                              value={
-                                editingContact.infoDetail
-                                  ? editingContact.infoDetail.split("|")[1]
-                                  : ""
-                              }
-                              placeholder="Số tài khoản"
-                              onChange={(e) => {
-                                const name = editingContact.infoDetail
-                                  ? editingContact.infoDetail.split("|")[0]
-                                  : "";
-                                const number = e.target.value;
-                                setEditingContact({
-                                  ...editingContact,
-                                  infoDetail: name + "|" + number,
-                                });
-                              }}
-                            />
+                      editingContact.children.length > 1 ? (
+                        <div className="mt-2 space-y-3">
+                          {editingContact.children.map((f, j) => {
+                            return (
+                              <div>
+                                {j !== 0 ? (
+                                  <div
+                                    id="divider"
+                                    className="flex items-center justify-center py-6"
+                                  >
+                                    <div className="w-2/3 border-t border-dashed border-primary-blue-medium"></div>
+                                  </div>
+                                ) : (
+                                  <></>
+                                )}
+                                {editContactRender(f, true)}
+                              </div>
+                            );
+                          })}
+                          <div className="mt-2 text-right">
+                            <Button
+                              className="gradient_btn"
+                              onClick={() => updateContact()}
+                            >
+                              lưu
+                            </Button>
                           </div>
-                        )}
-                        <div className="mt-2 text-right">
-                          <Button
-                            className="gradient_btn"
-                            onClick={() => updateContact()}
-                          >
-                            Xong
-                          </Button>
                         </div>
-                      </div>
+                      ) : (
+                        <div className="my-3 space-y-3">
+                          {editContactRender(editingContact, false)}
+                          <div className="mt-2 text-right">
+                            <Button
+                              className="gradient_btn"
+                              onClick={() => updateContact()}
+                            >
+                              Lưu
+                            </Button>
+                          </div>
+                        </div>
+                      )
                     ) : (
                       <></>
                     )}

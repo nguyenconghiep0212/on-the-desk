@@ -5,27 +5,47 @@ import SelectContact from "./selectContact.tsx";
 import { Icon } from "@iconify/react";
 import { getBase64FromUrl } from "helper/convertToBase64";
 import { generateBankQR } from "api";
-import { Button, Modal, message } from "antd";
+import { Button, Modal, Tooltip, message } from "antd";
 import { GEN_QR } from "interface/card";
 import IcAccount from "assests/icon/ic-account-blue.svg";
 import IcCard from "assests/icon/ic-card-blue.svg";
-import uuid from "react-uuid";
+import "./style.scss";
 
 enum QR_TEMPLATE {
-  COMPACT2 ='compact2',
-  COMPACT="compact",
-  QRONLY='qr_only',
-  FULL="print"
+  COMPACT2 = "compact2",
+  COMPACT = "compact",
+  QRONLY = "qr_only",
+  FULL = "print",
 }
 
 function Contact({ data, userInfo, isEdit }) {
-  const [contactList, setContactList] = useState(data);
-  // DnD State
-  const [dndItems, setDndItems] = useState(
+  const [contactList, setContactList] = useState(() => {
+    const ar: any = [];
     data.map((e) => {
-       return { ...e, dndKey: uuid() };
-    })
-  );
+      if (ar.map((f: any) => f.nameContact).includes(e.nameContact)) {
+        const obj: any = ar.find((f: any) => f.nameContact === e.nameContact);
+        obj.children.push({ ...e });
+      } else {
+        e.children = [{ ...e }];
+        ar.push(e);
+      }
+    });
+    return ar;
+  });
+  // DnD State
+  const [dndItems, setDndItems] = useState(() => {
+    const ar: any = [];
+    data.map((e) => {
+      if (ar.map((f: any) => f.nameContact).includes(e.nameContact)) {
+        const obj: any = ar.find((f: any) => f.nameContact === e.nameContact);
+        obj.children.push({ ...e });
+      } else {
+        e.children = [{ ...e }];
+        ar.push(e);
+      }
+    });
+    return ar;
+  });
   const [editingContact, setEditingContact] = useState({});
 
   const [QRbase64, setQRbase64] = useState({
@@ -96,16 +116,17 @@ function Contact({ data, userInfo, isEdit }) {
     download(vcard.str_vcard, "card.vcf");
   }
   function onOpenContact(data) {
-    if(data.infoDetail){
-       window.open(
-      data.typeContact === "phone" ? `tel:${data.infoDetail}` : data.infoDetail,
-      "_blank",
-      "noopener,noreferrer"
-    );
-    }else{
-      message.error('Đường dẫn không tồn tại')
+    if (data.infoDetail) {
+      window.open(
+        data.typeContact === "phone"
+          ? `tel:${data.infoDetail}`
+          : data.infoDetail,
+        "_blank",
+        "noopener,noreferrer"
+      );
+    } else {
+      message.error("Đường dẫn không tồn tại");
     }
-   
   }
   async function genQR(data) {
     const params: GEN_QR = {
@@ -126,9 +147,7 @@ function Contact({ data, userInfo, isEdit }) {
     }
   }
 
-  useEffect(() => {
-    console.log("editingContact", editingContact);
-  }, [editingContact]);
+  useEffect(() => {console.log('editingContact',editingContact);}, [editingContact]);
   useEffect(() => {
     console.log("contactList", contactList);
   }, [contactList]);
@@ -233,38 +252,102 @@ function Contact({ data, userInfo, isEdit }) {
           </div>
         ) : (
           <div className="grid <xs:grid-cols-1 grid-cols-2 gap-2 3xl:grid-cols-5 lg:grid-cols-3 ">
-            {contactList.map((e, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-start w-full cursor-pointer h-9"
-                onClick={() => {
-                  if (e.typeContact === "bank") {
-                    genQR(e);
-                  } else {
-                    onOpenContact(e);
+            {contactList.map((e, index) => {
+              return e.children.length > 1 ? (
+                <Tooltip
+                  placement="bottom"
+                  arrow={false}
+                  trigger="click"
+                  fresh={true}
+                  title={
+                    <div
+                      className={`space-y-5 contact-tooltip <xs:w-[90vw] xs:w-[50vw] lg:!w-[20vw]`}
+                    >
+                      {e.children.map((f, j) => (
+                        <div
+                          key={j}
+                          className="flex space-x-3 px-3 items-center cursor-pointer"
+                          onClick={() => {
+                            if (e.typeContact === "bank") {
+                              genQR(e);
+                            } else {
+                              onOpenContact(e);
+                            }
+                          }}
+                        >
+                          <Icon
+                            className="text-lg text-primary-blue-medium"
+                            icon="solar:arrow-right-linear"
+                          />
+                          <div>{f.nameContact}</div>
+                        </div>
+                      ))}
+                    </div>
                   }
-                }}
-              >
-                <div
-                  className={`flex items-center justify-center w-10 h-[inherit] rounded-tl-md rounded-bl-md ${
-                    e.keyContact === "phone" ? "bg-[#01B634]" : "bg-white"
-                  }`}
                 >
-                  <img
-                    src={`${process.env.REACT_APP_BASE_IMG}${e.linkIcon}`}
-                    alt="platform logo"
-                  />
-                </div>
+                  <div
+                    key={index}
+                    className="flex items-center justify-start w-full cursor-pointer h-9"
+                  >
+                    <div
+                      className={`flex items-center justify-center w-10 h-[inherit] rounded-tl-md rounded-bl-md ${
+                        e.keyContact === "phone" ? "bg-[#01B634]" : "bg-white"
+                      }`}
+                    >
+                      <img
+                        src={`${process.env.REACT_APP_BASE_IMG}${e.linkIcon}`}
+                        alt="platform logo"
+                      />
+                    </div>
+                    <div
+                      className="flex items-center justify-between w-[calc(100%-40px)] h-[inherit] px-[6px] rounded-tr-md rounded-br-md"
+                      style={{
+                        backgroundColor: `${e.backgoundColor}`,
+                      }}
+                    >
+                      <span className="text-white truncate">
+                        {e.nameContact}
+                      </span>
+                      <Icon
+                        className="text-lg text-white"
+                        icon="solar:alt-arrow-down-linear"
+                      />
+                    </div>
+                  </div>
+                </Tooltip>
+              ) : (
                 <div
-                  className="flex items-center justify-start w-[calc(100%-40px)] h-[inherit] px-4 rounded-tr-md rounded-br-md"
-                  style={{
-                    backgroundColor: `${e.backgoundColor}`,
+                  key={index}
+                  className="flex items-center justify-start w-full cursor-pointer h-9"
+                  onClick={() => {
+                    if (e.typeContact === "bank") {
+                      genQR(e);
+                    } else {
+                      onOpenContact(e);
+                    }
                   }}
                 >
-                  <span className="text-white truncate">{e.nameContact}</span>
+                  <div
+                    className={`flex items-center justify-center w-10 h-[inherit] rounded-tl-md rounded-bl-md ${
+                      e.keyContact === "phone" ? "bg-[#01B634]" : "bg-white"
+                    }`}
+                  >
+                    <img
+                      src={`${process.env.REACT_APP_BASE_IMG}${e.linkIcon}`}
+                      alt="platform logo"
+                    />
+                  </div>
+                  <div
+                    className="flex items-center justify-start w-[calc(100%-40px)] h-[inherit] px-4 rounded-tr-md rounded-br-md"
+                    style={{
+                      backgroundColor: `${e.backgoundColor}`,
+                    }}
+                  >
+                    <span className="text-white truncate">{e.nameContact}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
             {saveContact()}
           </div>
         )}

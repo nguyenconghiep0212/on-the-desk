@@ -1,0 +1,10 @@
+.ant-tooltip-inner:has(.contact-tooltip) {
+    padding: 10px 0px;
+    background: #1E2530;
+    box-shadow: 2px 2px 16px 0px #001940;
+}
+
+.ant-tooltip:has(.contact-tooltip){
+    width: max-content;
+    max-width: none;
+}
