@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import IcDnD from "assests/icon/ic-dnd.svg";
 import { Icon } from "@iconify/react";
-import { Button, Input } from "antd";
+import { Button, Input, Tooltip } from "antd";
 import { deleteContact, editContact } from "api";
 
 function Component({
@@ -50,10 +50,27 @@ function Component({
     setContactList(dndItems);
     const params = { ...editingContact, contactId: editingContact.id };
     await editContact(params);
-    setEditingContact({});
   }
-  function updateBulk() {
-    console.log('update child');
+
+  function updateContactBulk() {
+    const index = dndItems.findIndex((e) => e.id === editingContact.id);
+    if (index > -1) {
+      dndItems[index] = editingContact;
+    }
+    setDndItems(dndItems);
+    setContactList(dndItems);
+    editingContact.children.forEach(async (e) => {
+      const params = { ...e, contactId: e.id };
+      await editContact(params);
+    });
+  }
+  function setEditingContactBulk(contact, e) {
+    const items = editingContact;
+    const index = editingContact.children.findIndex((e) => e.id === contact.id);
+    const item = editingContact.children.find((e) => e.id === contact.id);
+    item.infoDetail = e;
+    items.children[index] = item;
+    setEditingContact({ ...items });
   }
 
   async function handleDeleteContact(id: string) {
@@ -73,7 +90,7 @@ function Component({
             placeholder="Dán link"
             onChange={(e) =>
               isChild
-                ? updateBulk()
+                ? setEditingContactBulk(contact, e.target.value)
                 : setEditingContact({
                     ...contact,
                     infoDetail: e.target.value,
@@ -89,7 +106,7 @@ function Component({
             placeholder="Số điện thoại"
             onChange={(e) =>
               isChild
-                ? updateBulk()
+                ? setEditingContactBulk(contact, e.target.value)
                 : setEditingContact({
                     ...contact,
                     infoDetail: e.target.value,
@@ -110,7 +127,7 @@ function Component({
                   ? contact.infoDetail.split("|")[1]
                   : "";
                 isChild
-                  ? updateBulk()
+                  ? setEditingContactBulk(contact, name + "|" + number)
                   : setEditingContact({
                       ...contact,
                       infoDetail: name + "|" + number,
@@ -128,7 +145,7 @@ function Component({
                   : "";
                 const number = e.target.value;
                 isChild
-                  ? updateBulk()
+                  ? setEditingContactBulk(contact, name + "|" + number)
                   : setEditingContact({
                       ...contact,
                       infoDetail: name + "|" + number,
@@ -162,97 +179,107 @@ function Component({
                       provided.draggableProps.style
                     )}
                   >
-                    <div className="flex">
-                      <div className="flex items-center justify-center w-6">
-                        <img src={IcDnD} alt="IcDnD" />
-                      </div>
-                      <div
-                        className="flex items-center justify-start w-full cursor-pointer h-9"
-                        onClick={() => {
-                          setEditingContact(
-                            dndItems.find((f) => f.id === e.id)
-                          );
-                          dndItems.find((f) => f.id === e.id).isEdit = true;
-                          setDndItems(dndItems);
-                        }}
-                      >
-                        <div
-                          className={`flex items-center justify-center w-10 h-[inherit] rounded-tl-md rounded-bl-md ${
-                            e.keyContact === "phone"
-                              ? "bg-[#01B634]"
-                              : "bg-white"
-                          }`}
-                        >
-                          <img
-                            src={`${process.env.REACT_APP_BASE_IMG}${e.linkIcon}`}
-                            alt="platform logo"
-                          />
+                    {/* EDIT */}
+                    <Tooltip
+                      trigger="click"
+                      placement="bottom"
+                      title={
+                        <div className="contact-tooltip w-[95vw] lg:w-[50vw] pr-2 pl-7">
+                          {editingContact.children ? (
+                            editingContact.children.length > 1 ? (
+                              <div className="mt-2 space-y-3">
+                                {editingContact.children.map((f, j) => {
+                                  return (
+                                    <div>
+                                      {j !== 0 ? (
+                                        <div
+                                          id="divider"
+                                          className="flex items-center justify-center py-6"
+                                        >
+                                          <div className="w-2/3 border-t border-dashed border-primary-blue-medium"></div>
+                                        </div>
+                                      ) : (
+                                        <></>
+                                      )}
+                                      {editContactRender(f, true)}
+                                    </div>
+                                  );
+                                })}
+                                <div className="mt-2 text-right">
+                                  <Button
+                                    className="gradient_btn"
+                                    onClick={() => updateContactBulk()}
+                                  >
+                                    lưu
+                                  </Button>
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="my-3 space-y-3">
+                                {editContactRender(editingContact, false)}
+                                <div className="mt-2 text-right">
+                                  <Button
+                                    className="gradient_btn"
+                                    onClick={() => updateContact()}
+                                  >
+                                    Lưu
+                                  </Button>
+                                </div>
+                              </div>
+                            )
+                          ) : (
+                            <div>{JSON.stringify(editingContact)}</div>
+                          )}
+                        </div>
+                      }
+                      arrow={false}
+                    >
+                      <div className="flex">
+                        <div className="flex items-center justify-center w-6">
+                          <img src={IcDnD} alt="IcDnD" />
                         </div>
                         <div
-                          className="flex items-center justify-start w-[calc(100%-40px)] h-[inherit] px-4 rounded-tr-md rounded-br-md"
-                          style={{
-                            backgroundColor: `${e.backgoundColor}`,
+                          className="flex items-center justify-start w-full cursor-pointer h-9"
+                          onClick={() => {
+                            setEditingContact(
+                              dndItems.find((f) => f.id === e.id)
+                            );
+                            dndItems.find((f) => f.id === e.id).isEdit = true;
+                            setDndItems(dndItems);
                           }}
                         >
-                          <span className="text-white truncate">
-                            {e.nameContact}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-center w-6">
-                        <Icon
-                          className="text-[#EB5757]"
-                          icon="tabler:trash"
-                          onClick={() => handleDeleteContact(e.id)}
-                        />
-                      </div>
-                    </div>
-                    {/* EDIT */}
-                    {editingContact.id === e.id ? (
-                      editingContact.children.length > 1 ? (
-                        <div className="mt-2 space-y-3">
-                          {editingContact.children.map((f, j) => {
-                            return (
-                              <div>
-                                {j !== 0 ? (
-                                  <div
-                                    id="divider"
-                                    className="flex items-center justify-center py-6"
-                                  >
-                                    <div className="w-2/3 border-t border-dashed border-primary-blue-medium"></div>
-                                  </div>
-                                ) : (
-                                  <></>
-                                )}
-                                {editContactRender(f, true)}
-                              </div>
-                            );
-                          })}
-                          <div className="mt-2 text-right">
-                            <Button
-                              className="gradient_btn"
-                              onClick={() => updateContact()}
-                            >
-                              lưu
-                            </Button>
+                          <div
+                            className={`flex items-center justify-center w-10 h-[inherit] rounded-tl-md rounded-bl-md ${
+                              e.keyContact === "phone"
+                                ? "bg-[#01B634]"
+                                : "bg-white"
+                            }`}
+                          >
+                            <img
+                              src={`${process.env.REACT_APP_BASE_IMG}${e.linkIcon}`}
+                              alt="platform logo"
+                            />
+                          </div>
+                          <div
+                            className="flex items-center justify-start w-[calc(100%-40px)] h-[inherit] px-4 rounded-tr-md rounded-br-md"
+                            style={{
+                              backgroundColor: `${e.backgoundColor}`,
+                            }}
+                          >
+                            <span className="text-white truncate">
+                              {e.nameContact}
+                            </span>
                           </div>
                         </div>
-                      ) : (
-                        <div className="my-3 space-y-3">
-                          {editContactRender(editingContact, false)}
-                          <div className="mt-2 text-right">
-                            <Button
-                              className="gradient_btn"
-                              onClick={() => updateContact()}
-                            >
-                              Lưu
-                            </Button>
-                          </div>
+                        <div className="flex items-center justify-center w-6">
+                          <Icon
+                            className="text-[#EB5757]"
+                            icon="tabler:trash"
+                            onClick={() => handleDeleteContact(e.id)}
+                          />
                         </div>
-                      )
-                    ) : (
-                      <></>
-                    )}
+                      </div>
+                    </Tooltip>
                   </div>
                 )}
               </Draggable>

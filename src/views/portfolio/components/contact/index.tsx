@@ -147,7 +147,9 @@ function Contact({ data, userInfo, isEdit }) {
     }
   }
 
-  useEffect(() => {console.log('editingContact',editingContact);}, [editingContact]);
+  useEffect(() => {
+    console.log("editingContact", editingContact);
+  }, [editingContact]);
   useEffect(() => {
     console.log("contactList", contactList);
   }, [contactList]);
@@ -269,9 +271,9 @@ function Contact({ data, userInfo, isEdit }) {
                           className="flex space-x-3 px-3 items-center cursor-pointer"
                           onClick={() => {
                             if (e.typeContact === "bank") {
-                              genQR(e);
+                              genQR(f);
                             } else {
-                              onOpenContact(e);
+                              onOpenContact(f);
                             }
                           }}
                         >
