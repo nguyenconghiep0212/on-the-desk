@@ -35,8 +35,34 @@ function Component() {
   const navigate = useNavigate();
   const [cookies] = useCookies(["current-user"]);
   // confirm dialog
+  const [deleteGalleryIndex, setDeleteGalleryIndex] = useState(null);
+  const confirmDialogOkFnc = {
+    DELETE_FORM: () => {
+      setNewGallery({
+        customerId: "",
+        customerName: "",
+        index: 0,
+        name: "",
+        data: [],
+        thumb: "",
+        topics: [],
+        shortcut: "",
+      });
+      setConfirmDialogVisible(false);
+    },
+    DELETE_GALLERY: () => {
+      setGalleries([...galleries.filter((_, j) => deleteGalleryIndex !== j)]);
+      setConfirmDialogVisible(false);
+    },
+    CONFIRM_CREATE_GALLERY: () => {
+      // Tạo thư viện
+      // insert album
+      // navigate đến thư viện
+    },
+  };
   const [confirmDialogVisible, setConfirmDialogVisible] = useState(false);
   const [confirmDialogMode, setConfirmDialogMode] = useState("success");
+  const [confirmDialogOkHandler, setConfirmDialogOkHandler] = useState("");
   const [confirmDialogOkText, setConfirmDialogOkText] = useState("");
   const [confirmDialogMessage, setConfirmDialogMessage] = useState("");
   //
@@ -94,23 +120,21 @@ function Component() {
   ];
   const propsThumbNewGalley: UploadProps = {
     name: "file",
-    multiple: true,
-    action: async (file) => await uploadFileGallery(file, "thumb"),
+    multiple: false,
+    action: async (file) => await uploadFileNewGallery(file, "thumb"),
   };
   const propsAlbumNewGallery: UploadProps = {
     name: "file",
     multiple: true,
-    action: async (file) => await uploadFileGallery(file, "album"),
+    action: async (file) => await uploadFileNewGallery(file, "album"),
   };
   const propsThumbGalley: UploadProps = {
     name: "file",
-    multiple: true,
-    action: () => {},
+    multiple: false,
   };
   const propsAlbumGallery: UploadProps = {
     name: "file",
     multiple: true,
-    action: () => {},
   };
   const propsAvatar: UploadProps = {
     name: "file",
@@ -126,7 +150,7 @@ function Component() {
       authorization: "authorization-text",
     },
   };
-  async function uploadFileGallery(file, mode) {
+  async function uploadFileNewGallery(file, mode) {
     const fd = new FormData();
     fd.append("files", file);
     const res = await uploadGallery(fd);
@@ -143,17 +167,34 @@ function Component() {
       }
     }
   }
-  async function uploadFile(file, mode) {}
-
-  function addNewTag() {
-    setNewGallery({ ...newGallery, topics: [...newGallery.topics, ""] });
+  async function uploadFileGallery(file, e, i, mode) {
+    const fd = new FormData();
+    fd.append("files", file);
+    const res = await uploadGallery(fd);
+    if (res) {
+      const items = galleries;
+      const item = e;
+      if (mode === "thumb") {
+        item.thumb = res.data[0];
+        items[i] = item;
+        setGalleries([...items]);
+      } else {
+        item.data.push({
+          name: file.name,
+          caption: file.name,
+          ref: res.data[0],
+        });
+        items[i] = item;
+        setGalleries([...items]);
+      }
+    }
   }
+  async function uploadFile(file, mode) {}
 
   function handleBack() {
     return navigate(-1);
   }
 
-  // GỌI API
   async function handleGetUserProfile() {
     if (routeParams.userId) {
       try {
@@ -214,7 +255,14 @@ function Component() {
     handleGetUserProfile();
     handleGetCustomerById();
   }, []);
-  useEffect(() => {}, [newGallery, galleries, confirmDialogMode, topicSearch]);
+  useEffect(() => {}, [
+    newGallery,
+    galleries,
+    confirmDialogMode,
+    topicSearch,
+    deleteGalleryIndex,
+    confirmDialogOkHandler,
+  ]);
   function header() {
     return (
       <div>
@@ -389,6 +437,7 @@ function Component() {
               onClick={() => {
                 setConfirmDialogVisible(true);
                 setConfirmDialogMode("error");
+                setConfirmDialogOkHandler("DELETE_FORM");
                 setConfirmDialogOkText("Xác nhận");
                 setConfirmDialogMessage("Album sẽ được xoá vĩnh viễn");
               }}
@@ -569,6 +618,7 @@ function Component() {
                 handleCreateGallery();
                 setConfirmDialogVisible(true);
                 setConfirmDialogMode("success");
+                setConfirmDialogOkHandler("CONFIRM_CREATE_GALLERY");
                 setConfirmDialogOkText("Xem album");
                 setConfirmDialogMessage("Tạo album thành công!");
               }}
@@ -594,18 +644,35 @@ function Component() {
                 bordered={false}
                 value={e.name}
                 className="p-0 mb-4 text-sm font-bold"
-                onChange={() => {}}
+                onChange={(f) => {
+                  const items = galleries;
+                  const item = e;
+                  item.name = f.target.value;
+                  items[i] = item;
+                  setGalleries([...items]);
+                }}
               />
 
               <Icon
                 className="text-[#EB5757] h-5 w-5 cursor-pointer"
                 icon="tabler:trash"
-                onClick={() => {}}
+                onClick={() => {
+                  setDeleteGalleryIndex(i);
+                  setConfirmDialogVisible(true);
+                  setConfirmDialogMode("error");
+                  setConfirmDialogOkHandler("DELETE_GALLERY");
+                  setConfirmDialogOkText("Xác nhận");
+                  setConfirmDialogMessage("Album sẽ được xoá vĩnh viễn");
+                }}
               />
             </div>
             <div className="relative">
               <Upload
-                {...propsThumbGalley}
+                {...{
+                  ...propsThumbGalley,
+                  action: async (file) =>
+                    await uploadFileGallery(file, e, i, "thumb"),
+                }}
                 className="absolute z-20 bottom-5 right-5 upload-hidden"
               >
                 <div
@@ -631,30 +698,34 @@ function Component() {
                 }}
               />
             </div>
-            <div className="grid grid-cols-5 gap-1">
+            <div>
               {e.topics.map((f, j) => (
                 <div
                   key={j}
-                  className="inline-flex cursor-pointer rounded-lg bg-[#2f353f]"
+                  className="mr-2 mb-2 inline-flex cursor-pointer rounded-lg bg-[#2f353f]"
                 >
                   <div className="h-full filter-tag-bg">
-                    <div
-                      key={j}
-                      className="flex items-start justify-center space-x-1 font-semibold filter-tag"
-                    >
-                      <div className="!h-4 !w-4" onClick={() => {}}>
+                    <div className="flex items-start justify-center space-x-1 font-semibold filter-tag">
+                      <span className="font-semibold text-primary-blue-medium">
+                        {f}
+                      </span>
+                      <div
+                        className="!h-4 !w-4"
+                        onClick={() => {
+                          const items = galleries;
+                          const item = e;
+                          item.topics = item.topics.filter(
+                            (_, index) => j !== index
+                          );
+                          items[i] = item;
+                          setGalleries([...items]);
+                        }}
+                      >
                         <Icon
                           className="text-[#EB5757] h-4 w-4"
                           icon="tabler:trash"
                         />
                       </div>
-
-                      <Input
-                        value={f}
-                        className="p-0"
-                        bordered={false}
-                        onChange={() => {}}
-                      />
                     </div>
                   </div>
                 </div>
@@ -687,7 +758,22 @@ function Component() {
                 bordered={false}
                 dropdownRender={(menu) => (
                   <div>
-                    <Button>Thêm nhãn {topicSearch}</Button>
+                    <Button
+                      className="  !shadow-none w-full flex justify-start"
+                      style={{
+                        background:
+                          "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",
+                      }}
+                      onClick={() => {
+                        const items = galleries;
+                        const item = e;
+                        item.topics.push(topicSearch);
+                        items[i] = item;
+                        setGalleries([...items]);
+                      }}
+                    >
+                      Thêm nhãn {topicSearch}
+                    </Button>
                     {menu}
                   </div>
                 )}
@@ -696,13 +782,19 @@ function Component() {
               />
             </div>
             <div className="grid gap-1 <xs:grid-cols-2 <md:grid-cols-3 grid-cols-5 ">
-              {e.data.map((f, index) => (
-                <div key={index} className="relative my-2 aspect-square">
+              {e.data.map((f, j) => (
+                <div key={j} className="relative my-2 aspect-square">
                   <div className="absolute top-1 right-1 bg-[#0000004d] p-1 rounded-full ">
                     <Icon
                       className="text-[#EB5757] h-6 w-6 cursor-pointer"
                       icon="tabler:trash"
-                      onClick={() => {}}
+                      onClick={() => {
+                        const items = galleries;
+                        const item = e;
+                        item.data = item.data.filter((_, i) => i !== j);
+                        items[i] = item;
+                        setGalleries([...items]);
+                      }}
                     />
                   </div>
                   <div
@@ -718,7 +810,11 @@ function Component() {
             </div>
             <div className=" lg:space-y-0 lg:flex lg:justify-end lg:space-x-2">
               <Upload
-                {...propsAlbumGallery}
+                {...{
+                  ...propsAlbumGallery,
+                  action: async (file) =>
+                    await uploadFileGallery(file, e, i, "album"),
+                }}
                 className="flex w-full h-6 upload_new_gallery_album upload-hidden lg:w-max"
               >
                 <div
@@ -760,23 +856,10 @@ function Component() {
           message={confirmDialogMessage}
           cancelText="Trở lại"
           okText={confirmDialogOkText}
-          handleOk={
-            confirmDialogMode === "success"
-              ? () => {}
-              : () => {
-                  setNewGallery({
-                    customerId: "",
-                    customerName: "",
-                    index: 0,
-                    name: "",
-                    data: [],
-                    thumb: "",
-                    topics: [],
-                    shortcut: "",
-                  });
-                  setConfirmDialogVisible(false);
-                }
-          }
+          handleOk={() => {
+            const func = confirmDialogOkFnc[confirmDialogOkHandler];
+            func();
+          }}
           handleCancel={() => setConfirmDialogVisible(false)}
         />
         {/* <div className="px-3 mt-3 ">
