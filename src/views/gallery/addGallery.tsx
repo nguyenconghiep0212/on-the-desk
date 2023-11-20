@@ -255,7 +255,9 @@ function Component() {
     handleGetUserProfile();
     handleGetCustomerById();
   }, []);
-  useEffect(() => {}, [
+  useEffect(() => {
+    console.log('galleries',galleries);
+  }, [
     newGallery,
     galleries,
     confirmDialogMode,

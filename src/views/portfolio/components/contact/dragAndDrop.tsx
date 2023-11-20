@@ -3,7 +3,7 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import IcDnD from "assests/icon/ic-dnd.svg";
 import { Icon } from "@iconify/react";
 import { Button, Input, Tooltip } from "antd";
-import { deleteContact, editContact } from "api";
+import { deleteContact, editContact, addContact } from "api";
 
 function Component({
   dndItems,
@@ -73,29 +73,51 @@ function Component({
     setEditingContact({ ...items });
   }
 
-  async function handleDeleteContact(id: string) {
-    await deleteContact(id);
-    setContactList(dndItems.filter((e) => e.id !== id));
-    setDndItems(dndItems.filter((e) => e.id !== id));
+  function handleDeleteContact(obj) {
+    function deleteApi(value) {
+      value.forEach(async (e) => {
+        if (e.children) {
+          deleteApi(e.children);
+          await deleteContact(e.id);
+        } else {
+          await deleteContact(e.id);
+        }
+      });
+    }
+    deleteApi(obj.children);
+    setContactList(dndItems.filter((e) => e.id !== obj.id));
+    setDndItems(dndItems.filter((e) => e.id !== obj.id));
   }
 
-  function editContactRender(contact, isChild) {
+  async function handleAddContact(obj) {
+    const params = {
+      contacts: [
+        {
+          templateId: obj.templateId,
+          nameContact: obj.nameContact,
+        },
+      ],
+    };
+    const res = await addContact(params);
+    if (res) {
+      dndItems
+        .find((e) => e.nameContact === res.data[0].nameContact)
+        .children.push(res.data[0]);
+      setContactList([...dndItems]);
+      setDndItems([...dndItems]);
+    }
+  }
+
+  function editContactRender(contact) {
     return (
-      <div className="px-2">
+      <div>
         {contact.typeContact === "social" && (
           <Input
             className="p-0"
             bordered={false}
             value={contact.infoDetail}
             placeholder="Dán link"
-            onChange={(e) =>
-              isChild
-                ? setEditingContactBulk(contact, e.target.value)
-                : setEditingContact({
-                    ...contact,
-                    infoDetail: e.target.value,
-                  })
-            }
+            onChange={(e) => setEditingContactBulk(contact, e.target.value)}
           />
         )}
         {contact.typeContact === "phone" && (
@@ -104,14 +126,7 @@ function Component({
             bordered={false}
             value={contact.infoDetail}
             placeholder="Số điện thoại"
-            onChange={(e) =>
-              isChild
-                ? setEditingContactBulk(contact, e.target.value)
-                : setEditingContact({
-                    ...contact,
-                    infoDetail: e.target.value,
-                  })
-            }
+            onChange={(e) => setEditingContactBulk(contact, e.target.value)}
           />
         )}
         {contact.typeContact === "bank" && (
@@ -126,12 +141,7 @@ function Component({
                 const number = contact.infoDetail
                   ? contact.infoDetail.split("|")[1]
                   : "";
-                isChild
-                  ? setEditingContactBulk(contact, name + "|" + number)
-                  : setEditingContact({
-                      ...contact,
-                      infoDetail: name + "|" + number,
-                    });
+                setEditingContactBulk(contact, name + "|" + number);
               }}
             />
             <Input
@@ -144,12 +154,7 @@ function Component({
                   ? contact.infoDetail.split("|")[0]
                   : "";
                 const number = e.target.value;
-                isChild
-                  ? setEditingContactBulk(contact, name + "|" + number)
-                  : setEditingContact({
-                      ...contact,
-                      infoDetail: name + "|" + number,
-                    });
+                setEditingContactBulk(contact, name + "|" + number);
               }}
             />
           </div>
@@ -186,49 +191,49 @@ function Component({
                       title={
                         <div className="contact-tooltip w-[95vw] lg:w-[50vw] pr-2 pl-7">
                           {editingContact.children ? (
-                            editingContact.children.length > 1 ? (
-                              <div className="mt-2 space-y-3">
-                                {editingContact.children.map((f, j) => {
-                                  return (
-                                    <div>
-                                      {j !== 0 ? (
-                                        <div
-                                          id="divider"
-                                          className="flex items-center justify-center py-6"
-                                        >
-                                          <div className="w-2/3 border-t border-dashed border-primary-blue-medium"></div>
-                                        </div>
-                                      ) : (
-                                        <></>
-                                      )}
-                                      {editContactRender(f, true)}
-                                    </div>
-                                  );
-                                })}
-                                <div className="mt-2 text-right">
-                                  <Button
-                                    className="gradient_btn"
-                                    onClick={() => updateContactBulk()}
-                                  >
-                                    lưu
-                                  </Button>
+                            <div className="mt-2 space-y-3">
+                              {editingContact.children.map((f, j) => {
+                                return (
+                                  <div>
+                                    {j !== 0 ? (
+                                      <div
+                                        id="divider"
+                                        className="flex items-center justify-center py-6"
+                                      >
+                                        <div className="w-2/3 border-t border-dashed border-primary-blue-medium"></div>
+                                      </div>
+                                    ) : (
+                                      <></>
+                                    )}
+                                    {editContactRender(f, true)}
+                                  </div>
+                                );
+                              })}
+
+                              <div className="mt-5">
+                                <div
+                                  className="border-white border-dashed rounded-md cursor-pointer border-[1px] w-max p-1"
+                                  onClick={() =>
+                                    handleAddContact(editingContact)
+                                  }
+                                >
+                                  <Icon
+                                    className="w-[18px] h-[18px]"
+                                    icon="tabler:plus"
+                                  />
                                 </div>
                               </div>
-                            ) : (
-                              <div className="my-3 space-y-3">
-                                {editContactRender(editingContact, false)}
-                                <div className="mt-2 text-right">
-                                  <Button
-                                    className="gradient_btn"
-                                    onClick={() => updateContact()}
-                                  >
-                                    Lưu
-                                  </Button>
-                                </div>
+                              <div className="mt-2 text-right">
+                                <Button
+                                  className="gradient_btn"
+                                  onClick={() => updateContactBulk()}
+                                >
+                                  Lưu
+                                </Button>
                               </div>
-                            )
+                            </div>
                           ) : (
-                            <div>{JSON.stringify(editingContact)}</div>
+                            <div></div>
                           )}
                         </div>
                       }
@@ -275,7 +280,7 @@ function Component({
                           <Icon
                             className="text-[#EB5757]"
                             icon="tabler:trash"
-                            onClick={() => handleDeleteContact(e.id)}
+                            onClick={() => handleDeleteContact(e)}
                           />
                         </div>
                       </div>

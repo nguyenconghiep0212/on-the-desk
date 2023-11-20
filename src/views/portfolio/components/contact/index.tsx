@@ -26,8 +26,9 @@ function Contact({ data, userInfo, isEdit }) {
         const obj: any = ar.find((f: any) => f.nameContact === e.nameContact);
         obj.children.push({ ...e });
       } else {
-        e.children = [{ ...e }];
-        ar.push(e);
+        const temp = { ...e };
+        temp.children = [e];
+        ar.push(temp);
       }
     });
     return ar;
@@ -40,8 +41,9 @@ function Contact({ data, userInfo, isEdit }) {
         const obj: any = ar.find((f: any) => f.nameContact === e.nameContact);
         obj.children.push({ ...e });
       } else {
-        e.children = [{ ...e }];
-        ar.push(e);
+        const temp = { ...e };
+        temp.children = [e];
+        ar.push(temp);
       }
     });
     return ar;
@@ -268,7 +270,7 @@ function Contact({ data, userInfo, isEdit }) {
                       {e.children.map((f, j) => (
                         <div
                           key={j}
-                          className="flex space-x-3 px-3 items-center cursor-pointer"
+                          className="flex items-center px-3 space-x-3 cursor-pointer"
                           onClick={() => {
                             if (e.typeContact === "bank") {
                               genQR(f);
