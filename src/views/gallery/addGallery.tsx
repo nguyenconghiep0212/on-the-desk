@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./index.scss";
-
+import {normalizeVietnamese} from 'helper/formatString'
 // COMPONENT
 import { Icon } from "@iconify/react";
 import { Button, Input, Select, Upload, UploadProps } from "antd";
@@ -26,6 +26,7 @@ import {
   getCustomerById,
   uploadGallery,
   createGallery,
+  createCustomer,
 } from "api";
 import { useCookies } from "react-cookie";
 
@@ -54,10 +55,20 @@ function Component() {
       setGalleries([...galleries.filter((_, j) => deleteGalleryIndex !== j)]);
       setConfirmDialogVisible(false);
     },
-    CONFIRM_CREATE_GALLERY: () => {
-      // Tạo thư viện
-      // insert album
-      // navigate đến thư viện
+    CONFIRM_CREATE_GALLERY: async () => {
+      if(customerInfo.customerName){
+        customerInfo.shortcut = normalizeVietnamese(customerInfo.customerName).replaceAll(' ','-').toLowerCase()
+        console.log("customerInfo", customerInfo); 
+        // await createCustomer()
+  
+        console.log("galleries", galleries);
+        // await createGallery()
+  
+        // navigate đến thư viện
+      }else{
+
+      }
+      
     },
   };
   const [confirmDialogVisible, setConfirmDialogVisible] = useState(false);
@@ -256,7 +267,7 @@ function Component() {
     handleGetCustomerById();
   }, []);
   useEffect(() => {
-    console.log('galleries',galleries);
+    console.log("galleries", galleries);
   }, [
     newGallery,
     galleries,
@@ -613,7 +624,7 @@ function Component() {
               </Button>
             </div>
           </Upload>
-          {newGallery.data.length && (
+          {newGallery.data.length ? (
             <Button
               className="lg:w-max w-full !shadow-none gradient_btn"
               onClick={() => {
@@ -627,6 +638,8 @@ function Component() {
             >
               Hoàn thành
             </Button>
+          ) : (
+            <></>
           )}
         </div>
       </div>

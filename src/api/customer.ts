@@ -14,4 +14,10 @@ export function getCustomerById(id:string) {
       url: `/api/customer/list`,
     });
   }
+  export function createCustomer( ) {
+    return http({
+      method: "post",
+      url: `/api/customer/crudc`,
+    });
+  }
  
