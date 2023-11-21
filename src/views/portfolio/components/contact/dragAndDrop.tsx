@@ -189,7 +189,7 @@ function Component({
                       trigger="click"
                       placement="bottom"
                       title={
-                        <div className="contact-tooltip w-[95vw] lg:w-[50vw] pr-2 pl-7">
+                        <div className="contact-tooltip w-[95vw] lg:w-[50vw] pr-2 pl-7 max-h-[50vh] overflow-auto">
                           {editingContact.children ? (
                             <div className="mt-2 space-y-3">
                               {editingContact.children.map((f, j) => {
