@@ -240,7 +240,7 @@ function Contact({ data, userInfo, isEdit }) {
         {isEdit ? (
           <div className="space-y-2">
             <SelectContact
-              data={dndItems}
+              dndItems={dndItems}
               setDndItems={setDndItems}
               setContactList={setContactList}
             />

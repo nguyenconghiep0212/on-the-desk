@@ -3,7 +3,7 @@ import { Input } from "antd";
 import React, { useEffect, useState } from "react";
 import { addContact as addContactApi, listContactTemplate } from "api";
 
-function Component({ data, setDndItems, setContactList }) {
+function Component({ dndItems, setDndItems, setContactList }) {
   const [addContact, setAddContact] = useState(false);
   const [contactTemplate, setContactTemplate] = useState([
     {
@@ -20,8 +20,16 @@ function Component({ data, setDndItems, setContactList }) {
   async function fetchTemplate() {
     const res = await listContactTemplate();
     if (res) {
-      setContactTemplate(res.data);
-      setFilteredContactList(res.data);
+      setContactTemplate(
+        res.data.filter(
+          (e) => !dndItems.map((f) => f.templateId).includes(e.id)
+        )
+      );
+      setFilteredContactList(
+        res.data.filter(
+          (e) => !dndItems.map((f) => f.templateId).includes(e.id)
+        )
+      );
     }
   }
   async function handleAddContact(e) {
@@ -30,14 +38,19 @@ function Component({ data, setDndItems, setContactList }) {
       contacts: [{ ...rest, templateId: e.id }],
     });
     if (res) {
-      setDndItems(data.concat([{ ...e, id: res.data[0].id }]));
-      setContactList(data.concat([{ ...e, id: res.data[0].id }]));
+      setDndItems(dndItems.concat([{ ...res.data[0] }]));
+      setContactList(dndItems.concat([{ ...res.data[0] }]));
+      setContactTemplate(contactTemplate.filter((f) => f.id !== e.id));
+      setFilteredContactList(contactTemplate.filter((f) => f.id !== e.id));
     }
   }
   useEffect(() => {
     fetchTemplate();
   }, []);
   useEffect(() => {}, [filteredContactList, addContact, contactTemplate]);
+  useEffect(() => {
+    fetchTemplate();
+  }, [dndItems]);
   return (
     <div>
       {addContact || (

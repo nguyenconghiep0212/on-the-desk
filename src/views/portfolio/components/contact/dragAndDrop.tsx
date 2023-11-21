@@ -41,16 +41,7 @@ function Component({
     );
     setDndItems(reorderedItems);
   }
-  async function updateContact() {
-    const index = dndItems.findIndex((e) => e.id === editingContact.id);
-    if (index > -1) {
-      dndItems[index] = editingContact;
-    }
-    setDndItems(dndItems);
-    setContactList(dndItems);
-    const params = { ...editingContact, contactId: editingContact.id };
-    await editContact(params);
-  }
+
 
   function updateContactBulk() {
     const index = dndItems.findIndex((e) => e.id === editingContact.id);
