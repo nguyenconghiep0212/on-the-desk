@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./index.scss";
-import {normalizeVietnamese} from 'helper/formatString'
+import { normalizeVietnamese } from "helper/formatString";
 // COMPONENT
 import { Icon } from "@iconify/react";
 import { Button, Input, Select, Upload, UploadProps } from "antd";
@@ -27,6 +27,7 @@ import {
   uploadGallery,
   createGallery,
   createCustomer,
+  getTopic,
 } from "api";
 import { useCookies } from "react-cookie";
 
@@ -55,21 +56,7 @@ function Component() {
       setGalleries([...galleries.filter((_, j) => deleteGalleryIndex !== j)]);
       setConfirmDialogVisible(false);
     },
-    CONFIRM_CREATE_GALLERY: async () => {
-      if(customerInfo.customerName){
-        customerInfo.shortcut = normalizeVietnamese(customerInfo.customerName).replaceAll(' ','-').toLowerCase()
-        console.log("customerInfo", customerInfo); 
-        // await createCustomer()
-  
-        console.log("galleries", galleries);
-        // await createGallery()
-  
-        // navigate đến thư viện
-      }else{
-
-      }
-      
-    },
+    CONFIRM_CREATE_GALLERY: () => handleCreateGallery(),
   };
   const [confirmDialogVisible, setConfirmDialogVisible] = useState(false);
   const [confirmDialogMode, setConfirmDialogMode] = useState("success");
@@ -77,6 +64,7 @@ function Component() {
   const [confirmDialogOkText, setConfirmDialogOkText] = useState("");
   const [confirmDialogMessage, setConfirmDialogMessage] = useState("");
   //
+  const [topicList, setTopicList] = useState([]);
   const [topicSearch, setTopicSearch] = useState("");
   const [galleries, setGalleries] = useState<GALLERY_CUSTOMER[]>([]);
   const [userInfo, setUserInfo] = useState<USER_INFO>({
@@ -86,11 +74,12 @@ function Component() {
       id: "",
     },
   });
+  const [validator, setValidator] = useState(false);
   const [customerInfo, setCustomerInfo] = useState<CUSTOMER>({
     customerAvatar: "",
     customerCover: "",
     customerName: "",
-    customerAddress: "",
+    customerDescription: "",
     shortcut: "",
   });
   const [newGallery, setNewGallery] = useState<UPDATE_GALLERY>({
@@ -200,12 +189,61 @@ function Component() {
       }
     }
   }
-  async function uploadFile(file, mode) {}
+  async function uploadFile(file, mode) {
+    const fd = new FormData();
+    fd.append("files", file);
+    const res = await uploadGallery(fd);
+    if (res) {
+      if (mode === "avatar") {
+        setCustomerInfo({ ...customerInfo, customerAvatar: res.data[0] });
+      } else {
+        setCustomerInfo({ ...customerInfo, customerCover: res.data[0] });
+      }
+    }
+  }
 
   function handleBack() {
     return navigate(-1);
   }
 
+  function handleAddGallery() {
+    setGalleries([...galleries, newGallery]);
+    setNewGallery({
+      customerId: "",
+      customerName: "",
+      index: 0,
+      name: "",
+      data: [],
+      thumb: "",
+      topics: [],
+      shortcut: "",
+    });
+  }
+  async function handleCreateGallery() {
+    if (customerInfo.customerName) {
+      customerInfo.shortcut = normalizeVietnamese(customerInfo.customerName)
+        .replaceAll(" ", "-")
+        .toLowerCase();
+      const res = await createCustomer(customerInfo);
+      if (res) {
+        const promises: any = [];
+        galleries.forEach(async (e) => {
+          const params = {
+            ...e,
+            customerName: res.data.customerName,
+            customerId: res.data.id,
+          };
+          promises.push(await createGallery(params));
+        });
+        Promise.allSettled(promises).then(() => {
+          navigate(`/${cookies["current-user"].shortcut}/${res.data.shortcut}`);
+        });
+      }
+    } else {
+      setValidator(false);
+      setConfirmDialogVisible(false);
+    }
+  }
   async function handleGetUserProfile() {
     if (routeParams.userId) {
       try {
@@ -243,32 +281,20 @@ function Component() {
     }
   }
 
-  async function handleCreateGallery() {
-    // const res = await createGallery(newGallery);
-    // if (res) {
-    //   setGalleries(newGallery);
-    // }
-    setGalleries([...galleries, newGallery]);
-    setNewGallery({
-      customerId: "",
-      customerName: "",
-      index: 0,
-      name: "",
-      data: [],
-      thumb: "",
-      topics: [],
-      shortcut: "",
-    });
+  async function getListTopic() {
+    const res = await getTopic(cookies["current-user"].shortcut);
+    if (res) {
+      setTopicList(res.data.map((e) => ({ value: e, label: e })));
+    }
   }
 
   useEffect(() => {
     handleGetGalleryByCustomerId();
     handleGetUserProfile();
     handleGetCustomerById();
+    getListTopic();
   }, []);
-  useEffect(() => {
-    console.log("galleries", galleries);
-  }, [
+  useEffect(() => {}, [
     newGallery,
     galleries,
     confirmDialogMode,
@@ -384,8 +410,9 @@ function Component() {
                 value={customerInfo.customerName}
                 bordered={false}
                 placeholder="Tên thư viện"
-                className="p-0 text-base <3xs:text-sm font-semibold <3xs:truncate !text-primary-blue-medium"
+                className={`p-0 text-base <3xs:text-sm font-semibold <3xs:truncate !text-primary-blue-medium`}
                 onChange={(e) => {
+                  setValidator(true);
                   setCustomerInfo({
                     ...customerInfo,
                     customerName: e.target.value,
@@ -393,14 +420,14 @@ function Component() {
                 }}
               />
               <Input
-                value={customerInfo.customerAddress}
+                value={customerInfo.customerDescription}
                 bordered={false}
                 className="p-0 text-sm font-medium !text-primary-blue-medium"
                 placeholder="Mô tả thư viện"
                 onChange={(e) => {
                   setCustomerInfo({
                     ...customerInfo,
-                    customerAddress: e.target.value,
+                    customerDescription: e.target.value,
                   });
                 }}
               />
@@ -544,8 +571,14 @@ function Component() {
                 <span>Gắn nhãn</span>
               </div>
             }
+            value={null}
             optionFilterProp="children"
-            onChange={() => {}}
+            onChange={(e) => {
+              setNewGallery({
+                ...newGallery,
+                topics: [...newGallery.topics, e],
+              });
+            }}
             filterOption={(
               input: string,
               option?: { label: string; value: string }
@@ -554,26 +587,31 @@ function Component() {
             }
             dropdownRender={(menu) => (
               <div>
-                <Button
-                  className="  !shadow-none w-full flex justify-start"
-                  style={{
-                    background:
-                      "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",
-                  }}
-                  onClick={() => {
-                    setNewGallery({
-                      ...newGallery,
-                      topics: [...newGallery.topics, topicSearch],
-                    });
-                  }}
-                >
-                  Thêm nhãn {topicSearch}
-                </Button>
+                {(!topicList.map(f => f.value).includes(topicSearch) && topicSearch ) ? (
+                  <Button
+                    className="  !shadow-none w-full flex justify-start"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",
+                    }}
+                    onClick={() => {
+                      setNewGallery({
+                        ...newGallery,
+                        topics: [...newGallery.topics, topicSearch],
+                      });
+                    }}
+                  >
+                    Thêm nhãn {topicSearch}
+                  </Button>
+                ) : (
+                  <></>
+                )}
+
                 {menu}
               </div>
             )}
             bordered={false}
-            options={[]}
+            options={topicList}
             onSearch={setTopicSearch}
           />
         </div>
@@ -628,7 +666,7 @@ function Component() {
             <Button
               className="lg:w-max w-full !shadow-none gradient_btn"
               onClick={() => {
-                handleCreateGallery();
+                handleAddGallery();
                 setConfirmDialogVisible(true);
                 setConfirmDialogMode("success");
                 setConfirmDialogOkHandler("CONFIRM_CREATE_GALLERY");
@@ -859,10 +897,22 @@ function Component() {
         {header()}
         {displayCreateForm()}
         {displayGallery()}
-        {galleries.length && (
-          <div id="divider" className="flex items-center justify-center py-6">
-            <div className="w-full border-t border-dashed border-primary-blue-medium"></div>
+        {galleries.length ? (
+          <div>
+            <Button
+              className="w-full !shadow-none gradient_btn mt-5"
+              onClick={() => {
+                handleCreateGallery();
+              }}
+            >
+              Hoàn thành
+            </Button>
+            <div id="divider" className="flex items-center justify-center py-6">
+              <div className="w-full border-t border-dashed border-primary-blue-medium"></div>
+            </div>
           </div>
+        ) : (
+          <></>
         )}
         <ConfirmDialog
           title={undefined}

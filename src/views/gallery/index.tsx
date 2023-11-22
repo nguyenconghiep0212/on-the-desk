@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { fullScreenVisible } from "store/gallery";
 import "./index.scss";
@@ -34,6 +34,7 @@ import { useCookies } from "react-cookie";
 function Component() {
   const { Dragger } = Upload;
   const routeParams = useParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [visible, setVisible] = useRecoilState(fullScreenVisible);
   const [isEdit, setIsEdit] = useState(false);
@@ -59,6 +60,7 @@ function Component() {
   ]);
   const [userInfo, setUserInfo] = useState<USER_INFO>({
     name: "",
+    backgrounds: "",
     shortcut: "",
     package: {
       id: "",
@@ -187,6 +189,13 @@ function Component() {
       try {
         const res = await getGalleryByCustomerId(routeParams.customerId);
         if (res) {
+          res.data.gals.forEach((e) => {
+            e.topPictures.forEach((f) => {
+              if (!f.ref.includes(process.env.REACT_APP_BASE_IMG)) {
+                f.ref = process.env.REACT_APP_BASE_IMG + f.ref;
+              }
+            });
+          });
           const galleryData = res.data.gals;
           setGalleries([...galleryData]);
         }
@@ -204,6 +213,9 @@ function Component() {
     handleGetGalleryByCustomerId();
     handleGetUserProfile();
     handleGetCustomerById();
+    if(searchParams.get("mode") === 'edit'){
+      setIsEdit(true);
+    }
   }, []);
   useEffect(() => {}, [galleries, visible]);
 
@@ -268,7 +280,17 @@ function Component() {
             className="sm:w-[300%] sm:-translate-x-1/2 h-full z-[5] relative "
             style={{
               backgroundImage: `url('${
-                galleries[0].galleryThumb || userInfo.backgrounds
+                galleries[0].galleryThumb
+                  ? galleries[0].galleryThumb.includes(
+                      process.env.REACT_APP_BASE_IMG
+                    )
+                    ? galleries[0].galleryThumb
+                    : process.env.REACT_APP_BASE_IMG + galleries[0].galleryThumb
+                  : userInfo.backgrounds.includes(
+                      process.env.REACT_APP_BASE_IMG
+                    )
+                  ? userInfo.backgrounds
+                  : process.env.REACT_APP_BASE_IMG + userInfo.backgrounds
               }')`,
               WebkitFilter: `blur(24px)`,
               backgroundPosition: "center",
@@ -280,7 +302,17 @@ function Component() {
             className="absolute z-[5] top-0 w-full h-full -translate-x-1/2 left-1/2"
             style={{
               backgroundImage: `url('${
-                galleries[0].galleryThumb || userInfo.backgrounds
+                galleries[0].galleryThumb
+                  ? galleries[0].galleryThumb.includes(
+                      process.env.REACT_APP_BASE_IMG
+                    )
+                    ? galleries[0].galleryThumb
+                    : process.env.REACT_APP_BASE_IMG + galleries[0].galleryThumb
+                  : userInfo.backgrounds.includes(
+                      process.env.REACT_APP_BASE_IMG
+                    )
+                  ? userInfo.backgrounds
+                  : process.env.REACT_APP_BASE_IMG + userInfo.backgrounds
               }')`,
               backgroundPosition: "center",
               backgroundSize: "cover",
@@ -313,17 +345,19 @@ function Component() {
         <div className="relative bg-[#18191A] z-10  sm:w-[300%] sm:overflow-x-clip -translate-x-1/2">
           {/* CUSTOMER */}
           <div className="flex items-center space-x-2 translate-x-1/2">
-            <div className="relative 3xs:w-20 3xs:h-20 3xs:ml-3 <3xs:w-14 <3xs:h-14 <3xs:!min-w-[3.5rem]  mt-[-25px]">
-              <img
-                src={
+            <div
+              className="relative 3xs:w-20 3xs:h-20 3xs:ml-3 <3xs:w-14 <3xs:h-14 <3xs:!min-w-[3.5rem]  mt-[-25px] rounded-full"
+              style={{
+                backgroundImage: `url(${
                   customerInfo.customerAvatar
                     ? process.env.REACT_APP_BASE_IMG +
                       customerInfo.customerAvatar
                     : CustomerAvatarPlaceholder
-                }
-                alt="customer_avatar"
-                className="z-20 w-full h-full rounded-full"
-              />
+                })`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+              }}
+            >
               {isEdit && (
                 <Upload
                   {...propsAvatar}
@@ -359,13 +393,13 @@ function Component() {
                   }}
                 />
                 <Input
-                  value={customerInfo.customerAddress}
+                  value={customerInfo.customerDescription}
                   bordered={false}
                   className="p-0 text-sm font-medium !text-primary-blue-medium"
                   onChange={(e) => {
                     setCustomerInfo({
                       ...customerInfo,
-                      customerAddress: e.target.value,
+                      customerDescription: e.target.value,
                     });
                   }}
                 />
@@ -376,7 +410,7 @@ function Component() {
                   {customerInfo.customerName || "Anonymous"}
                 </span>
                 <span className="text-sm font-medium text-primary-blue-medium">
-                  {customerInfo.customerAddress}
+                  {customerInfo.customerDescription}
                 </span>
               </div>
             )}
@@ -386,13 +420,14 @@ function Component() {
           <div className="translate-x-1/2 <3xs:mr-3 <3xs:-mt-2 ">
             <div className="w-10 <3xs:w-8 h-6 text-white border-r 3xs:ml-3  border-primary-blue-medium" />
             <div className="flex space-x-2">
-              <div className="w-20 h-20 <3xs:w-16 <3xs:min-w-[4rem] <3xs:h-16 -mt-3 scale-75 border-2 rounded-full 3xs:ml-3 border-primary-blue-medium">
-                <img
-                  className="h-full rounded-full"
-                  src={userInfo.avatar}
-                  alt="user_avatar"
-                />
-              </div>
+              <div
+                className="w-20 h-20 <3xs:w-16 <3xs:min-w-[4rem] <3xs:h-16 -mt-3 scale-75 border-2 rounded-full 3xs:ml-3 border-primary-blue-medium"
+                style={{
+                  backgroundImage: `url(${userInfo.avatar})`,
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                }}
+              ></div>
               <span className="mt-4 text-base <3xs:text-sm font-semibold text-white">
                 {userInfo.name}
               </span>
@@ -401,7 +436,7 @@ function Component() {
         </div>
 
         {isEdit && (
-          <div className="mt-6 space-y-2">
+          <div className="mx-3 mt-6 space-y-2">
             {newGallery.thumb ? (
               <div className="relative">
                 <div

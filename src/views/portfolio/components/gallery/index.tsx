@@ -4,23 +4,21 @@ import { Icon } from "@iconify/react";
 import "./index.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatNumber } from "helper/formatNumber.ts";
-import { getGalleryByUserId, uploadGallery, fetchCustomerList } from "api";
-import { GALLERY, UPDATE_GALLERY } from "interface/gallery";
+import { getGalleryByUserId, fetchCustomerList, deleteGallery } from "api";
+import { GALLERY } from "interface/gallery";
 import { Button, Select } from "antd";
+// COMPONENT
+import ConfirmDialog from "views/component/confirmDialog";
 
-function Gallery({ alias, data, userInfo, isEdit }) {
+function Gallery({ alias, userInfo, isEdit }) {
+  const params = useParams();
+  const navigate = useNavigate();
+
+  // Dialog
+  const [confirmDialogVisible, setConfirmDialogVisible] = useState(false);
+  const [deleteGalleryId, setDeleteGalleryId] = useState("");
+  //
   const [customerList, setCustomerList] = useState([]);
-  const [newGallery, setNewGallery] = useState<UPDATE_GALLERY>({
-    customerId: "",
-    customerName: "",
-    index: 0,
-    name: "",
-    data: [],
-    thumb: "",
-    topics: [],
-    shortcut: "",
-  });
-
   const [isAllFilter, setIsAllFilter] = useState(false);
   const [filteredGallery, setFilteredGallery] = useState<GALLERY[]>([]);
   const [filteredTag, setFilteredTag] = useState<string[]>(["all"]);
@@ -28,8 +26,6 @@ function Gallery({ alias, data, userInfo, isEdit }) {
     []
   );
   let [allGallery, setAllGallery] = useState<GALLERY[]>([]);
-  const params = useParams();
-  const navigate = useNavigate();
 
   async function getCustomerList() {
     const res = await fetchCustomerList();
@@ -99,7 +95,15 @@ function Gallery({ alias, data, userInfo, isEdit }) {
       }
     }
   }
-
+  async function handleDeleteGallery() {
+    const res = await deleteGallery(deleteGalleryId);
+    if (res) {
+      setFilteredGallery(
+        filteredGallery.filter((e) => e.id !== deleteGalleryId)
+      );
+    }
+    setConfirmDialogVisible(false);
+  }
   async function editGallery(customerId: string) {}
 
   function redirectToGallery(customerId: string) {
@@ -114,7 +118,7 @@ function Gallery({ alias, data, userInfo, isEdit }) {
   useEffect(() => {
     handleFilterGallery();
   }, [filteredTag]);
-  useEffect(() => {}, [filteredGallery, newGallery, customerList]);
+  useEffect(() => {}, [filteredGallery, customerList]);
   return (
     <div>
       <div className="text-[#B6B6B6] font-bold  text-base mb-4">{alias}</div>
@@ -193,9 +197,12 @@ function Gallery({ alias, data, userInfo, isEdit }) {
               }
               suffixIcon={null}
               options={customerList.map((e) => ({
-                value: e.id,
+                value: e.shortcut,
                 label: e.customerName,
               }))}
+              onChange={(e) => {
+                navigate(`/${params.userId}/${e}?mode=edit`);
+              }}
             />
           </div>
         )}
@@ -217,7 +224,11 @@ function Gallery({ alias, data, userInfo, isEdit }) {
                   <div
                     className="w-full h-full"
                     style={{
-                      backgroundImage: `url('${e.galleryThumb}')`,
+                      backgroundImage: `url('${
+                        e.galleryThumb.includes(process.env.REACT_APP_BASE_IMG)
+                          ? e.galleryThumb
+                          : process.env.REACT_APP_BASE_IMG + e.galleryThumb
+                      }')`,
                       backgroundPosition: "center",
                       backgroundSize: "cover",
                     }}
@@ -226,7 +237,10 @@ function Gallery({ alias, data, userInfo, isEdit }) {
                 {isEdit && (
                   <div
                     className="absolute top-[6px] right-[6px] z-20 cursor-pointer"
-                    onClick={() => {}}
+                    onClick={() => {
+                      setConfirmDialogVisible(true);
+                      setDeleteGalleryId(e.id);
+                    }}
                   >
                     <Icon
                       className="text-[#EB5757] h-4 w-4"
@@ -252,6 +266,18 @@ function Gallery({ alias, data, userInfo, isEdit }) {
           ))}
         </div>
       </div>
+      <ConfirmDialog
+        title={undefined}
+        visible={confirmDialogVisible}
+        type="error"
+        message="Album sẽ được xoá vĩnh viễn"
+        cancelText="Trở lại"
+        okText="Xác nhận"
+        handleOk={() => {
+          handleDeleteGallery();
+        }}
+        handleCancel={() => setConfirmDialogVisible(false)}
+      />
     </div>
   );
 }

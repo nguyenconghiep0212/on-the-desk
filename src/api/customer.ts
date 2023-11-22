@@ -1,4 +1,5 @@
 import http from "helper/request";
+import { CUSTOMER } from "interface/customer";
 
 
 export function getCustomerById(id:string) {
@@ -14,10 +15,11 @@ export function getCustomerById(id:string) {
       url: `/api/customer/list`,
     });
   }
-  export function createCustomer( ) {
+  export function createCustomer(params:CUSTOMER) {
     return http({
       method: "post",
       url: `/api/customer/crudc`,
+      data: params
     });
   }
  

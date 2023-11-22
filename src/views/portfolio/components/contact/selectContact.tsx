@@ -38,8 +38,8 @@ function Component({ dndItems, setDndItems, setContactList }) {
       contacts: [{ ...rest, templateId: e.id }],
     });
     if (res) {
-      setDndItems(dndItems.concat([{ ...res.data[0] }]));
-      setContactList(dndItems.concat([{ ...res.data[0] }]));
+      setDndItems(dndItems.concat([{ ...res.data[0], children: [res.data[0]] }]));
+      setContactList(dndItems.concat([{ ...res.data[0], children: [res.data[0]] }]));
       setContactTemplate(contactTemplate.filter((f) => f.id !== e.id));
       setFilteredContactList(contactTemplate.filter((f) => f.id !== e.id));
     }

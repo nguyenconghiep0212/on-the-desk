@@ -54,8 +54,20 @@ export function getGalleryById(params: {
   export function detailGallery({shortcut, page, size}) {
     return httpUpload({
       method: "get",
-      url: `/api/gallery/detail/${shortcut}/${page}/${size}`,
-       
+      url: `/api/gallery/detail/${shortcut}/${page}/${size}`, 
     });
   }
-  
+  export function deleteGallery(id:string){
+    return http({
+      method: 'delete',
+      url: `/api/gallery/deletealbum`,
+      data: {id: id}
+    })
+  }
+
+  export function getTopic(shortcut: string){
+    return http({
+      method: 'get',
+      url: `/api/gallery/getlisttopics/${shortcut}`, 
+    })
+  }
