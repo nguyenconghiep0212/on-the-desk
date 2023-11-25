@@ -294,8 +294,7 @@ function Component() {
     handleGetCustomerById();
     getListTopic();
   }, []);
-  useEffect(() => { 
-  }, [
+  useEffect(() => {}, [
     newGallery,
     galleries,
     confirmDialogMode,
@@ -408,12 +407,13 @@ function Component() {
             </div>
 
             <div className="flex flex-col">
-           
-              <Input 
+              <Input
                 value={customerInfo.customerName}
                 bordered={false}
                 placeholder="Tên thư viện"
-                className={`${validator || "invalidate"} p-0 text-base <3xs:text-sm font-semibold <3xs:truncate !text-primary-blue-medium`}
+                className={`${
+                  validator || "invalidate"
+                } p-0 text-base <3xs:text-sm font-semibold <3xs:truncate !text-primary-blue-medium`}
                 onChange={(e) => {
                   setValidator(true);
                   setCustomerInfo({
@@ -421,7 +421,7 @@ function Component() {
                     customerName: e.target.value,
                   });
                 }}
-              /> 
+              />
               <Input
                 value={customerInfo.customerDescription}
                 bordered={false}
@@ -589,7 +589,7 @@ function Component() {
               (option?.label || "").toLowerCase().includes(input.toLowerCase())
             }
             dropdownRender={(menu) => (
-              <div>
+              <div className="gradient">
                 {!topicList.map((f) => f.value).includes(topicSearch) &&
                 topicSearch ? (
                   <Button
@@ -666,7 +666,7 @@ function Component() {
               </Button>
             </div>
           </Upload>
-          {newGallery.data.length ? (
+          {newGallery.data.length && newGallery.name && newGallery.thumb ? (
             <Button
               className="lg:w-max w-full !shadow-none gradient_btn"
               onClick={() => {
