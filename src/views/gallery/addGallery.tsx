@@ -74,7 +74,7 @@ function Component() {
       id: "",
     },
   });
-  const [validator, setValidator] = useState(false);
+  const [validator, setValidator] = useState(true);
   const [customerInfo, setCustomerInfo] = useState<CUSTOMER>({
     customerAvatar: "",
     customerCover: "",
@@ -294,13 +294,15 @@ function Component() {
     handleGetCustomerById();
     getListTopic();
   }, []);
-  useEffect(() => {}, [
+  useEffect(() => { 
+  }, [
     newGallery,
     galleries,
     confirmDialogMode,
     topicSearch,
     deleteGalleryIndex,
     confirmDialogOkHandler,
+    validator,
   ]);
   function header() {
     return (
@@ -406,11 +408,12 @@ function Component() {
             </div>
 
             <div className="flex flex-col">
-              <Input
+           
+              <Input 
                 value={customerInfo.customerName}
                 bordered={false}
                 placeholder="Tên thư viện"
-                className={`p-0 text-base <3xs:text-sm font-semibold <3xs:truncate !text-primary-blue-medium`}
+                className={`${validator || "invalidate"} p-0 text-base <3xs:text-sm font-semibold <3xs:truncate !text-primary-blue-medium`}
                 onChange={(e) => {
                   setValidator(true);
                   setCustomerInfo({
@@ -418,7 +421,7 @@ function Component() {
                     customerName: e.target.value,
                   });
                 }}
-              />
+              /> 
               <Input
                 value={customerInfo.customerDescription}
                 bordered={false}
@@ -583,11 +586,12 @@ function Component() {
               input: string,
               option?: { label: string; value: string }
             ) =>
-              (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+              (option?.label || "").toLowerCase().includes(input.toLowerCase())
             }
             dropdownRender={(menu) => (
               <div>
-                {(!topicList.map(f => f.value).includes(topicSearch) && topicSearch ) ? (
+                {!topicList.map((f) => f.value).includes(topicSearch) &&
+                topicSearch ? (
                   <Button
                     className="  !shadow-none w-full flex justify-start"
                     style={{
@@ -804,7 +808,7 @@ function Component() {
                   input: string,
                   option?: { label: string; value: string }
                 ) =>
-                  (option?.label ?? "")
+                  (option?.label || "")
                     .toLowerCase()
                     .includes(input.toLowerCase())
                 }
