@@ -7,7 +7,7 @@ import "./index.scss";
 // COMPONENT
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { Icon } from "@iconify/react";
-import { Button, Input, Modal, Upload, UploadProps } from "antd";
+import { Button, Input, Modal, Select, Upload, UploadProps } from "antd";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import FullScreenImg from "./fullScreen";
 import NavigateMenu from "../navigateMenu/index";
@@ -28,6 +28,8 @@ import {
   getGalleryByCustomerId,
   getCustomerById,
   uploadGallery,
+  getTopic,
+  createGallery,
 } from "api";
 import { useCookies } from "react-cookie";
 
@@ -36,9 +38,12 @@ function Component() {
   const routeParams = useParams();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [visible, setVisible] = useRecoilState(fullScreenVisible);
-  const [isEdit, setIsEdit] = useState(false);
   const [cookies] = useCookies(["current-user"]);
+  const [visible, setVisible] = useRecoilState(fullScreenVisible);
+
+  const [topicList, setTopicList] = useState([]);
+  const [topicSearch, setTopicSearch] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
   const [galleries, setGalleries] = useState<GALLERY_CUSTOMER[]>([
     {
       customerShortcut: "",
@@ -109,10 +114,15 @@ function Component() {
       },
     },
   ];
-  const propsNewGalley: UploadProps = {
+  const propsNewGalleyThumb: UploadProps = {
     name: "file",
     multiple: true,
-    action: async (file) => await uploadFileGallery(file),
+    action: async (file) => await uploadFileGallery(file, "thumb"),
+  };
+  const propsNewGalleyAlbum: UploadProps = {
+    name: "file",
+    multiple: true,
+    action: async (file) => await uploadFileGallery(file, "album"),
   };
   const propsAvatar: UploadProps = {
     name: "file",
@@ -142,14 +152,13 @@ function Component() {
     setCurrentGallery(gallery);
     setVisible(true);
   }
-  function addNewTag() {
-    setNewGallery({ ...newGallery, topics: [...newGallery.topics, ""] });
-  }
-  function removeTag(i) {
-    const arr = newGallery.topics.filter((el, index) => i !== index);
-    setNewGallery({ ...newGallery, topics: arr });
-  }
 
+  async function getListTopic() {
+    const res = await getTopic(cookies["current-user"].shortcut);
+    if (res) {
+      setTopicList(res.data.map((e) => ({ value: e, label: e })));
+    }
+  }
   function handleCloseFullscreen() {
     setCurrentImg("");
   }
@@ -177,8 +186,8 @@ function Component() {
           setCustomerInfoOrigin(res.data);
           setNewGallery({
             ...newGallery,
-            customerId: res.data.customerName,
-            customerName,
+            customerId: res.data.customerId,
+            customerName: res.data.customerName,
           });
         }
       } catch (error) {}
@@ -203,21 +212,259 @@ function Component() {
     }
   }
   //
+  async function handleAddGallery() {
+    try {
+      await createGallery(newGallery);
+      setNewGallery({
+        customerId: "",
+        customerName: "",
+        index: 0,
+        name: "",
+        data: [],
+        thumb: "",
+        topics: [],
+        shortcut: "",
+      });
+      handleGetGalleryByCustomerId();
+    } catch (error) {
+      console.error(error);
+    }
+  }
   function handleCancelChange() {
     setIsEdit(false);
     setCustomerInfo(customerInfoOrigin);
   }
-  function handleAcceptChange() {}
+  function handleAcceptChange() {
+    console.log("galleries", galleries);
+  }
 
   useEffect(() => {
     handleGetGalleryByCustomerId();
     handleGetUserProfile();
     handleGetCustomerById();
-    if(searchParams.get("mode") === 'edit'){
+    getListTopic();
+    if (searchParams.get("mode") === "edit") {
       setIsEdit(true);
     }
   }, []);
-  useEffect(() => {}, [galleries, visible]);
+  useEffect(() => {}, [newGallery, galleries, visible]);
+
+  function displayCreateForm() {
+    return (
+      <div className="px-3 mt-6 space-y-4">
+        <div className="flex items-center space-x-2">
+          <Input
+            placeholder="Tên album mới"
+            bordered={false}
+            value={newGallery.name}
+            className="p-0 mb-4 text-sm font-bold"
+            onChange={(e) => {
+              setNewGallery({ ...newGallery, name: e.target.value });
+            }}
+          />
+          {newGallery.name && (
+            <Icon
+              className="text-[#EB5757] h-5 w-5 cursor-pointer"
+              icon="tabler:trash"
+              onClick={() => {}}
+            />
+          )}
+        </div>
+
+        {newGallery.thumb ? (
+          <div className="relative">
+            <Upload
+              {...propsNewGalleyThumb}
+              className="absolute z-20 bottom-5 right-5 upload-hidden"
+            >
+              <div
+                className="flex items-center justify-center w-6 h-6 rounded cursor-pointer "
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.08) 100%)",
+                }}
+              >
+                <img
+                  src={IcCamera}
+                  alt="IcCamera"
+                  className="text-primary-blue-dark "
+                />
+              </div>
+            </Upload>
+            <div
+              className="rounded aspect-video"
+              style={{
+                backgroundImage: `url('${process.env.REACT_APP_BASE_IMG}${newGallery.thumb}')`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+              }}
+            />
+          </div>
+        ) : (
+          <Dragger {...propsNewGalleyThumb} className="">
+            <p className=" flex min-h-[360px] items-center justify-center space-x-1 text-sm font-semibold !text-white ant-upload-text">
+              <Icon icon="tabler:plus" />
+              <span> Chọn ảnh bìa</span>
+            </p>
+          </Dragger>
+        )}
+
+        <div>
+          {newGallery.topics.map((e, i) => (
+            <div
+              key={i}
+              className="mr-2 mb-2 inline-flex cursor-pointer rounded-lg bg-[#2f353f]"
+            >
+              <div className="h-full filter-tag-bg">
+                <div
+                  key={i}
+                  className="flex items-start justify-center space-x-1 font-semibold filter-tag"
+                >
+                  <span className="font-semibold text-primary-blue-medium">
+                    {e}
+                  </span>
+                  <div
+                    className="!h-4 !w-4"
+                    onClick={() => {
+                      const arr = newGallery.topics.filter(
+                        (el, index) => i !== index
+                      );
+                      setNewGallery({ ...newGallery, topics: arr });
+                    }}
+                  >
+                    <Icon
+                      className="text-[#EB5757] h-4 w-4"
+                      icon="tabler:trash"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="relative w-full">
+          <Icon
+            className="absolute left-0 w-6 h-8 text-primary-blue-medium "
+            icon="ci:tag"
+            style={{ transform: "scale(-1, 1)" }}
+          />
+          <Select
+            showSearch
+            className="w-full text-white topic-select"
+            placeholder={
+              <div className="flex items-start w-full space-x-1 text-white pl-7 ">
+                <span>Gắn nhãn</span>
+              </div>
+            }
+            value={null}
+            optionFilterProp="children"
+            onChange={(e) => {
+              setNewGallery({
+                ...newGallery,
+                topics: [...newGallery.topics, e],
+              });
+            }}
+            filterOption={(
+              input: string,
+              option?: { label: string; value: string }
+            ) =>
+              (option?.label || "").toLowerCase().includes(input.toLowerCase())
+            }
+            dropdownRender={(menu) => (
+              <div className="gradient">
+                {!topicList.map((f) => f.value).includes(topicSearch) &&
+                topicSearch ? (
+                  <Button
+                    className="  !shadow-none w-full flex justify-start"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",
+                    }}
+                    onClick={() => {
+                      setNewGallery({
+                        ...newGallery,
+                        topics: [...newGallery.topics, topicSearch],
+                      });
+                    }}
+                  >
+                    Thêm nhãn {topicSearch}
+                  </Button>
+                ) : (
+                  <></>
+                )}
+
+                {menu}
+              </div>
+            )}
+            bordered={false}
+            options={topicList}
+            onSearch={setTopicSearch}
+          />
+        </div>
+
+        <div className="grid gap-1 <xs:grid-cols-2 <md:grid-cols-3 grid-cols-5 ">
+          {newGallery.data.map((e, index) => (
+            <div key={index} className="relative my-2 aspect-square">
+              <div className="absolute top-1 right-1 bg-[#0000004d] p-1 rounded-full ">
+                <Icon
+                  className="text-[#EB5757] h-6 w-6 cursor-pointer"
+                  icon="tabler:trash"
+                  onClick={() => {
+                    setNewGallery({
+                      ...newGallery,
+                      data: newGallery.data?.filter((_, i) => i !== index),
+                    });
+                  }}
+                />
+              </div>
+              <div
+                className="w-full h-full"
+                style={{
+                  backgroundImage: `url('${process.env.REACT_APP_BASE_IMG}${e.ref}')`,
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                }}
+              />
+            </div>
+          ))}
+        </div>
+        <div className="space-y-4 lg:space-y-0 lg:flex lg:justify-end lg:space-x-2">
+          <Upload
+            {...propsNewGalleyAlbum}
+            className="flex w-full h-6 upload_new_gallery_album upload-hidden lg:w-max"
+          >
+            <div
+              className="flex items-center justify-center rounded w-[inherit] cursor-pointer "
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.08) 100%)",
+              }}
+            >
+              <Button className=" w-full !shadow-none !bg-[#6b6c6d] !border-white border-1 !border-solid">
+                <div className="flex items-center justify-center space-x-1">
+                  <Icon className="w-4 h-4" icon="tabler:plus" />
+                  <span>Thêm ảnh</span>
+                </div>
+              </Button>
+            </div>
+          </Upload>
+          {newGallery.data.length && newGallery.name && newGallery.thumb ? (
+            <Button
+              className="lg:w-max w-full !shadow-none gradient_btn"
+              onClick={() => {
+                handleAddGallery();
+              }}
+            >
+              Hoàn thành
+            </Button>
+          ) : (
+            <></>
+          )}
+        </div>
+      </div>
+    );
+  }
 
   function masonryGrid() {
     return (
@@ -434,108 +681,7 @@ function Component() {
             </div>
           </div>
         </div>
-
-        {isEdit && (
-          <div className="mx-3 mt-6 space-y-2">
-            {newGallery.thumb ? (
-              <div className="relative">
-                <div
-                  className="absolute top-[6px] right-[6px] cursor-pointer"
-                  onClick={() => {
-                    setNewGallery({
-                      ...newGallery,
-                      thumb: "",
-                    });
-                  }}
-                >
-                  <Icon
-                    className="text-[#EB5757] h-4 w-4"
-                    icon="tabler:trash"
-                  />
-                </div>
-                <div
-                  className="rounded aspect-video"
-                  style={{
-                    backgroundImage: `url('${process.env.REACT_APP_BASE_IMG}${newGallery.thumb}')`,
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
-                  }}
-                />
-              </div>
-            ) : (
-              <Dragger {...propsNewGalley} className="">
-                <p className="flex min-h-[360px] items-center justify-center space-x-1 text-sm font-semibold !text-white ant-upload-text">
-                  <Icon icon="tabler:plus" />
-                  <span> Chọn ảnh bìa</span>
-                </p>
-              </Dragger>
-            )}
-
-            <Input
-              placeholder="Tên album mới"
-              bordered={false}
-              className="p-0"
-              onChange={(e) => {}}
-            />
-
-            <div className="grid grid-cols-5 gap-1">
-              <div
-                className="cursor-pointer flex items-center justify-center px-3 py-1 text-white border border-white border-dashed rounded w-full text-[12px] space-x-1 font-semibold"
-                onClick={() => addNewTag()}
-              >
-                <Icon className="w-4 h-4" icon="tabler:plus" />
-                <span> Gắn thẻ</span>
-              </div>
-
-              {newGallery.topics.map((e, i) => (
-                <div
-                  key={i}
-                  className="inline-flex cursor-pointer rounded-lg bg-[#2f353f]"
-                >
-                  <div className="h-full filter-tag-bg">
-                    <div
-                      key={i}
-                      className="flex items-start justify-center space-x-1 font-semibold filter-tag"
-                    >
-                      <div
-                        className="!h-4 !w-4"
-                        onClick={() => {
-                          removeTag(i);
-                        }}
-                      >
-                        <Icon
-                          className="text-[#EB5757] h-4 w-4"
-                          icon="tabler:trash"
-                        />
-                      </div>
-
-                      <Input
-                        value={e}
-                        className="p-0"
-                        bordered={false}
-                        onChange={(e) => {
-                          const arr = [...newGallery.topics];
-                          arr[i] = e.target.value;
-                          setNewGallery({ ...newGallery, topics: arr });
-                        }}
-                      />
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="text-right">
-              <Button className="gradient_btn" onClick={() => {}}>
-                Chọn ảnh
-              </Button>
-            </div>
-            <div id="divider" className="flex items-center justify-center py-6">
-              <div className="w-2/3 border-t border-dashed border-primary-blue-medium"></div>
-            </div>
-          </div>
-        )}
-
+        {displayCreateForm()}
         <div className="px-3 mt-3 space-y-6">
           {/* GALLERY */}
           <div className="overflow-auto ">{masonryGrid()}</div>
