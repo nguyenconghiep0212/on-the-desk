@@ -42,14 +42,14 @@ function Component({
     setDndItems(reorderedItems);
   }
 
-
   function updateContactBulk() {
     const index = dndItems.findIndex((e) => e.id === editingContact.id);
+    const items = dndItems;
     if (index > -1) {
-      dndItems[index] = editingContact;
+      items[index] = editingContact;
     }
-    setDndItems(dndItems);
-    setContactList(dndItems);
+    setDndItems([...items]);
+    setContactList([...items]);
     editingContact.children.forEach(async (e) => {
       const params = { ...e, contactId: e.id };
       await editContact(params);

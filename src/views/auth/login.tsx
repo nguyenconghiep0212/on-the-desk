@@ -127,7 +127,7 @@ function Login() {
     try {
       const res = await getUserProfileByToken();
       if (res) {
-        console.log("set current user cookie");
+        console.log("set current user cookie", res.data);
         setCookie("current-user", res.data);
       }
     } catch (e) {

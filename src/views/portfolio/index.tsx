@@ -167,7 +167,6 @@ function Portfolio() {
     handleGetUserProfile();
   }, []);
   useEffect(() => {
-    console.log("userInfo:", userInfo);
   }, [userInfo, isEdit]);
 
   return (

@@ -41,8 +41,7 @@ function Component() {
 
   async function submitCard() {
     if (isAddNewProfile) {
-      console.log("new profile");
-    } else {
+     } else {
       try {
         const res = await createCard(defaultCard);
         if (res) {
@@ -69,8 +68,7 @@ function Component() {
     }
   }
   useEffect(() => {
-    console.log("defaultCard,", defaultCard);
-  }, [defaultCard]);
+   }, [defaultCard]);
   useEffect(() => {}, [isAddNewProfile]);
   function card() {
     return (

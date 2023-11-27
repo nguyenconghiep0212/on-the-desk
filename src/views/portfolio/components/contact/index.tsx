@@ -5,10 +5,9 @@ import SelectContact from "./selectContact.tsx";
 import { Icon } from "@iconify/react";
 import { getBase64FromUrl } from "helper/convertToBase64";
 import { generateBankQR } from "api";
-import { Button, Modal, Tooltip, message } from "antd";
+import { Button, Input, Modal, Tooltip, message } from "antd";
 import { GEN_QR } from "interface/card";
 import IcAccount from "assests/icon/ic-account-blue.svg";
-import IcCard from "assests/icon/ic-card-blue.svg";
 import "./style.scss";
 
 enum QR_TEMPLATE {
@@ -19,6 +18,9 @@ enum QR_TEMPLATE {
 }
 
 function Contact({ data, userInfo, isEdit }) {
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const [viewTransferInfo, setViewTransferInfo] = useState(false);
   const [contactList, setContactList] = useState(() => {
     const ar: any = [];
     data.map((e) => {
@@ -54,6 +56,9 @@ function Contact({ data, userInfo, isEdit }) {
     base64: "",
     bankNo: "",
     bankName: "",
+    bankBin: "",
+    transferAmount: null,
+    transferDescription: "",
   });
   const [visibleQR, setVisibleQR] = useState(false);
 
@@ -131,30 +136,48 @@ function Contact({ data, userInfo, isEdit }) {
     }
   }
   async function genQR(data) {
+    if (data.infoDetail) {
+      const params: GEN_QR = {
+        accountNo: data.infoDetail.split("|")[1],
+        accountName: data.infoDetail.split("|")[0],
+        acqId: data.keyContact,
+        template: QR_TEMPLATE.COMPACT,
+      };
+      const res = await generateBankQR(params);
+      if (res) {
+        setVisibleQR(true);
+        setQRbase64({
+          bankNo: data.infoDetail.split("|")[1],
+          bankName: data.infoDetail.split("|")[0],
+          base64: res.data.qrDataURL,
+          bankBin: data.keyContact,
+          transferAmount: null,
+          transferDescription: "",
+        });
+      }
+    } else {
+      message.error("Đường dẫn không tồn tại");
+    }
+  }
+
+  async function genTransferQR() {
     const params: GEN_QR = {
-      accountNo: data.infoDetail.split("|")[1],
-      accountName: data.infoDetail.split("|")[0],
-      acqId: data.keyContact, //  check https://api.vietqr.io/v2/banksto get bank list
+      accountNo: QRbase64.bankNo,
+      accountName: QRbase64.bankName,
+      acqId: QRbase64.bankBin,
       template: QR_TEMPLATE.COMPACT,
+      amount: QRbase64.transferAmount,
+      addInfo: QRbase64.transferDescription,
     };
     const res = await generateBankQR(params);
     if (res) {
-      setVisibleQR(true);
-      setQRbase64({
-        bankNo: data.infoDetail.split("|")[1],
-        bankName: data.infoDetail.split("|")[0],
-        base64: res.data.qrDataURL,
-      });
-      console.log(res);
+      setQRbase64({ ...QRbase64, base64: res.data.qrDataURL });
     }
   }
 
   useEffect(() => {
-    console.log("editingContact", editingContact);
-  }, [editingContact]);
-  useEffect(() => {
-    console.log("contactList", contactList);
-  }, [contactList]);
+    console.log(contactList);
+  }, [editingContact, QRbase64, contactList]);
   function saveContact() {
     return (
       <div
@@ -204,7 +227,10 @@ function Contact({ data, userInfo, isEdit }) {
                 </div>
                 <div className="flex justify-between">
                   <div className="flex space-x-2 ">
-                    <img className="w-6 h-6" src={IcCard} alt="card" />
+                    <Icon
+                      className="w-6 h-6 text-primary-blue-medium"
+                      icon="solar:card-linear"
+                    />
                     <span id="BankNo" className="text-white">
                       {QRbase64.bankNo}
                     </span>
@@ -218,6 +244,128 @@ function Contact({ data, userInfo, isEdit }) {
                     <Icon className="w-6 h-6 text-white" icon="tabler:copy" />
                   </div>
                 </div>
+                {userInfo.shortcut === "@admin" && (
+                  <div>
+                    {viewTransferInfo && (
+                      <div className="space-y-3">
+                        <div className="flex justify-between">
+                          <div className="flex w-full pr-2 space-x-2">
+                            <Icon
+                              className="w-6 h-6 text-primary-blue-medium"
+                              icon="ph:info-bold"
+                            />
+                            <Input
+                              placeholder="Nội dung chuyển khoản"
+                              id="transferDes w-full"
+                              bordered={false}
+                              value={QRbase64.transferDescription}
+                              className="p-0 text-white"
+                              onChange={(e) =>
+                                setQRbase64({
+                                  ...QRbase64,
+                                  transferDescription: e.target.value,
+                                })
+                              }
+                            />
+                          </div>
+                          <div
+                            className="cursor-pointer"
+                            onClick={() => {
+                              navigator.clipboard.writeText(
+                                QRbase64.transferDescription
+                              );
+                            }}
+                          >
+                            <Icon
+                              className="w-6 h-6 text-white"
+                              icon="tabler:copy"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex justify-between">
+                          <div className="flex w-full pr-2 space-x-2 ">
+                            <Icon
+                              className="w-6 h-6 text-primary-blue-medium"
+                              icon="tabler:report-money"
+                            />
+                            <Input
+                              placeholder="Số tiền chuyển khoản"
+                              id="transferAmount"
+                              value={QRbase64.transferAmount}
+                              bordered={false}
+                              className="w-full p-0 text-white"
+                              onChange={(e) => {
+                                if (
+                                  Number(e.target.value) ||
+                                  e.target.value === ""
+                                ) {
+                                  setQRbase64({
+                                    ...QRbase64,
+                                    transferAmount:
+                                      e.target.value === ""
+                                        ? null
+                                        : Number(e.target.value),
+                                  });
+                                } else {
+                                  messageApi.open({
+                                    type: "warning",
+                                    content: "Vui lòng nhập số",
+                                  });
+                                }
+                              }}
+                            />
+                          </div>
+                          <div
+                            className="cursor-pointer"
+                            onClick={() => {
+                              navigator.clipboard.writeText(
+                                QRbase64.transferAmount
+                              );
+                            }}
+                          >
+                            <Icon
+                              className="w-6 h-6 text-white"
+                              icon="tabler:copy"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-center space-y-[18px]">
+                          <div
+                            className="before:bg-[#303A49] bg-[#ffffff2f] font-semibold text-white py-[6px] px-[9px] rounded-lg border-white border-[1px] border-solid cursor-pointer"
+                            onClick={() => {
+                              genTransferQR();
+                            }}
+                          >
+                            Tạo QR tự động điền
+                          </div>
+                          <div
+                            className="flex items-center space-x-1 font-semibold text-primary-blue-medium py-[6px] px-[9px] bg-[#1E2530] rounded-lg"
+                            style={{
+                              boxShadow:
+                                "2px 2px 2px 0px rgba(0, 25, 64, 0.50) inset, -2px -2px 2px 0px rgba(60, 173, 255, 0.25) inset",
+                            }}
+                          >
+                            <Icon
+                              className="h-[18px] w-[18px]"
+                              icon="tabler:check"
+                            />
+                            <span>Tạo giao dịch chuyển khoản</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                    {!viewTransferInfo && (
+                      <div className="flex justify-center mt-4">
+                        <Button
+                          className="gradient_btn !shadow-none"
+                          onClick={() => setViewTransferInfo(true)}
+                        >
+                          Tạo giao dịch chuyển khoản
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               <div className="flex justify-center space-x-3">
@@ -325,9 +473,9 @@ function Contact({ data, userInfo, isEdit }) {
                   className="flex items-center justify-start w-full cursor-pointer h-9"
                   onClick={() => {
                     if (e.typeContact === "bank") {
-                      genQR(e);
+                      genQR(e.children[0]);
                     } else {
-                      onOpenContact(e);
+                      onOpenContact(e.children[0]);
                     }
                   }}
                 >
@@ -357,6 +505,7 @@ function Contact({ data, userInfo, isEdit }) {
         )}
       </div>
       {QR()}
+      {contextHolder}
     </div>
   );
 }
