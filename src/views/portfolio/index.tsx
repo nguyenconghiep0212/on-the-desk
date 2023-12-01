@@ -86,9 +86,9 @@ function Portfolio() {
 
   let routeParams = useParams();
   async function handleGetUserProfile() {
-    if (routeParams.userId) {
+    if (routeParams.userShortcut) {
       try {
-        const res = await getUserProfile(routeParams.userId);
+        const res = await getUserProfile(routeParams.userShortcut);
         if (res) {
           userInfo = res.data;
           originalUserInfo = res.data;

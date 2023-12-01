@@ -18,6 +18,7 @@ export interface UPDATE_GALLERY {
   thumb: string;
   topics: string[];
   shortcut: string;
+  extended?: boolean;
 }
 
 interface GALLERY_DATA {
@@ -35,7 +36,8 @@ export interface GALLERY_CUSTOMER {
   customerName: string;
   galleryName: string;
   galleryThumb: string;
-  topPictures:PICTURE[]
+  topPictures:PICTURE[];
+  extended?: boolean;
 }
 
 interface PICTURE {

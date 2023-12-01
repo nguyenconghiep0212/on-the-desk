@@ -152,8 +152,8 @@ function Component() {
               className="!h-1/2 aspect-square !w-max"
               errorLevel="H"
               value={
-                pathParams.userId
-                  ? `https://onthedesk.vn/${pathParams.userId}`
+                pathParams.userShortcut
+                  ? `https://onthedesk.vn/${pathParams.userShortcut}`
                   : "https://onthedesk.vn/"
               }
               icon={Logo_SVG}
@@ -212,7 +212,7 @@ function Component() {
           <BackText />
           <div className="flex items-center justify-between">
             <div>
-              {pathParams.userId && (
+              {pathParams.userShortcut && (
                 <Radio.Group
                   className="!shadow-none"
                   size="small"

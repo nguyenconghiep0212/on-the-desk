@@ -14,17 +14,17 @@ export function getGalleryById(params: {
     });
   }
   
-  export function getGalleryByUserId(id: string) {
+  export function getGalleryByUserShortcut(shortcut: string) {
     return http({
       method: "get",
-      url: `/api/users/galleries/${id}`,
+      url: `/api/users/galleries/${shortcut}`,
     });
   }
   
-  export function getGalleryByCustomerId(id: string){
+  export function getGalleryByCustomerShortcut(shortcut: string){
   return http({
     method: 'get',
-    url: `/api/customer/galleries/${id}`
+    url: `/api/customer/galleries/${shortcut}`
   })
   }
 

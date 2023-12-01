@@ -4,7 +4,7 @@ import { Icon } from "@iconify/react";
 import "./index.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatNumber } from "helper/formatNumber.ts";
-import { getGalleryByUserId, fetchCustomerList, deleteGallery } from "api";
+import { getGalleryByUserShortcut, fetchCustomerList, deleteGallery } from "api";
 import { GALLERY } from "interface/gallery";
 import { Button, Select } from "antd";
 // COMPONENT
@@ -79,7 +79,7 @@ function Gallery({ alias, userInfo, isEdit }) {
   }
 
   async function getGalleryData() {
-    const res = await getGalleryByUserId(userInfo.shortcut);
+    const res = await getGalleryByUserShortcut(userInfo.shortcut);
     if (res) {
       if (res.data) {
         setAllGallery(res.data.gals);
@@ -105,10 +105,10 @@ function Gallery({ alias, userInfo, isEdit }) {
     // }
     setConfirmDialogVisible(false);
   }
-  async function editGallery(customerId: string) {}
+  async function editGallery(customerShortcut: string) {}
 
-  function redirectToGallery(customerId: string) {
-    return navigate(`/${params.userId}/${customerId}`);
+  function redirectToGallery(customerShortcut: string) {
+    return navigate(`/${params.userShortcut}/${customerShortcut}`);
   }
 
   useEffect(() => {
@@ -202,7 +202,7 @@ function Gallery({ alias, userInfo, isEdit }) {
                 label: e.customerName,
               }))}
               onChange={(e) => {
-                navigate(`/${params.userId}/${e}?mode=edit`);
+                navigate(`/${params.userShortcut}/addGallery/${e}`);
               }}
             />
           </div>

@@ -22,7 +22,7 @@ import ConfirmDialog from "views/component/confirmDialog";
 // API
 import {
   getUserProfile,
-  getGalleryByCustomerId,
+  getGalleryByCustomerShortcut,
   getCustomerById,
   uploadGallery,
   createGallery,
@@ -50,6 +50,7 @@ function Component() {
         thumb: "",
         topics: [],
         shortcut: "",
+        extended: false,
       });
       setConfirmDialogVisible(false);
     },
@@ -58,6 +59,7 @@ function Component() {
       setConfirmDialogVisible(false);
     },
     CONFIRM_CREATE_GALLERY: () => handleCreateGallery(),
+    CONFIRM_UPDATE_GALLERY: () => handleUpdateGallery(),
   };
   const [confirmDialogVisible, setConfirmDialogVisible] = useState(false);
   const [confirmDialogMode, setConfirmDialogMode] = useState("success");
@@ -93,6 +95,7 @@ function Component() {
     thumb: "",
     topics: [],
     shortcut: "",
+    extended: false,
   });
 
   const profile_menu = [
@@ -209,7 +212,7 @@ function Component() {
   }
 
   function handleAddGallery() {
-    setGalleries([...galleries, newGallery]);
+    setGalleries([newGallery, ...galleries]);
     setNewGallery({
       customerId: "",
       customerName: "",
@@ -219,6 +222,7 @@ function Component() {
       thumb: "",
       topics: [],
       shortcut: "",
+      extended: false,
     });
   }
   async function handleCreateGallery() {
@@ -243,44 +247,67 @@ function Component() {
       }
     } else {
       setValidator(false);
-      setConfirmDialogVisible(false); 
+      setConfirmDialogVisible(false);
       scrollToView(customerRef);
-      messageApi.warning('Vui lòng nhập tên thư viện')
+      messageApi.warning("Vui lòng nhập tên thư viện");
     }
   }
+  async function handleUpdateGallery() {
+    console.log("UPDATE", galleries);
+  }
+
   async function handleGetUserProfile() {
-    if (routeParams.userId) {
+    if (routeParams.userShortcut) {
       try {
-        const res = await getUserProfile(routeParams.userId);
+        const res = await getUserProfile(routeParams.userShortcut);
         if (res) {
           setUserInfo(res.data);
         }
       } catch (error) {}
     }
   }
-  async function handleGetCustomerById() {
-    if (routeParams.customerId) {
+  async function handleGetCustomerByShortcut() {
+    if (routeParams.customerShortcut) {
       try {
-        const res = await getCustomerById(routeParams.customerId);
+        const res = await getCustomerById(routeParams.customerShortcut);
         if (res) {
           setCustomerInfo(res.data);
           setNewGallery({
             ...newGallery,
-            customerId: res.data.customerName,
+            customerId: res.data.customerName, // FIX LATER WHEN API IS FIXED,
             customerName,
           });
         }
       } catch (error) {}
     }
   }
-  async function handleGetGalleryByCustomerId() {
-    if (routeParams.customerId) {
+  async function handleGetGalleryByCustomerShortcut() {
+    if (routeParams.customerShortcut) {
       try {
-        const res = await getGalleryByCustomerId(routeParams.customerId);
+        const res = await getGalleryByCustomerShortcut(
+          routeParams.customerShortcut
+        );
         if (res) {
-          const galleryData = res.data.gals.forEach(
-            (e) => (e.extended = false)
-          );
+          const galleryData = res.data.gals.map((e) => {
+            return {
+              customerId: e.customerName, // FIX LATER WHEN API IS FIXED,,
+              customerName: e.customerName,
+              index: 0,
+              name: e.galleryName,
+              data: e.topPictures.map((f) => ({
+                name: f.name,
+                caption: f.caption,
+                ref: f.ref,
+              })),
+              thumb:
+                process.env.REACT_APP_BASE_IMG +
+                e.galleryThumb.replace(process.env.REACT_APP_BASE_IMG, ""),
+              topics: e.topics,
+              shortcut: e.galleryShortcut,
+              extended: false,
+            };
+          });
+          console.log("galleryData", galleryData);
           setGalleries([...galleryData]);
         }
       } catch (error) {}
@@ -305,9 +332,9 @@ function Component() {
     }
   }
   useEffect(() => {
-    handleGetGalleryByCustomerId();
+    handleGetGalleryByCustomerShortcut();
     handleGetUserProfile();
-    handleGetCustomerById();
+    handleGetCustomerByShortcut();
     getListTopic();
   }, []);
   useEffect(() => {}, [
@@ -335,33 +362,50 @@ function Component() {
 
         {/* BACKGROUND COVER */}
         <div className="relative w-full <xs:!h-[320px] h-[40vh] ">
+          {customerInfo.customerCover ? (
+            <div
+              className="sm:w-[300%] sm:-translate-x-1/2 h-full z-[5] relative"
+              style={{
+                backgroundImage: `url('${
+                  process.env.REACT_APP_BASE_IMG + customerInfo.customerCover
+                }')`,
+                WebkitFilter: `blur(24px)`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                boxShadow: "inset 0px -70px 35px -25px #18191A",
+              }}
+            />
+          ) : (
+            <></>
+          )}
           <div
-            className="sm:w-[300%] sm:-translate-x-1/2 h-full z-[5] relative "
+            className={`${
+              customerInfo.customerCover
+                ? ""
+                : "bg-[#f0f0f0] flex justify-center items-center sm:w-[300%]  "
+            } absolute z-[5] top-0 w-full h-full -translate-x-1/2 left-1/2`}
             style={{
               backgroundImage: `url('${
                 customerInfo.customerCover
                   ? process.env.REACT_APP_BASE_IMG + customerInfo.customerCover
-                  : userInfo.backgrounds
-              }')`,
-              WebkitFilter: `blur(24px)`,
-              backgroundPosition: "center",
-              backgroundSize: "cover",
-              boxShadow: "inset 0px -70px 35px -25px #18191A",
-            }}
-          />
-          <div
-            className="absolute z-[5] top-0 w-full h-full -translate-x-1/2 left-1/2"
-            style={{
-              backgroundImage: `url('${
-                customerInfo.customerCover
-                  ? process.env.REACT_APP_BASE_IMG + customerInfo.customerCover
-                  : userInfo.backgrounds
+                  : null
               }')`,
               backgroundPosition: "center",
               backgroundSize: "cover",
               boxShadow: "inset 0px -70px 35px -40px #18191A",
             }}
-          />
+          >
+            {customerInfo.customerCover ? (
+              <></>
+            ) : (
+              <div>
+                <Icon
+                  className="text-[#bfbfbf] w-full h-[20vh]"
+                  icon="bi:image"
+                />
+              </div>
+            )}
+          </div>
 
           <Upload
             {...propsCover}
@@ -642,19 +686,42 @@ function Component() {
 
         <div className="grid grid-cols-3 gap-2 ">
           {newGallery.data.map((e, index) => (
-            <div key={index} className="relative aspect-square">
-              <div className="absolute top-1 right-1 bg-[#0000004d] p-1 rounded-full ">
-                <Icon
-                  className="text-[#EB5757] h-6 w-6 cursor-pointer"
-                  icon="tabler:trash"
-                  onClick={() => {
-                    setNewGallery({
-                      ...newGallery,
-                      data: newGallery.data?.filter((_, i) => i !== index),
-                    });
-                  }}
-                />
-              </div>
+            <div
+              key={index}
+              className={`${
+                newGallery.extended || (index > 8 && `hidden`)
+              } relative aspect-square`}
+            >
+              {newGallery.extended ? (
+                <div className=" absolute top-1 right-1 bg-[#0000004d] p-1 rounded-full">
+                  <Icon
+                    className="text-[#EB5757] h-6 w-6 cursor-pointer"
+                    icon="tabler:trash"
+                    onClick={() => {
+                      setNewGallery({
+                        ...newGallery,
+                        data: newGallery.data?.filter((_, i) => i !== index),
+                      });
+                    }}
+                  />
+                </div>
+              ) : (
+                index !== 8 && (
+                  <div className=" absolute top-1 right-1 bg-[#0000004d] p-1 rounded-full">
+                    <Icon
+                      className="text-[#EB5757] h-6 w-6 cursor-pointer"
+                      icon="tabler:trash"
+                      onClick={() => {
+                        setNewGallery({
+                          ...newGallery,
+                          data: newGallery.data?.filter((_, i) => i !== index),
+                        });
+                      }}
+                    />
+                  </div>
+                )
+              )}
+
               <div
                 className="w-full h-full"
                 style={{
@@ -663,6 +730,29 @@ function Component() {
                   backgroundSize: "cover",
                 }}
               />
+              {newGallery.extended ||
+                (index === 8 && (
+                  <div>
+                    <div className="absolute top-0 left-0 z-20 w-full h-full bg-black opacity-50 " />
+                    <div
+                      className="absolute top-0 left-0 z-30 flex items-center justify-center w-full h-full text-white cursor-pointer"
+                      onClick={() => {
+                        setNewGallery({
+                          ...newGallery,
+                          extended: true,
+                        });
+                      }}
+                    >
+                      <span className="text-lg font-semibold">
+                        +
+                        {
+                          [...newGallery.data].splice(8, newGallery.data.length)
+                            .length
+                        }
+                      </span>
+                    </div>
+                  </div>
+                ))}
             </div>
           ))}
         </div>
@@ -693,7 +783,11 @@ function Component() {
                 handleAddGallery();
                 setConfirmDialogVisible(true);
                 setConfirmDialogMode("success");
-                setConfirmDialogOkHandler("CONFIRM_CREATE_GALLERY");
+                setConfirmDialogOkHandler(
+                  routeParams.customerShortcut
+                    ? "CONFIRM_UPDATE_GALLERY"
+                    : "CONFIRM_CREATE_GALLERY"
+                );
                 setConfirmDialogOkText("Xem album");
                 setConfirmDialogMessage("Tạo album thành công!");
               }}
@@ -769,7 +863,11 @@ function Component() {
               <div
                 className="rounded aspect-video"
                 style={{
-                  backgroundImage: `url('${process.env.REACT_APP_BASE_IMG}${e.thumb}')`,
+                  backgroundImage: `url('${
+                    e.thumb.includes(process.env.REACT_APP_BASE_IMG)
+                      ? e.thumb
+                      : process.env.REACT_APP_BASE_IMG + e.thumb
+                  }')`,
                   backgroundPosition: "center",
                   backgroundSize: "cover",
                 }}
@@ -910,7 +1008,11 @@ function Component() {
                   <div
                     className="w-full h-full"
                     style={{
-                      backgroundImage: `url('${process.env.REACT_APP_BASE_IMG}${f.ref}')`,
+                      backgroundImage: `url('${
+                        f.ref.includes(process.env.REACT_APP_BASE_IMG)
+                          ? f.ref
+                          : process.env.REACT_APP_BASE_IMG + f.ref
+                      }')`,
                       backgroundPosition: "center",
                       backgroundSize: "cover",
                     }}
@@ -979,7 +1081,9 @@ function Component() {
             <Button
               className="w-full !shadow-none gradient_btn mt-5"
               onClick={() => {
-                handleCreateGallery();
+                routeParams.customerShortcut
+                  ? handleUpdateGallery()
+                  : handleCreateGallery();
               }}
             >
               Hoàn thành

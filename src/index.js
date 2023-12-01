@@ -53,7 +53,7 @@ const RouterBuilder = () => {
       errorElement: <ErrorPage />,
     },
     {
-      path: "/:userId",
+      path: "/:userShortcut",
       element: <Portfolio />,
       errorElement: <ErrorPage />,
     },
@@ -63,22 +63,22 @@ const RouterBuilder = () => {
       errorElement: <ErrorPage />,
     },
     {
-      path: "/:userId/addCard",
+      path: "/:userShortcut/addCard",
       element: <AddCard />,
       errorElement: <ErrorPage />,
     },
     {
-      path: "/:userId/:customerId",
+      path: "/:userShortcut/:customerShortcut",
       element: <Gallery />,
       errorElement: <ErrorPage />,
     },
     {
-      path: "/:userId/addGallery",
+      path: "/:userShortcut/addGallery",
       element: <AddGallery />,
       errorElement: <ErrorPage />,
     },
     {
-      path: "/:userId/addGallery/:customerId",
+      path: "/:userShortcut/addGallery/:customerShortcut",
       element: <AddGallery />,
       errorElement: <ErrorPage />,
     },
