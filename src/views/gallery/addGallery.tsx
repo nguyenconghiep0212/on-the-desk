@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./index.scss";
 import { normalizeVietnamese } from "helper/formatString";
 // COMPONENT
 import { Icon } from "@iconify/react";
-import { Button, Input, Select, Upload, UploadProps } from "antd";
+import { Button, Input, Select, Upload, UploadProps, message } from "antd";
 import NavigateMenu from "../navigateMenu/index";
 // import Feedback from "../portfolio/components/feedback/index";
 import CustomerAvatarPlaceholder from "assests/portfolio/customer_avatar_placeholder.jpg";
@@ -32,6 +32,7 @@ import {
 import { useCookies } from "react-cookie";
 
 function Component() {
+  const [messageApi, contextHolder] = message.useMessage();
   const { Dragger } = Upload;
   const routeParams = useParams();
   const navigate = useNavigate();
@@ -64,6 +65,7 @@ function Component() {
   const [confirmDialogOkText, setConfirmDialogOkText] = useState("");
   const [confirmDialogMessage, setConfirmDialogMessage] = useState("");
   //
+  const customerRef = useRef(null);
   const [topicList, setTopicList] = useState([]);
   const [topicSearch, setTopicSearch] = useState("");
   const [galleries, setGalleries] = useState<GALLERY_CUSTOMER[]>([]);
@@ -241,7 +243,9 @@ function Component() {
       }
     } else {
       setValidator(false);
-      setConfirmDialogVisible(false);
+      setConfirmDialogVisible(false); 
+      scrollToView(customerRef);
+      messageApi.warning('Vui lòng nhập tên thư viện')
     }
   }
   async function handleGetUserProfile() {
@@ -274,7 +278,9 @@ function Component() {
       try {
         const res = await getGalleryByCustomerId(routeParams.customerId);
         if (res) {
-          const galleryData = res.data.gals;
+          const galleryData = res.data.gals.forEach(
+            (e) => (e.extended = false)
+          );
           setGalleries([...galleryData]);
         }
       } catch (error) {}
@@ -288,6 +294,16 @@ function Component() {
     }
   }
 
+  function scrollToView(ref, delay = 400) {
+    if (ref.current) {
+      setTimeout(() => {
+        ref.current.scrollIntoView({
+          top: ref.current.offsetTop - 150,
+          behavior: "smooth",
+        });
+      }, delay);
+    }
+  }
   useEffect(() => {
     handleGetGalleryByCustomerId();
     handleGetUserProfile();
@@ -406,7 +422,7 @@ function Component() {
               </Upload>
             </div>
 
-            <div className="flex flex-col">
+            <div className="flex flex-col" ref={customerRef}>
               <Input
                 value={customerInfo.customerName}
                 bordered={false}
@@ -521,7 +537,7 @@ function Component() {
           <Dragger {...propsThumbNewGalley} className="">
             <p className=" flex min-h-[360px] items-center justify-center space-x-1 text-sm font-semibold !text-white ant-upload-text">
               <Icon icon="tabler:plus" />
-              <span> Chọn ảnh bìa</span>
+              <span> Tải ảnh bìa album</span>
             </p>
           </Dragger>
         )}
@@ -591,7 +607,7 @@ function Component() {
             dropdownRender={(menu) => (
               <div className="gradient">
                 {!topicList.map((f) => f.value).includes(topicSearch) &&
-                topicSearch ? (
+                topicSearch.trim() ? (
                   <Button
                     className="  !shadow-none w-full flex justify-start"
                     style={{
@@ -618,11 +634,15 @@ function Component() {
             options={topicList}
             onSearch={setTopicSearch}
           />
+          <Icon
+            className="absolute top-0 right-0 w-6 h-8 text-white"
+            icon="tabler:plus"
+          />
         </div>
 
-        <div className="grid gap-1 <xs:grid-cols-2 <md:grid-cols-3 grid-cols-5 ">
+        <div className="grid grid-cols-3 gap-2 ">
           {newGallery.data.map((e, index) => (
-            <div key={index} className="relative my-2 aspect-square">
+            <div key={index} className="relative aspect-square">
               <div className="absolute top-1 right-1 bg-[#0000004d] p-1 rounded-full ">
                 <Icon
                   className="text-[#EB5757] h-6 w-6 cursor-pointer"
@@ -814,46 +834,79 @@ function Component() {
                 }
                 bordered={false}
                 dropdownRender={(menu) => (
-                  <div>
-                    <Button
-                      className="  !shadow-none w-full flex justify-start"
-                      style={{
-                        background:
-                          "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",
-                      }}
-                      onClick={() => {
-                        const items = galleries;
-                        const item = e;
-                        item.topics.push(topicSearch);
-                        items[i] = item;
-                        setGalleries([...items]);
-                      }}
-                    >
-                      Thêm nhãn {topicSearch}
-                    </Button>
+                  <div className="gradient">
+                    {!topicList.map((f) => f.value).includes(topicSearch) &&
+                    topicSearch.trim() ? (
+                      <Button
+                        className="  !shadow-none w-full flex justify-start"
+                        style={{
+                          background:
+                            "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",
+                        }}
+                        onClick={() => {
+                          const items = galleries;
+                          const item = e;
+                          item.topics.push(topicSearch);
+                          items[i] = item;
+                          setGalleries([...items]);
+                        }}
+                      >
+                        Thêm nhãn {topicSearch}
+                      </Button>
+                    ) : (
+                      <></>
+                    )}
+
                     {menu}
                   </div>
                 )}
-                options={[]}
+                options={topicList}
                 onSearch={setTopicSearch}
               />
+              <Icon
+                className="absolute top-0 right-0 w-6 h-8 text-white"
+                icon="tabler:plus"
+              />
             </div>
-            <div className="grid gap-1 <xs:grid-cols-2 <md:grid-cols-3 grid-cols-5 ">
+            <div className="grid grid-cols-3 gap-2 ">
               {e.data.map((f, j) => (
-                <div key={j} className="relative my-2 aspect-square">
-                  <div className="absolute top-1 right-1 bg-[#0000004d] p-1 rounded-full ">
-                    <Icon
-                      className="text-[#EB5757] h-6 w-6 cursor-pointer"
-                      icon="tabler:trash"
-                      onClick={() => {
-                        const items = galleries;
-                        const item = e;
-                        item.data = item.data.filter((_, i) => i !== j);
-                        items[i] = item;
-                        setGalleries([...items]);
-                      }}
-                    />
-                  </div>
+                <div
+                  key={j}
+                  className={`${
+                    e.extended || (j > 8 && `hidden`)
+                  } relative aspect-square`}
+                >
+                  {e.extended ? (
+                    <div className=" absolute top-1 right-1 bg-[#0000004d] p-1 rounded-full">
+                      <Icon
+                        className="text-[#EB5757] h-6 w-6 cursor-pointer"
+                        icon="tabler:trash"
+                        onClick={() => {
+                          const items = galleries;
+                          const item = e;
+                          item.data = item.data.filter((_, i) => i !== j);
+                          items[i] = item;
+                          setGalleries([...items]);
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    j !== 8 && (
+                      <div className=" absolute top-1 right-1 bg-[#0000004d] p-1 rounded-full">
+                        <Icon
+                          className="text-[#EB5757] h-6 w-6 cursor-pointer"
+                          icon="tabler:trash"
+                          onClick={() => {
+                            const items = galleries;
+                            const item = e;
+                            item.data = item.data.filter((_, i) => i !== j);
+                            items[i] = item;
+                            setGalleries([...items]);
+                          }}
+                        />
+                      </div>
+                    )
+                  )}
                   <div
                     className="w-full h-full"
                     style={{
@@ -862,6 +915,26 @@ function Component() {
                       backgroundSize: "cover",
                     }}
                   />
+                  {e.extended ||
+                    (j === 8 && (
+                      <div>
+                        <div className="absolute top-0 left-0 z-20 w-full h-full bg-black opacity-50 " />
+                        <div
+                          className="absolute top-0 left-0 z-30 flex items-center justify-center w-full h-full text-white cursor-pointer"
+                          onClick={() => {
+                            const items = galleries;
+                            const item = e;
+                            item.extended = true;
+                            items[i] = item;
+                            setGalleries([...items]);
+                          }}
+                        >
+                          <span className="text-lg font-semibold">
+                            +{[...e.data].splice(8, e.data.length).length}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
                 </div>
               ))}
             </div>
@@ -953,6 +1026,7 @@ function Component() {
       <div className="z-50 sticky bottom-0 w-[100vw] desktop:-translate-x-1/6 backdrop-blur">
         <Footer />
       </div>
+      {contextHolder}
     </div>
   );
 }

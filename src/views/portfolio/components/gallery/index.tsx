@@ -96,12 +96,13 @@ function Gallery({ alias, userInfo, isEdit }) {
     }
   }
   async function handleDeleteGallery() {
-    const res = await deleteGallery(deleteGalleryId);
-    if (res) {
-      setFilteredGallery(
-        filteredGallery.filter((e) => e.id !== deleteGalleryId)
-      );
-    }
+    console.log('deleteGalleryId',deleteGalleryId);
+    // const res = await deleteGallery(deleteGalleryId);
+    // if (res) {
+    //   setFilteredGallery(
+    //     filteredGallery.filter((e) => e.id !== deleteGalleryId)
+    //   );
+    // }
     setConfirmDialogVisible(false);
   }
   async function editGallery(customerId: string) {}
@@ -239,6 +240,7 @@ function Gallery({ alias, userInfo, isEdit }) {
                     className="absolute top-[6px] right-[6px] z-20 cursor-pointer"
                     onClick={() => {
                       setConfirmDialogVisible(true);
+                      console.log(e);
                       setDeleteGalleryId(e.id);
                     }}
                   >

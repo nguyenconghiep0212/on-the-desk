@@ -12,6 +12,7 @@ function Component({
   setEditingContact,
   setContactList,
 }) {
+  const [warning, setWarning] = useState(false);
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
@@ -104,26 +105,32 @@ function Component({
       <div>
         {contact.typeContact === "social" && (
           <Input
-            className="p-0"
+            className={`${warning && "invalidate"} p-0`}
             bordered={false}
             value={contact.infoDetail}
             placeholder="Dán link"
-            onChange={(e) => setEditingContactBulk(contact, e.target.value)}
+            onChange={(e) => {
+              setWarning(false);
+              setEditingContactBulk(contact, e.target.value);
+            }}
           />
         )}
         {contact.typeContact === "phone" && (
           <Input
-            className="p-0"
+            className={`${warning && "invalidate"} p-0`}
             bordered={false}
             value={contact.infoDetail}
             placeholder="Số điện thoại"
-            onChange={(e) => setEditingContactBulk(contact, e.target.value)}
+            onChange={(e) => {
+              setWarning(false);
+              setEditingContactBulk(contact, e.target.value);
+            }}
           />
         )}
         {contact.typeContact === "bank" && (
           <div className="space-y-3">
             <Input
-              className="p-0"
+              className={`${warning && "invalidate"} p-0`}
               bordered={false}
               value={contact.infoDetail ? contact.infoDetail.split("|")[0] : ""}
               placeholder="Tên tài khoản"
@@ -132,11 +139,12 @@ function Component({
                 const number = contact.infoDetail
                   ? contact.infoDetail.split("|")[1]
                   : "";
+                if (name && number) setWarning(false);
                 setEditingContactBulk(contact, name + "|" + number);
               }}
             />
             <Input
-              className="p-0"
+              className={`${warning && "invalidate"} p-0`}
               bordered={false}
               value={contact.infoDetail ? contact.infoDetail.split("|")[1] : ""}
               placeholder="Số tài khoản"
@@ -145,6 +153,7 @@ function Component({
                   ? contact.infoDetail.split("|")[0]
                   : "";
                 const number = e.target.value;
+                if (name && number) setWarning(false);
                 setEditingContactBulk(contact, name + "|" + number);
               }}
             />
@@ -204,9 +213,17 @@ function Component({
                               <div className="mt-5">
                                 <div
                                   className="border-white border-dashed rounded-md cursor-pointer border-[1px] w-max p-1"
-                                  onClick={() =>
-                                    handleAddContact(editingContact)
-                                  }
+                                  onClick={() => {
+                                    if (
+                                      editingContact.children[
+                                        editingContact.children.length - 1
+                                      ].infoDetail
+                                    ) {
+                                      handleAddContact(editingContact);
+                                    } else {
+                                      setWarning(true);
+                                    }
+                                  }}
                                 >
                                   <Icon
                                     className="w-[18px] h-[18px]"
@@ -217,7 +234,17 @@ function Component({
                               <div className="mt-2 text-right">
                                 <Button
                                   className="gradient_btn"
-                                  onClick={() => updateContactBulk()}
+                                  onClick={() => {
+                                    if (
+                                      editingContact.children[
+                                        editingContact.children.length - 1
+                                      ].infoDetail
+                                    ) {
+                                      updateContactBulk();
+                                    } else {
+                                      setWarning(true);
+                                    }
+                                  }}
                                 >
                                   Lưu
                                 </Button>

@@ -392,14 +392,14 @@ function Contact({ data, userInfo, isEdit }) {
               setDndItems={setDndItems}
               setContactList={setContactList}
             />
+            <EditDnD
+              dndItems={dndItems}
+              setDndItems={setDndItems}
+              editingContact={editingContact}
+              setEditingContact={setEditingContact}
+              setContactList={setContactList}
+            />
 
-            {EditDnD({
-              dndItems,
-              setDndItems,
-              editingContact,
-              setEditingContact,
-              setContactList,
-            })}
             {saveContact()}
           </div>
         ) : (
