@@ -431,7 +431,7 @@ function Component() {
         <div className="relative bg-[#18191A] z-10  sm:w-[300%] sm:overflow-x-clip -translate-x-1/2">
           {/* CUSTOMER */}
           <div className="flex items-center space-x-2 translate-x-1/2">
-            <div className="relative 3xs:w-20 3xs:h-20 3xs:ml-3 <3xs:w-14 <3xs:h-14 <3xs:!min-w-[3.5rem]  mt-[-25px]">
+            <div className="relative  3xs:w-20 3xs:min-w-[5rem] 3xs:h-20 3xs:ml-3 <3xs:w-14 <3xs:h-14 <3xs:!min-w-[3.5rem]  mt-[-25px] rounded-full">
               <div
                 className="z-20 w-full h-full rounded-full"
                 style={{
@@ -650,8 +650,9 @@ function Component() {
             }
             dropdownRender={(menu) => (
               <div className="gradient">
-                {!topicList.map((f) => f.value).includes(topicSearch) &&
-                topicSearch.trim() ? (
+                {!topicList
+                  .map((f) => f.value.toLowerCase())
+                  .includes(topicSearch.toLowerCase()) && topicSearch.trim() ? (
                   <Button
                     className="  !shadow-none w-full flex justify-start"
                     style={{
@@ -933,7 +934,9 @@ function Component() {
                 bordered={false}
                 dropdownRender={(menu) => (
                   <div className="gradient">
-                    {!topicList.map((f) => f.value).includes(topicSearch) &&
+                    {!topicList
+                      .map((f) => f.value.toLowerCase())
+                      .includes(topicSearch.toLowerCase()) &&
                     topicSearch.trim() ? (
                       <Button
                         className="  !shadow-none w-full flex justify-start"
@@ -1076,25 +1079,7 @@ function Component() {
         {header()}
         {displayCreateForm()}
         {displayGallery()}
-        {galleries.length ? (
-          <div>
-            <Button
-              className="w-full !shadow-none gradient_btn mt-5"
-              onClick={() => {
-                routeParams.customerShortcut
-                  ? handleUpdateGallery()
-                  : handleCreateGallery();
-              }}
-            >
-              Hoàn thành
-            </Button>
-            <div id="divider" className="flex items-center justify-center py-6">
-              <div className="w-full border-t border-dashed border-primary-blue-medium"></div>
-            </div>
-          </div>
-        ) : (
-          <></>
-        )}
+
         <ConfirmDialog
           title={undefined}
           visible={confirmDialogVisible}
@@ -1124,6 +1109,21 @@ function Component() {
           }}
         >
           <Icon className="text-lg text-[#EB5757]" icon="tabler:arrow-left" />
+        </div>
+
+        <div
+          style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
+          className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
+          onClick={() => {
+            routeParams.customerShortcut
+              ? handleUpdateGallery()
+              : handleCreateGallery();
+          }}
+        >
+          <Icon
+            className="text-lg text-primary-blue-medium"
+            icon="tabler:check"
+          />
         </div>
       </div>
 

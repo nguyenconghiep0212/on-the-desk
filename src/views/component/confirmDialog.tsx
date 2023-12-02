@@ -3,6 +3,7 @@ import React from "react";
 import Confirm from "assests/dialogConfirm/Confirm.svg";
 import Error from "assests/dialogConfirm/Error.svg";
 import './style.scss'
+import { Icon } from "@iconify/react";
 
 function Component({
   title,
@@ -15,7 +16,9 @@ function Component({
   handleCancel,
 }) {
   return (
-    <Modal title={title || ""} open={visible} closeIcon={false} footer={null} className="confirm_dialog">
+    <Modal title={title || ""} open={visible} closeIcon={false} footer={null} className="relative confirm_dialog">
+        <Icon className="absolute text-white top-1 right-1" icon="tabler:arrow-left"/>
+
       <div className="flex flex-col items-center justify-center space-y-6 ">
         <img className="w-20 h-20" src={type === "success" ? Confirm : Error} alt="" />
         <div className="text-white">

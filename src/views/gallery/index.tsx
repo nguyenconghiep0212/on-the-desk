@@ -264,7 +264,7 @@ function Component() {
           {/* CUSTOMER */}
           <div className="flex items-center space-x-2 translate-x-1/2">
             <div
-              className="relative 3xs:w-20 3xs:h-20 3xs:ml-3 <3xs:w-14 <3xs:h-14 <3xs:!min-w-[3.5rem]  mt-[-25px] rounded-full"
+              className="relative  3xs:w-20 3xs:h-20 3xs:ml-3 <3xs:w-14 <3xs:h-14 <3xs:!min-w-[3.5rem]  mt-[-25px] rounded-full"
               style={{
                 backgroundImage: `url(${
                   customerInfo.customerAvatar
