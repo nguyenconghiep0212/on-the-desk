@@ -99,7 +99,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <meta charSet="utf-8" />
       <title>On The Desk</title>
     </Helmet> */}
-    <CookiesProvider>
+    <CookiesProvider defaultSetOptions={{ path: '/' }}>
       <RecoilRoot>
         <div className="flex flex-col h-[100vh]">
           <div className="flex-1 overflow-auto h-[inherit] bg-[#18191A] ">

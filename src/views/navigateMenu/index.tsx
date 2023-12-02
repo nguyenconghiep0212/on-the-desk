@@ -11,7 +11,8 @@ function Component({ profile_menu }) {
   const [cookies, , removeCookie] = useCookies([
     "auth-token",
     "auth-id",
-    "current-user",
+    "current-user-avatar",
+    "current-user-shortcut",
   ]);
   const [checkIsLogIn, setLogin] = useRecoilState(isLogin);
   const navigate = useNavigate();
@@ -85,7 +86,8 @@ function Component({ profile_menu }) {
           onClick={() => {
             removeCookie("auth-token");
             removeCookie("auth-id");
-            removeCookie("current-user");
+            removeCookie("current-user-avatar");
+            removeCookie("current-user-shortcut");
             setLogin(false);
             navigate("/login");
           }}
@@ -109,8 +111,8 @@ function Component({ profile_menu }) {
         <img
           className="cursor-pointer w-[24px] h-[24px] rounded-full"
           src={
-            cookies["current-user"]
-              ? cookies["current-user"].avatar
+            cookies["current-user-avatar"]
+              ? cookies["current-user-avatar"]
               : IconAccount
           }
           alt="IconAccount"

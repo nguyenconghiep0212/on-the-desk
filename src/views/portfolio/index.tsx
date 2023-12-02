@@ -24,14 +24,14 @@ import { isLogin,   } from "store/root.ts";
 import { useCookies } from "react-cookie";
 
 function Portfolio() {
-  const [cookies] = useCookies([ "current-user"]);
+  const [cookies] = useCookies([ "current-user-shortcut"]);
      const profile_menu = [
     {
       key: "card",
       label: "Tạo thẻ",
       icon: "solar:card-outline",
       onClick() {
-        navigate(`/${cookies['current-user'].shortcut}/addCard`);
+        navigate(`/${cookies['current-user-shortcut']}/addCard`);
       },
     },
     {
@@ -45,7 +45,7 @@ function Portfolio() {
       label: "Hồ sơ",
       icon: "simple-icons:readdotcv",
       onClick() {
-        navigate(`/${cookies['current-user'].shortcut}`);
+        navigate(`/${cookies['current-user-shortcut']}`);
         window.location.reload();
 
       },

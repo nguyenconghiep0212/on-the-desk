@@ -178,7 +178,8 @@ function Profile({ activeMenuEvent, isLogin, setIsLogin, activatedMenu }) {
   const [, , removeCookie] = useCookies([
     "auth-token",
     "auth-id",
-    "current-user",
+    "current-user-shortcut",
+    "current-user-avatar",
   ]);
   const [, setActivatedMenu] = useRecoilState(activatedMenuAtom);
   const [userInfo, setUserInfo] = useState({});
@@ -224,7 +225,8 @@ function Profile({ activeMenuEvent, isLogin, setIsLogin, activatedMenu }) {
   function handleSignOut() {
     removeCookie("auth-token");
     removeCookie("auth-id");
-    removeCookie("current-user");
+    removeCookie("current-user-avatar");
+    removeCookie("current-user-shortcut");
     setIsLogin(false);
     navigate("/login");
   }

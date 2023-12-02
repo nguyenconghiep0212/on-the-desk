@@ -32,7 +32,7 @@ import { useCookies } from "react-cookie";
 function Component() {
   const routeParams = useParams();
   const navigate = useNavigate();
-  const [cookies] = useCookies(["current-user"]);
+  const [cookies] = useCookies(["current-user-shortcut"]);
   const [visible, setVisible] = useRecoilState(fullScreenVisible);
 
   const [galleries, setGalleries] = useState<GALLERY_CUSTOMER[]>([
@@ -75,7 +75,7 @@ function Component() {
       label: "Tạo thẻ",
       icon: "solar:card-outline",
       onClick() {
-        navigate(`/${cookies["current-user"].shortcut}/addCard`);
+        navigate(`/${cookies["current-user-shortcut"]}/addCard`);
       },
     },
     {
@@ -89,7 +89,7 @@ function Component() {
       label: "Hồ sơ",
       icon: "simple-icons:readdotcv",
       onClick() {
-        navigate(`/${cookies["current-user"].shortcut}`);
+        navigate(`/${cookies["current-user-shortcut"]}`);
         window.location.reload();
       },
     },
@@ -320,7 +320,7 @@ function Component() {
           className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-50"
           onClick={() => {
             navigate(
-              `/${cookies["current-user"].shortcut}/addGallery/${customerInfo.shortcut}`
+              `/${cookies["current-user-shortcut"]}/addGallery/${customerInfo.shortcut}`
             );
           }}
         >

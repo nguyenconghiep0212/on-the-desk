@@ -26,7 +26,12 @@ import { AUTH_FORM } from "interface/auth";
 import { normalizeVietnamese } from "helper/formatString";
 function Login() {
   const [messageApi, contextHolder] = message.useMessage();
-  const [, setCookie] = useCookies(["auth-token", "auth-id", "current-user"]);
+  const [cookie, setCookie] = useCookies([
+    "auth-token",
+    "auth-id", 
+    "current-user-shortcut",
+    "current-user-avatar",
+  ]);
   const [checkPassword, setCheckPassword] = useState(true);
   const [isSignUp, setIsSignUp] = useState(false);
   const [loginCred] = useState<AUTH_FORM>({
@@ -55,7 +60,7 @@ function Login() {
           if (res.code === 200) {
             setCookie("auth-token", res.data.token);
             setCookie("auth-id", res.data.id);
-            await getUserProfile()
+            await getUserProfile();
             navigate(-1);
           } else {
             messageApi.open({
@@ -87,8 +92,7 @@ function Login() {
       if (res) {
         setCookie("auth-token", res.data.token);
         setCookie("auth-id", res.data.id);
-        await getUserProfile()
-        navigate(-1);
+        await getUserProfile();
       } else {
         setCheckPassword(false);
       }
@@ -106,8 +110,7 @@ function Login() {
     if (res) {
       setCookie("auth-token", res.data.token);
       setCookie("auth-id", res.data.id);
-      await getUserProfile()
-      navigate(-1);
+      await getUserProfile();
     }
   }
   const handleLoginWithGoogle = useGoogleLogin({
@@ -128,13 +131,18 @@ function Login() {
       const res = await getUserProfileByToken();
       if (res) {
         console.log("set current user cookie", res.data);
-        setCookie("current-user", res.data);
+        setCookie("current-user-shortcut", res.data.shortcut);
+        setCookie("current-user-avatar", res.data.avatar);
+         navigate(-1);
       }
     } catch (e) {
       console.error("lỗi lấy user profile:", e);
     }
   }
   useEffect(() => {}, [checkPassword, isSignUp]);
+  useEffect(() => {
+    console.log(cookie);
+  }, [cookie]);
   useEffect(() => {
     if (searchParams.get("signup")) {
       setIsSignUp(true);

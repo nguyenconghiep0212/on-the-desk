@@ -36,7 +36,7 @@ function Component() {
   const { Dragger } = Upload;
   const routeParams = useParams();
   const navigate = useNavigate();
-  const [cookies] = useCookies(["current-user"]);
+  const [cookies] = useCookies(["current-user-shortcut"]);
   // confirm dialog
   const [deleteGalleryIndex, setDeleteGalleryIndex] = useState(null);
   const confirmDialogOkFnc = {
@@ -104,7 +104,7 @@ function Component() {
       label: "Tạo thẻ",
       icon: "solar:card-outline",
       onClick() {
-        navigate(`/${cookies["current-user"].shortcut}/addCard`);
+        navigate(`/${cookies["current-user-shortcut"]}/addCard`);
       },
     },
     {
@@ -118,7 +118,7 @@ function Component() {
       label: "Hồ sơ",
       icon: "simple-icons:readdotcv",
       onClick() {
-        navigate(`/${cookies["current-user"].shortcut}`);
+        navigate(`/${cookies["current-user-shortcut"]}`);
         window.location.reload();
       },
     },
@@ -242,7 +242,7 @@ function Component() {
           promises.push(await createGallery(params));
         });
         Promise.allSettled(promises).then(() => {
-          navigate(`/${cookies["current-user"].shortcut}/${res.data.shortcut}`);
+          navigate(`/${cookies["current-user-shortcut"]}/${res.data.shortcut}`);
         });
       }
     } else {
@@ -315,7 +315,7 @@ function Component() {
   }
 
   async function getListTopic() {
-    const res = await getTopic(cookies["current-user"].shortcut);
+    const res = await getTopic(cookies["current-user-shortcut"]);
     if (res) {
       setTopicList(res.data.map((e) => ({ value: e, label: e })));
     }
