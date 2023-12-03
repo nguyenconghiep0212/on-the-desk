@@ -98,8 +98,7 @@ function Component({ profile_menu }) {
       </div>
     </div>
   );
-  return (
-    <div>
+  return ( 
       <Popover
         align={{
           offset: [7, 10],
@@ -117,8 +116,7 @@ function Component({ profile_menu }) {
           }
           alt="IconAccount"
         />
-      </Popover>
-    </div>
+      </Popover> 
   );
 }
 

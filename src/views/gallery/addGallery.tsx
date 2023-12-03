@@ -358,7 +358,7 @@ function Component() {
       <div ref={customerRef}>
         {/* NAVIGATE USER */}
         <div
-          className="absolute top-[33px] z-10  text-lg right-5 rounded-full"
+          className="absolute top-[33px] z-10  right-5 rounded-full"
           style={{
             background:
               "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",

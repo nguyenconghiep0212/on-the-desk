@@ -19,19 +19,17 @@ import Card from "./components/card/index.tsx";
 import Footer from "views/footer/index.tsx";
 import { Icon } from "@iconify/react";
 import NavigateMenu from "../navigateMenu/index";
-import { useRecoilState } from "recoil";
-import { isLogin,   } from "store/root.ts";
 import { useCookies } from "react-cookie";
 
 function Portfolio() {
-  const [cookies] = useCookies([ "current-user-shortcut"]);
-     const profile_menu = [
+  const [cookies] = useCookies(["current-user-shortcut"]);
+  const profile_menu = [
     {
       key: "card",
       label: "Tạo thẻ",
       icon: "solar:card-outline",
       onClick() {
-        navigate(`/${cookies['current-user-shortcut']}/addCard`);
+        navigate(`/${cookies["current-user-shortcut"]}/addCard`);
       },
     },
     {
@@ -45,9 +43,8 @@ function Portfolio() {
       label: "Hồ sơ",
       icon: "simple-icons:readdotcv",
       onClick() {
-        navigate(`/${cookies['current-user-shortcut']}`);
+        navigate(`/${cookies["current-user-shortcut"]}`);
         window.location.reload();
-
       },
     },
   ];
@@ -94,12 +91,12 @@ function Portfolio() {
           originalUserInfo = res.data;
           setUserInfo(userInfo);
           setOriginalUserInfo(originalUserInfo);
-          if(userInfo.package){
+          if (userInfo.package) {
             await handleGetComponentFromPackage();
-          }else{
-            navigate('/addCard')
+          } else {
+            navigate("/addCard");
           }
-          
+
           const temp = userPackage.find((e) => e.key === "contact");
           if (temp) {
             if (userInfo.contacts) {
@@ -166,8 +163,7 @@ function Portfolio() {
   useEffect(() => {
     handleGetUserProfile();
   }, []);
-  useEffect(() => {
-  }, [userInfo, isEdit]);
+  useEffect(() => {}, [userInfo, isEdit]);
 
   return (
     <div className="relative flex flex-col items-center w-full h-[max-content] ">
@@ -178,16 +174,16 @@ function Portfolio() {
         className="flex flex-col h-full mobile:w-full sm:p-0 desktop:w-1/2"
       >
         <div className="relative flex-auto">
-          {/* NAVIGATE USER */} 
-            <div
-              className="absolute top-[33px] z-10  text-lg right-5 rounded-full"
-              style={{
-                background:
-                  "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",
-              }}
-            >
-              <NavigateMenu profile_menu={profile_menu} />
-            </div> 
+          {/* NAVIGATE USER */}
+          <div
+            className="absolute top-[33px] z-10  right-5 rounded-full"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",
+            }}
+          >
+            <NavigateMenu profile_menu={profile_menu} />
+          </div>
           {/*  */}
 
           {userInfo.isOwner && <Card userInfo={userInfo} />}
