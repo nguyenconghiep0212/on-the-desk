@@ -58,8 +58,9 @@ function Component() {
       setGalleries([...galleries.filter((_, j) => deleteGalleryIndex !== j)]);
       setConfirmDialogVisible(false);
     },
-    CONFIRM_CREATE_GALLERY: () => handleCreateGallery(),
-    CONFIRM_UPDATE_GALLERY: () => handleUpdateGallery(),
+    CONFIRM_REDIRECT: () =>
+      navigate(`/${cookies["current-user-shortcut"]}/${editShortcut}`),
+    GO_BACK: () => handleBack(),
   };
   const [confirmDialogVisible, setConfirmDialogVisible] = useState(false);
   const [confirmDialogMode, setConfirmDialogMode] = useState("success");
@@ -68,6 +69,11 @@ function Component() {
   const [confirmDialogMessage, setConfirmDialogMessage] = useState("");
   //
   const customerRef = useRef(null);
+  const [isEdit, setIsEdit] = useState(!!routeParams.customerShortcut);
+  const [editShortcut, setEditShortcut] = useState(
+    routeParams.customerShortcut
+  );
+  const [formCreateShow, setFormCreateShow] = useState(true);
   const [topicList, setTopicList] = useState([]);
   const [topicSearch, setTopicSearch] = useState("");
   const [galleries, setGalleries] = useState<GALLERY_CUSTOMER[]>([]);
@@ -211,8 +217,9 @@ function Component() {
     return navigate(-1);
   }
 
-  function handleAddGallery() {
-    setGalleries([newGallery, ...galleries]);
+  async function addGallery() {
+    galleries.unshift(newGallery);
+    setFormCreateShow(false);
     setNewGallery({
       customerId: "",
       customerName: "",
@@ -232,17 +239,15 @@ function Component() {
         .toLowerCase();
       const res = await createCustomer(customerInfo);
       if (res) {
-        const promises: any = [];
+        setIsEdit(true);
+        setEditShortcut(res.data.shortcut);
         galleries.forEach(async (e) => {
           const params = {
             ...e,
             customerName: res.data.customerName,
             customerId: res.data.id,
           };
-          promises.push(await createGallery(params));
-        });
-        Promise.allSettled(promises).then(() => {
-          navigate(`/${cookies["current-user-shortcut"]}/${res.data.shortcut}`);
+          await createGallery(params);
         });
       }
     } else {
@@ -253,7 +258,7 @@ function Component() {
     }
   }
   async function handleUpdateGallery() {
-    console.log("UPDATE", galleries);
+    console.log("UPDATE", galleries); // FIX LATER WHEN API IS FIXED,
   }
 
   async function handleGetUserProfile() {
@@ -267,51 +272,45 @@ function Component() {
     }
   }
   async function handleGetCustomerByShortcut() {
-    if (routeParams.customerShortcut) {
-      try {
-        const res = await getCustomerById(routeParams.customerShortcut);
-        if (res) {
-          setCustomerInfo(res.data);
-          setNewGallery({
-            ...newGallery,
-            customerId: res.data.customerName, // FIX LATER WHEN API IS FIXED,
-            customerName,
-          });
-        }
-      } catch (error) {}
-    }
+    try {
+      const res = await getCustomerById(editShortcut);
+      if (res) {
+        setCustomerInfo(res.data);
+        setNewGallery({
+          ...newGallery,
+          customerId: res.data.customerName, // FIX LATER WHEN API IS FIXED,
+          customerName,
+        });
+      }
+    } catch (error) {}
   }
   async function handleGetGalleryByCustomerShortcut() {
-    if (routeParams.customerShortcut) {
-      try {
-        const res = await getGalleryByCustomerShortcut(
-          routeParams.customerShortcut
-        );
-        if (res) {
-          const galleryData = res.data.gals.map((e) => {
-            return {
-              customerId: e.customerName, // FIX LATER WHEN API IS FIXED,,
-              customerName: e.customerName,
-              index: 0,
-              name: e.galleryName,
-              data: e.topPictures.map((f) => ({
-                name: f.name,
-                caption: f.caption,
-                ref: f.ref,
-              })),
-              thumb:
-                process.env.REACT_APP_BASE_IMG +
-                e.galleryThumb.replace(process.env.REACT_APP_BASE_IMG, ""),
-              topics: e.topics,
-              shortcut: e.galleryShortcut,
-              extended: false,
-            };
-          });
-          console.log("galleryData", galleryData);
-          setGalleries([...galleryData]);
-        }
-      } catch (error) {}
-    }
+    try {
+      const res = await getGalleryByCustomerShortcut(editShortcut);
+      if (res) {
+        const galleryData = res.data.gals.map((e) => {
+          return {
+            customerId: e.customerName, // FIX LATER WHEN API IS FIXED,,
+            customerName: e.customerName,
+            index: 0,
+            name: e.galleryName,
+            data: e.topPictures.map((f) => ({
+              name: f.name,
+              caption: f.caption,
+              ref: f.ref,
+            })),
+            thumb:
+              process.env.REACT_APP_BASE_IMG +
+              e.galleryThumb.replace(process.env.REACT_APP_BASE_IMG, ""),
+            topics: e.topics,
+            shortcut: e.galleryShortcut,
+            extended: false,
+          };
+        });
+        console.log("galleryData", galleryData);
+        setGalleries([...galleryData]);
+      }
+    } catch (error) {}
   }
 
   async function getListTopic() {
@@ -321,23 +320,27 @@ function Component() {
     }
   }
 
-  function scrollToView(ref, delay = 400) {
+  function scrollToView(ref, delay = 0) {
     if (ref.current) {
       setTimeout(() => {
         ref.current.scrollIntoView({
-          top: ref.current.offsetTop - 150,
+          top: 0,
           behavior: "smooth",
         });
       }, delay);
     }
   }
   useEffect(() => {
-    handleGetGalleryByCustomerShortcut();
+    if (isEdit) {
+      setFormCreateShow(false);
+      handleGetGalleryByCustomerShortcut();
+      handleGetCustomerByShortcut();
+    }
     handleGetUserProfile();
-    handleGetCustomerByShortcut();
     getListTopic();
   }, []);
-  useEffect(() => {}, [
+  useEffect(() => {
+  }, [
     newGallery,
     galleries,
     confirmDialogMode,
@@ -345,10 +348,14 @@ function Component() {
     deleteGalleryIndex,
     confirmDialogOkHandler,
     validator,
+    topicList,
+    formCreateShow,
+    isEdit,
+    editShortcut,
   ]);
   function header() {
     return (
-      <div>
+      <div ref={customerRef}>
         {/* NAVIGATE USER */}
         <div
           className="absolute top-[33px] z-10  text-lg right-5 rounded-full"
@@ -466,7 +473,7 @@ function Component() {
               </Upload>
             </div>
 
-            <div className="flex flex-col" ref={customerRef}>
+            <div className="flex flex-col">
               <Input
                 value={customerInfo.customerName}
                 bordered={false}
@@ -646,7 +653,9 @@ function Component() {
               input: string,
               option?: { label: string; value: string }
             ) =>
-              (option?.label || "").toLowerCase().includes(input.toLowerCase())
+              normalizeVietnamese(option?.label || "")
+                .toLowerCase()
+                .includes(normalizeVietnamese(input).toLowerCase())
             }
             dropdownRender={(menu) => (
               <div className="gradient">
@@ -676,7 +685,9 @@ function Component() {
               </div>
             )}
             bordered={false}
-            options={topicList}
+            options={topicList.filter(
+              (tp) => !newGallery.topics.includes(tp.value)
+            )}
             onSearch={setTopicSearch}
           />
           <Icon
@@ -780,17 +791,29 @@ function Component() {
           {newGallery.data.length && newGallery.name && newGallery.thumb ? (
             <Button
               className="lg:w-max w-full !shadow-none gradient_btn"
-              onClick={() => {
-                handleAddGallery();
-                setConfirmDialogVisible(true);
-                setConfirmDialogMode("success");
-                setConfirmDialogOkHandler(
-                  routeParams.customerShortcut
-                    ? "CONFIRM_UPDATE_GALLERY"
-                    : "CONFIRM_CREATE_GALLERY"
-                );
-                setConfirmDialogOkText("Xem album");
-                setConfirmDialogMessage("Tạo album thành công!");
+              onClick={async () => {
+                if (customerInfo.customerName) {
+                  await addGallery();
+                  if (isEdit) {
+                    await handleUpdateGallery();
+                  } else {
+                    await handleCreateGallery();
+                  }
+                  setFormCreateShow(false);
+                  setConfirmDialogVisible(true);
+                  setConfirmDialogMode("success");
+                  setConfirmDialogOkHandler("CONFIRM_REDIRECT");
+                  setConfirmDialogOkText("Xem album");
+                  setConfirmDialogMessage(
+                    isEdit
+                      ? "Cập nhật album thành công!"
+                      : "Tạo album thành công!"
+                  );
+                } else {
+                  setValidator(false);
+                  scrollToView(customerRef);
+                  messageApi.warning("Vui lòng nhập tên thư viện");
+                }
               }}
             >
               Hoàn thành
@@ -805,9 +828,13 @@ function Component() {
   function displayGallery() {
     return (
       <div>
-        <div id="divider" className="flex items-center justify-center py-6">
-          <div className="w-full border-t border-dashed border-primary-blue-medium"></div>
-        </div>
+        {formCreateShow ? (
+          <div id="divider" className="flex items-center justify-center py-6">
+            <div className="w-full border-t border-dashed border-primary-blue-medium"></div>
+          </div>
+        ) : (
+          <></>
+        )}
         {galleries.map((e, i) => (
           <div key={i} className="mt-6 space-y-4">
             <div className="flex items-center space-x-2">
@@ -927,9 +954,9 @@ function Component() {
                   input: string,
                   option?: { label: string; value: string }
                 ) =>
-                  (option?.label || "")
+                  normalizeVietnamese(option?.label || "")
                     .toLowerCase()
-                    .includes(input.toLowerCase())
+                    .includes(normalizeVietnamese(input).toLowerCase())
                 }
                 bordered={false}
                 dropdownRender={(menu) => (
@@ -961,7 +988,7 @@ function Component() {
                     {menu}
                   </div>
                 )}
-                options={topicList}
+                options={topicList.filter((tp) => !e.topics.includes(tp.value))}
                 onSearch={setTopicSearch}
               />
               <Icon
@@ -1077,7 +1104,19 @@ function Component() {
     <div className="flex flex-col items-center w-full h-[max-content] ">
       <div className="relative w-full lg:!w-3/4 <3xs:!w-3/4 h-full pb-3 px-3">
         {header()}
-        {displayCreateForm()}
+        {formCreateShow ? (
+          displayCreateForm()
+        ) : (
+          <Button
+            className="gradient_btn !shadow-none mt-4"
+            onClick={() => setFormCreateShow(true)}
+          >
+            <div className="flex items-center space-x-1">
+              <Icon className="text-base" icon="tabler:plus" />
+              <span>Tạo thêm album</span>
+            </div>
+          </Button>
+        )}
         {displayGallery()}
 
         <ConfirmDialog
@@ -1085,13 +1124,19 @@ function Component() {
           visible={confirmDialogVisible}
           type={confirmDialogMode}
           message={confirmDialogMessage}
-          cancelText="Trở lại"
+          cancelText="Tiếp tục thêm album"
           okText={confirmDialogOkText}
           handleOk={() => {
             const func = confirmDialogOkFnc[confirmDialogOkHandler];
             func();
           }}
-          handleCancel={() => setConfirmDialogVisible(false)}
+          handleCancel={() => {
+            if (confirmDialogMode === "success") {
+              setFormCreateShow(true);
+            }
+            setConfirmDialogVisible(false);
+          }}
+          handleClose={() => setConfirmDialogVisible(false)}
         />
         {/* <div className="px-3 mt-3 ">
         <div className="p-3 rounded-2xl w-full bg-[#1E2530]">
@@ -1105,26 +1150,32 @@ function Component() {
           style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
           className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
           onClick={() => {
-            handleBack();
+            setConfirmDialogVisible(true);
+            setConfirmDialogMode("error");
+            setConfirmDialogOkHandler("GO_BACK");
+            setConfirmDialogOkText("Xác nhận");
+            setConfirmDialogMessage("Thông tin chưa được lưu sẽ được xóa");
           }}
         >
           <Icon className="text-lg text-[#EB5757]" icon="tabler:arrow-left" />
         </div>
-
-        <div
-          style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
-          className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
-          onClick={() => {
-            routeParams.customerShortcut
-              ? handleUpdateGallery()
-              : handleCreateGallery();
-          }}
-        >
-          <Icon
-            className="text-lg text-primary-blue-medium"
-            icon="tabler:check"
-          />
-        </div>
+        {galleries.length ? (
+          <div
+            style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
+            className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
+            onClick={async () => {
+              await handleUpdateGallery();
+              navigate(`/${cookies["current-user-shortcut"]}/${editShortcut}`);
+            }}
+          >
+            <Icon
+              className="text-lg text-primary-blue-medium"
+              icon="tabler:check"
+            />
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
 
       <div className="z-50 sticky bottom-0 w-[100vw] desktop:-translate-x-1/6 backdrop-blur">

@@ -452,7 +452,7 @@ function Contact({ data, userInfo, isEdit }) {
                       />
                     </div>
                     <div
-                      className="flex items-center justify-between w-[calc(100%-40px)] h-[inherit] px-[6px] rounded-tr-md rounded-br-md"
+                      className="flex  items-center justify-between w-[calc(100%-40px)] h-[inherit] px-[1rem] rounded-tr-md rounded-br-md"
                       style={{
                         backgroundColor: `${e.backgoundColor}`,
                       }}

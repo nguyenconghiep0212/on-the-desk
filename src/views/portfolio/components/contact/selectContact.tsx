@@ -2,6 +2,7 @@ import { Icon } from "@iconify/react";
 import { Input } from "antd";
 import React, { useEffect, useState } from "react";
 import { addContact as addContactApi, listContactTemplate } from "api";
+import { normalizeVietnamese } from "helper/formatString";
 
 function Component({ dndItems, setDndItems, setContactList }) {
   const [addContact, setAddContact] = useState(false);
@@ -38,8 +39,12 @@ function Component({ dndItems, setDndItems, setContactList }) {
       contacts: [{ ...rest, templateId: e.id }],
     });
     if (res) {
-      setDndItems(dndItems.concat([{ ...res.data[0], children: [res.data[0]] }]));
-      setContactList(dndItems.concat([{ ...res.data[0], children: [res.data[0]] }]));
+      setDndItems(
+        dndItems.concat([{ ...res.data[0], children: [res.data[0]] }])
+      );
+      setContactList(
+        dndItems.concat([{ ...res.data[0], children: [res.data[0]] }])
+      );
       setContactTemplate(contactTemplate.filter((f) => f.id !== e.id));
       setFilteredContactList(contactTemplate.filter((f) => f.id !== e.id));
     }
@@ -82,8 +87,12 @@ function Component({ dndItems, setDndItems, setContactList }) {
             onChange={(e) => {
               if (e.target.value) {
                 setFilteredContactList(
-                  contactTemplate.filter((f) =>
-                    f.nameContact.includes(e.target.value)
+                  contactTemplate.filter((f: any) =>
+                    normalizeVietnamese(f.nameContact)
+                      .toLowerCase()
+                      .includes(
+                        normalizeVietnamese(e.target.value).toLowerCase()
+                      )
                   )
                 );
               } else {
