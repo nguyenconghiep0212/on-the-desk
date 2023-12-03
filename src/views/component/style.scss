@@ -19,3 +19,9 @@
      background: rgb(255, 255, 255, 0.05);
      backdrop-filter: blur(9px);
  }
+ 
+ .ant-modal-root .ant-modal-wrap{
+    z-index: 2000;
+ }
+
+ 

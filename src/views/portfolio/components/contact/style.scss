@@ -4,7 +4,18 @@
     box-shadow: 2px 2px 16px 0px #001940;
 }
 
-.ant-tooltip:has(.contact-tooltip){
+.ant-tooltip:has(.contact-tooltip) {
     width: max-content;
     max-width: none;
+}
+
+
+.download-qr-border {
+    position: absolute;
+    border-radius: 12px;
+    background: linear-gradient(130deg, #1a638b 3%, rgba(255, 255, 255, 0) 10%),
+        linear-gradient(310deg, #707378 2%, #181d25 10%);
+    ;
+    height: 97%;
+    width: 95.5%;
 }

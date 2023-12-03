@@ -8,7 +8,10 @@ import { generateBankQR } from "api";
 import { Button, Input, Modal, Tooltip, message } from "antd";
 import { GEN_QR } from "interface/card";
 import IcAccount from "assests/icon/ic-account-blue.svg";
+import Banner from "assests/landing/footer_banner.svg";
 import "./style.scss";
+import downloadjs from "downloadjs";
+import html2canvas from "html2canvas";
 
 enum QR_TEMPLATE {
   COMPACT2 = "compact2",
@@ -174,6 +177,13 @@ function Contact({ data, userInfo, isEdit }) {
       setQRbase64({ ...QRbase64, base64: res.data.qrDataURL });
     }
   }
+  async function handleCaptureClick() {
+    const downloadEl = document.querySelector<HTMLElement>(".DownloadQR");
+     if (!downloadEl) return;
+    const canvas = await html2canvas(downloadEl, { backgroundColor: null });
+    const dataURL = canvas.toDataURL("image/png");
+    downloadjs(dataURL, "OnTheDeskQR.png", "image/png");
+  }
 
   useEffect(() => {
     console.log(contactList);
@@ -256,7 +266,7 @@ function Contact({ data, userInfo, isEdit }) {
                             />
                             <Input
                               placeholder="Nội dung chuyển khoản"
-                              id="transferDes w-full"
+                              id="transferDes"
                               bordered={false}
                               value={QRbase64.transferDescription}
                               className="p-0 text-white"
@@ -369,7 +379,12 @@ function Contact({ data, userInfo, isEdit }) {
               </div>
 
               <div className="flex justify-center space-x-3">
-                <Button className="!shadow-none bg-[#ffffff4d] !border !border-solid !border-white">
+                <Button
+                  className="!shadow-none bg-[#ffffff4d] !border !border-solid !border-white"
+                  onClick={() => {
+                    handleCaptureClick();
+                  }}
+                >
                   <Icon className="w-[18px] h-[18px]" icon="tabler:download" />
                 </Button>
                 <Button className="!shadow-none bg-[#ffffff4d] !border !border-solid !border-white">
@@ -377,8 +392,84 @@ function Contact({ data, userInfo, isEdit }) {
                 </Button>
               </div>
             </div>
+            <div className="absolute bottom-[99999px]">{DownloadQR()}</div>
           </div>
         </Modal>
+      </div>
+    );
+  }
+  function DownloadQR() {
+    return (
+      <div className="relative flex items-center justify-center p-2 bg-transparent DownloadQR">
+        <div className="download-qr-border" />
+        <div className="relative flex items-center justify-center space-y-[18px] backdrop-blur p-[18px] w-[252px] bg-[#181d25] rounded-xl download-qr">
+          <div className="flex flex-col w-max space-y-[18px]">
+            <img src={QRbase64.base64} alt="QR" className="rounded-md" />
+            <div className="space-y-3">
+              <div className="flex items-start justify-start space-x-2">
+                <img className="w-5 h-5" src={IcAccount} alt="account" />
+                <span className="text-white text-[12px]">
+                  {QRbase64.bankName}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <div className="flex items-start space-x-2 ">
+                  <Icon
+                    className="w-5 h-5 text-primary-blue-medium"
+                    icon="solar:card-linear"
+                  />
+                  <span id="BankNo" className="text-white text-[12px]">
+                    {QRbase64.bankNo}
+                  </span>
+                </div>
+                <div
+                  className="cursor-pointer"
+                  onClick={() => {
+                    navigator.clipboard.writeText(QRbase64.bankNo);
+                  }}
+                >
+                  <Icon className="w-5 h-5 text-white" icon="tabler:copy" />
+                </div>
+              </div>
+
+              <div className="flex justify-between">
+                <div className="flex items-start w-full pr-2 space-x-2">
+                  <Icon
+                    className="w-5 h-5 min-w-[1.25rem] text-primary-blue-medium"
+                    icon="ph:info-bold"
+                  />
+                  <span id="transferDes" className="p-0 text-[12px] text-white">
+                    {QRbase64.transferDescription}
+                  </span>
+                </div>
+                <div className="cursor-pointer">
+                  <Icon className="w-5 h-5 text-white" icon="tabler:copy" />
+                </div>
+              </div>
+              <div className="flex justify-between">
+                <div className="flex items-start w-full pr-2 space-x-2 ">
+                  <Icon
+                    className="w-5 h-5 text-primary-blue-medium"
+                    icon="tabler:report-money"
+                  />
+                  <span id="transferAmount" className="text-white text-[12px]">
+                    {QRbase64.transferAmount}
+                  </span>
+                </div>
+                <div className="cursor-pointer">
+                  <Icon className="w-5 h-5 text-white" icon="tabler:copy" />
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-center space-x-1 bg-transparent">
+              <span className="text-[10px] font-semibold text-primary-blue-medium">
+                Powered by
+              </span>
+              <img src={Banner} className="h-[10px]" alt="Banner" />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
