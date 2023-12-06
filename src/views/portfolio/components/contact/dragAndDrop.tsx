@@ -10,7 +10,6 @@ function Component({
   setDndItems,
   editingContact,
   setEditingContact,
-  setContactList,
 }) {
   const [warning, setWarning] = useState(false);
   const reorder = (list, startIndex, endIndex) => {
@@ -50,7 +49,6 @@ function Component({
       items[index] = editingContact;
     }
     setDndItems([...items]);
-    setContactList([...items]);
     editingContact.children.forEach(async (e) => {
       const params = { ...e, contactId: e.id };
       await editContact(params);
@@ -66,18 +64,13 @@ function Component({
   }
 
   function handleDeleteContact(obj) {
-    function deleteApi(value) {
-      value.forEach(async (e) => {
-        if (e.children) {
-          deleteApi(e.children);
-          await deleteContact(e.id);
-        } else {
-          await deleteContact(e.id);
-        }
-      });
-    }
-    deleteApi(obj.children);
-    setContactList(dndItems.filter((e) => e.id !== obj.id));
+    obj.children.forEach(async (e) => {
+      if (e.children) {
+        await deleteContact(e.id);
+      } else {
+        await deleteContact(e.id);
+      }
+    });
     setDndItems(dndItems.filter((e) => e.id !== obj.id));
   }
 
@@ -95,14 +88,13 @@ function Component({
       dndItems
         .find((e) => e.nameContact === res.data[0].nameContact)
         .children.push(res.data[0]);
-      setContactList([...dndItems]);
       setDndItems([...dndItems]);
     }
   }
 
-  function editContactRender(contact) {
+  function editContactRender(contact, dndItem) {
     return (
-      <div>
+      <div className="flex items-center justify-between space-x-2">
         {contact.typeContact === "social" && (
           <Input
             className={`${warning && "invalidate"} p-0`}
@@ -128,7 +120,7 @@ function Component({
           />
         )}
         {contact.typeContact === "bank" && (
-          <div className="space-y-3">
+          <div className="w-full space-y-3">
             <Input
               className={`${warning && "invalidate"} p-0`}
               bordered={false}
@@ -159,6 +151,24 @@ function Component({
             />
           </div>
         )}
+        <div className="w-6">
+          <Icon
+            className="cursor-pointer text-[16px] text-[#EB5757]"
+            icon="tabler:trash"
+            onClick={async () => {
+              if (editingContact.children.length > 1) {
+                await deleteContact(contact.id);
+                const items = editingContact;
+                items.children = editingContact.children.filter(
+                  (e) => e.id !== contact.id
+                );
+                setEditingContact({ ...items });
+              } else {
+                handleDeleteContact(dndItem);
+              }
+            }}
+          />
+        </div>
       </div>
     );
   }
@@ -205,7 +215,7 @@ function Component({
                                     ) : (
                                       <></>
                                     )}
-                                    {editContactRender(f, true)}
+                                    {editContactRender(f, e)}
                                   </div>
                                 );
                               })}
@@ -267,8 +277,6 @@ function Component({
                             setEditingContact(
                               dndItems.find((f) => f.id === e.id)
                             );
-                            dndItems.find((f) => f.id === e.id).isEdit = true;
-                            setDndItems(dndItems);
                           }}
                         >
                           <div

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { addContact as addContactApi, listContactTemplate } from "api";
 import { normalizeVietnamese } from "helper/formatString";
 
-function Component({ dndItems, setDndItems, setContactList }) {
+function Component({ dndItems, setDndItems }) {
   const [addContact, setAddContact] = useState(false);
   const [contactTemplate, setContactTemplate] = useState([
     {
@@ -42,9 +42,7 @@ function Component({ dndItems, setDndItems, setContactList }) {
       setDndItems(
         dndItems.concat([{ ...res.data[0], children: [res.data[0]] }])
       );
-      setContactList(
-        dndItems.concat([{ ...res.data[0], children: [res.data[0]] }])
-      );
+      
       setContactTemplate(contactTemplate.filter((f) => f.id !== e.id));
       setFilteredContactList(contactTemplate.filter((f) => f.id !== e.id));
     }

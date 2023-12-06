@@ -24,20 +24,7 @@ function Contact({ data, userInfo, isEdit }) {
   const [messageApi, contextHolder] = message.useMessage();
 
   const [viewTransferInfo, setViewTransferInfo] = useState(false);
-  const [contactList, setContactList] = useState(() => {
-    const ar: any = [];
-    data.map((e) => {
-      if (ar.map((f: any) => f.nameContact).includes(e.nameContact)) {
-        const obj: any = ar.find((f: any) => f.nameContact === e.nameContact);
-        obj.children.push({ ...e });
-      } else {
-        const temp = { ...e };
-        temp.children = [e];
-        ar.push(temp);
-      }
-    });
-    return ar;
-  });
+
   // DnD State
   const [dndItems, setDndItems] = useState(() => {
     const ar: any = [];
@@ -179,15 +166,15 @@ function Contact({ data, userInfo, isEdit }) {
   }
   async function handleCaptureClick() {
     const downloadEl = document.querySelector<HTMLElement>(".DownloadQR");
-     if (!downloadEl) return;
+    if (!downloadEl) return;
     const canvas = await html2canvas(downloadEl, { backgroundColor: null });
     const dataURL = canvas.toDataURL("image/png");
     downloadjs(dataURL, "OnTheDeskQR.png", "image/png");
   }
 
   useEffect(() => {
-    console.log(contactList);
-  }, [editingContact, QRbase64, contactList]);
+    console.log(dndItems, "dndItems");
+  }, [editingContact, QRbase64, dndItems]);
   function saveContact() {
     return (
       <div
@@ -478,24 +465,19 @@ function Contact({ data, userInfo, isEdit }) {
       <div className="">
         {isEdit ? (
           <div className="space-y-2">
-            <SelectContact
-              dndItems={dndItems}
-              setDndItems={setDndItems}
-              setContactList={setContactList}
-            />
+            <SelectContact dndItems={dndItems} setDndItems={setDndItems} />
             <EditDnD
               dndItems={dndItems}
               setDndItems={setDndItems}
               editingContact={editingContact}
               setEditingContact={setEditingContact}
-              setContactList={setContactList}
             />
 
             {saveContact()}
           </div>
         ) : (
           <div className="grid <xs:grid-cols-1 grid-cols-2 gap-2 3xl:grid-cols-5 lg:grid-cols-3 ">
-            {contactList.map((e, index) => {
+            {dndItems.map((e, index) => {
               return e.children.length > 1 ? (
                 <Tooltip
                   placement="bottom"
