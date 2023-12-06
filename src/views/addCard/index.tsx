@@ -41,7 +41,7 @@ function Component() {
 
   async function submitCard() {
     if (isAddNewProfile) {
-     } else {
+    } else {
       try {
         const res = await createCard(defaultCard);
         if (res) {
@@ -67,8 +67,7 @@ function Component() {
       }
     }
   }
-  useEffect(() => {
-   }, [defaultCard]);
+  useEffect(() => {}, [defaultCard]);
   useEffect(() => {}, [isAddNewProfile]);
   function card() {
     return (
@@ -102,7 +101,7 @@ function Component() {
           <img
             src={defaultCard.logo || DefaultCardLogo}
             alt="card_logo"
-            className="!w-12 !h-12"
+            className={defaultCard.logo ? 'max-w-full max-h-full' : "!w-12 !h-12"}
           />
         )}
         {defaultCard.enableFrontText && (

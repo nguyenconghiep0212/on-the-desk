@@ -249,6 +249,7 @@ function Component() {
           };
           await createGallery(params);
         });
+        return res;
       }
     } else {
       setValidator(false);
@@ -339,8 +340,7 @@ function Component() {
     handleGetUserProfile();
     getListTopic();
   }, []);
-  useEffect(() => {
-  }, [
+  useEffect(() => {}, [
     newGallery,
     galleries,
     confirmDialogMode,
@@ -795,12 +795,26 @@ function Component() {
                 if (customerInfo.customerName) {
                   await addGallery();
                   if (isEdit) {
-                    await handleUpdateGallery();
+                    const res = await handleUpdateGallery();
+                    if (res) {
+                      setFormCreateShow(false);
+                      setConfirmDialogVisible(true);
+                    } else {
+                      messageApi.error(
+                        "Xảy ra lỗi trong quá trình thêm thư viện!!"
+                      );
+                    }
                   } else {
-                    await handleCreateGallery();
+                    const res = await handleCreateGallery();
+                    if (res) {
+                      setFormCreateShow(false);
+                      setConfirmDialogVisible(true);
+                    } else {
+                      messageApi.error(
+                        "Xảy ra lỗi trong quá trình thêm thư viện!!"
+                      );
+                    }
                   }
-                  setFormCreateShow(false);
-                  setConfirmDialogVisible(true);
                   setConfirmDialogMode("success");
                   setConfirmDialogOkHandler("CONFIRM_REDIRECT");
                   setConfirmDialogOkText("Xem album");
@@ -1124,7 +1138,7 @@ function Component() {
           visible={confirmDialogVisible}
           type={confirmDialogMode}
           message={confirmDialogMessage}
-          cancelText="Tiếp tục thêm album"
+          cancelText="Tiếp tục thêm"
           okText={confirmDialogOkText}
           handleOk={() => {
             const func = confirmDialogOkFnc[confirmDialogOkHandler];
@@ -1153,8 +1167,8 @@ function Component() {
             setConfirmDialogVisible(true);
             setConfirmDialogMode("error");
             setConfirmDialogOkHandler("GO_BACK");
-            setConfirmDialogOkText("Xác nhận");
-            setConfirmDialogMessage("Thông tin chưa được lưu sẽ được xóa");
+            setConfirmDialogOkText("Thoát");
+            setConfirmDialogMessage("Các thay đổi chưa được lưu");
           }}
         >
           <Icon className="text-lg text-[#EB5757]" icon="tabler:arrow-left" />
