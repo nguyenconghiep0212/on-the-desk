@@ -210,7 +210,7 @@ function Component({ userInfo }) {
               <img
                 src={card.logo || DefaultCardLogo}
                 alt="card_logo"
-                className={card.logo ? 'max-w-full max-h-full' : "!w-12 !h-12"}
+                className="!w-12 !h-12"
               />
             ) : (
               <></>

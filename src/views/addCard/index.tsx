@@ -101,7 +101,7 @@ function Component() {
           <img
             src={defaultCard.logo || DefaultCardLogo}
             alt="card_logo"
-            className={defaultCard.logo ? 'max-w-full max-h-full' : "!w-12 !h-12"}
+            className="!w-12 !h-12"
           />
         )}
         {defaultCard.enableFrontText && (
