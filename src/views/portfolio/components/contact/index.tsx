@@ -22,7 +22,7 @@ enum QR_TEMPLATE {
 
 function Contact({ data, userInfo, isEdit }) {
   const [messageApi, contextHolder] = message.useMessage();
-
+  const [bankList, setBankList] = useState([]);
   const [viewTransferInfo, setViewTransferInfo] = useState(false);
 
   // DnD State
@@ -172,9 +172,7 @@ function Contact({ data, userInfo, isEdit }) {
     downloadjs(dataURL, "OnTheDeskQR.png", "image/png");
   }
 
-  useEffect(() => {
-    console.log(dndItems, "dndItems");
-  }, [editingContact, QRbase64, dndItems]);
+  useEffect(() => {}, [editingContact, QRbase64, dndItems, bankList]);
   function saveContact() {
     return (
       <div
@@ -241,7 +239,8 @@ function Contact({ data, userInfo, isEdit }) {
                     <Icon className="w-6 h-6 text-white" icon="tabler:copy" />
                   </div>
                 </div>
-                {userInfo.shortcut === "@admin" && (
+                {(userInfo.shortcut === "@admin" ||
+                  userInfo.shortcut === "hiep-nguyen-cong") && (
                   <div>
                     {viewTransferInfo && (
                       <div className="space-y-3">
@@ -495,6 +494,7 @@ function Contact({ data, userInfo, isEdit }) {
                           onClick={() => {
                             if (e.typeContact === "bank") {
                               genQR(f);
+                              setBankList(e.children);
                             } else {
                               onOpenContact(f);
                             }

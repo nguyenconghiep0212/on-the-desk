@@ -82,7 +82,9 @@ function Component() {
       key: "account",
       label: "Tài khoản",
       icon: "line-md:account",
-      onClick() {},
+      onClick() {
+        navigate(`/${cookies["current-user-shortcut"]}/profile`);
+      },
     },
     {
       key: "portfolio",

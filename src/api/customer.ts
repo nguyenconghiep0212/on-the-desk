@@ -11,8 +11,8 @@ export function getCustomerById(id:string) {
  
   export function fetchCustomerList( ) {
     return http({
-      method: "post",
-      url: `/api/customer/list`,
+      method: "get",
+      url: `/dropdownlist`,
     });
   }
   export function createCustomer(params:CUSTOMER) {
@@ -22,4 +22,12 @@ export function getCustomerById(id:string) {
       data: params
     });
   }
- 
+
+  export function updateCustomer(params:CUSTOMER) {
+    return http({
+      method: "post",
+      url: `/api/customer/crudu/${params.id}`,
+      data: params
+    });
+  }
+  

@@ -19,6 +19,7 @@ import Admin from "./routes/admin";
 import Middleware from "./routes/middleware";
 import AddCard from "./routes/add-card";
 import AddGallery from "./routes/add-gallery";
+import Profile from "./routes/profile";
 import { Helmet } from "react-helmet";
 // STORE
 import { RecoilRoot } from "recoil";
@@ -37,14 +38,11 @@ const RouterBuilder = () => {
       element: <Admin />,
       errorElement: <ErrorPage />,
     },
+
+    // PUBLIC PAGE
     {
       path: "/login",
       element: <Login />,
-      errorElement: <ErrorPage />,
-    },
-    {
-      path: "/huong-dan",
-      element: <Landing />,
       errorElement: <ErrorPage />,
     },
     {
@@ -53,13 +51,20 @@ const RouterBuilder = () => {
       errorElement: <ErrorPage />,
     },
     {
+      path: "/addCard",
+      element: <AddCard />,
+      errorElement: <ErrorPage />,
+    },
+
+    // USER PAGE
+    {
       path: "/:userShortcut",
       element: <Portfolio />,
       errorElement: <ErrorPage />,
     },
     {
-      path: "/addCard",
-      element: <AddCard />,
+      path: "/:userShortcut/profile",
+      element: <Profile />,
       errorElement: <ErrorPage />,
     },
     {
@@ -99,7 +104,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <meta charSet="utf-8" />
       <title>On The Desk</title>
     </Helmet> */}
-    <CookiesProvider defaultSetOptions={{ path: '/' }}>
+    <CookiesProvider defaultSetOptions={{ path: "/" }}>
       <RecoilRoot>
         <div className="flex flex-col h-[100vh]">
           <div className="flex-1 overflow-auto h-[inherit] bg-[#18191A] ">

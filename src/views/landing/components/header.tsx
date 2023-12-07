@@ -210,10 +210,10 @@ function Profile({ activeMenuEvent, isLogin, setIsLogin, activatedMenu }) {
     },
   ];
   function createCard() {
-    console.log("createCard");
+    navigate(`/${userInfo.shortcut}/addCard`);
   }
   function myAccount() {
-    console.log("myAccount");
+    navigate(`/${userInfo.shortcut}/profile`);
   }
   function myPortfolio() {
     navigate(`/${userInfo.shortcut}`);

@@ -26,6 +26,7 @@ import {
   getCustomerById,
   uploadGallery,
   createGallery,
+  updateCustomer,
   createCustomer,
   getTopic,
 } from "api";
@@ -69,6 +70,7 @@ function Component() {
   const [confirmDialogMessage, setConfirmDialogMessage] = useState("");
   //
   const customerRef = useRef(null);
+  const [customerId, setCustomerId] = useState("");
   const [isEdit, setIsEdit] = useState(!!routeParams.customerShortcut);
   const [editShortcut, setEditShortcut] = useState(
     routeParams.customerShortcut
@@ -117,7 +119,9 @@ function Component() {
       key: "account",
       label: "Tài khoản",
       icon: "line-md:account",
-      onClick() {},
+      onClick() {
+        navigate(`/${cookies["current-user-shortcut"]}/profile`);
+      },
     },
     {
       key: "portfolio",
@@ -241,6 +245,7 @@ function Component() {
       if (res) {
         setIsEdit(true);
         setEditShortcut(res.data.shortcut);
+        setCustomerId(res.data.id);
         galleries.forEach(async (e) => {
           const params = {
             ...e,
@@ -259,9 +264,18 @@ function Component() {
     }
   }
   async function handleUpdateGallery() {
-    console.log("UPDATE", galleries); // FIX LATER WHEN API IS FIXED,
+    const params = {
+      ...newGallery,
+      customerId: customerId,
+    };
+    const res = await createGallery(params);
+    if (res) {
+      return res;
+    }
   }
-
+  async function handleUpdateCustomer() {
+    await updateCustomer({ ...customerInfo, id: customerId });
+  }
   async function handleGetUserProfile() {
     if (routeParams.userShortcut) {
       try {
@@ -276,10 +290,11 @@ function Component() {
     try {
       const res = await getCustomerById(editShortcut);
       if (res) {
+        setCustomerId(res.data.id);
         setCustomerInfo(res.data);
         setNewGallery({
           ...newGallery,
-          customerId: res.data.customerName, // FIX LATER WHEN API IS FIXED,
+          customerId: res.data.id, // FIX LATER WHEN API IS FIXED,
           customerName,
         });
       }
@@ -291,7 +306,7 @@ function Component() {
       if (res) {
         const galleryData = res.data.gals.map((e) => {
           return {
-            customerId: e.customerName, // FIX LATER WHEN API IS FIXED,,
+            customerId: customerId, // FIX LATER WHEN API IS FIXED,,
             customerName: e.customerName,
             index: 0,
             name: e.galleryName,
@@ -334,12 +349,14 @@ function Component() {
   useEffect(() => {
     if (isEdit) {
       setFormCreateShow(false);
-      handleGetGalleryByCustomerShortcut();
       handleGetCustomerByShortcut();
     }
     handleGetUserProfile();
     getListTopic();
   }, []);
+  useEffect(() => {
+    handleGetGalleryByCustomerShortcut();
+  }, [customerId]);
   useEffect(() => {}, [
     newGallery,
     galleries,
@@ -1178,8 +1195,12 @@ function Component() {
             style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
             className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
             onClick={async () => {
-              await handleUpdateGallery();
-              navigate(`/${cookies["current-user-shortcut"]}/${editShortcut}`);
+              await handleUpdateCustomer()
+              setConfirmDialogVisible(true);
+              setConfirmDialogMode("success");
+              setConfirmDialogOkHandler("CONFIRM_REDIRECT");
+              setConfirmDialogOkText("Xem album");
+              setConfirmDialogMessage("Hoàn thành album!");
             }}
           >
             <Icon

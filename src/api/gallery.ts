@@ -60,8 +60,7 @@ export function getGalleryById(params: {
   export function deleteGallery(id:string){
     return http({
       method: 'delete',
-      url: `/api/gallery/deletealbum`,
-      data: {id: id}
+      url: `/api/gallery/v2/deletegallery?Id=${id}`, 
     })
   }
 

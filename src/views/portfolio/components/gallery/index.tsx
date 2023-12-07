@@ -97,12 +97,12 @@ function Gallery({ alias, userInfo, isEdit }) {
   }
   async function handleDeleteGallery() {
     console.log('deleteGalleryId',deleteGalleryId);
-    // const res = await deleteGallery(deleteGalleryId);
-    // if (res) {
-    //   setFilteredGallery(
-    //     filteredGallery.filter((e) => e.id !== deleteGalleryId)
-    //   );
-    // }
+    const res = await deleteGallery(deleteGalleryId);
+    if (res) {
+      setFilteredGallery(
+        filteredGallery.filter((e) => e.galleryId !== deleteGalleryId)
+      );
+    }
     setConfirmDialogVisible(false);
   }
   async function editGallery(customerShortcut: string) {}
@@ -241,7 +241,7 @@ function Gallery({ alias, userInfo, isEdit }) {
                     onClick={() => {
                       setConfirmDialogVisible(true);
                       console.log(e);
-                      setDeleteGalleryId(e.id);
+                      setDeleteGalleryId(e.galleryId);
                     }}
                   >
                     <Icon
