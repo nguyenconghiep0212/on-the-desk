@@ -479,6 +479,7 @@ function Contact({ data, userInfo, isEdit }) {
             {dndItems.map((e, index) => {
               return e.children.length > 1 ? (
                 <Tooltip
+                  key={index}
                   placement="bottom"
                   arrow={false}
                   trigger="click"

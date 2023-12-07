@@ -4,7 +4,11 @@ import { Icon } from "@iconify/react";
 import "./index.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatNumber } from "helper/formatNumber.ts";
-import { getGalleryByUserShortcut, fetchCustomerList, deleteGallery } from "api";
+import {
+  getGalleryByUserShortcut,
+  fetchCustomerList,
+  deleteGallery,
+} from "api";
 import { GALLERY } from "interface/gallery";
 import { Button, Select } from "antd";
 // COMPONENT
@@ -96,7 +100,6 @@ function Gallery({ alias, userInfo, isEdit }) {
     }
   }
   async function handleDeleteGallery() {
-    console.log('deleteGalleryId',deleteGalleryId);
     const res = await deleteGallery(deleteGalleryId);
     if (res) {
       setFilteredGallery(
@@ -237,10 +240,13 @@ function Gallery({ alias, userInfo, isEdit }) {
                 </LazyLoadComponent>
                 {isEdit && (
                   <div
-                    className="absolute top-[6px] right-[6px] z-20 cursor-pointer"
+                    className="absolute top-[6px] right-[6px] z-20 cursor-pointer rounded-full p-1"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(11, 18, 28, 0.64) 0%, rgba(4, 14, 29, 0.48) 100%)",
+                    }}
                     onClick={() => {
                       setConfirmDialogVisible(true);
-                      console.log(e);
                       setDeleteGalleryId(e.galleryId);
                     }}
                   >

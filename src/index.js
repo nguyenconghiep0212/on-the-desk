@@ -20,6 +20,7 @@ import Middleware from "./routes/middleware";
 import AddCard from "./routes/add-card";
 import AddGallery from "./routes/add-gallery";
 import Profile from "./routes/profile";
+import PaymentCard from "./routes/payment-card";
 import { Helmet } from "react-helmet";
 // STORE
 import { RecoilRoot } from "recoil";
@@ -70,6 +71,11 @@ const RouterBuilder = () => {
     {
       path: "/:userShortcut/addCard",
       element: <AddCard />,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: "/:userShortcut/paymentCard",
+      element: <PaymentCard />,
       errorElement: <ErrorPage />,
     },
     {

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useCheck425Screen } from "helper/checkMobile";
-import { LazyLoadComponent } from "react-lazy-load-image-component";
+// import { useCheck425Screen } from "helper/checkMobile";
+// import { LazyLoadComponent } from "react-lazy-load-image-component";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Navigation, Pagination, Thumbs } from "swiper/modules";
 import "swiper/css";
@@ -16,7 +16,7 @@ import { fullScreenVisible } from "store/gallery";
 export default function Component({ currentGallery, initImg }) {
   const [_, setVisible] = useRecoilState(fullScreenVisible);
   const topSwiperRef: any = useRef(null);
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  // const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [currentImage, setCurrentImage] = useState({});
   const [initIndex, setInitIndex] = useState(0);
 

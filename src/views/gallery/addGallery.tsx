@@ -26,9 +26,11 @@ import {
   getCustomerById,
   uploadGallery,
   createGallery,
+  updateGallery,
   updateCustomer,
   createCustomer,
   getTopic,
+  deleteGallery,
 } from "api";
 import { useCookies } from "react-cookie";
 
@@ -39,7 +41,7 @@ function Component() {
   const navigate = useNavigate();
   const [cookies] = useCookies(["current-user-shortcut"]);
   // confirm dialog
-  const [deleteGalleryIndex, setDeleteGalleryIndex] = useState(null);
+  const [deleteGalleryId, setDeleteGalleryId] = useState(null);
   const confirmDialogOkFnc = {
     DELETE_FORM: () => {
       setNewGallery({
@@ -56,7 +58,8 @@ function Component() {
       setConfirmDialogVisible(false);
     },
     DELETE_GALLERY: () => {
-      setGalleries([...galleries.filter((_, j) => deleteGalleryIndex !== j)]);
+      handleDeleteGallery(deleteGalleryId);
+      setGalleries([...galleries.filter((e) => deleteGalleryId !== e.id)]);
       setConfirmDialogVisible(false);
     },
     CONFIRM_REDIRECT: () =>
@@ -95,6 +98,7 @@ function Component() {
     shortcut: "",
   });
   const [newGallery, setNewGallery] = useState<UPDATE_GALLERY>({
+    id: "",
     customerId: "",
     customerName: "",
     index: 0,
@@ -221,10 +225,26 @@ function Component() {
     return navigate(-1);
   }
 
-  async function addGallery() {
-    galleries.unshift(newGallery);
+  async function addGallery(resGal) {
     setFormCreateShow(false);
+    galleries.unshift({
+      id: resGal.data.id,
+      customerId: resGal.data.customerId,
+      customerName: resGal.data.customerName,
+      index: resGal.data.index,
+      name: resGal.data.name,
+      data: resGal.data.data.map((f) => ({
+        name: f.name,
+        caption: f.caption,
+        ref: f.ref,
+      })),
+      thumb: resGal.data.thumb,
+      topics: resGal.data.topics,
+      shortcut: resGal.data.shortcut,
+      extended: false,
+    });
     setNewGallery({
+      id: "",
       customerId: "",
       customerName: "",
       index: 0,
@@ -252,7 +272,10 @@ function Component() {
             customerName: res.data.customerName,
             customerId: res.data.id,
           };
-          await createGallery(params);
+          const resGal = await createGallery(params);
+          if (resGal) {
+            addGallery(resGal);
+          }
         });
         return res;
       }
@@ -263,15 +286,21 @@ function Component() {
       messageApi.warning("Vui lòng nhập tên thư viện");
     }
   }
-  async function handleUpdateGallery() {
+  async function handleAddMoreGallery() {
     const params = {
       ...newGallery,
       customerId: customerId,
     };
     const res = await createGallery(params);
     if (res) {
+      addGallery(res);
       return res;
     }
+  }
+  async function handleUpdateGallery() {
+    galleries.forEach(async (e) => {
+      await updateGallery(e);
+    });
   }
   async function handleUpdateCustomer() {
     await updateCustomer({ ...customerInfo, id: customerId });
@@ -306,7 +335,8 @@ function Component() {
       if (res) {
         const galleryData = res.data.gals.map((e) => {
           return {
-            customerId: customerId, // FIX LATER WHEN API IS FIXED,,
+            id: e.galleryId,
+            customerId: customerId,
             customerName: e.customerName,
             index: 0,
             name: e.galleryName,
@@ -323,7 +353,6 @@ function Component() {
             extended: false,
           };
         });
-        console.log("galleryData", galleryData);
         setGalleries([...galleryData]);
       }
     } catch (error) {}
@@ -335,7 +364,9 @@ function Component() {
       setTopicList(res.data.map((e) => ({ value: e, label: e })));
     }
   }
-
+  async function handleDeleteGallery(id) {
+    await deleteGallery(id);
+  }
   function scrollToView(ref, delay = 0) {
     if (ref.current) {
       setTimeout(() => {
@@ -362,7 +393,7 @@ function Component() {
     galleries,
     confirmDialogMode,
     topicSearch,
-    deleteGalleryIndex,
+    deleteGalleryId,
     confirmDialogOkHandler,
     validator,
     topicList,
@@ -810,9 +841,8 @@ function Component() {
               className="lg:w-max w-full !shadow-none gradient_btn"
               onClick={async () => {
                 if (customerInfo.customerName) {
-                  await addGallery();
                   if (isEdit) {
-                    const res = await handleUpdateGallery();
+                    const res = await handleAddMoreGallery();
                     if (res) {
                       setFormCreateShow(false);
                       setConfirmDialogVisible(true);
@@ -887,7 +917,7 @@ function Component() {
                 className="text-[#EB5757] h-5 w-5 cursor-pointer"
                 icon="tabler:trash"
                 onClick={() => {
-                  setDeleteGalleryIndex(i);
+                  setDeleteGalleryId(e.id);
                   setConfirmDialogVisible(true);
                   setConfirmDialogMode("error");
                   setConfirmDialogOkHandler("DELETE_GALLERY");
@@ -1195,7 +1225,8 @@ function Component() {
             style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
             className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
             onClick={async () => {
-              await handleUpdateCustomer()
+              await handleUpdateCustomer();
+              await handleUpdateGallery();
               setConfirmDialogVisible(true);
               setConfirmDialogMode("success");
               setConfirmDialogOkHandler("CONFIRM_REDIRECT");

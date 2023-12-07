@@ -29,15 +29,12 @@ import { isLogin } from "store/root";
 
 function Component() {
   const [checkLogin] = useRecoilState(isLogin);
+
   const [isAddNewProfile, setIsAddNewProfile] = useState(true);
   const navigate = useNavigate();
   const pathParams = useParams();
   const [defaultCard, setDefaultCard] = useRecoilState(storeCard);
-  const [previewVisible, setPreviewVisible] = useState(false);
-
-  function handleBack() {
-    return navigate(-1);
-  }
+  // const [previewVisible, setPreviewVisible] = useState(false);
 
   async function submitCard() {
     if (isAddNewProfile) {
@@ -57,7 +54,8 @@ function Component() {
             backgroundImage: "",
             fontFamily: "",
           });
-          handleBack();
+          console.log(res,'res');
+          return res
         }
       } catch (error) {
         message.error(
@@ -196,7 +194,7 @@ function Component() {
           <Icon
             className="absolute top-[33px] z-50 cursor-pointer text-lg 3xs:left-3  text-white"
             icon="ep:back"
-            onClick={handleBack}
+            onClick={() => navigate(-1)}
           />
           <div className="flex flex-col space-y-2">
             {card()}
@@ -233,11 +231,12 @@ function Component() {
 
               <Button
                 className="gradient_btn"
-                onClick={() => {
-                  setPreviewVisible(true);
+                onClick={async () => {
+                  await submitCard();
+                  navigate(`/${pathParams.userShortcut}/paymentCard`);
                 }}
               >
-                Xem trước
+                Hoàn thành
               </Button>
             </div>
           </div>
@@ -250,7 +249,7 @@ function Component() {
           )}
 
           {/* PREVIEW CARD */}
-          <Modal
+          {/* <Modal
             className="modalFullScreen"
             open={previewVisible}
             closeIcon={false}
@@ -281,7 +280,7 @@ function Component() {
                 </div>
               </div>
             </div>
-          </Modal>
+          </Modal> */}
         </div>
       </div>
     );
@@ -301,7 +300,10 @@ function Component() {
         <div
           style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
           className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px]"
-          onClick={() => submitCard()}
+          onClick={async () => {
+            await submitCard();
+            navigate(-1);
+          }}
         >
           <Icon
             className="text-lg text-primary-blue-medium"
