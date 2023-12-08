@@ -262,21 +262,20 @@ function Component() {
         .replaceAll(" ", "-")
         .toLowerCase();
       const res = await createCustomer(customerInfo);
+      console.log(res, "res");
       if (res) {
         setIsEdit(true);
         setEditShortcut(res.data.shortcut);
         setCustomerId(res.data.id);
-        galleries.forEach(async (e) => {
-          const params = {
-            ...e,
-            customerName: res.data.customerName,
-            customerId: res.data.id,
-          };
-          const resGal = await createGallery(params);
-          if (resGal) {
-            addGallery(resGal);
-          }
-        });
+        const params = {
+          ...newGallery,
+          customerName: res.data.customerName,
+          customerId: res.data.id,
+        };
+        const resGal = await createGallery(params);
+        if (resGal) {
+          addGallery(resGal);
+        }
         return res;
       }
     } else {
@@ -709,7 +708,11 @@ function Component() {
               <div className="gradient">
                 {!topicList
                   .map((f) => f.value.toLowerCase())
-                  .includes(topicSearch.toLowerCase()) && topicSearch.trim() ? (
+                  .includes(topicSearch.toLowerCase()) &&
+                newGallery.topics
+                  .map((f) => f.toLowerCase())
+                  .includes(topicSearch.toLowerCase()) &&
+                topicSearch.trim() ? (
                   <Button
                     className="  !shadow-none w-full flex justify-start"
                     style={{
@@ -721,6 +724,7 @@ function Component() {
                         ...newGallery,
                         topics: [...newGallery.topics, topicSearch],
                       });
+                      setTopicSearch("");
                     }}
                   >
                     Thêm nhãn {topicSearch}
@@ -1010,7 +1014,13 @@ function Component() {
                   </div>
                 }
                 optionFilterProp="children"
-                onChange={() => {}}
+                onChange={(value) => {
+                  const items = galleries;
+                  const item = e;
+                  item.topics.push(value);
+                  items[i] = item;
+                  setGalleries([...items]);
+                }}
                 filterOption={(
                   input: string,
                   option?: { label: string; value: string }
@@ -1025,6 +1035,9 @@ function Component() {
                     {!topicList
                       .map((f) => f.value.toLowerCase())
                       .includes(topicSearch.toLowerCase()) &&
+                    !e.topics
+                      .map((f) => f.toLowerCase())
+                      .includes(topicSearch.toLowerCase()) &&
                     topicSearch.trim() ? (
                       <Button
                         className="  !shadow-none w-full flex justify-start"
@@ -1038,6 +1051,7 @@ function Component() {
                           item.topics.push(topicSearch);
                           items[i] = item;
                           setGalleries([...items]);
+                          setTopicSearch("");
                         }}
                       >
                         Thêm nhãn {topicSearch}
