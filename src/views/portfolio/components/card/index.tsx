@@ -254,7 +254,7 @@ function Component({ userInfo }) {
           </div>
 
           {/* ACTION */}
-          <div className="absolute top-0 right-0 flex m-3 space-x-2 z-20">
+          <div className="absolute top-0 right-0 z-20 flex m-3 space-x-2">
             <div
               style={{
                 background:
@@ -318,7 +318,7 @@ function Component({ userInfo }) {
     return (
       <div className="relative w-full h-full">
         <Swiper
-          slidesPerView={cardList.length}
+          slidesPerView={3}
           spaceBetween={30}
           centeredSlides={true}
           pagination={{
@@ -492,7 +492,7 @@ function Component({ userInfo }) {
   }
   return (
     <div className="relative flex justify-center h-[320px] bg-[#18191A]">
-      <div className="md:hidden">{mobileSwiper()}</div>
+      <div className="md:hidden w-full">{mobileSwiper()}</div>
       <div className="<md:hidden w-full">{desktopSwiper()}</div>
       <Modal
         className="modalFullScreen"
@@ -503,7 +503,7 @@ function Component({ userInfo }) {
           setVisible(false);
         }}
       >
-        <div className="flex flex-col items-center justify-center h-full relative backdrop-blur space-y-5">
+        <div className="relative flex flex-col items-center justify-center h-full space-y-5 backdrop-blur">
           <Icon
             icon="tabler:x"
             className="text-[24px] cursor-pointer text-white absolute top-5 right-5"

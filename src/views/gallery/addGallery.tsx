@@ -31,6 +31,7 @@ import {
   createCustomer,
   getTopic,
   deleteGallery,
+  fetchCustomerList,
 } from "api";
 import { useCookies } from "react-cookie";
 
@@ -73,6 +74,7 @@ function Component() {
   const [confirmDialogMessage, setConfirmDialogMessage] = useState("");
   //
   const customerRef = useRef(null);
+  const [customerList, setCustomerList] = useState([]);
   const [customerId, setCustomerId] = useState("");
   const [isEdit, setIsEdit] = useState(!!routeParams.customerShortcut);
   const [editShortcut, setEditShortcut] = useState(
@@ -89,7 +91,7 @@ function Component() {
       id: "",
     },
   });
-  const [validator, setValidator] = useState(true);
+  const [validator, setValidator] = useState(null);
   const [customerInfo, setCustomerInfo] = useState<CUSTOMER>({
     customerAvatar: "",
     customerCover: "",
@@ -225,6 +227,13 @@ function Component() {
     return navigate(-1);
   }
 
+  async function getCustomerList() {
+    const res = await fetchCustomerList();
+    if (res) {
+      setCustomerList(res.data.map((e) => e.customerName));
+    }
+  }
+
   async function addGallery(resGal) {
     setFormCreateShow(false);
     galleries.unshift({
@@ -258,28 +267,35 @@ function Component() {
   }
   async function handleCreateGallery() {
     if (customerInfo.customerName) {
-      customerInfo.shortcut = normalizeVietnamese(customerInfo.customerName)
-        .replaceAll(" ", "-")
-        .toLowerCase();
-      const res = await createCustomer(customerInfo);
-      console.log(res, "res");
-      if (res) {
-        setIsEdit(true);
-        setEditShortcut(res.data.shortcut);
-        setCustomerId(res.data.id);
-        const params = {
-          ...newGallery,
-          customerName: res.data.customerName,
-          customerId: res.data.id,
-        };
-        const resGal = await createGallery(params);
-        if (resGal) {
-          addGallery(resGal);
+      if (customerList.includes(customerInfo.customerName)) {
+        setValidator("Thư viện đã tồn tại");
+        setConfirmDialogVisible(false);
+        scrollToView(customerRef);
+        messageApi.warning("Thư viện đã tồn tại");
+      } else {
+        customerInfo.shortcut = normalizeVietnamese(customerInfo.customerName)
+          .replaceAll(" ", "-")
+          .toLowerCase();
+        const res = await createCustomer(customerInfo);
+        console.log(res, "res");
+        if (res) {
+          setIsEdit(true);
+          setEditShortcut(res.data.shortcut);
+          setCustomerId(res.data.id);
+          const params = {
+            ...newGallery,
+            customerName: res.data.customerName,
+            customerId: res.data.id,
+          };
+          const resGal = await createGallery(params);
+          if (resGal) {
+            addGallery(resGal);
+          }
+          return res;
         }
-        return res;
       }
     } else {
-      setValidator(false);
+      setValidator("Nhập tên thư viện");
       setConfirmDialogVisible(false);
       scrollToView(customerRef);
       messageApi.warning("Vui lòng nhập tên thư viện");
@@ -381,6 +397,7 @@ function Component() {
       setFormCreateShow(false);
       handleGetCustomerByShortcut();
     }
+    getCustomerList();
     handleGetUserProfile();
     getListTopic();
   }, []);
@@ -526,16 +543,25 @@ function Component() {
                 bordered={false}
                 placeholder="Tên thư viện"
                 className={`${
-                  validator || "invalidate"
-                } p-0 text-base <3xs:text-sm font-semibold <3xs:truncate !text-primary-blue-medium`}
+                  !validator ? "!text-primary-blue-medium" : "invalidate !text-[#EB5757]"
+                } p-0 text-base <3xs:text-sm font-semibold <3xs:truncate `}
                 onChange={(e) => {
-                  setValidator(true);
+                  setValidator(null);
                   setCustomerInfo({
                     ...customerInfo,
                     customerName: e.target.value,
                   });
                 }}
               />
+              {validator ? (
+                <div className="flex my-2 space-x-1 items-center">
+                  <Icon className="text-[#EB5757]" icon="ph:warning-bold" />
+                  <span className="text-white">{validator}</span>
+                </div>
+              ) : (
+                <></>
+              )}
+
               <Input
                 value={customerInfo.customerDescription}
                 bordered={false}
@@ -709,7 +735,7 @@ function Component() {
                 {!topicList
                   .map((f) => f.value.toLowerCase())
                   .includes(topicSearch.toLowerCase()) &&
-                newGallery.topics
+                !newGallery.topics
                   .map((f) => f.toLowerCase())
                   .includes(topicSearch.toLowerCase()) &&
                 topicSearch.trim() ? (
@@ -845,37 +871,43 @@ function Component() {
               className="lg:w-max w-full !shadow-none gradient_btn"
               onClick={async () => {
                 if (customerInfo.customerName) {
-                  if (isEdit) {
-                    const res = await handleAddMoreGallery();
-                    if (res) {
-                      setFormCreateShow(false);
-                      setConfirmDialogVisible(true);
-                    } else {
-                      messageApi.error(
-                        "Xảy ra lỗi trong quá trình thêm thư viện!!"
-                      );
-                    }
+                  if (customerList.includes(customerInfo.customerName)) {
+                    setValidator("Thư viện đã tồn tại");
+                    scrollToView(customerRef);
+                    messageApi.warning("Thư viện đã tồn tại");
                   } else {
-                    const res = await handleCreateGallery();
-                    if (res) {
-                      setFormCreateShow(false);
-                      setConfirmDialogVisible(true);
+                    if (isEdit) {
+                      const res = await handleAddMoreGallery();
+                      if (res) {
+                        setFormCreateShow(false);
+                        setConfirmDialogVisible(true);
+                      } else {
+                        messageApi.error(
+                          "Xảy ra lỗi trong quá trình thêm thư viện!!"
+                        );
+                      }
                     } else {
-                      messageApi.error(
-                        "Xảy ra lỗi trong quá trình thêm thư viện!!"
-                      );
+                      const res = await handleCreateGallery();
+                      if (res) {
+                        setFormCreateShow(false);
+                        setConfirmDialogVisible(true);
+                      } else {
+                        messageApi.error(
+                          "Xảy ra lỗi trong quá trình thêm thư viện!!"
+                        );
+                      }
                     }
+                    setConfirmDialogMode("success");
+                    setConfirmDialogOkHandler("CONFIRM_REDIRECT");
+                    setConfirmDialogOkText("Xem album");
+                    setConfirmDialogMessage(
+                      isEdit
+                        ? "Cập nhật album thành công!"
+                        : "Tạo album thành công!"
+                    );
                   }
-                  setConfirmDialogMode("success");
-                  setConfirmDialogOkHandler("CONFIRM_REDIRECT");
-                  setConfirmDialogOkText("Xem album");
-                  setConfirmDialogMessage(
-                    isEdit
-                      ? "Cập nhật album thành công!"
-                      : "Tạo album thành công!"
-                  );
                 } else {
-                  setValidator(false);
+                  setValidator("Nhập tên thư viện");
                   scrollToView(customerRef);
                   messageApi.warning("Vui lòng nhập tên thư viện");
                 }
