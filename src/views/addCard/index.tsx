@@ -1,205 +1,130 @@
-import React, { useEffect, useState } from "react";
-import DefaultCardLogo from "assests/card/default_card_logo.svg";
+import React, { useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { useNavigate, useParams } from "react-router-dom";
 import { Icon } from "@iconify/react";
-import { Button, Modal, QRCode, Radio, message } from "antd";
+import { Button, Modal, message } from "antd";
 import "./index.scss";
-import { createCard } from "api/index.ts";
-
-// ICON
-import DefaultQR from "assests/card/default-qr.svg";
-import SignalRight from "assests/card/signal-right.svg";
-import SignalLeft from "assests/card/signal-left.svg";
-import Banner from "assests/card/banner-ext.svg";
-import Logo_SVG from "assests/landing/logo.svg";
+import { createCard, editCard } from "../../api/index.ts";
+import IcShoppingBag from "assests/icon/ic-shopping-bag.svg";
 
 // STORE
-import { card as storeCard } from "store/addCard";
+import { card as storeCard } from "../../store/addCard.ts";
 
 // COMPONENT
-import Alignment from "./components/alignment";
-import Background from "./components/background";
-import Logo from "./components/logo";
-import FrontText from "./components/frontName";
-import BackText from "./components/backName";
-import PackageSeletion from "./components/packageSelection";
-import Profile from "./components/profile";
-import { isLogin } from "store/root";
+import Alignment from "./components/alignment.tsx";
+import Background from "./components/background.tsx";
+import Logo from "./components/logo.tsx";
+import FrontText from "./components/frontName.tsx";
+import BackText from "./components/backName.tsx";
+import PackageSeletion from "./components/packageSelection.tsx";
+import Profile from "./components/profile/index.tsx";
+import FrontCard from "../../components/card/front.tsx";
+import BackCard from "../../components/card/back.tsx";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/effect-flip";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectFlip } from "swiper/modules";
+import { useQuery } from "../../helper/getQuery.ts";
+import useIntersectionObserver from "../../helper/useIntersectionObserver.ts";
+import BorderedDiv from "../../components/borderedDiv/index.tsx";
 
 function Component() {
-  const [checkLogin] = useRecoilState(isLogin);
-
-  const [isAddNewProfile, setIsAddNewProfile] = useState(true);
+  const swiperRef = useRef(null);
+  const [isAddNewProfile, setIsAddNewProfile] = useState(false);
   const navigate = useNavigate();
   const pathParams = useParams();
   const [defaultCard, setDefaultCard] = useRecoilState(storeCard);
+  const query = useQuery("isEdit");
+
   // const [previewVisible, setPreviewVisible] = useState(false);
 
-  async function submitCard() {
+  async function submitCard() { }
+
+  async function saveCard() {
     if (isAddNewProfile) {
     } else {
       try {
-        const res = await createCard(defaultCard);
+        const params = { ...defaultCard, cardId: defaultCard.id };
+        const res = query
+          ? await editCard(params)
+          : await createCard(defaultCard);
         if (res) {
-          message.success("Tạo thẻ thành công");
+          message.success(`${query ? "Lưu" : "Tạo"} thẻ thành công`);
           setDefaultCard({
             alignment: "",
             logo: "",
             enableLogo: true,
             frontText: "",
+            frontTextColor: "",
+            qrUrl: "",
             enableFrontText: true,
             backText: "",
             backgroundColor: "",
             backgroundImage: "",
             fontFamily: "",
           });
-          console.log(res,'res');
-          return res
+          navigate(`/${pathParams.userShortcut}`);
         }
       } catch (error) {
         message.error(
-          "Tạo thẻ thất bại, vui lòng thử lại hoặc liên hệ chúng tôi"
+          "Tạo thẻ thất bại, vui lòng thử lại hoặc liên hệ chúng tôi",
         );
         console.error("Lỗi tạo thẻ:", error);
       }
     }
   }
-  useEffect(() => {}, [defaultCard]);
-  useEffect(() => {}, [isAddNewProfile]);
-  function card() {
-    return (
-      <div
-        className="flex flex-col space-y-3 rounded-lg h-[176px] w-[280px] px-[30px] py-5"
-        style={
-          defaultCard.backgroundImage
-            ? {
-                alignItems: defaultCard.alignment || "center",
-                justifyContent:
-                  defaultCard.alignment === "end" ||
-                  defaultCard.alignment === "start"
-                    ? "end"
-                    : "center",
-                backgroundImage: `url('${defaultCard.backgroundImage}')`,
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-              }
-            : {
-                background: defaultCard.backgroundColor || "#091323",
-                alignItems: defaultCard.alignment || "center",
-                justifyContent:
-                  defaultCard.alignment === "end" ||
-                  defaultCard.alignment === "start"
-                    ? "end"
-                    : "center",
-              }
-        }
-      >
-        {defaultCard.enableLogo && (
-          <img
-            src={defaultCard.logo || DefaultCardLogo}
-            alt="card_logo"
-            className="!w-12 !h-12"
-          />
-        )}
-        {defaultCard.enableFrontText && (
-          <div
-            className="text-white w-[max-content] text-center"
-            style={{ fontFamily: defaultCard.fontFamily || "Montserrat" }}
-          >
-            {defaultCard.frontText || "Your name here"}
-          </div>
-        )}
-      </div>
-    );
-  }
-  function cardBack() {
-    return (
-      <div
-        className=" space-y-3 rounded-lg h-[176px] w-[280px]"
-        style={
-          defaultCard.backgroundImage
-            ? {
-                background: "#091323",
-              }
-            : {
-                background: defaultCard.backgroundColor || "#091323",
-              }
-        }
-      >
-        <div
-          className="relative flex flex-col items-center justify-center w-full h-full rounded-lg"
-          style={
-            defaultCard.backgroundColor && !defaultCard.backgroundImage
-              ? { background: "rgb(0,0,0,0.39)" }
-              : {}
-          }
-        >
-          <div className="absolute text-white -translate-x-1/2 top-4 left-1/2">
-            {defaultCard.backText || "Your text here"}
-          </div>
-          <img
-            src={SignalLeft}
-            alt="SignalLeft"
-            className="h-[15%] absolute top-1/2 -translate-y-full left-10"
-          />
+  useEffect(() => {
+    if (!pathParams.userShortcut) {
+      setIsAddNewProfile(true);
+    }
+  }, []);
+  useEffect(() => { }, [defaultCard, isAddNewProfile]);
 
-          {checkLogin ? (
-            <QRCode
-              className="!h-1/2 aspect-square !w-max"
-              errorLevel="H"
-              value={
-                pathParams.userShortcut
-                  ? `https://onthedesk.vn/${pathParams.userShortcut}`
-                  : "https://onthedesk.vn/"
-              }
-              icon={Logo_SVG}
-              color="#0083C7"
-              bgColor="rgba(0, 0, 0, 0.50)"
-            />
-          ) : (
-            <img src={DefaultQR} alt="DefaultQR" className="h-1/2" />
-          )}
-          <img
-            src={SignalRight}
-            alt="SignalRight"
-            className="h-[15%] absolute top-1/2 -translate-y-full right-10"
-          />
-          <div className="absolute text-white bottom-2">
-            <div className="text-[6px]">
-              Chạm gần điện thoại thông minh của bạn hoặc quét mã QR
-            </div>
-            <div className="flex items-center justify-center text-[8px] space-x-2">
-              <span>Designed by</span>
-              <img src={Banner} alt="banner" className="h-2" />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-  function desktopLayout() {
-    return (
-      <div className="flex">
-        <div className="w-1/3">{card()}</div>
-        <div className="w-2/3"></div>
-      </div>
-    );
-  }
-
-  function mobileLayout() {
+  function MobileLayout() {
+    const previewRef = useRef<HTMLDivElement | null>(null);
+    const entry = useIntersectionObserver(previewRef, {});
+    const sticky = !!entry?.isIntersecting;
+ 
     return (
       <div className="flex flex-col items-center w-full ">
-        <div className="sticky top-0 z-20 flex justify-center w-full p-3 backdrop-blur h-96">
+        <div className={`${sticky ? 'h-min' : 'backdrop-blur'} sticky top-0 z-20 flex justify-center w-full p-3 h-52 `}>
           <Icon
-            className="absolute top-[33px] z-50 cursor-pointer text-lg 3xs:left-3  text-white"
+            className="absolute left-3 top-[33px] z-50 cursor-pointer text-lg  text-white"
             icon="ep:back"
             onClick={() => navigate(-1)}
           />
-          <div className="flex flex-col space-y-2">
-            {card()}
-            {cardBack()}
-          </div>
+           <div className={`${sticky ? 'hidden' : ''} flex flex-col w-full space-y-2`}>
+            <Swiper
+              ref={swiperRef}
+              effect={"flip"}
+              speed={700}
+              loop={true}
+              grabCursor={true}
+              modules={[EffectFlip]}
+            >
+              <SwiperSlide
+                className="card-flip !w-full !bg-transparent"
+                onClick={() => {
+                  swiperRef.current?.swiper.slideNext(700);
+                }}
+              >
+                {FrontCard({ card: defaultCard })}
+              </SwiperSlide>
+              <SwiperSlide
+                className="card-flip !w-full !bg-transparent"
+                onClick={() => {
+                  swiperRef.current?.swiper.slideNext(700);
+                }}
+              >
+                {BackCard({ card: defaultCard })}
+              </SwiperSlide>
+            </Swiper>
+          </div> 
+         
         </div>
         <div className="w-full px-5 py-5 space-y-3 sm:w-2/3">
           <Alignment />
@@ -207,80 +132,39 @@ function Component() {
           <Logo />
           <FrontText />
           <BackText />
-          <div className="flex items-center justify-between">
-            <div>
-              {pathParams.userShortcut && (
-                <Radio.Group
-                  className="!shadow-none"
-                  size="small"
-                  buttonStyle="solid"
-                  onChange={(e) => {
-                    setIsAddNewProfile(e.target.value);
-                  }}
-                  defaultValue={isAddNewProfile}
-                >
-                  <Radio.Button value={true}>Tạo mới profile</Radio.Button>
-                  <Radio.Button value={false}>
-                    Thêm card vào profile
-                  </Radio.Button>
-                </Radio.Group>
-              )}
-            </div>
-            <div className="space-x-2">
-              <Button>Thoát</Button>
-
+          <div className="space-y-3">
+            <div className="space-x-2 text-right">
               <Button
-                className="gradient_btn"
-                onClick={async () => {
-                  await submitCard();
-                  navigate(`/${pathParams.userShortcut}/paymentCard`);
+                className="!bg-[#1E2530] font-semibold !text-primary-blue-medium !shadow-none"
+                onClick={() => {
+                  saveCard();
                 }}
               >
-                Hoàn thành
+                Lưu thẻ
               </Button>
+              {query ? (
+                <Button
+                  className="gradient_btn !shadow-none"
+                  onClick={() => {
+                    submitCard();
+                  }}
+                >
+                  Hoàn thành
+                </Button>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
 
-          {isAddNewProfile && (
-            <div>
-              <PackageSeletion />
-              <Profile />
+          {isAddNewProfile && 
+          <div>
+            <PackageSeletion />
+            <div className="mt-[18px]" ref={previewRef}>
+              <PackagePreview sticky={sticky}/>
             </div>
-          )}
-
-          {/* PREVIEW CARD */}
-          {/* <Modal
-            className="modalFullScreen"
-            open={previewVisible}
-            closeIcon={false}
-            footer={null}
-            afterClose={() => {
-              setPreviewVisible(false);
-            }}
-          >
-            <div className="relative h-full">
-              <div
-                className="absolute cursor-pointer top-5 right-5"
-                onClick={() => setPreviewVisible(false)}
-              >
-                <Icon className="w-5 h-5 text-white" icon="tabler:x" />
-              </div>
-              <div className="flex justify-center h-full">
-                <div className="flex flex-col justify-center space-y-5">
-                  {card()}
-                  {cardBack()}
-                  <div className="text-right">
-                    <Button
-                      className="!shadow-none gradient_btn w-max"
-                      onClick={() => submitCard()}
-                    >
-                      Lưu thẻ
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Modal> */}
+          </div>
+          }
         </div>
       </div>
     );
@@ -289,28 +173,75 @@ function Component() {
     <div className="relative">
       {/* MÀN HÌNH FULL */}
       <div className="hidden md:flex">
-        {/* {desktopLayout()} */}
-        {mobileLayout()}
-      </div>
-
+         <MobileLayout />
+      </div> 
       {/* MÀN HÌNH THU GỌN */}
-      <div className="flex md:hidden">{mobileLayout()}</div>
+      <div className="flex md:hidden">
+        <MobileLayout/>
+      </div>
+    </div>
+  );
+}
 
-      <div className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-10">
-        <div
-          style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
-          className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px]"
-          onClick={async () => {
-            await submitCard();
-            navigate(-1);
+function PackagePreview({sticky}) {
+   
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <div className="space-y-[18px]">  
+        <div className="mb-[18px] text-[12px] italic text-white">
+          Xem trước hồ sơ:
+        </div>
+        <Profile />
+        <div className={`${sticky ? 'sticky bottom-0 z-10' : ''} w-[100vw] flex justify-center -translate-x-[16.66667%] backdrop-blur p-3 mt-[18px]`}>
+          <div className="w-2/3 pr-10">
+          <Button
+            className='w-full gradient_btn'
+            onClick={() => {
+              setVisible(true);
+            }}
+          >
+            Tạo hồ sơ ngay
+          </Button>
+          </div>
+          
+        </div> 
+        <Modal
+          maskClosable={true}
+          open={visible}
+          closeIcon={false}
+          footer={null}
+          centered
+          afterClose={() => {
+            setVisible(false);
           }}
         >
-          <Icon
-            className="text-lg text-primary-blue-medium"
-            icon="tabler:check"
+          <BorderedDiv
+            slot={
+              <div className="flex flex-col space-y-6 modal-checkout-confirm">
+                <div className="text-white ">
+                  Vui lòng thanh toán để nhận thẻ thông minh với thiết kế của
+                  riêng bạn và tạo hồ sơ chuyên nghiệp
+                </div>
+                <div className="flex justify-end space-x-[12px]">
+                  <Button
+                    className="text-[12px] font-semibold !text-primary-blue-medium !shadow-none"
+                    onClick={() => {
+                      setVisible(false);
+                    }}
+                  >
+                    Trở lại
+                  </Button>
+                  <Button className="gradient_btn flex items-center !shadow-none  ">
+                    <img src={IcShoppingBag} alt="IcShoppingBag" />
+                    <span className="ml-1 font-semibold">Thanh toán</span>
+                  </Button>
+                </div>
+              </div>
+            }
+            background={"transparent"}
           />
-        </div>
-      </div>
+        </Modal> 
     </div>
   );
 }

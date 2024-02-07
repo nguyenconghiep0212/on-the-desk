@@ -1,6 +1,6 @@
 import React from "react";
 // COMPONENTS
-import Admin from "views/admin";
+import Admin from "../views/admin/index.tsx";
 
 function Component() {
   return <Admin />;

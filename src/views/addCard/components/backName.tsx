@@ -14,7 +14,7 @@ function Component() {
   return (
     <div className="px-3 py-[10px] rounded-2xl space-y-[18px] bg-primary-blue-dark-max">
       <div className="flex justify-between">
-        <div className="text-sm font-semibold text-white">Tên (mặt sau)</div>
+        <div className="text-[12px] font-semibold text-white">Tên (mặt sau)</div>
       </div>
 
       <Input

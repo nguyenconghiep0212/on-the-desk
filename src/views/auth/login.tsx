@@ -8,7 +8,7 @@ import { useCookies } from "react-cookie";
 // COMPONENT
 import Logo from "assests/landing/footer_banner.svg";
 import IconAccount from "assests/icon/ic-account.svg";
-import Footer from "views/footer/index";
+import Footer from "../../components/footer/index.tsx";
 import { Icon } from "@iconify/react";
 
 // IMAGE
@@ -21,9 +21,9 @@ import IcLock from "assests/login/ic-lock.svg";
 import LogoGoogle from "assests/login/logo_google.svg";
 
 // API
-import { signIn, googleSignIn, signUp, getUserProfileByToken } from "api/index";
-import { AUTH_FORM } from "interface/auth";
-import { normalizeVietnamese } from "helper/formatString";
+import { signIn, googleSignIn, signUp, getUserProfileByToken } from "../../api/index.ts";
+import { AUTH_FORM } from "../../interface/auth.ts";
+import { normalizeVietnamese } from "../../helper/formatString.ts";
 function Login() {
   const [messageApi, contextHolder] = message.useMessage();
   const [cookie, setCookie] = useCookies([

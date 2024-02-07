@@ -1,27 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { message } from "antd";
-
-// INTERFACE
-import { USER_INFO, USER_PACKAGE } from "interface/user.ts";
 
 // API
 import {
   getUserProfile,
   updateUserProfile,
   getComponentFromPackage,
-} from "api/index.ts";
+} from "../../api/index.ts";
 
 // COMPONENT
 import Header from "./components/header/header.tsx";
-import DynamicComponent from "./components/dynamicComponent";
 import Card from "./components/card/index.tsx";
-import Footer from "views/footer/index.tsx";
+import Footer from "../../components/footer/index.tsx";
 import { Icon } from "@iconify/react";
-import NavigateMenu from "../navigateMenu/index";
+import NavigateMenu from "../../components/navigateMenu/index.tsx";
 import { useCookies } from "react-cookie";
+import DynamicComponent from "./dynamicComponents.tsx";
+import { useRecoilState } from "recoil";
+import {
+  contactsData,
+  packageInfoPortfolio,
+  portfolioEdit,
+  userInfoOriginalPortfolio,
+  userInfoPortfolio,
+} from "../../store/portfolio.ts";
 
-function Portfolio() {
+function Component() {
   const [cookies] = useCookies(["current-user-shortcut"]);
   const profile_menu = [
     {
@@ -35,7 +40,7 @@ function Portfolio() {
     {
       key: "account",
       label: "Tài khoản",
-      icon: "line-md:account",
+      icon: "bx:user",
       onClick() {
         navigate(`/${cookies["current-user-shortcut"]}/profile`);
       },
@@ -50,62 +55,28 @@ function Portfolio() {
       },
     },
   ];
-  const [isEdit, setIsEdit] = useState(false);
-  let [userInfo, setUserInfo] = useState<USER_INFO>({
-    id: "",
-    name: "",
-    email: "",
-    description: "",
-    shortcut: "",
-    job: "",
-    avatar: "",
-    contacts: [
-      {
-        id: "",
-        typeContact: "",
-        nameContact: "",
-        keyContact: "",
-        infoDetail: "",
-        templateId: "",
-        linkIcon: "",
-        backgoundColor: "",
-        status: 1,
-      },
-    ],
-    backgrounds: [],
-    package: {
-      id: "",
-      packageName: "",
-    },
-  });
-  let [originalUserInfo, setOriginalUserInfo] = useState({});
-  let [userPackage, setUserPackage] = useState<USER_PACKAGE[]>([]);
+  const [dndItems] = useRecoilState(contactsData);
+  const [isEdit, setIsEdit] = useRecoilState(portfolioEdit);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoPortfolio);
+  const [originalUserInfo, setOriginalUserInfo] = useRecoilState(
+    userInfoOriginalPortfolio,
+  );
+  const [userPackage, setUserPackage] = useRecoilState(packageInfoPortfolio);
   const navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
 
-  let routeParams = useParams();
+  const routeParams = useParams();
   async function handleGetUserProfile() {
     if (routeParams.userShortcut) {
       try {
         const res = await getUserProfile(routeParams.userShortcut);
         if (res) {
-          userInfo = res.data;
-          originalUserInfo = res.data;
-          setUserInfo(userInfo);
-          setOriginalUserInfo(originalUserInfo);
+          setUserInfo(res.data);
+          setOriginalUserInfo(res.data);
           if (userInfo.package) {
-            await handleGetComponentFromPackage();
+            await handleGetComponentFromPackage(res.data);
           } else {
             navigate("/addCard");
-          }
-
-          const temp = userPackage.find((e) => e.key === "contact");
-          if (temp) {
-            if (userInfo.contacts) {
-              temp.config.data = userInfo.contacts;
-            } else {
-              temp.config.data = [];
-            }
           }
         }
       } catch (e) {
@@ -129,8 +100,8 @@ function Portfolio() {
     }
   }
 
-  async function handleGetComponentFromPackage() {
-    const res = await getComponentFromPackage(userInfo.package.id);
+  async function handleGetComponentFromPackage(userRes) {
+    const res = await getComponentFromPackage(userRes.package.id);
     if (res) {
       res.data.forEach((e) => {
         try {
@@ -139,8 +110,16 @@ function Portfolio() {
           e.config = { alias: e.key, data: [] };
         }
       });
-      userPackage = res.data;
-      setUserPackage(userPackage);
+      const temp = res.data.find((e) => e.key === "contact");
+      if (temp) {
+        if (userRes.contacts) {
+          res.data.find((e) => e.key === "contact").config.data =
+            userRes.contacts;
+        } else {
+          res.data.find((e) => e.key === "contact").config.data = [];
+        }
+      }
+      setUserPackage(res.data);
     }
   }
 
@@ -152,7 +131,18 @@ function Portfolio() {
   async function handleAcceptChange() {
     // Call update user info
     try {
-      const res = await updateUserProfile(userInfo);
+      let contacts = [];
+      dndItems.forEach((e) => {
+        if (e.children.length > 1) {
+          contacts = contacts.concat([...e.children]);
+        } else {
+          contacts.push({ ...e });
+        }
+      });
+      contacts.forEach((e) => delete e.children);
+      const params = { ...userInfo };
+      params.contacts = contacts;
+      const res = await updateUserProfile(params);
       if (res) {
         message.success("Cập nhật tài khoản thành công");
         setIsEdit(false);
@@ -165,20 +155,21 @@ function Portfolio() {
   useEffect(() => {
     handleGetUserProfile();
   }, []);
-  useEffect(() => {}, [userInfo, isEdit]);
+  useEffect(() => {}, [contactsData]);
+  useEffect(() => {}, [userInfo, isEdit, originalUserInfo, userPackage]);
 
   return (
-    <div className="relative flex flex-col items-center w-full h-[max-content] ">
+    <div className="relative flex h-[max-content] w-full flex-col items-center ">
       {contextHolder}
 
       <div
         id="focus_point"
-        className="flex flex-col h-full mobile:w-full sm:p-0 desktop:w-1/2"
+        className="flex flex-col h-full sm:p-0 mobile:w-full desktop:w-1/2"
       >
         <div className="relative flex-auto">
           {/* NAVIGATE USER */}
           <div
-            className="absolute top-[33px] z-10  right-5 rounded-full"
+            className="absolute right-5 top-[33px]  z-10 rounded-full"
             style={{
               background:
                 "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",
@@ -190,22 +181,21 @@ function Portfolio() {
 
           {userInfo.isOwner && <Card userInfo={userInfo} />}
 
-          <Header
-            userInfo={userInfo}
-            setUserInfo={setUserInfo}
-            isEdit={isEdit}
-          />
+          <Header />
           <div className="flex flex-col justify-center m-2 space-y-4 desktop:mx-0 ">
             {userPackage.map((e, index) => (
-              <div key={index} className="p-3 rounded-2xl w-full bg-[#1E2530]">
-                <DynamicComponent
-                  is={e.key}
-                  alias={e.config.alias}
-                  data={e.config.data}
-                  userInfo={userInfo}
-                  isEdit={isEdit}
-                  setUserInfo={setUserInfo}
-                />
+              <div key={index}>
+                {e.key ? (
+                  <div className="w-full rounded-2xl bg-[#1E2530] p-3">
+                    <DynamicComponent
+                      is={e.key}
+                      alias={e.config.alias}
+                      data={e.config.data}
+                    />
+                  </div>
+                ) : (
+                  <></>
+                )}
               </div>
             ))}
           </div>
@@ -213,10 +203,10 @@ function Portfolio() {
       </div>
       {userInfo.isOwner &&
         (isEdit ? (
-          <div className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-50 space-y-1">
+          <div className="sticky bottom-[4.5rem] z-50 ml-[auto] w-[max-content] space-y-1">
             <div
               style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
-              className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
+              className="mr-5 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[#1E2530] "
               onClick={() => {
                 handleCancelChange();
               }}
@@ -228,7 +218,7 @@ function Portfolio() {
             </div>
             <div
               style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
-              className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
+              className="mr-5 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[#1E2530] "
               onClick={() => {
                 handleAcceptChange();
               }}
@@ -241,14 +231,14 @@ function Portfolio() {
           </div>
         ) : (
           <div
-            className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-50"
+            className="sticky bottom-[4.5rem] z-50 ml-[auto] w-[max-content]"
             onClick={() => {
               setIsEdit(true);
             }}
           >
             <div
               style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
-              className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
+              className="mr-5 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[#1E2530] "
             >
               <Icon
                 className="text-lg text-primary-blue-medium"
@@ -258,11 +248,11 @@ function Portfolio() {
           </div>
         ))}
 
-      <div className="z-50 sticky bottom-0 w-[100vw] desktop:-translate-x-1/6 backdrop-blur">
+      <div className="desktop:-translate-x-1/6 sticky bottom-0 z-50 w-[100vw] backdrop-blur">
         <Footer />
       </div>
     </div>
   );
 }
 
-export default Portfolio;
+export default Component;

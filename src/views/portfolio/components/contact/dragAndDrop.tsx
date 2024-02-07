@@ -4,13 +4,12 @@ import IcDnD from "assests/icon/ic-dnd.svg";
 import { Icon } from "@iconify/react";
 import { Button, Input, Tooltip } from "antd";
 import { deleteContact, editContact, addContact } from "api";
+import { useRecoilState } from "recoil";
+import { contactsData } from "store/portfolio";
 
-function Component({
-  dndItems,
-  setDndItems,
-  editingContact,
-  setEditingContact,
-}) {
+function Component() {
+  const [editingContact, setEditingContact] = useState({ children: [] });
+  const [dndItems, setDndItems] = useRecoilState(contactsData);
   const [warning, setWarning] = useState(false);
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -37,7 +36,7 @@ function Component({
     const reorderedItems = reorder(
       dndItems,
       result.source.index,
-      result.destination.index
+      result.destination.index,
     );
     setDndItems(reorderedItems);
   }
@@ -55,11 +54,17 @@ function Component({
     });
   }
   function setEditingContactBulk(contact, e) {
+    // const children = [...editingContact.children] ;
+    // const index = children.findIndex((e) => e.id === contact.id);
+    // const item = children.find((e) => e.id === contact.id);
+    // children[index] = {...item, infoDetail: e} ;  
+    // setEditingContact({ ...editingContact, children: children });
     const items = editingContact;
     const index = editingContact.children.findIndex((e) => e.id === contact.id);
     const item = editingContact.children.find((e) => e.id === contact.id);
     item.infoDetail = e;
     items.children[index] = item;
+    console.log(items, "items");
     setEditingContact({ ...items });
   }
 
@@ -85,13 +90,18 @@ function Component({
     };
     const res = await addContact(params);
     if (res) {
-      dndItems
-        .find((e) => e.nameContact === res.data[0].nameContact)
-        .children.push(res.data[0]);
+      const temp = dndItems.find(
+        (e) => e.nameContact === res.data[0].nameContact,
+      );
+      if (temp) {
+        temp.children.push(res.data[0]);
+      }
       setDndItems([...dndItems]);
     }
   }
 
+  useEffect(() => {console.log(editingContact);},[editingContact])
+  useEffect(() => {}, [  dndItems]);
   function editContactRender(contact, dndItem) {
     return (
       <div className="flex items-center justify-between space-x-2">
@@ -160,7 +170,7 @@ function Component({
                 await deleteContact(contact.id);
                 const items = editingContact;
                 items.children = editingContact.children.filter(
-                  (e) => e.id !== contact.id
+                  (e) => e.id !== contact.id,
                 );
                 setEditingContact({ ...items });
               } else {
@@ -191,7 +201,7 @@ function Component({
                     {...provided.dragHandleProps}
                     style={getItemStyle(
                       snapshot.isDragging,
-                      provided.draggableProps.style
+                      provided.draggableProps.style,
                     )}
                   >
                     {/* EDIT */}
@@ -199,7 +209,7 @@ function Component({
                       trigger="click"
                       placement="bottom"
                       title={
-                        <div className="contact-tooltip w-[95vw] lg:w-[50vw] pr-2 pl-7 max-h-[50vh] overflow-auto">
+                        <div className="contact-tooltip max-h-[50vh] w-[95vw] overflow-auto pl-7 pr-2 lg:w-[50vw]">
                           {editingContact.children ? (
                             <div className="mt-2 space-y-3">
                               {editingContact.children.map((f, j) => {
@@ -222,7 +232,7 @@ function Component({
 
                               <div className="mt-5">
                                 <div
-                                  className="border-white border-dashed rounded-md cursor-pointer border-[1px] w-max p-1"
+                                  className="w-max cursor-pointer rounded-md border-[1px] border-dashed border-white p-1"
                                   onClick={() => {
                                     if (
                                       editingContact.children[
@@ -236,7 +246,7 @@ function Component({
                                   }}
                                 >
                                   <Icon
-                                    className="w-[18px] h-[18px]"
+                                    className="h-[18px] w-[18px]"
                                     icon="tabler:plus"
                                   />
                                 </div>
@@ -275,12 +285,12 @@ function Component({
                           className="flex items-center justify-start w-full cursor-pointer h-9"
                           onClick={() => {
                             setEditingContact(
-                              dndItems.find((f) => f.id === e.id)
+                              dndItems.find((f) => f.id === e.id),
                             );
                           }}
                         >
                           <div
-                            className={`flex items-center justify-center w-10 h-[inherit] rounded-tl-md rounded-bl-md ${
+                            className={`flex h-[inherit] w-10 items-center justify-center rounded-bl-md rounded-tl-md ${
                               e.keyContact === "phone"
                                 ? "bg-[#01B634]"
                                 : "bg-white"
@@ -292,9 +302,9 @@ function Component({
                             />
                           </div>
                           <div
-                            className="flex items-center justify-start w-[calc(100%-40px)] h-[inherit] px-4 rounded-tr-md rounded-br-md"
+                            className="flex h-[inherit] w-[calc(100%-40px)] items-center justify-start rounded-br-md rounded-tr-md px-4"
                             style={{
-                              backgroundColor: `${e.backgoundColor}`,
+                              backgroundColor: `${e.backgroundColor}`,
                             }}
                           >
                             <span className="text-white truncate">

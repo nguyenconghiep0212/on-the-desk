@@ -4,7 +4,7 @@ import { Button, Collapse, CollapseProps, Input, Radio, Select } from "antd";
 import { Icon } from "@iconify/react";
 import { fetchFeedback, fetchPackageList } from "api";
 import { useRecoilState } from "recoil";
-import ParentFooter from "views/footer";  
+import ParentFooter from "components/footer";  
 import { useNavigate } from "react-router-dom";
 
 // ICON
@@ -599,7 +599,7 @@ function FAQs({ innerRef }) {
       key: "1",
       label: "Thẻ thông minh On the Desk là gì?",
       children: (
-        <div>
+        <div className="font-thin">
           Thẻ thông minh On the Desk là một loại thẻ điện tử có kích thước nhỏ
           tương tự như thẻ ngân hàng, được sử dụng để lưu trữ thông tin cá nhân
           và doanh nghiệp. Thẻ thông minh On the Desk có thể được sử dụng để
@@ -611,7 +611,7 @@ function FAQs({ innerRef }) {
       key: "2",
       label: "Hồ sơ trực tuyến On the Desk là gì?",
       children: (
-        <div>
+        <div className="font-thin">
           Hồ sơ trực tuyến On the Desk là một giao diện hồ sơ trên môi trường
           online chứa thông tin của cá nhân và doanh nghiệp mà ở đó cá nhân và
           doanh nghiệp được tự do thiết kế theo sở thích, kiểm soát thông tin
@@ -624,7 +624,7 @@ function FAQs({ innerRef }) {
       key: "3",
       label: "Bảo mật thông tin của On the Desk",
       children: (
-        <div>
+        <div className="font-thin">
           Tại On the Desk, chúng tôi hiểu rằng thông tin của bạn là quan trọng
           nhất. Chúng tôi không yêu cầu cung cấp thông tin đăng nhập các tài
           khoản mạng xã hội của bạn, các liên kết được gắn vào là những liên kết
@@ -637,7 +637,7 @@ function FAQs({ innerRef }) {
       key: "4",
       label: "On the Desk cung cấp những giải pháp nào?",
       children: (
-        <div>
+        <div className="font-thin">
           On the Desk cung cấp giải pháp toàn diện bao gồm thẻ thông minh, hồ sơ
           trực tuyến và dịch vụ phát triển giao diện nội dung cho từng cá nhân
           và doanh nghiệp.
@@ -649,7 +649,7 @@ function FAQs({ innerRef }) {
       label:
         "Thẻ thông minh và hồ sơ trực tuyến On the Desk có thể được cá nhân hóa như thế nào?",
       children: (
-        <div>
+        <div className="font-thin">
           Thẻ thông minh và hồ sơ trực tuyến On the Desk có thể được cá nhân hóa
           theo phong cách và nhu cầu của người dùng. Người dùng có thể lựa chọn
           thiết kế thẻ thông minh và hồ sơ trực tuyến phù hợp với sở thích và
@@ -662,7 +662,7 @@ function FAQs({ innerRef }) {
       label:
         "Thẻ thông minh và hồ sơ trực tuyến On the Desk có thể được sử dụng cho những mục đích nào?",
       children: (
-        <div>
+        <div className="font-thin">
           <div className="mb-2">
             Thẻ thông minh và hồ sơ trực tuyến On the Desk có thể được sử dụng
             cho nhiều mục đích khác nhau, bao gồm:
@@ -688,7 +688,7 @@ function FAQs({ innerRef }) {
       key: "7",
       label: "On the Desk có hỗ trợ khách hàng như thế nào?",
       children: (
-        <div>
+        <div className="font-thin">
           On the Desk cung cấp hỗ trợ khách hàng qua điện thoại, email và chat
           trực tiếp. Khách hàng có thể liên hệ với On the Desk để được hỗ trợ
           trong quá trình sử dụng sản phẩm và dịch vụ.
@@ -699,7 +699,7 @@ function FAQs({ innerRef }) {
       key: "8",
       label: "On the Desk bảo hành như thế nào?",
       children: (
-        <div>
+        <div className="font-thin">
           Chính sách bảo hành của On the Desk miễn phí đổi mới các sản phẩm bị
           lỗi từ phía nhà sản xuất (màu in không đúng với thiết kế, mã QR mờ,
           sai thông tin khách hàng, tính năng NFC lỗi). Các trường hợp sự cố

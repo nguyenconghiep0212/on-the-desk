@@ -21,7 +21,7 @@ function Component() {
   }, []);
   return (
     <div className="flex flex-col  px-3 py-[10px] rounded-2xl space-y-[18px] bg-primary-blue-dark-max">
-      <div className="text-sm font-semibold text-white">Chọn gói dịch vụ</div>
+      <div className="text-[15px] font-semibold text-white">Chọn gói dịch vụ</div>
 
       <div className="flex p-2 space-x-3 overflow-x-scroll ">
         {packages.map((item: any, index: number) => (
@@ -108,15 +108,15 @@ function Component() {
                 className={`${
                   selectedPackage.id !== item.id
                     ? "gradient_btn !text-white"
-                    : "inverted_btn !text-primary-blue-medium"
-                }`}
+                    : "inverted_btn !text-primary-blue-medium !bg-[#1e2530]"
+                } h-min`}
                 onClick={() => {
                   setSelectedPackage(item);
                 }}
               >
                 <div className="flex items-center space-x-2 ">
-                  <Icon icon="tabler:check" />
-                  <span className="font-semibold">
+                  <Icon className="w-[22px] h-[22px]" icon="tabler:check" />
+                  <span className="font-semibold text-[18px]">
                     {selectedPackage.id !== item.id ? "Chọn" : "Đang chọn"}
                   </span>
                 </div>

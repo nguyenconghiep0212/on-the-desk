@@ -10,17 +10,17 @@ import "./css/index.scss";
 import { CookiesProvider } from "react-cookie";
 
 // COMPONENT
-import Gallery from "./routes/gallery";
-import Landing from "./routes/landing";
-import Portfolio from "./routes/portfolio";
-import ErrorPage from "./routes/error-page";
-import Login from "./routes/login";
-import Admin from "./routes/admin";
-import Middleware from "./routes/middleware";
-import AddCard from "./routes/add-card";
-import AddGallery from "./routes/add-gallery";
-import Profile from "./routes/profile";
-import PaymentCard from "./routes/payment-card";
+import Gallery from "./routes/gallery.tsx";
+import Landing from "./routes/landing.tsx";
+import Portfolio from "./routes/portfolio.tsx";
+import ErrorPage from "./routes/error-page.tsx";
+import Login from "./routes/login.tsx";
+import Admin from "./routes/admin.tsx";
+import Middleware from "./routes/middleware.tsx";
+import AddCard from "./routes/add-card.tsx";
+import AddGallery from "./routes/add-gallery.tsx";
+import Profile from "./routes/profile.tsx";
+import PaymentCard from "./routes/payment-card.tsx";
 import { Helmet } from "react-helmet";
 // STORE
 import { RecoilRoot } from "recoil";

@@ -1,13 +1,21 @@
 import { getComponentFromPackage } from "api";
 import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { selectedPackage as selectedPackageAtom } from "store/addCard";
-import DynamicComponent from "./dynamicComponents";
 import { COMPONENT } from "interface/component";
-import Logo from "assests/landing/logo.svg";
-import { Button, Input } from "antd";
-import IcCamera from "assests/icon/ic-camera-blue.svg";
+import { Button, Input, Modal } from "antd";
 import { Icon } from "@iconify/react";
+
+// ASSETS
+import Preview_Background from "assests/portfolio/preview_background.png";
+import Preview_Avatar from "assests/portfolio/preview_avatar.png";
+import Logo from "assests/landing/logo.svg";
+import "./style.scss";
+
+// STORE
+import { selectedPackage as selectedPackageAtom } from "store/addCard";
+
+// COMPONENT
+import DynamicComponent from "./dynamicComponents.tsx";
 
 function Component() {
   const [selectedPackage] = useRecoilState(selectedPackageAtom);
@@ -59,56 +67,42 @@ function Component() {
       <div>
         <div
           id="background-cover"
-          className="relative flex items-center justify-center w-full opacity-50 aspect-video"
+          className="relative flex flex-col items-center justify-center w-full aspect-video "
         >
-          <img src={Logo} alt="Logo" className="w-1/4" />
           <div
-            className="absolute flex items-center justify-center w-6 h-6 rounded cursor-pointer bottom-6 right-5"
+            className="absolute top-0 left-0 w-full h-full opacity-20"
+            style={{
+              backgroundImage: `url('${Preview_Background}')`,
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+            }}
+          />
+          <div
+            className="absolute top-0 left-0 w-full h-full"
             style={{
               background:
-                "linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.08) 100%)",
+                "linear-gradient(180deg, rgba(24, 25, 26, 0.00) 80.05%, #18191A 100%)",
             }}
-          >
-            <img
-              src={IcCamera}
-              alt="IcCamera"
-              className="text-primary-blue-dark "
-            />
+          ></div>
+          <img src={Logo} alt="Logo" className="z-10 h-[105px] w-[105px]" />
+          <div className="z-10 mt-[14px] text-lg text-primary-blue-light">
+            On the Desk Cover
           </div>
         </div>
         <div className="flex w-full -mt-5">
           <div className="relative">
-            <img src={Logo} alt="Logo" className="w-20 h-20" />
-            <div
-              className="absolute bottom-0 right-0 flex items-center justify-center w-6 h-6 rounded cursor-pointer"
-              style={{
-                background:
-                  "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",
-              }}
-            >
-              <img
-                src={IcCamera}
-                alt="IcCamera"
-                className="text-primary-blue-dark "
-              />
-            </div>
+            <img src={Preview_Avatar} alt="Logo" className="w-20 h-20" />
           </div>
-          <div className="flex flex-col justify-end p-3">
-            <Input
-              className="text-[18px] font-bold px-0"
-              bordered={false}
-              value={userForm.name}
-            />
-            <Input
-              className="text-[12px] font-medium px-0"
-              bordered={false}
-              value={userForm.description}
-            />
+          <div className="flex flex-col justify-end p-3 text-white">
+            <div className="px-0 text-[18px] font-bold ">{userForm.name}</div>
+            <div className="px-0 text-[12px] font-medium">
+              {userForm.description}
+            </div>
           </div>
         </div>
         <div className="mt-6 space-y-6">
           {packageComponents.map((item, index) => (
-            <div key={index} className="rounded-2xl w-full bg-[#1E2530]">
+            <div key={index} className="w-full rounded-2xl bg-[#1E2530]">
               <DynamicComponent is={item.key} alias={item.config.alias} />
             </div>
           ))}
@@ -119,8 +113,7 @@ function Component() {
 
   function Contact() {
     const { TextArea } = Input;
-
-    return (
+    const slot = (
       <div className="space-y-3">
         <Input
           className="!shadow-none"
@@ -150,16 +143,16 @@ function Component() {
             contactForm.note = e.target.value;
           }}
         />
-        <div className=" text-white font-semibold text-[18px] px-[12px] rounded-lg bg-primary-blue-dark-max py-[6px] flex justify-center items-center">
+        <div className=" flex items-center justify-center rounded-lg bg-[#151b23] px-[12px] py-[6px] text-[18px] font-semibold text-white">
           Gói {contactForm.selectedPackage.name}
         </div>
         <div className="grid grid-cols-2 gap-3">
-          <Button className="flex items-center justify-center !text-primary-blue-medium text-[18px] font-semibold !shadow-none w-full">
+          <Button className="flex w-full items-center justify-center text-[18px] font-semibold !text-primary-blue-medium !shadow-none">
             Gửi ngay
           </Button>
-          <Button className="!shadow-none w-full flex items-center justify-center text-[18px] font-semibold gradient_btn space-x-[6px]">
+          <Button className="gradient_btn flex w-full items-center justify-center space-x-[6px] text-[18px] font-semibold !shadow-none">
             <Icon
-              className="w-[22px] h-[22px]"
+              className="h-[22px] w-[22px]"
               icon="material-symbols:call-outline"
             />
             Liên hệ
@@ -167,8 +160,22 @@ function Component() {
         </div>
       </div>
     );
+    return (
+      <div
+        className="rounded-2xl p-[18px]"
+        style={{
+          background: "rgba(12, 13, 13, 0.5)",
+        }}
+      >
+        {slot}
+      </div>
+    );
   }
-  return <div>{showContact ? Contact() : Preview()}</div>;
+  return (
+    <div className="flex flex-col space-y-6">
+      {showContact ? <Contact /> : <Preview />}
+    </div>
+  );
 }
 
 export default Component;

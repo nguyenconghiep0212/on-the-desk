@@ -1,29 +1,12 @@
-.modalFullScreen {
-  top: 0px;
-  width: 100% !important;
-  max-width: 100%;
-  margin: 0px !important;
-  height: 100%;
-  padding: 0px;
 
-  .ant-modal-content {
-    height: 100%;
-    padding: 0px;
-    background: transparent;
-    border-radius: 0 !important;
-
-
-    .ant-modal-body {
-      height: 100%;
-    }
-  }
-
-  .ant-modal-close {
-    color: whitesmoke;
-  }
-}
 
 .background-upload .ant-upload-list,
 .logo-upload .ant-upload-list {
   display: none;
+}
+
+.card-flip.swiper-slide img {
+  display: block;
+  width: initial;
+  height: initial;
 }

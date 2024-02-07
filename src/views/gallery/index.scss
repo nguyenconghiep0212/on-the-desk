@@ -1,27 +1,3 @@
-.modalFullScreen {
-  top: 0px;
-  width: 100% !important;
-  max-width: 100%;
-  margin: 0px !important;
-  height: 100%;
-  padding: 0px;
-
-  .ant-modal-content {
-    height: 100%;
-    padding: 0px;
-    background: transparent;
-    border-radius: 0 !important;
-
-    .ant-modal-body {
-      height: 100%;
-    }
-  }
-
-  .ant-modal-close {
-    color: whitesmoke;
-  }
-}
-
 .upload_new_gallery_album {
   .ant-upload.ant-upload-select {
     width: 100%
@@ -31,10 +7,12 @@
 .topic-select .ant-select-selection-search {
   inset-inline-start: 28px !important
 }
+
 .topic-select .ant-select-selection-item {
   inset-inline-start: 28px !important
 }
-.ant-empty.ant-empty-normal.ant-empty-small{
+
+.ant-empty.ant-empty-normal.ant-empty-small {
   margin-block: 0px;
   padding: 8px
 }

@@ -18,6 +18,13 @@ export function createCard(params: any) {
   });
 }
 
+export function editCard(params: any) {
+  return http({
+    method: "post",
+    url: `/api/card/editcard`,
+    data: params,
+  });
+}
 export function deleteCard(id: string) {
   return http({
     method: "delete",

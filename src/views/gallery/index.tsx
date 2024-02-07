@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { fullScreenVisible } from "store/gallery";
+import { fullScreenVisible } from "../../store/gallery.ts";
 import "./index.scss";
 
 // COMPONENT
@@ -9,23 +9,23 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { Icon } from "@iconify/react";
 import { Modal } from "antd";
 import { LazyLoadImage } from "react-lazy-load-image-component";
-import FullScreenImg from "./fullScreen";
-import NavigateMenu from "../navigateMenu/index";
+import FullScreenImg from "./fullScreen.tsx";
+import NavigateMenu from "../../components/navigateMenu/index.tsx";
 // import Feedback from "../portfolio/components/feedback/index";
 import CustomerAvatarPlaceholder from "assests/portfolio/customer_avatar_placeholder.jpg";
 import GalleryPlaceholder from "assests/portfolio/gallery_thumbnail_placeholder.svg";
-import Footer from "views/footer";
+import Footer from "../../components/footer/index.tsx";
 
 // INTERFACE
-import { GALLERY_CUSTOMER } from "interface/gallery";
-import { CUSTOMER } from "interface/customer";
-import { USER_INFO } from "interface/user";
+import { GALLERY_CUSTOMER } from "../../interface/gallery.ts";
+import { CUSTOMER } from "../../interface/customer.ts";
+import { USER_INFO } from "../../interface/user.ts";
 
 // API
 import {
   getUserProfile,
   getGalleryByCustomerShortcut,
-  getCustomerById,
+  getCustomerByShortcut,
 } from "api";
 import { useCookies } from "react-cookie";
 
@@ -34,7 +34,6 @@ function Component() {
   const navigate = useNavigate();
   const [cookies] = useCookies(["current-user-shortcut"]);
   const [visible, setVisible] = useRecoilState(fullScreenVisible);
-
   const [galleries, setGalleries] = useState<GALLERY_CUSTOMER[]>([
     {
       customerShortcut: "",
@@ -81,7 +80,7 @@ function Component() {
     {
       key: "account",
       label: "Tài khoản",
-      icon: "line-md:account",
+      icon: "bx:user",
       onClick() {
         navigate(`/${cookies["current-user-shortcut"]}/profile`);
       },
@@ -107,7 +106,7 @@ function Component() {
     setCurrentImg("");
   }
   function handleBack() {
-    return navigate(-1);
+    return navigate(`/${cookies["current-user-shortcut"]}`);
   }
 
   // GỌI API
@@ -124,8 +123,9 @@ function Component() {
   async function handleGetCustomerByShortcut() {
     if (routeParams.customerShortcut) {
       try {
-        const res = await getCustomerById(routeParams.customerShortcut);
+        const res = await getCustomerByShortcut(routeParams.customerShortcut);
         if (res) {
+          console.log("res", res);
           setCustomerInfo(res.data);
         }
       } catch (error) {}
@@ -135,7 +135,7 @@ function Component() {
     if (routeParams.customerShortcut) {
       try {
         const res = await getGalleryByCustomerShortcut(
-          routeParams.customerShortcut
+          routeParams.customerShortcut,
         );
         if (res) {
           res.data.gals.forEach((e) => {
@@ -164,7 +164,7 @@ function Component() {
       <div>
         {galleries.map((e, index) => (
           <div key={index} className="my-2">
-            <div className="text-[#B6B6B6] font-bold text-base mb-4">
+            <div className="mb-4 text-base font-bold text-[#B6B6B6]">
               {e.galleryName}
             </div>
             <ResponsiveMasonry
@@ -196,16 +196,16 @@ function Component() {
     );
   }
   return (
-    <div className="flex flex-col items-center w-full h-[max-content] ">
-      <div className="relative w-full lg:!w-3/4 <3xs:!w-3/4 h-full pb-3">
+    <div className="flex h-[max-content] w-full flex-col items-center ">
+      <div className="relative h-full w-full pb-3 lg:!w-3/4 <3xs:!w-3/4">
         {/* NAVIGATE USER */}
         <Icon
-          className="absolute top-[33px] z-10 cursor-pointer text-lg 3xs:left-3  text-white"
+          className="absolute top-[33px] z-10 cursor-pointer text-lg text-white  3xs:left-3"
           icon="ep:back"
           onClick={handleBack}
         />
         <div
-          className="absolute top-[33px] z-10  right-5 rounded-full"
+          className="absolute right-5 top-[33px]  z-10 rounded-full"
           style={{
             background:
               "linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%)",
@@ -215,58 +215,59 @@ function Component() {
         </div>
 
         {/* BACKGROUND COVER */}
-        <div className="relative w-full <xs:!h-[320px] h-[40vh] ">
+        <div className="relative h-[40vh] w-full <xs:!h-[320px] ">
+          {customerInfo.customerCover ? (
+            <div
+              className="relative z-[5] h-full sm:w-[300%] sm:-translate-x-1/2"
+              style={{
+                backgroundImage: `url('${
+                  process.env.REACT_APP_BASE_IMG + customerInfo.customerCover
+                }')`,
+                WebkitFilter: `blur(24px)`,
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                boxShadow: "inset 0px -70px 35px -25px #18191A",
+              }}
+            />
+          ) : (
+            <></>
+          )}
           <div
-            className="sm:w-[300%] sm:-translate-x-1/2 h-full z-[5] relative "
+            className={`${
+              customerInfo.customerCover
+                ? ""
+                : "flex items-center justify-center bg-[#f0f0f0] sm:w-[300%]  "
+            } absolute left-1/2 top-0 z-[5] h-full w-full -translate-x-1/2`}
             style={{
               backgroundImage: `url('${
-                galleries[0].galleryThumb
-                  ? galleries[0].galleryThumb.includes(
-                      process.env.REACT_APP_BASE_IMG
-                    )
-                    ? galleries[0].galleryThumb
-                    : process.env.REACT_APP_BASE_IMG + galleries[0].galleryThumb
-                  : userInfo.backgrounds.includes(
-                      process.env.REACT_APP_BASE_IMG
-                    )
-                  ? userInfo.backgrounds
-                  : process.env.REACT_APP_BASE_IMG + userInfo.backgrounds
-              }')`,
-              WebkitFilter: `blur(24px)`,
-              backgroundPosition: "center",
-              backgroundSize: "cover",
-              boxShadow: "inset 0px -70px 35px -25px #18191A",
-            }}
-          />
-          <div
-            className="absolute z-[5] top-0 w-full h-full -translate-x-1/2 left-1/2"
-            style={{
-              backgroundImage: `url('${
-                galleries[0].galleryThumb
-                  ? galleries[0].galleryThumb.includes(
-                      process.env.REACT_APP_BASE_IMG
-                    )
-                    ? galleries[0].galleryThumb
-                    : process.env.REACT_APP_BASE_IMG + galleries[0].galleryThumb
-                  : userInfo.backgrounds.includes(
-                      process.env.REACT_APP_BASE_IMG
-                    )
-                  ? userInfo.backgrounds
-                  : process.env.REACT_APP_BASE_IMG + userInfo.backgrounds
+                customerInfo.customerCover
+                  ? process.env.REACT_APP_BASE_IMG + customerInfo.customerCover
+                  : null
               }')`,
               backgroundPosition: "center",
               backgroundSize: "cover",
               boxShadow: "inset 0px -70px 35px -40px #18191A",
             }}
-          />
+          >
+            {customerInfo.customerCover ? (
+              <></>
+            ) : (
+              <div>
+                <Icon
+                  className="h-[20vh] w-full text-[#bfbfbf]"
+                  icon="bi:image"
+                />
+              </div>
+            )}
+          </div>
         </div>
 
         {/* AVATAR */}
-        <div className="relative bg-[#18191A] z-10  sm:w-[300%] sm:overflow-x-clip -translate-x-1/2">
+        <div className="relative z-10 -translate-x-1/2  bg-[#18191A] sm:w-[300%] sm:overflow-x-clip">
           {/* CUSTOMER */}
           <div className="flex items-center space-x-2 translate-x-1/2">
             <div
-              className="relative  3xs:w-20 3xs:h-20 3xs:ml-3 <3xs:w-14 <3xs:h-14 <3xs:!min-w-[3.5rem]  mt-[-25px] rounded-full"
+              className="relative  mt-[-25px] rounded-full <3xs:h-14 <3xs:w-14 <3xs:!min-w-[3.5rem] 3xs:ml-3  3xs:h-20 3xs:w-20"
               style={{
                 backgroundImage: `url(${
                   customerInfo.customerAvatar
@@ -280,7 +281,7 @@ function Component() {
             ></div>
 
             <div className="flex flex-col">
-              <span className="text-base <3xs:text-sm font-semibold <3xs:truncate text-primary-blue-medium">
+              <span className="text-base font-semibold text-primary-blue-medium <3xs:truncate <3xs:text-sm">
                 {customerInfo.customerName || "Anonymous"}
               </span>
               <span className="text-sm font-medium text-primary-blue-medium">
@@ -290,18 +291,18 @@ function Component() {
           </div>
 
           {/* USER */}
-          <div className="translate-x-1/2 <3xs:mr-3 <3xs:-mt-2 ">
-            <div className="w-10 <3xs:w-8 h-6 text-white border-r 3xs:ml-3  border-primary-blue-medium" />
+          <div className="translate-x-1/2 <3xs:-mt-2 <3xs:mr-3 ">
+            <div className="h-6 w-10 border-r border-primary-blue-medium text-white <3xs:w-8  3xs:ml-3" />
             <div className="flex space-x-2">
               <div
-                className="w-20 h-20 <3xs:w-16 <3xs:min-w-[4rem] <3xs:h-16 -mt-3 scale-75 border-2 rounded-full 3xs:ml-3 border-primary-blue-medium"
+                className="-mt-3 h-20 w-20 scale-75 rounded-full border-2 border-primary-blue-medium <3xs:h-16 <3xs:w-16 <3xs:min-w-[4rem] 3xs:ml-3"
                 style={{
                   backgroundImage: `url(${userInfo.avatar})`,
                   backgroundPosition: "center",
                   backgroundSize: "cover",
                 }}
               ></div>
-              <span className="mt-4 text-base <3xs:text-sm font-semibold text-white">
+              <span className="mt-4 text-base font-semibold text-white <3xs:text-sm">
                 {userInfo.name}
               </span>
             </div>
@@ -319,16 +320,16 @@ function Component() {
 
       {userInfo.isOwner ? (
         <div
-          className="sticky ml-[auto] w-[max-content] bottom-[4.5rem] z-50"
+          className="sticky bottom-[4.5rem] z-50 ml-[auto] w-[max-content]"
           onClick={() => {
             navigate(
-              `/${cookies["current-user-shortcut"]}/addGallery/${customerInfo.shortcut}`
+              `/${cookies["current-user-shortcut"]}/addGallery/${customerInfo.shortcut}`,
             );
           }}
         >
           <div
             style={{ boxShadow: "0px 0px 12px 0px rgba(0, 0, 0, 0.60)" }}
-            className="bg-[#1E2530] mr-5 cursor-pointer rounded-full flex justify-center items-center w-[50px] h-[50px] "
+            className="mr-5 flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full bg-[#1E2530] "
           >
             <Icon
               className="text-lg text-primary-blue-medium"
@@ -340,7 +341,7 @@ function Component() {
         <></>
       )}
 
-      <div className="z-50 sticky bottom-0 w-[100vw] desktop:-translate-x-1/6 backdrop-blur">
+      <div className="desktop:-translate-x-1/6 sticky bottom-0 z-50 w-[100vw] backdrop-blur">
         <Footer />
       </div>
       <Modal

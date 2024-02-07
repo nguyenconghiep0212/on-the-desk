@@ -1,5 +1,5 @@
 import { COMPONENT } from "interface/component";
-import { atom, selector } from "recoil";
+import { atom, selector, selectorFamily } from "recoil";
 
 export const card = atom({
   key: "editing_card", // unique ID (with respect to other atoms/selectors)
@@ -8,11 +8,13 @@ export const card = atom({
     logo: "",
     enableLogo: true,
     frontText: "",
+    frontTextColor: "",
+    qrUrl: "",
     enableFrontText: true,
     backText: "",
     backgroundColor: "",
     backgroundImage: "",
-    fontFamily: "",
+    fontFamily: "Montserrat",
   }, // default value (aka initial value)
 });
 
@@ -32,3 +34,9 @@ export const selectedPackage= atom<COMPONENT>({
     index: 0
   }
 })
+
+
+export const presetCards = atom({
+  key:'presetCards',
+  default:[]
+}) 

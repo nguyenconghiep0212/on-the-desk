@@ -9,6 +9,8 @@ import IcCamera from "assests/icon/ic-camera-blue.svg";
 import { Input, Upload, UploadProps } from "antd";
 import Logo from "assests/landing/logo.svg";
 import { uploadAvatar, uploadCover } from "api/index";
+import { useRecoilState } from "recoil";
+import { portfolioEdit, userInfoPortfolio } from "store/portfolio";
 
 function SwiperMobile({
   currentImg,
@@ -41,7 +43,7 @@ function SwiperMobile({
       {isEdit && (
         <Upload
           {...props}
-          className="absolute z-20 bottom-6 upload-hidden right-5"
+          className="absolute z-20 upload-hidden bottom-6 right-5"
         >
           <div
             className="flex items-center justify-center w-6 h-6 rounded cursor-pointer "
@@ -68,7 +70,7 @@ function SwiperMobile({
           }}
         />
       )}
-      <div className="z-1 h-full w-full lg:!w-3/4 <3xs:!w-3/4 !absolute top-1/2 -translate-y-1/2">
+      <div className="z-1 !absolute top-1/2 h-full w-full -translate-y-1/2 lg:!w-3/4 <3xs:!w-3/4">
         <Swiper
           className=""
           slidesPerView={1}
@@ -93,7 +95,7 @@ function SwiperMobile({
               />
             ) : (
               <div className="flex items-center justify-center h-full opacity-50">
-                <img src={Logo} alt="Logo" className="!w-min !h-1/2" />
+                <img src={Logo} alt="Logo" className="!h-1/2 !w-min" />
               </div>
             )}
           </SwiperSlide>
@@ -154,7 +156,7 @@ function SwiperDesk({
 
       {userInfo.backgrounds && (
         <div
-          className="sm:w-[300%] sm:-translate-x-1/2 h-full  "
+          className="h-full sm:w-[300%] sm:-translate-x-1/2  "
           style={{
             backgroundImage: `url(${currentImg})`,
             WebkitFilter: `blur(24px)`,
@@ -198,9 +200,11 @@ function SwiperDesk({
   );
 }
 
-function Header({ userInfo, setUserInfo, isEdit }) {
+function Component() {
+  const [isEdit] = useRecoilState(portfolioEdit);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoPortfolio);
   const [currentImg, setCurentImg] = useState(
-    userInfo.backgrounds ? userInfo.backgrounds[0] : Logo
+    userInfo.backgrounds ? userInfo.backgrounds[0] : Logo,
   );
   const props: UploadProps = {
     name: "file",
@@ -229,7 +233,7 @@ function Header({ userInfo, setUserInfo, isEdit }) {
     setCurentImg(userInfo.backgrounds ? userInfo.backgrounds[0] : Logo);
   }, [userInfo.backgrounds]);
   return (
-    <div className="relative flex justify-center <xs:!h-[320px] h-[40vh]">
+    <div className="relative flex h-[40vh] justify-center <xs:!h-[320px]">
       <div className="flex flex-col w-full ">
         {useCheckMobileScreen()
           ? SwiperMobile({
@@ -247,7 +251,7 @@ function Header({ userInfo, setUserInfo, isEdit }) {
               isEdit,
             })}
 
-        <div className="flex items-center mx-2 <3xs:flex <3xs:flex-col <3xs:items-center -mt-8 desktop:-mt-10 z-10">
+        <div className="z-10 mx-2 -mt-8 flex items-center <3xs:flex <3xs:flex-col <3xs:items-center desktop:-mt-10">
           <div className="relative">
             <div
               style={{
@@ -255,7 +259,7 @@ function Header({ userInfo, setUserInfo, isEdit }) {
                 backgroundPosition: "center",
                 backgroundSize: "cover",
               }}
-              className="z-10 w-24 h-24 rounded-full desktop:w-32 desktop:h-32 "
+              className="z-10 w-24 h-24 rounded-full desktop:h-32 desktop:w-32 "
             />
             {isEdit && (
               <Upload
@@ -279,20 +283,20 @@ function Header({ userInfo, setUserInfo, isEdit }) {
             )}
           </div>
 
-          <div className="flex  flex-col <3xs:items-center <3xs:w-full <3xs:mt-2 mt-8 ml-4 space-y-1 ">
+          <div className="ml-4  mt-8 flex flex-col space-y-1 <3xs:mt-2 <3xs:w-full <3xs:items-center ">
             {isEdit ? (
               <div>
                 <Input
                   value={userInfo.name}
                   bordered={false}
-                  className="px-0 <xs:text-base text-lg username-desktop"
+                  className="username-desktop px-0 text-lg <xs:text-base"
                   onChange={(e) => {
                     setUserInfo({ ...userInfo, name: e.target.value });
                   }}
                 />
               </div>
             ) : (
-              <span className="<xs:text-base text-lg username-desktop">
+              <span className="username-desktop text-lg <xs:text-base">
                 {userInfo.name}
               </span>
             )}
@@ -301,14 +305,14 @@ function Header({ userInfo, setUserInfo, isEdit }) {
                 <Input
                   value={userInfo.description}
                   bordered={false}
-                  className="px-0 text-[12px] font-thin description-desktop"
+                  className="description-desktop px-0 text-[12px] font-thin"
                   onChange={(e) => {
                     setUserInfo({ ...userInfo, description: e.target.value });
                   }}
                 />
               </div>
             ) : (
-              <span className="text-[12px] font-thin <3xs:text-center description-desktop">
+              <span className="description-desktop text-[12px] font-thin <3xs:text-center">
                 {userInfo.description}
               </span>
             )}
@@ -319,4 +323,4 @@ function Header({ userInfo, setUserInfo, isEdit }) {
   );
 }
 
-export default Header;
+export default Component;

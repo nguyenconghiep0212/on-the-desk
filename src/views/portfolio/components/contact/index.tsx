@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from "react";
 import SaveToContact from "assests/portfolio/save_to_contact.svg";
-import EditDnD from "./dragAndDrop";
-import SelectContact from "./selectContact.tsx";
 import { Icon } from "@iconify/react";
 import { getBase64FromUrl } from "helper/convertToBase64";
 import { generateBankQR } from "api";
 import { Button, Input, Modal, Tooltip, message } from "antd";
 import { GEN_QR } from "interface/card";
 import IcAccount from "assests/icon/ic-account-blue.svg";
-import Banner from "assests/landing/footer_banner.svg";
 import "./style.scss";
-import downloadjs from "downloadjs";
-import html2canvas from "html2canvas";
+
+// COMPONENT
+import DownloadQR from "components/qr";
+import EditDnD from "./dragAndDrop";
+import SelectContact from "./selectContact.tsx";
+import Contact from "components/contact/index.tsx";
+import { handleCaptureClick, handleShare } from "helper/downloadDivAsImg.ts";
+import { useRecoilState } from "recoil";
+import {
+  contactsData,
+  portfolioEdit,
+  userInfoPortfolio,
+} from "store/portfolio.ts";
 
 enum QR_TEMPLATE {
   COMPACT2 = "compact2",
@@ -20,27 +28,15 @@ enum QR_TEMPLATE {
   FULL = "print",
 }
 
-function Contact({ data, userInfo, isEdit }) {
+function Component({ data }) {
+  const [isEdit] = useRecoilState(portfolioEdit);
   const [messageApi, contextHolder] = message.useMessage();
+  const [userInfo] = useRecoilState(userInfoPortfolio);
   const [bankList, setBankList] = useState([]);
   const [viewTransferInfo, setViewTransferInfo] = useState(false);
 
   // DnD State
-  const [dndItems, setDndItems] = useState(() => {
-    const ar: any = [];
-    data.map((e) => {
-      if (ar.map((f: any) => f.nameContact).includes(e.nameContact)) {
-        const obj: any = ar.find((f: any) => f.nameContact === e.nameContact);
-        obj.children.push({ ...e });
-      } else {
-        const temp = { ...e };
-        temp.children = [e];
-        ar.push(temp);
-      }
-    });
-    return ar;
-  });
-  const [editingContact, setEditingContact] = useState({});
+  const [dndItems, setDndItems] = useRecoilState(contactsData);
 
   const [QRbase64, setQRbase64] = useState({
     base64: "",
@@ -52,11 +48,26 @@ function Contact({ data, userInfo, isEdit }) {
   });
   const [visibleQR, setVisibleQR] = useState(false);
 
+  function getContactData() {
+    const ar: any = [];
+    data?.forEach((e) => {
+      if (ar.map((f: any) => f.nameContact).includes(e.nameContact)) {
+        const obj: any = ar.find((f: any) => f.nameContact === e.nameContact);
+        obj.children.push({ ...e });
+      } else {
+        const temp = { ...e };
+        temp.children = [e];
+        ar.push(temp);
+      }
+    });
+    setDndItems(ar);
+  }
+
   async function generateVCF() {
     const vcard = {
       str_vcard: "BEGIN:VCARD\nVERSION:3.0\n",
       str_photo: `\nPHOTO;TYPE=JPEG;ENCODING=b:[${getBase64FromUrl(
-        userInfo.avatar
+        userInfo.avatar,
       )}]`,
       str_fullname: `\nFN:${userInfo.name}`,
       str_phone_work:
@@ -102,7 +113,7 @@ function Contact({ data, userInfo, isEdit }) {
     vcard.save();
     let download = (content, filename) => {
       let uriContent = URL.createObjectURL(
-        new Blob([content], { type: "text/plain" })
+        new Blob([content], { type: "text/plain" }),
       );
       let link = document.createElement("a");
       link.setAttribute("href", uriContent);
@@ -119,7 +130,7 @@ function Contact({ data, userInfo, isEdit }) {
           ? `tel:${data.infoDetail}`
           : data.infoDetail,
         "_blank",
-        "noopener,noreferrer"
+        "noopener,noreferrer",
       );
     } else {
       message.error("Đường dẫn không tồn tại");
@@ -164,16 +175,14 @@ function Contact({ data, userInfo, isEdit }) {
       setQRbase64({ ...QRbase64, base64: res.data.qrDataURL });
     }
   }
-  async function handleCaptureClick() {
-    const downloadEl = document.querySelector<HTMLElement>(".DownloadQR");
-    if (!downloadEl) return;
-    const canvas = await html2canvas(downloadEl, { backgroundColor: null });
-    const dataURL = canvas.toDataURL("image/png");
-    downloadjs(dataURL, "OnTheDeskQR.png", "image/png");
-  }
 
-  useEffect(() => {}, [editingContact, QRbase64, dndItems, bankList]);
-  function saveContact() {
+  useEffect(() => {
+    getContactData();
+  }, []);
+  useEffect(() => {
+    console.log(dndItems.length);
+  }, [QRbase64, dndItems, bankList]);
+  function SaveContact() {
     return (
       <div
         className="flex items-center justify-start w-full cursor-pointer h-9"
@@ -181,14 +190,14 @@ function Contact({ data, userInfo, isEdit }) {
           generateVCF();
         }}
       >
-        <div className="bg-[#d6d6cc] flex items-center justify-center overflow-clip w-10 h-[inherit] rounded-tl-md rounded-bl-md">
+        <div className="flex h-[inherit] w-10 items-center justify-center overflow-clip rounded-bl-md rounded-tl-md bg-[#d6d6cc]">
           <img
             src={SaveToContact}
             alt="platform logo"
-            className="w-full rounded-tl-md rounded-bl-md"
+            className="w-full rounded-bl-md rounded-tl-md"
           />
         </div>
-        <div className="flex bg-[#908D84] items-center justify-start w-[calc(100%-40px)] h-[inherit] px-4 rounded-tr-md rounded-br-md">
+        <div className="flex h-[inherit] w-[calc(100%-40px)] items-center justify-start rounded-br-md rounded-tr-md bg-[#908D84] px-4">
           <span className="text-white truncate">Lưu danh bạ</span>
         </div>
       </div>
@@ -206,14 +215,14 @@ function Contact({ data, userInfo, isEdit }) {
             setVisibleQR(false);
           }}
         >
-          <div className="relative flex items-center justify-center h-full space-y-[18px] backdrop-blur">
+          <div className="relative flex h-full items-center justify-center space-y-[18px] backdrop-blur">
             <div
-              className="absolute cursor-pointer top-5 right-5"
+              className="absolute cursor-pointer right-5 top-5"
               onClick={() => setVisibleQR(false)}
             >
               <Icon className="w-5 h-5 text-white" icon="tabler:x" />
             </div>
-            <div className="flex flex-col mx-6 w-max space-y-[18px]">
+            <div className="mx-6 flex w-max flex-col space-y-[18px]">
               <img src={QRbase64.base64} alt="QR" className="rounded-md" />
               <div className="space-y-3">
                 <div className="flex justify-start space-x-2">
@@ -268,7 +277,7 @@ function Contact({ data, userInfo, isEdit }) {
                             className="cursor-pointer"
                             onClick={() => {
                               navigator.clipboard.writeText(
-                                QRbase64.transferDescription
+                                QRbase64.transferDescription,
                               );
                             }}
                           >
@@ -315,7 +324,7 @@ function Contact({ data, userInfo, isEdit }) {
                             className="cursor-pointer"
                             onClick={() => {
                               navigator.clipboard.writeText(
-                                QRbase64.transferAmount
+                                QRbase64.transferAmount,
                               );
                             }}
                           >
@@ -327,7 +336,7 @@ function Contact({ data, userInfo, isEdit }) {
                         </div>
                         <div className="flex flex-col items-center space-y-[18px]">
                           <div
-                            className="before:bg-[#303A49] bg-[#ffffff2f] font-semibold text-white py-[6px] px-[9px] rounded-lg border-white border-[1px] border-solid cursor-pointer"
+                            className="cursor-pointer rounded-lg border-[1px] border-solid border-white bg-[#ffffff2f] px-[9px] py-[6px] font-semibold text-white before:bg-[#303A49]"
                             onClick={() => {
                               genTransferQR();
                             }}
@@ -335,7 +344,7 @@ function Contact({ data, userInfo, isEdit }) {
                             Tạo QR tự động điền
                           </div>
                           <div
-                            className="flex items-center space-x-1 font-semibold text-primary-blue-medium py-[6px] px-[9px] bg-[#1E2530] rounded-lg"
+                            className="flex items-center space-x-1 rounded-lg bg-[#1E2530] px-[9px] py-[6px] font-semibold text-primary-blue-medium"
                             style={{
                               boxShadow:
                                 "2px 2px 2px 0px rgba(0, 25, 64, 0.50) inset, -2px -2px 2px 0px rgba(60, 173, 255, 0.25) inset",
@@ -366,96 +375,33 @@ function Contact({ data, userInfo, isEdit }) {
 
               <div className="flex justify-center space-x-3">
                 <Button
-                  className="!shadow-none bg-[#ffffff4d] !border !border-solid !border-white"
+                  className="!border !border-solid !border-white bg-[#ffffff4d] !shadow-none"
                   onClick={() => {
-                    handleCaptureClick();
+                    handleCaptureClick({
+                      selector: ".DownloadQR",
+                      fileName: "OnTheDeskQR.png",
+                    });
                   }}
                 >
-                  <Icon className="w-[18px] h-[18px]" icon="tabler:download" />
+                  <Icon className="h-[18px] w-[18px]" icon="tabler:download" />
                 </Button>
-                <Button className="!shadow-none bg-[#ffffff4d] !border !border-solid !border-white">
-                  <Icon className="w-[18px] h-[18px]" icon="uil:share" />
+                <Button
+                  className="!border !border-solid !border-white bg-[#ffffff4d] !shadow-none"
+                  onClick={() => {
+                    handleShare(".DownloadQR");
+                  }}
+                >
+                  <Icon className="h-[18px] w-[18px]" icon="uil:share" />
                 </Button>
               </div>
             </div>
-            <div className="absolute bottom-[99999px]">{DownloadQR()}</div>
+            <div className="absolute bottom-[99999px]">
+              <div className="DownloadQR">
+                <DownloadQR QRData={QRbase64} />
+              </div>
+            </div>
           </div>
         </Modal>
-      </div>
-    );
-  }
-  function DownloadQR() {
-    return (
-      <div className="relative flex items-center justify-center p-2 bg-transparent DownloadQR">
-        <div className="download-qr-border" />
-        <div className="relative flex items-center justify-center space-y-[18px] backdrop-blur p-[18px] w-[252px] bg-[#181d25] rounded-xl download-qr">
-          <div className="flex flex-col w-max space-y-[18px]">
-            <img src={QRbase64.base64} alt="QR" className="rounded-md" />
-            <div className="space-y-3">
-              <div className="flex items-start justify-start space-x-2">
-                <img className="w-5 h-5" src={IcAccount} alt="account" />
-                <span className="text-white text-[12px]">
-                  {QRbase64.bankName}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <div className="flex items-start space-x-2 ">
-                  <Icon
-                    className="w-5 h-5 text-primary-blue-medium"
-                    icon="solar:card-linear"
-                  />
-                  <span id="BankNo" className="text-white text-[12px]">
-                    {QRbase64.bankNo}
-                  </span>
-                </div>
-                <div
-                  className="cursor-pointer"
-                  onClick={() => {
-                    navigator.clipboard.writeText(QRbase64.bankNo);
-                  }}
-                >
-                  <Icon className="w-5 h-5 text-white" icon="tabler:copy" />
-                </div>
-              </div>
-
-              <div className="flex justify-between">
-                <div className="flex items-start w-full pr-2 space-x-2">
-                  <Icon
-                    className="w-5 h-5 min-w-[1.25rem] text-primary-blue-medium"
-                    icon="ph:info-bold"
-                  />
-                  <span id="transferDes" className="p-0 text-[12px] text-white">
-                    {QRbase64.transferDescription}
-                  </span>
-                </div>
-                <div className="cursor-pointer">
-                  <Icon className="w-5 h-5 text-white" icon="tabler:copy" />
-                </div>
-              </div>
-              <div className="flex justify-between">
-                <div className="flex items-start w-full pr-2 space-x-2 ">
-                  <Icon
-                    className="w-5 h-5 text-primary-blue-medium"
-                    icon="tabler:report-money"
-                  />
-                  <span id="transferAmount" className="text-white text-[12px]">
-                    {QRbase64.transferAmount}
-                  </span>
-                </div>
-                <div className="cursor-pointer">
-                  <Icon className="w-5 h-5 text-white" icon="tabler:copy" />
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-center space-x-1 bg-transparent">
-              <span className="text-[10px] font-semibold text-primary-blue-medium">
-                Powered by
-              </span>
-              <img src={Banner} className="h-[10px]" alt="Banner" />
-            </div>
-          </div>
-        </div>
       </div>
     );
   }
@@ -464,18 +410,12 @@ function Contact({ data, userInfo, isEdit }) {
       <div className="">
         {isEdit ? (
           <div className="space-y-2">
-            <SelectContact dndItems={dndItems} setDndItems={setDndItems} />
-            <EditDnD
-              dndItems={dndItems}
-              setDndItems={setDndItems}
-              editingContact={editingContact}
-              setEditingContact={setEditingContact}
-            />
-
-            {saveContact()}
+            <SelectContact />
+            <EditDnD />
+            <SaveContact />
           </div>
         ) : (
-          <div className="grid <xs:grid-cols-1 grid-cols-2 gap-2 3xl:grid-cols-5 lg:grid-cols-3 ">
+          <div className="grid grid-cols-2 gap-2 lg:grid-cols-3 <xs:grid-cols-1 3xl:grid-cols-5 ">
             {dndItems.map((e, index) => {
               return e.children.length > 1 ? (
                 <Tooltip
@@ -486,7 +426,7 @@ function Contact({ data, userInfo, isEdit }) {
                   fresh={true}
                   title={
                     <div
-                      className={`space-y-5 contact-tooltip <xs:w-[90vw] xs:w-[50vw] lg:!w-[20vw]`}
+                      className={`contact-tooltip space-y-5 lg:!w-[20vw] <xs:w-[90vw] xs:w-[50vw]`}
                     >
                       {e.children.map((f, j) => (
                         <div
@@ -511,70 +451,25 @@ function Contact({ data, userInfo, isEdit }) {
                     </div>
                   }
                 >
-                  <div
-                    key={index}
-                    className="flex items-center justify-start w-full cursor-pointer h-9"
-                  >
-                    <div
-                      className={`flex items-center justify-center w-10 h-[inherit] rounded-tl-md rounded-bl-md ${
-                        e.keyContact === "phone" ? "bg-[#01B634]" : "bg-white"
-                      }`}
-                    >
-                      <img
-                        src={`${process.env.REACT_APP_BASE_IMG}${e.linkIcon}`}
-                        alt="platform logo"
-                      />
-                    </div>
-                    <div
-                      className="flex  items-center justify-between w-[calc(100%-40px)] h-[inherit] px-[1rem] rounded-tr-md rounded-br-md"
-                      style={{
-                        backgroundColor: `${e.backgoundColor}`,
-                      }}
-                    >
-                      <span className="text-white truncate">
-                        {e.nameContact}
-                      </span>
-                      <Icon
-                        className="text-lg text-white"
-                        icon="solar:alt-arrow-down-linear"
-                      />
-                    </div>
+                  <div key={index}>
+                    <Contact contact={e} event={() => {}} isMultiple={true} />
                   </div>
                 </Tooltip>
               ) : (
-                <div
-                  key={index}
-                  className="flex items-center justify-start w-full cursor-pointer h-9"
-                  onClick={() => {
+                <Contact
+                  contact={e}
+                  event={() => {
                     if (e.typeContact === "bank") {
                       genQR(e.children[0]);
                     } else {
                       onOpenContact(e.children[0]);
                     }
                   }}
-                >
-                  <div
-                    className={`flex items-center justify-center w-10 h-[inherit] rounded-tl-md rounded-bl-md ${
-                      e.keyContact === "phone" ? "bg-[#01B634]" : "bg-white"
-                    }`}
-                  >
-                    <img
-                      src={`${process.env.REACT_APP_BASE_IMG}${e.linkIcon}`}
-                      alt="platform logo"
-                    />
-                  </div>
-                  <div
-                    className="flex items-center justify-start w-[calc(100%-40px)] h-[inherit] px-4 rounded-tr-md rounded-br-md"
-                    style={{
-                      backgroundColor: `${e.backgoundColor}`,
-                    }}
-                  >
-                    <span className="text-white truncate">{e.nameContact}</span>
-                  </div>
-                </div>
+                  isMultiple={false}
+                />
               );
             })}
-            {saveContact()}
+            <SaveContact />
           </div>
         )}
       </div>
@@ -584,4 +479,4 @@ function Contact({ data, userInfo, isEdit }) {
   );
 }
 
-export default Contact;
+export default Component;

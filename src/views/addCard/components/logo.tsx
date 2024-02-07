@@ -45,8 +45,12 @@ function Component() {
     return (
       <div className="h-60">
         <Dragger {...props} className="logo-upload">
-          {uploadedFile && <div className="mb-2 font-semibold text-primary-blue-medium">{uploadedFile.name}</div>}
-          <p className="flex items-center justify-center space-x-1 text-sm font-semibold !text-white ant-upload-text">
+          {uploadedFile && (
+            <div className="flex items-center justify-center mb-2 font-semibold truncate text-primary-blue-medium">
+              <span className="max-w-[30%] truncate">{uploadedFile.name}</span>
+            </div>
+          )}
+          <p className="ant-upload-text flex items-center justify-center space-x-1 text-sm font-semibold !text-white">
             <Icon icon="tabler:plus" />
             <span> Tải ảnh lên</span>
           </p>
@@ -61,32 +65,49 @@ function Component() {
   }
 
   return (
-    <div className="px-3 py-[10px] rounded-2xl bg-primary-blue-dark-max">
+    <div className="rounded-2xl bg-primary-blue-dark-max px-3 py-[10px]">
       <div className="flex justify-between">
-        <div className="text-sm font-semibold text-white">
+        <div className="text-[12px] font-semibold text-white">
           Hình đại diện/ Logo
         </div>
 
         <Switch
+          value={tempCard.enableLogo}
           defaultChecked
           onChange={(e) => {
             handleChangeEnableLogo(e);
           }}
         />
       </div>
-      <Radio.Group
-        value={logoType}
-        className="flex overflow-x-auto !shadow-none !px-0 justify-start"
-        defaultValue="smart_card"
-        buttonStyle="solid"
-        onChange={(e) => {
-          handleChangeLogoType(e);
-        }}
+      <div
+        className={`${
+          tempCard.enableLogo ? "max-h-96  " : "max-h-0 "
+        } flex flex-col overflow-auto transition-all duration-500 ease-in-out`}
       >
-        <Radio.Button value="image">Hình đại diện</Radio.Button>
-        <Radio.Button value="logo">Logo</Radio.Button>
-      </Radio.Group>
-      {FileUpload()}
+        <Radio.Group
+          value={logoType}
+          className="flex justify-start overflow-x-auto !px-0 !shadow-none"
+          defaultValue="smart_card"
+          buttonStyle="solid"
+          onChange={(e) => {
+            handleChangeLogoType(e);
+          }}
+        >
+          <Radio.Button
+            className="!h-6 px-2  py-1 text-[12px] leading-4"
+            value="image"
+          >
+            Hình đại diện
+          </Radio.Button>
+          <Radio.Button
+            className="!h-6 px-2  py-1 text-[12px] leading-4"
+            value="logo"
+          >
+            Logo
+          </Radio.Button>
+        </Radio.Group>
+        <FileUpload />
+      </div>
     </div>
   );
 }

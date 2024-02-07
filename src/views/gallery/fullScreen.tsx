@@ -11,12 +11,11 @@ import "swiper/css/pagination";
 // ICON
 import IcArrowLeft from "assests/icon/ic-arrow-left.svg";
 import { useRecoilState } from "recoil";
-import { fullScreenVisible } from "store/gallery";
+import { fullScreenVisible } from "../../store/gallery.ts";
 
 export default function Component({ currentGallery, initImg }) {
   const [_, setVisible] = useRecoilState(fullScreenVisible);
-  const topSwiperRef: any = useRef(null);
-  // const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const topSwiperRef: any = useRef(null); 
   const [currentImage, setCurrentImage] = useState({});
   const [initIndex, setInitIndex] = useState(0);
 
@@ -65,9 +64,7 @@ export default function Component({ currentGallery, initImg }) {
       <Swiper
         ref={topSwiperRef}
         spaceBetween={0}
-        initialSlide={initIndex}
-        // thumbs={{ swiper: thumbsSwiper }}
-        // modules={[FreeMode, Thumbs]}
+        initialSlide={initIndex} 
         slidesPerView={1}
         pagination={true}
         modules={[Pagination]}
@@ -85,31 +82,7 @@ export default function Component({ currentGallery, initImg }) {
           </SwiperSlide>
         ))}
       </Swiper>
-      {/* <Swiper
-        onSwiper={setThumbsSwiper}
-        initialSlide={initIndex}
-        spaceBetween={10}
-        slidesPerView={useCheck425Screen() ? 2.75 : 4.75}
-        freeMode={true}
-        watchSlidesProgress={true}
-        modules={[FreeMode, Navigation, Thumbs]}
-        className="!py-5 mySwiper"
-      >
-        {currentGallery.topPictures.map((e, index) => (
-          <SwiperSlide key={index} className="relative">
-            <LazyLoadComponent>
-              <div
-                className="absolute top-0 left-0 w-full h-full"
-                style={{
-                  backgroundImage: `url('${e.ref}')`,
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                }}
-              />
-            </LazyLoadComponent>
-          </SwiperSlide>
-        ))}
-      </Swiper> */}
+    
     </div>
   );
 }

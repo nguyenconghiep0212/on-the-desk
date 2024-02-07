@@ -25,7 +25,7 @@ interface Contact {
   infoDetail: string;
   templateId: string;
   linkIcon: string;
-  backgoundColor: string;
+  backgroundColor: string;
   status: number;
 } 
 

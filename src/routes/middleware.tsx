@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { Outlet, useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { isLogin } from "store/root";
+import { isLogin } from "../store/root.ts";
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
 

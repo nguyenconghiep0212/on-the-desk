@@ -1,7 +1,7 @@
 import React from "react";
 
 // COMPONENTS
-import Landing from "views/landing";
+import Landing from "../views/landing/index.tsx";
 
 function Component() {
 

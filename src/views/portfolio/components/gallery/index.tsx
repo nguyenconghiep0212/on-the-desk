@@ -12,12 +12,15 @@ import {
 import { GALLERY } from "interface/gallery";
 import { Button, Select } from "antd";
 // COMPONENT
-import ConfirmDialog from "views/component/confirmDialog";
+import ConfirmDialog from "components/customizeDialog/confirmDialog";
+import { useRecoilState } from "recoil";
+import { portfolioEdit, userInfoPortfolio } from "store/portfolio";
 
-function Gallery({ alias, userInfo, isEdit }) {
+function Component({ alias }) {
   const params = useParams();
   const navigate = useNavigate();
-
+  const [isEdit] = useRecoilState(portfolioEdit);
+  const [userInfo] = useRecoilState(userInfoPortfolio);
   // Dialog
   const [confirmDialogVisible, setConfirmDialogVisible] = useState(false);
   const [deleteGalleryId, setDeleteGalleryId] = useState("");
@@ -27,7 +30,7 @@ function Gallery({ alias, userInfo, isEdit }) {
   const [filteredGallery, setFilteredGallery] = useState<GALLERY[]>([]);
   const [filteredTag, setFilteredTag] = useState<string[]>(["all"]);
   const [filterTag, setFilterTag] = useState<{ key: string; alias: string }[]>(
-    []
+    [],
   );
   let [allGallery, setAllGallery] = useState<GALLERY[]>([]);
 
@@ -103,12 +106,16 @@ function Gallery({ alias, userInfo, isEdit }) {
     const res = await deleteGallery(deleteGalleryId);
     if (res) {
       setFilteredGallery(
-        filteredGallery.filter((e) => e.galleryId !== deleteGalleryId)
+        filteredGallery.filter((e) => e.galleryId !== deleteGalleryId),
       );
     }
     setConfirmDialogVisible(false);
   }
-  async function editGallery(customerShortcut: string) {}
+  async function editGallery(customerShortcut: string) {
+    navigate(
+      `/${params.userShortcut}/addGallery/${customerShortcut}`,
+    );
+  }
 
   function redirectToGallery(customerShortcut: string) {
     return navigate(`/${params.userShortcut}/${customerShortcut}`);
@@ -116,26 +123,27 @@ function Gallery({ alias, userInfo, isEdit }) {
 
   useEffect(() => {
     getGalleryData();
-    getCustomerList();
   }, []);
 
   useEffect(() => {
     handleFilterGallery();
   }, [filteredTag]);
+  useEffect(() => {
+    if (isEdit) getCustomerList();
+  }, [isEdit]);
   useEffect(() => {}, [filteredGallery, customerList]);
   return (
-    <div>
-      <div className="text-[#B6B6B6] font-bold  text-base mb-4">{alias}</div>
+    <div> 
       <div className="space-y-4">
         <div className="">
           {filterTag
             .filter(
-              (_, index) => index <= (isAllFilter ? filterTag.length : 12)
+              (_, index) => index <= (isAllFilter ? filterTag.length : 12),
             )
             .map((e, index) => (
               <div
                 key={index}
-                className="!mb-2 inline-flex  !mr-2 cursor-pointer rounded-lg bg-[#2f353f]"
+                className="!mb-2 !mr-2  inline-flex cursor-pointer rounded-lg  "
               >
                 <div
                   className={`h-full filter-tag${
@@ -158,7 +166,7 @@ function Gallery({ alias, userInfo, isEdit }) {
             ))}
           {!isAllFilter ? (
             filterTag.length > 12 ? (
-              <div className="!mb-2 !mr-2 inline-flex cursor-pointer rounded-lg bg-[#2f353f]">
+              <div className="!mb-2 !mr-2 inline-flex cursor-pointer rounded-lg  ">
                 <div className="h-full filter-tag-bg">
                   <div
                     className="font-semibold cursor-pointer filter-tag"
@@ -180,19 +188,19 @@ function Gallery({ alias, userInfo, isEdit }) {
 
         {/* THÊM THƯ VIỆN ẢNH MỚI */}
         {isEdit && (
-          <div className=" <xs:flex <xs:flex-col <xs:space-y-2 grid grid-cols-2 gap-2">
+          <div className=" grid grid-cols-2 gap-2 <xs:flex <xs:flex-col <xs:space-y-2">
             <Button
-              className="!shadow-none flex items-center space-x-1 text-left gradient_btn"
+              className="gradient_btn flex items-center space-x-1 text-left !shadow-none"
               onClick={() => {
                 navigate(`/${userInfo.shortcut}/addGallery`);
               }}
             >
-              <Icon className="w-[18px] h-[18px]" icon="tabler:plus" />
+              <Icon className="h-[18px] w-[18px]" icon="tabler:plus" />
               <span>Tạo album mới</span>
             </Button>
             <Select
               allowClear
-              className="!shadow-none !bg-[#4b5159] !border-[1px] border-solid border-white "
+              className="!border-[1px] border-solid border-white !bg-[#4b5159] !shadow-none "
               placeholder={
                 <div className="flex items-center justify-start px-4 space-x-1">
                   <Icon icon="ep:arrow-down-bold" />
@@ -212,7 +220,7 @@ function Gallery({ alias, userInfo, isEdit }) {
         )}
         {/*  */}
 
-        <div className="grid grid-cols-2 gap-4 3xl:grid-cols-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-3 3xl:grid-cols-5">
           {filteredGallery.map((e, index) => (
             <div
               key={index}
@@ -223,7 +231,7 @@ function Gallery({ alias, userInfo, isEdit }) {
                   : redirectToGallery(e.customerShortcut);
               }}
             >
-              <div className="relative flex items-center justify-center h-32 bg-black xl:h-44 2xl:h-64 rounded-2xl overflow-clip ">
+              <div className="relative flex items-center justify-center h-32 bg-black overflow-clip rounded-2xl xl:h-44 2xl:h-64 ">
                 <LazyLoadComponent>
                   <div
                     className="w-full h-full"
@@ -240,7 +248,7 @@ function Gallery({ alias, userInfo, isEdit }) {
                 </LazyLoadComponent>
                 {isEdit && (
                   <div
-                    className="absolute top-[6px] right-[6px] z-20 cursor-pointer rounded-full p-1"
+                    className="absolute right-[6px] top-[6px] z-20 cursor-pointer rounded-full p-1"
                     style={{
                       background:
                         "linear-gradient(180deg, rgba(11, 18, 28, 0.64) 0%, rgba(4, 14, 29, 0.48) 100%)",
@@ -251,13 +259,13 @@ function Gallery({ alias, userInfo, isEdit }) {
                     }}
                   >
                     <Icon
-                      className="text-[#EB5757] h-4 w-4"
+                      className="h-4 w-4 text-[#EB5757]"
                       icon="tabler:trash"
                     />
                   </div>
                 )}
-                <div className="absolute bottom-0 right-0 flex items-center justify-center px-2 py-1 space-x-1 text-white bg-black bg-opacity-40 rounded-br-2xl rounded-tl-2xl">
-                  <Icon className="!text-base  " icon="ri:stack-fill" />
+                <div className="absolute bottom-0 left-0 flex items-center justify-center px-2 py-1 space-x-1 text-white bg-black rounded-bl-2xl rounded-tr-2xl bg-opacity-40">
+                  <Icon className="w-5 h-5" icon="ph:stack-bold" />
                   <div className="text-sm ">
                     {formatNumber(e.galleryImageCount)}
                   </div>
@@ -266,7 +274,7 @@ function Gallery({ alias, userInfo, isEdit }) {
 
               <div className="font-bold text-white ">{e.galleryName}</div>
               <div className="flex items-center space-x-2 cursor-pointer text-primary-blue-medium">
-                <span className="text-[12px] truncate font-semibold">
+                <span className="truncate text-[12px] font-semibold">
                   {e.customerName}
                 </span>
               </div>
@@ -290,4 +298,4 @@ function Gallery({ alias, userInfo, isEdit }) {
   );
 }
 
-export default Gallery;
+export default Component;

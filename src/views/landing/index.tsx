@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./index.scss";
 // COMPONENTS
-import Header from "./components/header";
-import Product from "./components/product";
+import Header from "./components/header.tsx";
+import Product from "./components/product.tsx";
 // ASSETS
 import Ribbon1 from "assests/landing/ribbon_1.svg";
 import Ribbon2 from "assests/landing/ribbon_2.svg";

@@ -2,10 +2,10 @@ import http from "helper/request";
 import { CUSTOMER } from "interface/customer";
 
 
-export function getCustomerById(id:string) {
+export function getCustomerByShortcut(shortcut:string) {
     return http({
       method: "get",
-      url: `/api/customer/profile/${id}`,
+      url: `/api/customer/profile/${shortcut}`,
     });
   }
  
@@ -28,6 +28,13 @@ export function getCustomerById(id:string) {
       method: "post",
       url: `/api/customer/crudu/${params.id}`,
       data: params
+    });
+  }
+  
+  export function deleteCustomer(id: string) {
+    return http({
+      method: "delete",
+      url: `/api/customer/delete?CustomerId=${id}`
     });
   }
   

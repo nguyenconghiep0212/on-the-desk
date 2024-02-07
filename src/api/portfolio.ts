@@ -1,10 +1,10 @@
 import http from "helper/request";
 import httpUpload from "helper/requestFile";
 
-export function getUserProfile(id: string) {
+export function getUserProfile(shortcut: string) {
   return http({
     method: "get",
-    url: `/api/users/profile/${id}`,
+    url: `/api/users/profile/${shortcut}`,
   });
 }
 

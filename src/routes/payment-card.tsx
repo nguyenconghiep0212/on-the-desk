@@ -1,6 +1,6 @@
 import React from "react";
 // COMPONENTS
-import PaymentCard from "views/paymentCard";
+import PaymentCard from "../views/paymentCard/index.tsx";
 
 function Component() {
   return <PaymentCard />;

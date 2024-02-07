@@ -1,7 +1,7 @@
 .ant-select {
     box-shadow: 2px 2px 4px 0px #001940, -2px -2px 4px 0px rgba(60, 173, 255, 0.50);
     border-radius: 8px;
-    background: #1E2530;
+    background: #151b23;
 
     .ant-select-selector {
         border: none !important;
@@ -48,21 +48,23 @@
     }
 }
 
-.ant-select-dropdown {
-    background-color: #1e2530;
+// .ant-select-dropdown {
+//     z-index: 3000;
+//     background-color: #1e2530;
 
-    .ant-empty-description {
-        color: white;
+//     .ant-empty-description {
+//         color: white;
 
-    }
-}
+//     }
+// }
 
 .ant-select-item-option-content {
     color: white;
 }
 
 .ant-select-item-option-selected {
-    background-color: #2b3442 !important;
+    background: rgb(11, 18, 28);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%) !important;
 }
 
 .ant-select.ant-select-borderless {
@@ -72,23 +74,24 @@
     border-radius: 0px;
 }
 
+ 
 
-// type 2
-
-.ant-select-dropdown:has(.gradient) {
-    background: #1E2530;
+.ant-select-dropdown {
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px);
     padding: 0px;
 
-    .gradient {
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%);
+    .ant-empty-description {
+        color: white;
 
     }
 
-    .ant-select-item-option { 
+    .ant-select-item-option {
         padding: 9px;
+
         &-active {
             border-radius: 0px;
-            background: rgba(11, 18, 28);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.31) 0%, rgba(255, 255, 255, 0.08) 100%);
         }
     }
 }

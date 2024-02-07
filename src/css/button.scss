@@ -14,6 +14,7 @@
     border: none;
   }
 
+  padding:6px 9px;
   box-shadow: 2px 2px 8px 0px #000000,
   -2px -2px 8px 0px rgba(60, 173, 255, 0.50);
 }
@@ -25,5 +26,6 @@
 }
 
 .inverted_btn {
-  box-shadow: 2px 2px 2px 0px rgba(0, 25, 64, 0.50) inset, -2px -2px 2px 0px rgba(60, 173, 255, 0.25) inset
+  padding:6px 15px ;
+  box-shadow: 2px 2px 2px 0px rgba(0, 7, 19, 0.5) inset, -2px -2px 2px 0px rgba(60, 173, 255, 0.25) inset
 }

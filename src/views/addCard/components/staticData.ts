@@ -43,13 +43,18 @@ export const gradient = [
 ];
 export const fontFamilies = [
   "Montserrat",
-  "Arial",
-  "Verdana",
-  "Tahoma",
-  "Trebuchet MS",
-  "Times New Roman",
-  "Georgia",
-  "Garamond",
-  "Courier New",
-  "Brush Script MT",
+  "Be Vietnam Pro",
+  "Roboto",
+  "Inter",
+  "Oswald",
+  "Playfair Display",
+  "Merriweather",
+  "EB Garamond",
+  "IBM Plex Serif",
+  "Judson",
+  "Great Vibes",
+  "Patrick Hand",
+  "Pinyon Script",
+  "Birthstone",
+  "Praise"
 ];

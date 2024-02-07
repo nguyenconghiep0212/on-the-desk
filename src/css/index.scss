@@ -1,12 +1,15 @@
 @tailwind base;
+
 @layer base {
   img {
     @apply inline-block;
   }
 }
+
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Be+Vietnam+Pro&family=Roboto&family=Inter&family=Oswald&family=Playfair+Display&family=Merriweather&family=EB+Garamond&family=IBM+Plex+Serif&family=Judson&family=Great+Vibes&family=Patrick+Hand&family=Pinyon+Script&family=Birthstone&family=Praise:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import './radio.scss';
 @import './collapse.scss';
 @import './button.scss';
@@ -17,8 +20,16 @@
 @import './swiper.scss';
 @import './qr.scss';
 @import './upload.scss';
+@import './colorPicker.scss';
+@import './drawer.scss';
+@import './modal.scss';
+@import './datePicker.scss';
+@import './checkbox.scss';
+@import './switch.scss';
+@import './tab.scss';
 
 html * {
+  font-size: 12px;
   letter-spacing: 0.025em;
   font-family: "Montserrat";
 }
@@ -83,8 +94,8 @@ code {
   color: #47b5ff !important;
   border-radius: 7.3px !important;
   background: linear-gradient(180deg,
-      #2f353f 0%,
-      #2a313b 100%);
+      #121925 0%,
+      #121925 100%);
 
   &-bg {
     content: '';

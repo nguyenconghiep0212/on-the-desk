@@ -3,8 +3,11 @@ import { Input } from "antd";
 import React, { useEffect, useState } from "react";
 import { addContact as addContactApi, listContactTemplate } from "api";
 import { normalizeVietnamese } from "helper/formatString";
+import { useRecoilState } from "recoil";
+import { contactsData } from "store/portfolio";
 
-function Component({ dndItems, setDndItems }) {
+function Component() {
+  const [dndItems, setDndItems] = useRecoilState(contactsData);
   const [addContact, setAddContact] = useState(false);
   const [contactTemplate, setContactTemplate] = useState([
     {
@@ -13,7 +16,7 @@ function Component({ dndItems, setDndItems }) {
       nameContact: "Facebook",
       keyContact: "facebook",
       linkIcon: "/hiep-nguyen-cong/Card/b77c15d6e2f14414b2776c2d39dcdd86.svg",
-      backgoundColor: "#1877F2",
+      backgroundColor: "#1877F2",
       status: 1,
     },
   ]);
@@ -120,7 +123,7 @@ function Component({ dndItems, setDndItems }) {
                 <div
                   className="flex items-center justify-start w-[calc(100%-40px)] h-[inherit] px-4 rounded-tr-md rounded-br-md"
                   style={{
-                    backgroundColor: `${e.backgoundColor}`,
+                    backgroundColor: `${e.backgroundColor}`,
                   }}
                 >
                   <span className="text-white truncate">{e.nameContact}</span>
