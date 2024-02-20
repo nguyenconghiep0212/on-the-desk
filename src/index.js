@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import * as ReactDOM from "react-dom/client";
 import {
+  createHashRouter,
   createBrowserRouter,
   RouterProvider,
   Outlet,
-  useLocation,
-} from "react-router-dom";
+ } from "react-router-dom";
 import "./css/index.scss";
 import { CookiesProvider } from "react-cookie";
 
@@ -112,14 +112,16 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     </Helmet> */}
     <CookiesProvider defaultSetOptions={{ path: "/" }}>
       <RecoilRoot>
-        <div className="flex flex-col h-[100vh]">
-          <div className="flex-1 overflow-auto h-[inherit] bg-[#18191A] ">
-            <RouterProvider router={createBrowserRouter(RouterBuilder())} />
+        <div className="flex h-[100vh] flex-col">
+          <div className="h-[inherit] flex-1 overflow-auto bg-[#18191A] ">
+            <RouterProvider
+              router={createHashRouter(RouterBuilder())}
+            />
           </div>
         </div>
       </RecoilRoot>
     </CookiesProvider>
 
     {/* </React.StrictMode> */}
-  </GoogleOAuthProvider>
+  </GoogleOAuthProvider>,
 );
